@@ -5,7 +5,7 @@ const LandingPage = ({ isAuthed, logout }) => (
     <h1>LOGIN PAGE </h1>
 
     {!isAuthed ? (
-      <a href="/api/authp/google">LOGIN</a>
+      <a href="/api/auth/google">LOGIN</a>
     ) : (
       <button onClick={logout}>LOG OUT</button>
     )}

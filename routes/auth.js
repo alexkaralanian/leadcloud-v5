@@ -18,6 +18,7 @@ router.get(
   "/google/callback",
   passport.authenticate("google"),
   (req, res, next) => {
+    console.log("IS AUTHED", req.isAuthenticated());
     console.log("LOGIN", { session: req.session, user: req.user });
     res.redirect("/");
   }
@@ -25,6 +26,7 @@ router.get(
 
 router.get("/logout", (req, res, next) => {
   req.logout();
+  console.log("IS AUTHED", req.isAuthenticated());
   console.log("LOGOUT", { session: req.session, user: req.user });
   res.sendStatus(200);
 });
