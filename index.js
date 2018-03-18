@@ -2,9 +2,14 @@ const express = require("express");
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const path = require("path");
-const passport = require("passport");
-const session = require("cookie-session");
 const helmet = require("helmet");
+const passport = require("passport");
+// const session = require("cookie-session");
+
+const redis = require("redis");
+const redisClient = redis.createClient({ host: "localhost", port: 6379 });
+const session = require("express-session");
+const RedisStore = require("connect-redis")(session);
 
 const db = require("./db/models");
 const keys = require("./config/keys");
@@ -14,11 +19,33 @@ const app = express();
 
 app.use(helmet());
 
+redisClient.on("ready", function() {
+  console.log("Redis is ready");
+});
+
+redisClient.on("error", function() {
+  console.log("Error in Redis");
+});
+
+// // COOKIE SESSION
+// app.use(
+//   session({
+//     name: "session",
+//     cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 }, // 30 days
+//     secret: keys.SESSION_SECRET
+//   })
+// );
+
+// REDIS SESSION
 app.use(
   session({
-    name: "session",
+    store: new RedisStore({
+      client: redisClient
+    }),
     cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 }, // 30 days
-    secret: keys.SESSION_SECRET
+    secret: keys.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false
   })
 );
 
@@ -28,6 +55,14 @@ app.use(bodyParser.json());
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+const authenticationMiddleware = () => (req, res, next) => {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  console.log("NOT AUTHENTICATED");
+  res.redirect("/");
+};
 
 // ROUTES
 app.use("/api/auth", require("./routes/auth")); // passport
