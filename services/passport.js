@@ -1,3 +1,5 @@
+"use strict";
+
 const passport = require("passport");
 const refresh = require("passport-oauth2-refresh");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
@@ -9,11 +11,21 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser((id, done) => {
-  // console.log('DESERIALIZE CALLED', user)
   User.findById(id)
     .then(user => {
-      if (user) done(null, user);
-      // else done(null, null);
+      if (user) {
+        user = user.dataValues;
+        const userMap = {
+          id: user.id,
+          username: user.username,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
+          googleId: user.googleId,
+          googlePhoto: user.googlePhoto
+        };
+        done(null, userMap);
+      }
     })
     .catch(err => {
       done(err);
@@ -28,7 +40,6 @@ passport.use(
       callbackURL: "/api/authp/google/callback",
       proxy: true
     },
-
     (accessToken, refreshToken, profile, done) => {
       const defaults = {
         username: profile.displayName,
@@ -40,15 +51,22 @@ passport.use(
         googleRefreshToken: refreshToken
       };
 
+      // FindOrCreate returns a newly created user or the existing user
+      // Created returns a boolean indicating whether user is new or not.
       User.findOrCreate({
         where: {
           googleId: profile.id
         },
         defaults
       })
-        .spread(user => {
-          if (user) return done(null, user);
-          else return done(null, false);
+        .spread((user, created) => {
+          if (!created) {
+            user.update({
+              googleAccessToken: accessToken,
+              googleRefreshToken: refreshToken
+            });
+          }
+          return done(null, user);
         })
         .catch(done);
     }

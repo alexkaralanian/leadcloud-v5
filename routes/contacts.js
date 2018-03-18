@@ -1,3 +1,5 @@
+"use strict";
+
 const express = require("express");
 const Contacts = require("../db/models").contacts;
 const Users = require("../db/models").users;

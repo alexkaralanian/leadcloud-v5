@@ -1,3 +1,5 @@
+"use strict";
+
 const express = require("express");
 const { google } = require("googleapis");
 const User = require("../db/models").users;
