@@ -1,10 +1,14 @@
 import React from "react";
 
-const LandingPage = ({ isAuthed }) => (
+const LandingPage = ({ isAuthed, logout }) => (
   <div>
     <h1>LOGIN PAGE </h1>
-    <a href="/api/authp/google">LOGIN</a>
-    {isAuthed ? <h3>LOGGED IN</h3> : <h3>LOGGED OUT</h3>}
+
+    {!isAuthed ? (
+      <a href="/api/authp/google">LOGIN</a>
+    ) : (
+      <button onClick={logout}>LOG OUT</button>
+    )}
   </div>
 );
 

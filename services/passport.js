@@ -37,7 +37,7 @@ passport.use(
     {
       clientID: keys.GOOGLE_CLIENT_ID,
       clientSecret: keys.GOOGLE_CLIENT_SECRET,
-      callbackURL: "/api/authp/google/callback",
+      callbackURL: "/api/auth/google/callback",
       proxy: true
     },
     (accessToken, refreshToken, profile, done) => {
@@ -51,8 +51,9 @@ passport.use(
         googleRefreshToken: refreshToken
       };
 
-      // FindOrCreate returns a newly created user or the existing user
-      // Created returns a boolean indicating whether user is new or not.
+      // FindOrCreate returns an array with 2 values
+      // [0] newly created user or the existing user and
+      // [1] a boolean indicating whether user is new or not.
       User.findOrCreate({
         where: {
           googleId: profile.id

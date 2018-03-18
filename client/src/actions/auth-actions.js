@@ -14,15 +14,13 @@ export const unauthUser = () => ({
 });
 
 export const fetchUser = () => async dispatch => {
-  console.log('fecth user called')
+  console.log("fecth user called");
   try {
-    const res = await axios.get("/api/authp/current-user");
+    const res = await axios.get("/api/auth/current-user");
     const user = res.data;
-    console.log('USER', user)
     if (user) {
-      dispatch(authUser(user))
-      console.log('USER', user)
-    };
+      dispatch(authUser(user));
+    }
   } catch (err) {
     console.error(err.response.statusText);
   }

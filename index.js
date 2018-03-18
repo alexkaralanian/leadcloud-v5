@@ -29,16 +29,9 @@ app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(passport.session());
 
-// SESSION LOGGIN MIDDLEWARE
-app.use((req, res, next) => {
-  console.log("session", req.session);
-  next();
-});
-
 // ROUTES
-app.use("/api/contacts", require("./routes/contacts"));
-app.use("/api/auth", require("./routes/auth"));
-app.use("/api/authp", require("./routes/authp")); // passport test
+app.use("/api/auth", require("./routes/auth")); // passport
+// app.use("/api/auth-google", require("./routes/auth-google")); // googleapis
 
 //ERROR HANDLING MIDDLEWARE
 app.use((err, req, res, next) => {
