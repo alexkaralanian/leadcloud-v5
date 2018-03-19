@@ -1,17 +1,12 @@
 "use strict";
 
 process.env.NODE_ENV = "test";
+
 const sequelize = require("../db/models").sequelize;
 const Users = require("../db/models").users;
+const expect = require("chai").expect;
 
-const chai = require("chai");
-const expect = chai.expect;
-const chaiHttp = require("chai-http");
-chai.use(chaiHttp);
-
-const app = require("../index.js");
-
-describe("Current User", () => {
+describe("Users", () => {
   beforeEach(done => {
     Users.create({
       firstName: "alex",
