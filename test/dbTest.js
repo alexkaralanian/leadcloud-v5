@@ -11,7 +11,7 @@ chai.use(chaiHttp);
 
 const app = require("../index.js");
 
-describe("Curren User", () => {
+describe("Current User", () => {
   // RESET MODEL AFTER EACH TEST
   afterEach(done => {
     Users.sync({ force: true });
