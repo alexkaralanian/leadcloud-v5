@@ -7,7 +7,14 @@ module.exports = (sequelize, DataTypes) => {
       username: DataTypes.STRING,
       firstName: DataTypes.STRING,
       lastName: DataTypes.STRING,
-      email: DataTypes.STRING,
+      email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: true,
+          isEmail: true
+        }
+      },
       googleId: DataTypes.STRING,
       googlePhoto: DataTypes.STRING,
       googleAccessToken: DataTypes.STRING,
