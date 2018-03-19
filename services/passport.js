@@ -1,7 +1,6 @@
 "use strict";
 
 const passport = require("passport");
-const refresh = require("passport-oauth2-refresh");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const User = require("../db/models").users;
 const keys = require("../config/keys");
@@ -74,4 +73,3 @@ passport.use(
   )
 );
 
-// refresh.use(googleStrategy);
