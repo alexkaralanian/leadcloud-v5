@@ -11,7 +11,8 @@
     "start": "node index.js",
     "server": "nodemon index.js",
     "client": "npm run start --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "test": "mocha"
   },
   "keywords": [],
   "author": "",
@@ -32,18 +33,15 @@
     "nodemon": "^1.17.2",
     "passport": "^0.4.0",
     "passport-google-oauth20": "^1.0.0",
-    "passport-oauth2-refresh": "^1.0.0",
     "pg": "^7.4.1",
     "pg-hstore": "^2.3.2",
     "redis": "^2.8.0",
-    "sequelize": "^4.37.1",
-    "supertest": "^3.0.0",
-    "uuid": "^3.2.1"
+    "sequelize": "^4.37.1"
   },
   "devDependencies": {
+    "chai-http": "^3.0.0",
     "concurrently": "^3.5.1",
     "eslint": "^4.19.0",
-    "eslint-config-airbnb": "^16.1.0",
     "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-import": "^2.9.0",
     "eslint-plugin-prettier": "^2.6.0",

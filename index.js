@@ -64,6 +64,13 @@ const authenticationMiddleware = () => (req, res, next) => {
   res.redirect("/");
 };
 
+// TESTING EXAMPLE
+app.get("/", (req, res) => {
+  res.send({
+    message: "Hello, world!"
+  });
+});
+
 // ROUTES
 app.use("/api/auth", require("./routes/auth")); // passport
 // app.use("/api/auth-google", require("./routes/auth-google")); // googleapis
@@ -80,3 +87,5 @@ const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
 });
+
+module.exports = app;
