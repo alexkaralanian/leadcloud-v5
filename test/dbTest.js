@@ -12,15 +12,24 @@ chai.use(chaiHttp);
 const app = require("../index.js");
 
 describe("Current User", () => {
-  // RESET MODEL AFTER EACH TEST
+  beforeEach(done => {
+    Users.create({
+      firstName: "alex",
+      email: "alex.karalanian@gmail.com"
+    });
+    done();
+  });
+
   afterEach(done => {
     Users.sync({ force: true });
     done();
   });
 
-  it("Gets current user", done => {
-    Users.create({
-      email: "alex.karalanian@gmail.com"
+  it("Gets user", done => {
+    Users.findOne({
+      where: {
+        email: "alex.karalanian@gmail.com"
+      }
     }).then(user => {
       expect(user.email).to.equal("alex.karalanian@gmail.com");
       done();
