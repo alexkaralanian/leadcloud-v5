@@ -22,7 +22,7 @@ describe("Current User", () => {
     Users.create({
       email: "alex.karalanian@gmail.com"
     }).then(user => {
-      console.log("hi");
+      expect(user.email).to.equal("alex.karalanian@gmail.com");
       done();
     });
   });
