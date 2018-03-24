@@ -2,10 +2,9 @@ import React from "react";
 import { connect } from "react-redux";
 import { BroweserRouter, Route, Switch } from "react-router-dom";
 import { ConnectedRouter } from "react-router-redux";
-
 import { fetchUser } from "./actions/auth-actions";
-
 import { history } from "./store";
+import "./index.css";
 
 import LandingPageContainer from "./containers/LandingPageContainer/LandingPageContainer";
 

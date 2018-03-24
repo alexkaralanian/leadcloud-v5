@@ -4,7 +4,8 @@ import * as types from "../types";
 export const authUser = user => ({
   type: types.AUTH_USER,
   user,
-  isAuthed: true
+  isAuthed: true,
+  isFetching: false
 });
 
 export const unauthUser = () => ({
@@ -13,9 +14,13 @@ export const unauthUser = () => ({
   isAuthed: false
 });
 
+export const isFetching = bool => ({
+  type: types.IS_FETCHING,
+  payload: bool
+});
 export const fetchUser = () => async dispatch => {
-  console.log("fecth user called");
   try {
+    dispatch(isFetching(true));
     const res = await axios.get("/api/auth/current-user");
     const user = res.data;
     if (user) {
@@ -23,6 +28,7 @@ export const fetchUser = () => async dispatch => {
     }
   } catch (err) {
     console.error(err.response.statusText);
+    dispatch(isFetching(false));
   }
 };
 

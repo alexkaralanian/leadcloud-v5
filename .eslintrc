@@ -1,11 +1,15 @@
-{ "extends": ["airbnb-base"],
+{
+  "extends": ["airbnb", "prettier", "prettier/react"],
 
-  "plugins": ["prettier"],
+  "plugins": ["jest", "prettier", "react"],
+
+  "parser": "babel-eslint",
 
   "parserOptions": {
     "ecmaVersion": 2017,
     "sourceType": "module",
     "ecmaFeatures": {
+      "jsx": true,
       "experimentalObjectRestSpread": true
     }
   },
@@ -13,10 +17,13 @@
   "env": {
     "es6": true,
     "browser": true,
-    "node": true
+    "node": true,
+    "jest": true,
+    "jest/globals": true
   },
 
   "rules": {
-    "prettier/prettier": "error"
+    "prettier/prettier": ["error"]
   }
 }
+

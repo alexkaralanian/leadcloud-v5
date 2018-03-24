@@ -1,14 +1,18 @@
 import React from "react";
+import GoogleButton from "../GoogleButton/GoogleButton";
+import * as styles from "./styles.css";
 
-const LandingPage = ({ isAuthed, logout }) => (
-  <div>
-    <h1>LOGIN PAGE </h1>
-
-    {!isAuthed ? (
-      <a href="/api/auth/google">LOGIN</a>
-    ) : (
-      <button onClick={logout}>LOG OUT</button>
-    )}
+const LandingPage = ({ isAuthed, isFetching, logout }) => (
+  <div className={styles.LandingPageContainer}>
+    <div className={styles.LandingPage}>
+      <div className={styles.ContentBox}>
+        <div className={styles.PrimaryHeading}>
+          <h1 className={styles.PrimaryHeading_Main}>Tempo</h1>
+          <h2 className={styles.PrimaryHeading_Sub}>by LeadCloud</h2>
+        </div>
+        <GoogleButton />
+      </div>
+    </div>
   </div>
 );
 

@@ -4,7 +4,7 @@ const CleanWebpackPlugin = require("clean-webpack-plugin");
 const webpack = require("webpack");
 
 const config = {
-  entry: ["babel-polyfill", "whatwg-fetch", "./src/index.js"],
+  entry: ["babel-polyfill", "./src/index.js"],
 
   output: {
     path: path.resolve(__dirname, "dist"),
@@ -28,6 +28,8 @@ const config = {
       }
     }
   },
+  // caches stuff and accelerates refresh with HMR in dev
+  mode: process.env.NODE_ENV === "production" ? "production" : "development",
   module: {
     rules: [
       {
@@ -48,6 +50,7 @@ const config = {
             loader: "css-loader",
             options: {
               modules: true,
+              // enables module scoping
               localIdentName: "[name]__[local]___[hash:base64:5]"
             }
           }

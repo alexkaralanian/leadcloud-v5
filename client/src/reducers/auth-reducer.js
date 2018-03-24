@@ -2,7 +2,8 @@ import * as types from "../types";
 
 const initialState = {
   isAuthed: false,
-  user: null
+  user: null,
+  isFetching: false
 };
 
 const authReducer = (state = initialState, action) => {
@@ -19,6 +20,12 @@ const authReducer = (state = initialState, action) => {
         ...state,
         isAuthed: action.isAuthed,
         user: action.user
+      };
+
+    case types.IS_FETCHING:
+      return {
+        ...state,
+        isFetching: action.isFetching
       };
 
     default:

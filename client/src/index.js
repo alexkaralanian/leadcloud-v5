@@ -10,3 +10,7 @@ ReactDOM.render(
   </Provider>,
   document.getElementById("main")
 );
+
+// NEED TO GET REACT TO READ YOUR ENV VARIABLES...
+console.log("STRIPE KEY", process.env.STRIPE_PUBLISHABLE_KEY);
+console.log("ENVIRONMENT", process.env.NODE_ENV);
