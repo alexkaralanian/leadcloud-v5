@@ -27,15 +27,6 @@ redisClient.on("error", function() {
   console.log("Error in Redis");
 });
 
-// // COOKIE SESSION
-// app.use(
-//   session({
-//     name: "session",
-//     cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 }, // 30 days
-//     secret: keys.SESSION_SECRET
-//   })
-// );
-
 // REDIS SESSION
 app.use(
   session({
@@ -56,7 +47,7 @@ app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(passport.session());
 
-const authenticationMiddleware = () => (req, res, next) => {
+const authCheck = () => (req, res, next) => {
   if (req.isAuthenticated()) {
     return next();
   }
@@ -65,15 +56,14 @@ const authenticationMiddleware = () => (req, res, next) => {
 };
 
 // TESTING EXAMPLE
-app.get("/", (req, res) => {
+app.get("/test", (req, res) => {
   res.send({
     message: "Hello, world!"
   });
 });
 
 // ROUTES
-app.use("/api/auth", require("./routes/auth")); // passport
-// app.use("/api/auth-google", require("./routes/auth-google")); // googleapis
+app.use("/api/auth", require("./routes/auth"));
 
 //ERROR HANDLING MIDDLEWARE
 app.use((err, req, res, next) => {

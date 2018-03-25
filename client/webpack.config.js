@@ -1,4 +1,6 @@
 const path = require("path");
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
+  .BundleAnalyzerPlugin;
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
 const webpack = require("webpack");
@@ -73,14 +75,14 @@ const config = {
     ]
   },
   plugins: [
+    // new BundleAnalyzerPlugin(),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, "./src/index.html"),
       filename: "index.html",
       inject: "body"
     }),
     new webpack.NamedModulesPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.optimize.ModuleConcatenationPlugin()
+    new webpack.HotModuleReplacementPlugin()
   ]
 };
 

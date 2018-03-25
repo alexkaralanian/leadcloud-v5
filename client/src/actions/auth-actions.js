@@ -3,21 +3,18 @@ import * as types from "../types";
 
 export const authUser = user => ({
   type: types.AUTH_USER,
-  user,
-  isAuthed: true,
-  isFetching: false
+  payload: user
 });
 
 export const unauthUser = () => ({
-  type: types.UNAUTH_USER,
-  user: null,
-  isAuthed: false
+  type: types.UNAUTH_USER
 });
 
 export const isFetching = bool => ({
   type: types.IS_FETCHING,
   payload: bool
 });
+
 export const fetchUser = () => async dispatch => {
   try {
     dispatch(isFetching(true));

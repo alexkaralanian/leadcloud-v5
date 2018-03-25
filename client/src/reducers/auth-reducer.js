@@ -3,7 +3,8 @@ import * as types from "../types";
 const initialState = {
   isAuthed: false,
   user: null,
-  isFetching: false
+  isFetching: false,
+  error: ""
 };
 
 const authReducer = (state = initialState, action) => {
@@ -11,21 +12,23 @@ const authReducer = (state = initialState, action) => {
     case types.AUTH_USER:
       return {
         ...state,
-        user: action.user,
-        isAuthed: action.isAuthed
+        user: action.payload,
+        isAuthed: true,
+        error: ""
       };
 
     case types.UNAUTH_USER:
       return {
         ...state,
-        isAuthed: action.isAuthed,
-        user: action.user
+        user: null,
+        isAuthed: false,
+        error: ""
       };
 
     case types.IS_FETCHING:
       return {
         ...state,
-        isFetching: action.isFetching
+        isFetching: action.payload
       };
 
     default:
