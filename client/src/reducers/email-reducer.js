@@ -6,10 +6,10 @@ const initialState = {
   pageToken: "",
   email: [],
   emailQuery: "",
-  singleEmailId: ""
-  // isLoading: false
-  // error: ""
-  // isFetching: false
+  singleEmailId: "",
+  isLoading: false,
+  error: "",
+  isFetching: false
 };
 
 const emailReducer = (state = initialState, action) => {
@@ -44,6 +44,30 @@ const emailReducer = (state = initialState, action) => {
       return {
         ...state,
         email: []
+      };
+
+      case types.IS_FETCHING:
+        return {
+          ...state,
+          isFetching: action.isFetching
+        };
+
+      case types.IS_LOADING:
+      return {
+        ...state,
+        isLoading: action.isLoading
+      };
+
+    case types.SET_ERROR:
+      return {
+        ...state,
+        error: action.error
+      };
+
+    case types.CLEAR_ERROR:
+      return {
+        ...state,
+        error: ""
       };
 
     // case types.GET_ERROR:

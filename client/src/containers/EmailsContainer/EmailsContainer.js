@@ -4,9 +4,9 @@ import { connect } from "react-redux";
 import { Redirect } from "react-router";
 import axios from "axios";
 import Emails from "../../components/Emails/Emails";
-import Navigation from "../NavContainer/NavContainer";
+// import Navigation from "../NavContainer/NavContainer";
 import { fetchEmails, clearEmails } from "../../actions/email-actions";
-import { clearError } from "../../actions/common-actions";
+// import { clearError } from "../../actions/common-actions";
 // import { submitButton } from "../../sharedStyles/styles.css";
 
 class EmailsContainer extends React.Component {
@@ -27,7 +27,7 @@ class EmailsContainer extends React.Component {
 
   componentWillUnmount() {
     window.removeEventListener("scroll", this.onScroll, false);
-    this.props.clearError();
+    // this.props.clearError();
     // this.props.clearEmails();
   }
 
@@ -58,11 +58,9 @@ class EmailsContainer extends React.Component {
   }
 
   render() {
-    return !this.props.isAuthed ? (
-      <Redirect to="/" />
-    ) : (
+      return (
       <div>
-        <Navigation />
+        {/*<Navigation />*/}
         <Emails
           emails={this.props.emails}
           isFetching={this.props.isFetching}
@@ -79,11 +77,11 @@ const mapStateToProps = state => ({
   emails: state.emailReducer.emails,
   maxResults: state.emailReducer.maxResults,
   pageToken: state.emailReducer.pageToken,
-  error: state.commonReducer.error,
-  isFetching: state.commonReducer.isFetching,
-  isLoading: state.commonReducer.isLoading
+  isFetching: state.emailReducer.isFetching,
+  isLoading: state.emailReducer.isLoading,
+  error: state.emailReducer.error
 });
 
-const mapDispatchToProps = { fetchEmails, clearEmails, clearError };
+const mapDispatchToProps = { fetchEmails, clearEmails };
 
 export default connect(mapStateToProps, mapDispatchToProps)(EmailsContainer);

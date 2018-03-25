@@ -64,6 +64,7 @@ app.get("/test", (req, res) => {
 
 // ROUTES
 app.use("/api/auth", require("./routes/auth"));
+app.use("/api/email", require("./routes/email"));
 
 //ERROR HANDLING MIDDLEWARE
 app.use((err, req, res, next) => {

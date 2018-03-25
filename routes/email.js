@@ -6,14 +6,14 @@ const { google } = require("googleapis");
 const { oAuth2Client } = require("../services/googleapis");
 const Users = require("../db/models").users;
 // const Contacts = require("../../db/models/contacts");
-const emailTransform = require("../helperFunctions").emailTransform;
+const emailTransform = require("../services/helperFunctions").emailTransform;
 
 const gmail = google.gmail("v1");
 const router = express.Router();
 
 // FETCH ALL EMAILS
 router.get("/gmail", (req, res, next) => {
-  Users.findById(req.user.id)
+  Users.findById(req.session.user.id)
     .then(user => {
       oAuth2Client.setCredentials({
         access_token: user.googleAccessToken,
@@ -27,8 +27,8 @@ router.get("/gmail", (req, res, next) => {
           userId: "me",
           auth: oAuth2Client,
           maxResults: 15,
-          // pageToken: req.query.pageToken,
-          // q: req.query.q
+          pageToken: req.query.pageToken,
+          q: req.query.q
         },
         (err, response) => {
           console.error(err);

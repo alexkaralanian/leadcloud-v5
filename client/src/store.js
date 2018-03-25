@@ -3,6 +3,7 @@ import { composeWithDevTools } from "redux-devtools-extension";
 
 // REDUCERS
 import authReducer from "./reducers/auth-reducer";
+import emailReducer from "./reducers/email-reducer";
 
 // MIDDLEWARE
 import thunkMiddleware from "redux-thunk";

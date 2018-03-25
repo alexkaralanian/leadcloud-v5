@@ -5,7 +5,7 @@ import { Grid, Row, Col, Table } from "react-bootstrap";
 import moment from "moment";
 import Loading from "../Loading/Loading";
 import { tableCell, emailAddress, emailTable } from "./styles.css";
-import { error, background, content } from "../../sharedStyles/styles.css";
+// import { error, background, content } from "../../sharedStyles/styles.css";
 
 const Emails = ({ emails, handleClick, isFetching, emailError }) =>
   isFetching ? (
@@ -52,13 +52,13 @@ const Emails = ({ emails, handleClick, isFetching, emailError }) =>
         </Col>
       </Row>
 
-      {error ? (
+      {/*error ? (
         <Row>
           <Col xs={12}>
             <p className={error}>{emailError}</p>
           </Col>
         </Row>
-      ) : null}
+      ) : null*/}
     </Grid>
   );
 

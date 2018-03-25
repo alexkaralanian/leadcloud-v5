@@ -7,6 +7,7 @@ import { history } from "./store";
 import "./index.css";
 
 import LandingPageContainer from "./containers/LandingPageContainer/LandingPageContainer";
+import EmailsContainer from "./containers/EmailsContainer/EmailsContainer";
 
 class App extends React.Component {
   componentDidMount() {
@@ -19,6 +20,7 @@ class App extends React.Component {
         <div>
           <Switch>
             <Route exact path="/" component={LandingPageContainer} />
+            <Route path="/emails" component={EmailsContainer} />
             <Route
               render={() => (
                 <div>
