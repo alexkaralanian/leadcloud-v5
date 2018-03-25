@@ -20,7 +20,8 @@ describe("Auth Route", () => {
       });
   });
 
-  //  NEED TO MOCK THE SESSION
+  // NEED TO MOCK THE SESSION?? Does that even make sense to do?
+  // Need a specialized middleware.
   // All the auth routes reference the req.user object (req.session.passport.user to be exact), which is put on the session by Passport.
 
   // Actually shoudl return NULL, as req.isAuthenticated() will return null of the req.user session object

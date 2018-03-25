@@ -1,6 +1,7 @@
 const path = require("path");
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
   .BundleAnalyzerPlugin;
+const CompressionPlugin = require("compression-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
 const webpack = require("webpack");
@@ -16,7 +17,7 @@ const config = {
   resolve: {
     extensions: [".js", ".jsx"]
   },
-  devtool: "inline-source-map",
+  devtool: "source-map",
   devServer: {
     hot: true,
     contentBase: path.resolve(__dirname, "dist"),
@@ -90,8 +91,22 @@ if (process.env.NODE_ENV === "production") {
   config.plugins.push(
     new CleanWebpackPlugin(["dist"]),
     new webpack.DefinePlugin({
-      "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV)
+      "process.env": {
+        NODE_ENV: JSON.stringify("production")
+      }
     })
+    // new CompressionPlugin({
+    //   asset: "[path].gz[query]",
+    //   algorithm: "gzip",
+    //   test: /\.js$|\.css$|\.html$/,
+    //   threshold: 10240,
+    //   minRatio: 0
+    // })
+    // new webpack.optimize.UglifyJsPlugin({
+    //   compressor: {
+    //     warnings: false
+    //   }
+    // })
   );
 }
 

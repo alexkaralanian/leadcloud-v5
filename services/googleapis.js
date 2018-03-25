@@ -5,8 +5,8 @@ const OAuth2 = google.auth.OAuth2;
 
 const oAuth2Client = new OAuth2(
   process.env.GOOGLE_CLIENT_ID,
-  process.env.GOOGLE_CLIENT_SECRET
-  // googleCallback
+  process.env.GOOGLE_CLIENT_SECRET,
+  "/api/auth/google/callback"
 );
 
 const scopes = [

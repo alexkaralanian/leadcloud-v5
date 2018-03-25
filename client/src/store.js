@@ -16,6 +16,7 @@ export const history = createHistory();
 // COMBINE REDUCERS
 const rootReducer = combineReducers({
   authReducer,
+  emailReducer,
   router: routerReducer
 });
 
