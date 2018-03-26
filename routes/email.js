@@ -13,7 +13,7 @@ const router = express.Router();
 
 // FETCH ALL EMAILS
 router.get("/gmail", (req, res, next) => {
-  Users.findById(req.session.user.id)
+  Users.findById(req.session.user)
     .then(user => {
       oAuth2Client.setCredentials({
         access_token: user.googleAccessToken,
@@ -73,46 +73,46 @@ router.get("/gmail", (req, res, next) => {
     });
 });
 
-// // GET SINGLE EMAIL BY ID / VIEW EMAIL MESSAGE
-// router.get("/gmail/:id", (req, res, next) => {
-//   Users.findById(req.session.user.id)
-//     .then(user => {
-//       oAuth2Client.setCredentials({
-//         access_token: user.googleAccessToken,
-//         refresh_token: user.googleRefreshToken,
-//         expiry_date: new Date().getTime() + 1000 * 60 * 60 * 24 * 7
-//       });
-//     })
-//     .then(() => {
-//       new Promise((resolve, reject) => {
-//         gmail.users.messages.get(
-//           {
-//             userId: "me",
-//             id: req.params.id,
-//             format: "raw",
-//             auth: oAuth2Client
-//           },
-//           (error, email) => {
-//             if (email) {
-//               resolve(email);
-//             } else {
-//               reject(error);
-//             }
-//           }
-//         );
-//       }).then(response => {
-//         const body = response.data.raw;
-//         const buff = Buffer.from(body, "base64").toString("utf8");
-//         simpleParser(buff).then(results => {
-//           res.json(results);
-//         });
-//       });
-//     })
-//     .catch(err => {
-//       console.error(err);
-//       next(err);
-//     });
-// });
+// /GET SINGLE EMAIL BY ID / VIEW EMAIL MESSAGE
+router.get("/gmail/:id", (req, res, next) => {
+  Users.findById(req.session.user)
+    .then(user => {
+      oAuth2Client.setCredentials({
+        access_token: user.googleAccessToken,
+        refresh_token: user.googleRefreshToken,
+        expiry_date: new Date().getTime() + 1000 * 60 * 60 * 24 * 7
+      });
+    })
+    .then(() => {
+      new Promise((resolve, reject) => {
+        gmail.users.messages.get(
+          {
+            userId: "me",
+            id: req.params.id,
+            format: "raw",
+            auth: oAuth2Client
+          },
+          (error, email) => {
+            if (email) {
+              resolve(email);
+            } else {
+              reject(error);
+            }
+          }
+        );
+      }).then(response => {
+        const body = response.data.raw;
+        const buff = Buffer.from(body, "base64").toString("utf8");
+        simpleParser(buff).then(results => {
+          res.json(results);
+        });
+      });
+    })
+    .catch(err => {
+      console.error(err);
+      next(err);
+    });
+});
 
 // // FIND OR CREATE CONTACT BY EMAIL ADDRESS
 // router.post("/gmail/fetchcontact", (req, res, next) => {

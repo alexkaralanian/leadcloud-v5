@@ -34,6 +34,7 @@ router.get("/google/callback", (req, res, next) => {
           userId: "me"
         },
         (err, response) => {
+          console.log("RESPONSE", response.data);
           const user = response.data;
 
           // Create new user
@@ -43,7 +44,6 @@ router.get("/google/callback", (req, res, next) => {
               email: user.emails[0].value
             },
             defaults: {
-              googleId: user.id,
               username: user.displayName,
               firstName: user.name.givenName,
               lastName: user.name.familyName,
@@ -62,10 +62,13 @@ router.get("/google/callback", (req, res, next) => {
               }
 
               // Add session obj to req.session.user
-              req.session.user.id = user.id;
+              req.session["user"] = user.id;
 
               // redirect back to app
-              res.redirect("http://localhost:3000/emails");
+              // can we setup a proxy w this?
+              process.env.NODE_ENV === "production"
+                ? res.redirect("/")
+                : res.redirect("http://localhost:3000/");
             })
             .catch(err => {
               console.error(err);
@@ -78,32 +81,30 @@ router.get("/google/callback", (req, res, next) => {
   });
 });
 
-// WHO AM I?
+// GET CURRENT USER
 router.get("/current-user", (req, res) => {
-    if(req.session) {
-      User.findById(req.session.user.id)
-      .then(user => {
-        let userMap = {
-          googleId: user.googleId,
-          createdAt: user.createdAt,
-          username: user.username,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          email: user.email,
-          googlePhoto: user.googlePhoto
-        }
-        res.json(userMap);
-      })
-    } else {
-      res.json(null)
-    }
+  if (req.session.user) {
+    User.findById(req.session.user).then(user => {
+      let userMap = {
+        googleId: user.googleId,
+        createdAt: user.createdAt,
+        username: user.username,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        googlePhoto: user.googlePhoto
+      };
+      res.json(userMap);
+    });
+  } else {
+    res.json(null);
+  }
 });
 
 // LOGOUT
 router.get("/logout", (req, res) => {
-  req.session = null;
+  req.session.destroy();
   res.sendStatus(200);
 });
 
 module.exports = router;
-

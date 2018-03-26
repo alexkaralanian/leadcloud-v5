@@ -7,7 +7,7 @@ import Loading from "../Loading/Loading";
 import { tableCell, emailAddress, emailTable } from "./styles.css";
 // import { error, background, content } from "../../sharedStyles/styles.css";
 
-const Emails = ({ emails, handleClick, isFetching, emailError }) =>
+const Emails = ({ emails, createContact, isFetching, emailError }) =>
   isFetching ? (
     <Loading />
   ) : (
@@ -30,7 +30,7 @@ const Emails = ({ emails, handleClick, isFetching, emailError }) =>
                       <td className={emailTable} id="sender">
                         <a
                           onClick={() =>
-                            handleClick(email.emailAddress, email.name)
+                            createContact(email.emailAddress, email.name)
                           }
                         >
                           <span className={emailAddress}>{email.name}</span>
@@ -64,6 +64,16 @@ const Emails = ({ emails, handleClick, isFetching, emailError }) =>
 
 export default Emails;
 
-// Emails.propTypes = {
-//   emails: PropTypes.array.isRequired
-// }
+Emails.propTypes = {
+  emails: PropTypes.array.isRequired,
+  createContact: PropTypes.func.isRequired,
+  isFetching: PropTypes.bool.isRequired,
+  emailError: PropTypes.string.isRequired
+};
+
+Emails.defaultProps = {
+  emails: [],
+  createContact: () => {},
+  isFetching: false,
+  emailError: ""
+};

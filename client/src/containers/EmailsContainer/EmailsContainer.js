@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 // import { Button, Grid, Col, Row } from "react-bootstrap";
 import { Redirect } from "react-router";
 import axios from "axios";
@@ -12,7 +13,7 @@ import { fetchEmails, clearEmails } from "../../actions/email-actions";
 class EmailsContainer extends React.Component {
   constructor(props) {
     super(props);
-    this.handleClick = this.handleClick.bind(this);
+    this.createContact = this.createContact.bind(this);
     this.onScroll = this.onScroll.bind(this);
   }
 
@@ -45,8 +46,8 @@ class EmailsContainer extends React.Component {
     }
   }
 
-  // Still working???
-  handleClick(email, name) {
+  // Still working??? //  MOVE TO CONTACT REDUCER...
+  createContact(email, name) {
     return axios
       .post("api/email/gmail/fetchcontact", {
         email,
@@ -58,16 +59,18 @@ class EmailsContainer extends React.Component {
   }
 
   render() {
-      return (
+    return this.props.isAuthed ? (
       <div>
         {/*<Navigation />*/}
         <Emails
           emails={this.props.emails}
           isFetching={this.props.isFetching}
-          handleClick={this.handleClick}
+          createContact={this.createContact}
           emailerror={this.props.error}
         />
       </div>
+    ) : (
+      <Redirect push to="/" />
     );
   }
 }
@@ -83,5 +86,17 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = { fetchEmails, clearEmails };
+
+EmailsContainer.propTypes = {
+  isAuthed: PropTypes.bool.isRequired,
+  emails: PropTypes.array.isRequired,
+  maxResults: PropTypes.string.isRequired,
+  pageToken: PropTypes.string.isRequired,
+  isFetching: PropTypes.string.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  error: PropTypes.string.isRequired,
+  fetchEmails: PropTypes.func.isRequired,
+  clearEmails: PropTypes.func.isRequired
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(EmailsContainer);

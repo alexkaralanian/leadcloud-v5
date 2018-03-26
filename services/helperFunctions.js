@@ -66,6 +66,11 @@ const helperFunctions = {
       nextPageToken,
       emailArray
     };
+  },
+  secureObject: obj => {
+    let securedObject = {};
+
+    return securedObj;
   }
 };
 

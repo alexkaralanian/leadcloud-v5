@@ -14,6 +14,7 @@ const authReducer = (state = initialState, action) => {
         ...state,
         user: action.payload,
         isAuthed: true,
+        isFetching: false,
         error: ""
       };
 
@@ -22,6 +23,7 @@ const authReducer = (state = initialState, action) => {
         ...state,
         user: null,
         isAuthed: false,
+        isFetching: false,
         error: ""
       };
 

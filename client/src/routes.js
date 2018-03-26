@@ -7,7 +7,10 @@ import { history } from "./store";
 import "./index.css";
 
 import LandingPageContainer from "./containers/LandingPageContainer/LandingPageContainer";
+import DashboardContainer from "./containers/DashboardContainer/DashboardContainer";
+import ProfileContainer from "./containers/ProfileContainer/ProfileContainer";
 import EmailsContainer from "./containers/EmailsContainer/EmailsContainer";
+import SingleEmailContainer from "./containers/SingleEmailContainer/SingleEmailContainer";
 
 class App extends React.Component {
   componentDidMount() {
@@ -20,13 +23,16 @@ class App extends React.Component {
         <div>
           <Switch>
             <Route exact path="/" component={LandingPageContainer} />
+            <Route exact path="/dashboard" component={DashboardContainer} />
+            <Route path="/profile" component={ProfileContainer} />
             <Route path="/emails" component={EmailsContainer} />
+            <Route path="/email/:id" component={SingleEmailContainer} />
             <Route
-              render={() => (
-                <div>
-                  <p>NOT FOUND!</p>
-                </div>
-              )}
+                render={() => (
+                  <div>
+                    <p>NOT FOUND!</p>
+                  </div>
+                )}
             />
           </Switch>
         </div>
