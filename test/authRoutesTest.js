@@ -11,7 +11,6 @@ chai.use(chaiHttp);
 const Users = require("../db/models").users;
 
 describe("Auth Route", () => {
-
   // afterEach(done => {
   //   Users.sync({ force: true });
   //   done();
@@ -76,7 +75,19 @@ describe("Auth Route", () => {
   //   })
   // });
 
-  it("Logout returns  200 response", done => {
+  it("Logout returns a 200 response", done => {
+    chai
+      .request(app)
+      .get("/api/auth/logout")
+      .end((error, response) => {
+        if (error) done(error);
+        expect(response).to.have.status(200);
+        done();
+      });
+  });
+
+  // Use a spy...
+  it("Logout calls req.session.destroy()", done => {
     chai
       .request(app)
       .get("/api/auth/logout")
