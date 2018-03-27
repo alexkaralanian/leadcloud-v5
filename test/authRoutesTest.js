@@ -8,8 +8,15 @@ const chaiHttp = require("chai-http");
 const app = require("../index.js");
 chai.use(chaiHttp);
 
+const Users = require("../db/models").users;
+
 describe("Auth Route", () => {
-  it("Returns a 200 response", done => {
+  // afterEach(done => {
+  //   Users.sync({ force: true });
+  //   done();
+  // });
+
+  it("Current-user returns a 200 response", done => {
     chai
       .request(app)
       .get("/api/auth/current-user")
@@ -20,19 +27,74 @@ describe("Auth Route", () => {
       });
   });
 
-  //  NEED TO MOCK THE SESSION
-  // All the auth routes reference the req.user object (req.session.passport.user to be exact), which is put on the session by Passport.
+  it("Current-user returns null if user not authenticated", done => {
+    chai
+      .request(app)
+      .get("/api/auth/current-user")
+      .end((error, response) => {
+        if (error) done(error);
+        expect(response.body).to.equal(null);
+        done();
+      });
+  });
 
-  // Actually shoudl return NULL, as req.isAuthenticated() will return null of the req.user session object
-
-  // it("If user does not exists it responds with an empty object", done => {
-  //   chai
-  //     .request(app)
-  //     .get("/api/auth/current-user")
-  //     .end((error, response) => {
-  //       if (error) done(error);
-  //       expect(response.body).to.be.deep.equal({});
+  // it("Returns a user object with no tokens if user exists", done => {
+  //   // Need to mock the session with the created user's ID.
+  //   Users.create({
+  //     googleId: "1234567890",
+  //     email: "satoshi@gmx.com",
+  //     username: "Satoshi Nakomoto",
+  //     firstName: "Satoshi",
+  //     lastName: "Nakomoto",
+  //     googlePhoto: "http://somephoto.com",
+  //     googleAccessToken: "access_token",
+  //     googleRefreshToken: "refresh_token"
+  //   })
+  //   .then(() => {
+  //     chai
+  //       .request(app)
+  //       .get("/api/auth/current-user")
+  //       .end((error, response) => {
+  //         if (error) done(error);
+  //         console.log('RESPONSE', response.body)
+  //         // returns an object without private tokens.
+  //         expect(response.body).to.deep.equal({
+  //           createdAt: response.createdAt,
+  //           googleId: "1234567890",
+  //           email: "satoshi@gmx.com",
+  //           username: "Satoshi Nakomoto",
+  //           firstName: "Satoshi",
+  //           lastName: "Nakomoto",
+  //           googlePhoto: "http://somephoto.com"
+  //         });
+  //       });
+  //   })
+  //   .then(()=> {
+  //      Users.sync({ force: true });
   //       done();
-  //     });
+  //   })
   // });
+
+  it("Logout returns a 200 response", done => {
+    chai
+      .request(app)
+      .get("/api/auth/logout")
+      .end((error, response) => {
+        if (error) done(error);
+        expect(response).to.have.status(200);
+        done();
+      });
+  });
+
+  // Use a spy...
+  it("Logout calls req.session.destroy()", done => {
+    chai
+      .request(app)
+      .get("/api/auth/logout")
+      .end((error, response) => {
+        if (error) done(error);
+        expect(response).to.have.status(200);
+        done();
+      });
+  });
 });

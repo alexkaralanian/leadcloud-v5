@@ -2,7 +2,7 @@ import React from "react";
 import GoogleButton from "../GoogleButton/GoogleButton";
 import * as styles from "./styles.css";
 
-const LandingPage = ({ isAuthed, isFetching, logout }) => (
+const LandingPage = () => (
   <div className={styles.LandingPageContainer}>
     <div className={styles.LandingPage}>
       <div className={styles.ContentBox}>

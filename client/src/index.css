@@ -25,3 +25,12 @@ body {
   color: #444;
   padding: 1rem;
 }
+
+.background {
+  margin-top: -20px;
+  height: calc(100vh - 52px);
+  background-image: url("./images/mountain.jpg");
+  background-repeat: no-repeat;
+  background-position: top;
+  background-size: cover;
+}
