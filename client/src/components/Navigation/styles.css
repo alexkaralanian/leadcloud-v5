@@ -57,4 +57,5 @@
 
 .menuItem a {
   background-color: transparent !important;
+  outline: none !important;
 }

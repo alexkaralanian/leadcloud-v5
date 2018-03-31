@@ -95,18 +95,6 @@ if (process.env.NODE_ENV === "production") {
         NODE_ENV: JSON.stringify("production")
       }
     })
-    // new CompressionPlugin({
-    //   asset: "[path].gz[query]",
-    //   algorithm: "gzip",
-    //   test: /\.js$|\.css$|\.html$/,
-    //   threshold: 10240,
-    //   minRatio: 0
-    // })
-    // new webpack.optimize.UglifyJsPlugin({
-    //   compressor: {
-    //     warnings: false
-    //   }
-    // })
   );
 }
 
