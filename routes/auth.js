@@ -2,7 +2,7 @@ const express = require("express");
 const { google } = require("googleapis");
 const User = require("../db/models").users;
 const { oAuth2Client, url } = require("../services/googleapis");
-
+const authCheck = require("../middlewares/authChecker");
 const router = express.Router();
 const plus = google.plus("v1");
 
@@ -80,7 +80,7 @@ router.get("/google/callback", (req, res) => {
 });
 
 // GET CURRENT USER
-router.get("/current-user", (req, res) => {
+router.get("/current-user", authCheck, (req, res) => {
   // console.log(req.session);
   if (req.session.user) {
     User.findById(req.session.user).then(user => {

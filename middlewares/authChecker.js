@@ -1,7 +1,6 @@
-const authCheck = () => (req, res, next) => {
-  if (req.isAuthenticated()) {
-    return next();
+module.exports = (req, res, next) => {
+  if (!req.session.user) {
+    return res.status(401).send({ error: "Must be logged in!" });
   }
-  console.log("NOT AUTHENTICATED");
-  res.redirect("/");
+  next();
 };
