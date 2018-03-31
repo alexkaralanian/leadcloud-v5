@@ -81,7 +81,7 @@ router.get("/google/callback", (req, res) => {
 
 // GET CURRENT USER
 router.get("/current-user", (req, res) => {
-  console.log(req.session);
+  // console.log(req.session);
   if (req.session.user) {
     User.findById(req.session.user).then(user => {
       const userMap = {

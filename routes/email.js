@@ -13,7 +13,7 @@ const router = express.Router();
 
 // FETCH ALL EMAILS
 router.get("/gmail", (req, res, next) => {
-  console.log("session", req.session);
+  // console.log("session", req.session);
   Users.findById(req.session.user)
     .then(user => {
       oAuth2Client.setCredentials({

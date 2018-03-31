@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Grid, Col, Row, Image } from "react-bootstrap";
-import { profilePic } from "./styles.css";
+import { Grid, Col, Row, Image, Button } from "react-bootstrap";
+import { profilePic, logoutBtn } from "./styles.css";
 import { headerText } from "../../index.css";
 // import { LogoutButton, GetGmailProfile } from "../Buttons/AuthButtons";
 
@@ -13,7 +13,9 @@ const Profile = ({ logout, user }) => (
           <h1 className={headerText}>Welcome, {user.firstName}!</h1>
           <Image src={user.googlePhoto} className={profilePic} />
           <div>
-            <button onClick={logout}>LOGOUT</button>
+            <Button className={logoutBtn} bsStyle="primary" onClick={logout}>
+              <span>LOGOUT</span>
+            </Button>
             {/* <GetGmailProfile onClick={getGmailProfile} /> */}
           </div>
         </div>
