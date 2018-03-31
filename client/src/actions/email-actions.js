@@ -3,15 +3,25 @@ import * as types from "../types";
 
 /* ------------   ACTION CREATORS     ------------------ */
 
-const setEmails = (emails, pageToken) => ({
-  type: types.SET_EMAILS,
-  emails,
-  pageToken
-});
+export const setEmails = (emails, pageToken) => {
+  return {
+    type: types.SET_EMAILS,
+    emails,
+    pageToken
+  };
+};
 
-const setEmail = email => ({
+export const setEmail = email => ({
   type: types.SET_EMAIL,
   email
+});
+
+// END OF TESTING FOR NOW HERE....
+
+export const setEmailsByContact = (emailsByContact, pageToken) => ({
+  type: types.SET_EMAILS_BY_CONTACT,
+  emailsByContact,
+  pageToken
 });
 
 export const setEmailQuery = emailQuery => ({
@@ -19,10 +29,14 @@ export const setEmailQuery = emailQuery => ({
   emailQuery
 });
 
-const setEmailsByContact = (emailsByContact, pageToken) => ({
-  type: types.SET_EMAILS_BY_CONTACT,
-  emailsByContact,
-  pageToken
+export const isFetching = bool => ({
+  type: types.IS_FETCHING,
+  isFetching: bool
+});
+
+export const isLoading = bool => ({
+  type: types.IS_LOADING,
+  isLoading: bool
 });
 
 export const clearEmails = () => ({
@@ -33,17 +47,7 @@ export const clearEmail = () => ({
   type: types.CLEAR_EMAIL
 });
 
-const isFetching = bool => ({
-  type: types.IS_FETCHING,
-  isFetching: bool
-});
-
-const isLoading = bool => ({
-  type: types.IS_LOADING,
-  isLoading: bool
-});
-
-const setError = error => ({
+export const setError = error => ({
   type: types.SET_ERROR,
   error
 });
@@ -66,11 +70,11 @@ export const fetchEmails = (
     const res = await axios.get(
       `/api/email/gmail?maxResults=${maxResults}&pageToken=${pageToken}`
     );
-    console.log('EMAILS!', res.data)
 
     dispatch(
       setEmails(emailsArray.concat(res.data.emailArray), res.data.nextPageToken)
     );
+
     dispatch(isFetching(false));
     dispatch(isLoading(false));
   } catch (err) {
@@ -98,15 +102,11 @@ export const fetchEmail = id => async dispatch => {
 //   pageToken,
 //   emailsArray
 // ) => async dispatch => {
-//   console.log({ query, maxResults, pageToken, emailsArray });
 //   dispatch(isLoading(true));
 //   try {
 //     const res = await axios.get(
-//       `/api/email/gmail?maxResults=${maxResults}&pageToken=${pageToken}&q=${
-//         query
-//       }`
+//       `/api/email/gmail?maxResults=${maxResults}&pageToken=${pageToken}&q=${query}`
 //     );
-//     console.log("RES", res.data);
 //     dispatch(
 //       setEmailsByContact(
 //         emailsArray.concat(res.data.emailArray),

@@ -1,19 +1,18 @@
 const express = require("express");
-// const _ = require("underscore");
 const { google } = require("googleapis");
 const User = require("../db/models").users;
 const { oAuth2Client, url } = require("../services/googleapis");
-
+const authCheck = require("../middlewares/authChecker");
 const router = express.Router();
 const plus = google.plus("v1");
 
 // GOOGLE LOGIN
-router.get("/google", (req, res, next) => {
+router.get("/google", (req, res) => {
   res.redirect(url);
 });
 
 // GOOGLE CALLBACK
-router.get("/google/callback", (req, res, next) => {
+router.get("/google/callback", (req, res) => {
   const code = req.query.code;
 
   oAuth2Client.getToken(code, (err, tokens) => {
@@ -34,7 +33,6 @@ router.get("/google/callback", (req, res, next) => {
           userId: "me"
         },
         (err, response) => {
-          console.log("RESPONSE", response.data);
           const user = response.data;
 
           // Create new user
@@ -82,10 +80,11 @@ router.get("/google/callback", (req, res, next) => {
 });
 
 // GET CURRENT USER
-router.get("/current-user", (req, res) => {
+router.get("/current-user", authCheck, (req, res) => {
+  // console.log(req.session);
   if (req.session.user) {
     User.findById(req.session.user).then(user => {
-      let userMap = {
+      const userMap = {
         googleId: user.googleId,
         createdAt: user.createdAt,
         username: user.username,

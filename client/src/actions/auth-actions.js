@@ -32,7 +32,6 @@ export const fetchUser = () => async dispatch => {
 export const logout = () => async dispatch => {
   try {
     const res = await axios.get("/api/auth/logout");
-    console.log("RES LOOUT", res.status);
     if (res.status === 200) dispatch(unauthUser());
   } catch (err) {
     console.error(err);

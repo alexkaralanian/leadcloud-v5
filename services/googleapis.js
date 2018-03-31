@@ -2,9 +2,7 @@
 
 const { google } = require("googleapis");
 const OAuth2 = google.auth.OAuth2;
-const keys = require("../config/keys")
-
-console.log('KEYS', keys)
+const keys = require("../config/keys");
 
 const oAuth2Client = new OAuth2(
   keys.GOOGLE_CLIENT_ID,

@@ -3,7 +3,7 @@ const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const path = require("path");
 const helmet = require("helmet");
-const passport = require("passport");
+// const passport = require("passport");
 // const session = require("cookie-session");
 
 const redis = require("redis");
@@ -19,11 +19,11 @@ const app = express();
 
 app.use(helmet());
 
-redisClient.on("ready", function() {
+redisClient.on("ready", () => {
   console.log("Redis is ready");
 });
 
-redisClient.on("error", function() {
+redisClient.on("error", () => {
   console.log("Error in Redis");
 });
 
@@ -43,17 +43,6 @@ app.use(
 app.use(morgan("dev"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
-app.use(passport.initialize());
-app.use(passport.session());
-
-const authCheck = () => (req, res, next) => {
-  if (req.isAuthenticated()) {
-    return next();
-  }
-  console.log("NOT AUTHENTICATED");
-  res.redirect("/");
-};
 
 // TESTING EXAMPLE
 app.get("/test", (req, res) => {

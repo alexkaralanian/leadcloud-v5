@@ -33,7 +33,7 @@ ShallowWrapper {
             <Loading
               className="loadingContainer2"
               color="#444"
-              delay="500"
+              delay={500}
               height="100"
               type="spinningBubbles"
               width="100"
@@ -62,7 +62,7 @@ ShallowWrapper {
             <Loading
               className="loadingContainer2"
               color="#444"
-              delay="500"
+              delay={500}
               height="100"
               type="spinningBubbles"
               width="100"
@@ -84,7 +84,7 @@ ShallowWrapper {
             <Loading
               className="loadingContainer2"
               color="#444"
-              delay="500"
+              delay={500}
               height="100"
               type="spinningBubbles"
               width="100"
@@ -102,7 +102,7 @@ ShallowWrapper {
             "children": <Loading
               className="loadingContainer2"
               color="#444"
-              delay="500"
+              delay={500}
               height="100"
               type="spinningBubbles"
               width="100"
@@ -117,7 +117,7 @@ ShallowWrapper {
             "props": Object {
               "className": "loadingContainer2",
               "color": "#444",
-              "delay": "500",
+              "delay": 500,
               "height": "100",
               "type": "spinningBubbles",
               "width": "100",
@@ -156,7 +156,7 @@ ShallowWrapper {
               <Loading
                 className="loadingContainer2"
                 color="#444"
-                delay="500"
+                delay={500}
                 height="100"
                 type="spinningBubbles"
                 width="100"
@@ -185,7 +185,7 @@ ShallowWrapper {
               <Loading
                 className="loadingContainer2"
                 color="#444"
-                delay="500"
+                delay={500}
                 height="100"
                 type="spinningBubbles"
                 width="100"
@@ -207,7 +207,7 @@ ShallowWrapper {
               <Loading
                 className="loadingContainer2"
                 color="#444"
-                delay="500"
+                delay={500}
                 height="100"
                 type="spinningBubbles"
                 width="100"
@@ -225,7 +225,7 @@ ShallowWrapper {
               "children": <Loading
                 className="loadingContainer2"
                 color="#444"
-                delay="500"
+                delay={500}
                 height="100"
                 type="spinningBubbles"
                 width="100"
@@ -240,7 +240,7 @@ ShallowWrapper {
               "props": Object {
                 "className": "loadingContainer2",
                 "color": "#444",
-                "delay": "500",
+                "delay": 500,
                 "height": "100",
                 "type": "spinningBubbles",
                 "width": "100",

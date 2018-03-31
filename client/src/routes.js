@@ -28,11 +28,11 @@ class App extends React.Component {
             <Route path="/emails" component={EmailsContainer} />
             <Route path="/email/:id" component={SingleEmailContainer} />
             <Route
-                render={() => (
-                  <div>
-                    <p>NOT FOUND!</p>
-                  </div>
-                )}
+              render={() => (
+                <div>
+                  <p>NOT FOUND!</p>
+                </div>
+              )}
             />
           </Switch>
         </div>

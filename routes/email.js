@@ -5,6 +5,7 @@ const moment = require("moment");
 const { google } = require("googleapis");
 const { oAuth2Client } = require("../services/googleapis");
 const Users = require("../db/models").users;
+const authCheck = require("../middlewares/authChecker");
 // const Contacts = require("../../db/models/contacts");
 const emailTransform = require("../services/helperFunctions").emailTransform;
 
@@ -12,7 +13,8 @@ const gmail = google.gmail("v1");
 const router = express.Router();
 
 // FETCH ALL EMAILS
-router.get("/gmail", (req, res, next) => {
+router.get("/gmail", authCheck, (req, res, next) => {
+  // console.log("session", req.session);
   Users.findById(req.session.user)
     .then(user => {
       oAuth2Client.setCredentials({
@@ -74,7 +76,7 @@ router.get("/gmail", (req, res, next) => {
 });
 
 // /GET SINGLE EMAIL BY ID / VIEW EMAIL MESSAGE
-router.get("/gmail/:id", (req, res, next) => {
+router.get("/gmail/:id", authCheck, (req, res, next) => {
   Users.findById(req.session.user)
     .then(user => {
       oAuth2Client.setCredentials({

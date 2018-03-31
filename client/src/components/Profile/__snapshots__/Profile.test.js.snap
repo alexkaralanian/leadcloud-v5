@@ -47,11 +47,19 @@ ShallowWrapper {
               thumbnail={false}
             />
             <div>
-              <button
+              <Button
+                active={false}
+                block={false}
+                bsClass="btn"
+                bsStyle="primary"
+                className="logoutBtn"
+                disabled={false}
                 onClick={[Function]}
               >
-                LOGOUT
-              </button>
+                <span>
+                  LOGOUT
+                </span>
+              </Button>
             </div>
           </div>
         </Col>
@@ -88,11 +96,19 @@ ShallowWrapper {
               thumbnail={false}
             />
             <div>
-              <button
+              <Button
+                active={false}
+                block={false}
+                bsClass="btn"
+                bsStyle="primary"
+                className="logoutBtn"
+                disabled={false}
                 onClick={[Function]}
               >
-                LOGOUT
-              </button>
+                <span>
+                  LOGOUT
+                </span>
+              </Button>
             </div>
           </div>
         </Col>,
@@ -122,11 +138,19 @@ ShallowWrapper {
               thumbnail={false}
             />
             <div>
-              <button
+              <Button
+                active={false}
+                block={false}
+                bsClass="btn"
+                bsStyle="primary"
+                className="logoutBtn"
+                disabled={false}
                 onClick={[Function]}
               >
-                LOGOUT
-              </button>
+                <span>
+                  LOGOUT
+                </span>
+              </Button>
             </div>
           </div>,
           "componentClass": "div",
@@ -155,11 +179,19 @@ ShallowWrapper {
                 thumbnail={false}
               />,
               <div>
-                <button
+                <Button
+                  active={false}
+                  block={false}
+                  bsClass="btn"
+                  bsStyle="primary"
+                  className="logoutBtn"
+                  disabled={false}
                   onClick={[Function]}
                 >
-                  LOGOUT
-                </button>
+                  <span>
+                    LOGOUT
+                  </span>
+                </Button>
               </div>,
             ],
           },
@@ -207,24 +239,50 @@ ShallowWrapper {
               "key": undefined,
               "nodeType": "host",
               "props": Object {
-                "children": <button
+                "children": <Button
+                  active={false}
+                  block={false}
+                  bsClass="btn"
+                  bsStyle="primary"
+                  className="logoutBtn"
+                  disabled={false}
                   onClick={[Function]}
                 >
-                  LOGOUT
-                </button>,
+                  <span>
+                    LOGOUT
+                  </span>
+                </Button>,
               },
               "ref": null,
               "rendered": Object {
                 "instance": null,
                 "key": undefined,
-                "nodeType": "host",
+                "nodeType": "class",
                 "props": Object {
-                  "children": "LOGOUT",
+                  "active": false,
+                  "block": false,
+                  "bsClass": "btn",
+                  "bsStyle": "primary",
+                  "children": <span>
+                    LOGOUT
+                  </span>,
+                  "className": "logoutBtn",
+                  "disabled": false,
                   "onClick": [Function],
                 },
                 "ref": null,
-                "rendered": "LOGOUT",
-                "type": "button",
+                "rendered": Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": "LOGOUT",
+                  },
+                  "ref": null,
+                  "rendered": "LOGOUT",
+                  "type": "span",
+                },
+                "type": [Function],
               },
               "type": "div",
             },
@@ -270,11 +328,19 @@ ShallowWrapper {
                 thumbnail={false}
               />
               <div>
-                <button
+                <Button
+                  active={false}
+                  block={false}
+                  bsClass="btn"
+                  bsStyle="primary"
+                  className="logoutBtn"
+                  disabled={false}
                   onClick={[Function]}
                 >
-                  LOGOUT
-                </button>
+                  <span>
+                    LOGOUT
+                  </span>
+                </Button>
               </div>
             </div>
           </Col>
@@ -311,11 +377,19 @@ ShallowWrapper {
                 thumbnail={false}
               />
               <div>
-                <button
+                <Button
+                  active={false}
+                  block={false}
+                  bsClass="btn"
+                  bsStyle="primary"
+                  className="logoutBtn"
+                  disabled={false}
                   onClick={[Function]}
                 >
-                  LOGOUT
-                </button>
+                  <span>
+                    LOGOUT
+                  </span>
+                </Button>
               </div>
             </div>
           </Col>,
@@ -345,11 +419,19 @@ ShallowWrapper {
                 thumbnail={false}
               />
               <div>
-                <button
+                <Button
+                  active={false}
+                  block={false}
+                  bsClass="btn"
+                  bsStyle="primary"
+                  className="logoutBtn"
+                  disabled={false}
                   onClick={[Function]}
                 >
-                  LOGOUT
-                </button>
+                  <span>
+                    LOGOUT
+                  </span>
+                </Button>
               </div>
             </div>,
             "componentClass": "div",
@@ -378,11 +460,19 @@ ShallowWrapper {
                   thumbnail={false}
                 />,
                 <div>
-                  <button
+                  <Button
+                    active={false}
+                    block={false}
+                    bsClass="btn"
+                    bsStyle="primary"
+                    className="logoutBtn"
+                    disabled={false}
                     onClick={[Function]}
                   >
-                    LOGOUT
-                  </button>
+                    <span>
+                      LOGOUT
+                    </span>
+                  </Button>
                 </div>,
               ],
             },
@@ -430,24 +520,50 @@ ShallowWrapper {
                 "key": undefined,
                 "nodeType": "host",
                 "props": Object {
-                  "children": <button
+                  "children": <Button
+                    active={false}
+                    block={false}
+                    bsClass="btn"
+                    bsStyle="primary"
+                    className="logoutBtn"
+                    disabled={false}
                     onClick={[Function]}
                   >
-                    LOGOUT
-                  </button>,
+                    <span>
+                      LOGOUT
+                    </span>
+                  </Button>,
                 },
                 "ref": null,
                 "rendered": Object {
                   "instance": null,
                   "key": undefined,
-                  "nodeType": "host",
+                  "nodeType": "class",
                   "props": Object {
-                    "children": "LOGOUT",
+                    "active": false,
+                    "block": false,
+                    "bsClass": "btn",
+                    "bsStyle": "primary",
+                    "children": <span>
+                      LOGOUT
+                    </span>,
+                    "className": "logoutBtn",
+                    "disabled": false,
                     "onClick": [Function],
                   },
                   "ref": null,
-                  "rendered": "LOGOUT",
-                  "type": "button",
+                  "rendered": Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": "LOGOUT",
+                    },
+                    "ref": null,
+                    "rendered": "LOGOUT",
+                    "type": "span",
+                  },
+                  "type": [Function],
                 },
                 "type": "div",
               },
