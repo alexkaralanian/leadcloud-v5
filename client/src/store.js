@@ -1,15 +1,17 @@
 import { createStore, applyMiddleware, combineReducers } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 
-// REDUCERS
-import authReducer from "./reducers/auth-reducer";
-import emailReducer from "./reducers/email-reducer";
-
 // MIDDLEWARE
 import thunkMiddleware from "redux-thunk";
 import { createLogger } from "redux-logger";
 import createHistory from "history/createBrowserHistory";
 import { routerReducer, routerMiddleware } from "react-router-redux";
+
+// REDUCERS
+import authReducer from "./reducers/auth-reducer";
+import emailReducer from "./reducers/email-reducer";
+import contactReducer from "./reducers/contact-reducer";
+import formReducer from "./reducers/form-reducer";
 
 // ROUTER HISTORY
 export const history = createHistory();
@@ -18,7 +20,9 @@ export const history = createHistory();
 const rootReducer = combineReducers({
   authReducer,
   emailReducer,
-  router: routerReducer
+  contactReducer,
+  router: routerReducer,
+  form: formReducer
 });
 
 const store = createStore(

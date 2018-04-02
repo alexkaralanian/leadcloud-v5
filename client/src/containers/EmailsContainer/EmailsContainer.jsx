@@ -1,11 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-// import { Button, Grid, Col, Row } from "react-bootstrap";
-import { Redirect } from "react-router";
+import { Redirect } from "react-router-dom";
 import axios from "axios";
 import Emails from "../../components/Emails/Emails";
-// import Navigation from "../NavContainer/NavContainer";
+import Errors from "../../components/Error/Error";
+import Navigation from "../NavContainer/NavContainer";
 import { fetchEmails, clearEmails } from "../../actions/email-actions";
 // import { clearError } from "../../actions/common-actions";
 // import { submitButton } from "../../sharedStyles/styles.css";
@@ -54,20 +54,20 @@ class EmailsContainer extends React.Component {
         name
       })
       .then(res => {
-        this.props.history.push(`contact/${res.data.id}`); // ??
+        this.props.history.push(`contact/${res.data.id}`);
       });
   }
 
   render() {
     return this.props.isAuthed ? (
       <div>
-        {/*<Navigation />*/}
+        <Navigation />
         <Emails
           emails={this.props.emails}
           isFetching={this.props.isFetching}
           createContact={this.createContact}
-          emailerror={this.props.error}
         />
+        <Errors errorText={this.props.error} />
       </div>
     ) : (
       <Redirect push to="/" />
@@ -95,8 +95,9 @@ EmailsContainer.propTypes = {
   isFetching: PropTypes.bool.isRequired,
   isLoading: PropTypes.bool.isRequired,
   error: PropTypes.string.isRequired,
-  fetchEmails: PropTypes.func.isRequired,
-  clearEmails: PropTypes.func.isRequired
+  fetchEmails: PropTypes.func.isRequired
+  // clearEmails: PropTypes.func.isRequired,
+  // clearError: PropTypes.func.isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(EmailsContainer);

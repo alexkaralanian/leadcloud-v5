@@ -1,7 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
-import { BroweserRouter, Route, Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import { ConnectedRouter } from "react-router-redux";
+import PropTypes from "prop-types";
 import { fetchUser } from "./actions/auth-actions";
 import { history } from "./store";
 import "./index.css";
@@ -11,6 +12,8 @@ import DashboardContainer from "./containers/DashboardContainer/DashboardContain
 import ProfileContainer from "./containers/ProfileContainer/ProfileContainer";
 import EmailsContainer from "./containers/EmailsContainer/EmailsContainer";
 import SingleEmailContainer from "./containers/SingleEmailContainer/SingleEmailContainer";
+import ContactsContainer from "./containers/ContactsContainer/ContactsContainer";
+import SingleContactContainer from "./containers/SingleContactContainer/SingleContactContainer";
 
 class App extends React.Component {
   componentDidMount() {
@@ -27,6 +30,9 @@ class App extends React.Component {
             <Route path="/profile" component={ProfileContainer} />
             <Route path="/emails" component={EmailsContainer} />
             <Route path="/email/:id" component={SingleEmailContainer} />
+            <Route path="/contacts" component={ContactsContainer} />
+            <Route path="/contact/:id" component={SingleContactContainer} />
+            <Route path="/contact/new" component={SingleContactContainer} />
             <Route
               render={() => (
                 <div>
@@ -42,3 +48,7 @@ class App extends React.Component {
 }
 
 export default connect(null, { fetchUser })(App);
+
+App.propTypes = {
+  fetchUser: PropTypes.func.isRequired
+};

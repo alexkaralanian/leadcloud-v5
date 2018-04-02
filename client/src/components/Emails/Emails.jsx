@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { Grid, Row, Col, Table } from "react-bootstrap";
 import moment from "moment";
 import Loading from "../Loading/Loading";
+import Errors from "../Error/Error";
 import { tableCell, emailAddress, emailTable } from "./styles.css";
 // import { error, background, content } from "../../sharedStyles/styles.css";
 
@@ -24,41 +25,33 @@ const Emails = ({ emails, createContact, isFetching, emailError }) =>
             </thead>
             <tbody>
               {emails &&
-                emails.map(email => {
-                  return (
-                    <tr key={email.id}>
-                      <td className={emailTable} id="sender">
-                        <a
-                          onClick={() =>
-                            createContact(email.emailAddress, email.name)
-                          }
-                        >
-                          <span className={emailAddress}>{email.name}</span>
-                        </a>
-                      </td>
+                emails.map(email => (
+                  <tr key={email.id}>
+                    <td className={emailTable} id="sender">
+                      <a
+                        role="link"
+                        tabIndex="0"
+                        onClick={() =>
+                          createContact(email.emailAddress, email.name)
+                        }
+                      >
+                        <span className={emailAddress}>{email.name}</span>
+                      </a>
+                    </td>
 
-                      <td id="email-subject">
-                        <Link to={`/email/${email.id}`}>{email.subject}</Link>
-                      </td>
+                    <td id="email-subject">
+                      <Link to={`/email/${email.id}`}>{email.subject}</Link>
+                    </td>
 
-                      <td id="email-date">
-                        {moment(email.date).format("ddd, M/D/YY h:mma")}
-                      </td>
-                    </tr>
-                  );
-                })}
+                    <td id="email-date">
+                      {moment(email.date).format("ddd, M/D/YY h:mma")}
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </Table>
         </Col>
       </Row>
-
-      {/*error ? (
-        <Row>
-          <Col xs={12}>
-            <p className={error}>{emailError}</p>
-          </Col>
-        </Row>
-      ) : null*/}
     </Grid>
   );
 

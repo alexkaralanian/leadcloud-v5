@@ -1,34 +1,28 @@
 module.exports = {
   up: (queryInterface, Sequelize) =>
-    queryInterface.createTable("users", {
+    queryInterface.createTable("listings", {
       id: {
         allowNull: false,
-        primaryKey: true,
         autoIncrement: true,
+        primaryKey: true,
         type: Sequelize.INTEGER
       },
-      username: {
+      address: {
         type: Sequelize.STRING
       },
-      firstName: {
+      street: {
         type: Sequelize.STRING
       },
-      lastName: {
+      city: {
         type: Sequelize.STRING
       },
-      email: {
+      zip: {
         type: Sequelize.STRING
       },
-      googleId: {
-        type: Sequelize.STRING
+      images: {
+        type: Sequelize.JSONB
       },
-      googlePhoto: {
-        type: Sequelize.STRING
-      },
-      googleAccessToken: {
-        type: Sequelize.STRING
-      },
-      googleRefreshToken: {
+      updated: {
         type: Sequelize.STRING
       },
       createdAt: {
@@ -40,5 +34,5 @@ module.exports = {
         type: Sequelize.DATE
       }
     }),
-  down: (queryInterface, Sequelize) => queryInterface.dropTable("users")
+  down: (queryInterface, Sequelize) => queryInterface.dropTable("listings")
 };
