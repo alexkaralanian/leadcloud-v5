@@ -10,11 +10,7 @@ export const setContacts = (contacts, limit, offset, query) => ({
   query
 });
 
-export const submitSuccess = () => ({
-  type: types.FORM_SUBMIT_SUCCESS
-});
-
-const setContact = contact => ({
+export const setContact = contact => ({
   type: types.SET_CONTACT,
   contact
 });
@@ -48,7 +44,11 @@ export const setContactImages = images => ({
   payload: images
 });
 
-///////////
+export const submitSuccess = () => ({
+  type: types.FORM_SUBMIT_SUCCESS
+});
+
+// ADMINISTRATIVE ACTIONS
 
 export const isFetching = bool => ({
   type: types.IS_FETCHING,
