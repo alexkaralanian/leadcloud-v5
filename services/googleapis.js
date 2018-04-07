@@ -12,7 +12,6 @@ const oAuth2Client = new OAuth2(
 
 const scopes = [
   "https://mail.google.com/",
-  // "https://www.google.com/m8/feeds/",
   "https://www.googleapis.com/auth/contacts",
   "https://www.googleapis.com/auth/calendar",
   "email",
