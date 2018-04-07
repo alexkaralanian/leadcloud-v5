@@ -1,6 +1,6 @@
 const express = require("express");
 const { google } = require("googleapis");
-const User = require("../db/models").users;
+const Users = require("../db/models").users;
 const { oAuth2Client, url } = require("../services/googleapis");
 const authCheck = require("../middlewares/authChecker");
 const router = express.Router();
@@ -32,45 +32,38 @@ router.get("/google/callback", (req, res) => {
         {
           userId: "me"
         },
-        (err, response) => {
-          const user = response.data;
+        async (err, response) => {
+          const person = response.data;
 
           // Create new user
-          User.findOrCreate({
+          const User = await Users.findOrCreate({
             where: {
-              googleId: user.id,
-              email: user.emails[0].value
+              googleId: person.id,
+              email: person.emails[0].value
             },
             defaults: {
-              username: user.displayName,
-              firstName: user.name.givenName,
-              lastName: user.name.familyName,
-              googlePhoto: user.image.url,
+              username: person.displayName,
+              firstName: person.name.givenName,
+              lastName: person.name.familyName,
+              googlePhoto: person.image.url,
               googleAccessToken: tokens.access_token,
               googleRefreshToken: tokens.refresh_token
             }
-          })
-            .spread((user, created) => {
-              if (!created) {
-                // update auth tokens
-                user.update({
-                  googleAccessToken: tokens.access_token,
-                  googleRefreshToken: tokens.refresh_token
-                });
-              }
-
-              // Add session obj to req.session.user
-              req.session["user"] = user.id;
-
-              // redirect back to app
-              // can we setup a proxy w this?
-              process.env.NODE_ENV === "production"
-                ? res.redirect("/")
-                : res.redirect("http://localhost:3000/");
-            })
-            .catch(err => {
-              console.error(err);
+          });
+          const [user, created] = User;
+          // if user already exists, update auth tokens
+          if (!created) {
+            user.update({
+              googleAccessToken: tokens.access_token,
+              googleRefreshToken: tokens.refresh_token
             });
+          }
+          // Add session obj to req.session.user
+          req.session["user"] = user.id;
+          // redirect back to app
+          process.env.NODE_ENV === "production"
+            ? res.redirect("/")
+            : res.redirect("http://localhost:3000/");
         }
       );
     } else {
@@ -80,21 +73,20 @@ router.get("/google/callback", (req, res) => {
 });
 
 // GET CURRENT USER
-router.get("/current-user", authCheck, (req, res) => {
+router.get("/current-user", authCheck, async (req, res) => {
   // console.log(req.session);
   if (req.session.user) {
-    User.findById(req.session.user).then(user => {
-      const userMap = {
-        googleId: user.googleId,
-        createdAt: user.createdAt,
-        username: user.username,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email,
-        googlePhoto: user.googlePhoto
-      };
-      res.json(userMap);
-    });
+    const user = await Users.findById(req.session.user);
+    const userMap = {
+      googleId: user.googleId,
+      createdAt: user.createdAt,
+      username: user.username,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      googlePhoto: user.googlePhoto
+    };
+    res.json(userMap);
   } else {
     res.json(null);
   }
