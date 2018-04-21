@@ -5,3 +5,8 @@ client/.env.prod
 client/.env.test
 .env
 dump.rdb
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
