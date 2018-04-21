@@ -1,10 +1,11 @@
 const express = require("express");
 const simpleParser = require("mailparser").simpleParser;
 const { google } = require("googleapis");
-const { oAuth2Client } = require("../services/googleapis");
-const Users = require("../db/models").users;
 const authCheck = require("../middlewares/authChecker");
+const findUserById = require("../middlewares/findUserById");
 const emailTransform = require("../services/emailTransform");
+const { oAuth2Client } = require("../services/googleapis");
+
 // const moment = require("moment");
 // const Contacts = require("../../db/models/contacts");
 
@@ -12,15 +13,7 @@ const gmail = google.gmail("v1");
 const router = express.Router();
 
 // FETCH ALL EMAILS
-router.get("/gmail", authCheck, async (req, res) => {
-  const user = await Users.findById(req.session.user);
-
-  oAuth2Client.setCredentials({
-    access_token: user.googleAccessToken,
-    refresh_token: user.googleRefreshToken,
-    expiry_date: new Date().getTime() + 1000 * 60 * 60 * 24 * 7
-  });
-
+router.get("/gmail", authCheck, findUserById, (req, res) => {
   gmail.users.messages.list(
     {
       userId: "me",
@@ -29,49 +22,50 @@ router.get("/gmail", authCheck, async (req, res) => {
       pageToken: req.query.pageToken,
       q: req.query.q
     },
-    async (err, response) => {
-      const messageIDs = await response.data.messages;
-      const nextPageToken = await response.data.nextPageToken;
+    (err, response) => {
+      if (!err) {
+        const messageIDs = response.data.messages;
+        const nextPageToken = response.data.nextPageToken;
 
-      // Return an array of email promises
-      const emailPromises = messageIDs.map(
-        message =>
-          new Promise((resolve, reject) => {
-            // Fetch individual email messages
-            gmail.users.messages.get(
-              {
-                userId: "me",
-                id: message.id,
-                format: "metadata",
-                auth: oAuth2Client
-              },
-              async (error, email) => {
-                if (email) {
-                  await resolve(email.data);
-                } else {
-                  await reject(error);
+        // Return an array of email promises
+        const emailPromises = messageIDs.map(
+          message =>
+            new Promise((resolve, reject) => {
+              // Fetch individual email messages
+              gmail.users.messages.get(
+                {
+                  userId: "me",
+                  id: message.id,
+                  format: "metadata",
+                  auth: oAuth2Client
+                },
+                (error, email) => {
+                  if (email) {
+                    resolve(email.data);
+                  } else {
+                    reject(error);
+                  }
                 }
-              }
-            );
-          })
-      );
-      // Resolve array of email promises
-      Promise.all(emailPromises).then(values =>
-        res.json(emailTransform([nextPageToken, values]))
-      );
+              );
+            })
+        );
+        // Resolve all email promises
+        Promise.all(emailPromises)
+          .then(values => [nextPageToken, values])
+          .then(emails => {
+            // Custom helper to transform / map email array
+            res.json(emailTransform(emails));
+          });
+      } else {
+        res.status(404).send({ error: "ERROR FETCHING EMAILS FROM GMAIL API" });
+        console.error(err);
+      }
     }
   );
 });
 
 // /GET SINGLE EMAIL BY ID / VIEW EMAIL MESSAGE
-router.get("/gmail/:id", authCheck, async (req, res) => {
-  const user = await Users.findById(req.session.user);
-  oAuth2Client.setCredentials({
-    access_token: user.googleAccessToken,
-    refresh_token: user.googleRefreshToken,
-    expiry_date: new Date().getTime() + 1000 * 60 * 60 * 24 * 7
-  });
-
+router.get("/gmail/:id", authCheck, findUserById, (req, res) => {
   new Promise((resolve, reject) => {
     gmail.users.messages.get(
       {
@@ -80,21 +74,26 @@ router.get("/gmail/:id", authCheck, async (req, res) => {
         format: "raw",
         auth: oAuth2Client
       },
-      async (error, email) => {
+      (error, email) => {
         if (email) {
-          await resolve(email);
+          resolve(email);
         } else {
-          await reject(error);
+          reject(error);
         }
       }
     );
-  }).then(response => {
-    const body = response.data.raw;
-    const buff = Buffer.from(body, "base64").toString("utf8");
-    simpleParser(buff).then(results => {
-      res.json(results);
+  })
+    .then(response => {
+      const body = response.data.raw;
+      const buff = Buffer.from(body, "base64").toString("utf8");
+      simpleParser(buff).then(results => {
+        res.json(results);
+      });
+    })
+    .catch(err => {
+      res.status(404).send({ error: "ERROR FETCHING EMAIL FROM GMAIL API" });
+      console.error(err);
     });
-  });
 });
 
 // // FIND OR CREATE CONTACT BY EMAIL ADDRESS
