@@ -42,20 +42,18 @@ app.use(
   })
 );
 
+app.use(express.static(path.join(__dirname, "./client/dist")));
 app.use(morgan("dev"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// TESTING EXAMPLE
-app.get("/test", (req, res) => {
-  res.send({
-    message: "Hello, world!"
-  });
-});
-
 // ROUTES
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/email", require("./routes/email"));
+
+app.get("/*", (req, res) => {
+  res.sendFile(path.join(__dirname, "./client/dist/index.html"));
+});
 
 //ERROR HANDLING MIDDLEWARE
 app.use((err, req, res, next) => {
