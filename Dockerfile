@@ -15,7 +15,7 @@ RUN npm install --production && mv node_modules /node_modules
 
 COPY . .
 
-EXPOSE: 3001
+EXPOSE 3001
 
 LABEL maintainer="Alex Karalanian <alex.karalanian@gmail.com>" \
       version="1.0"
