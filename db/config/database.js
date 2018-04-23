@@ -2,12 +2,27 @@ const keys = require("../../config/keys");
 
 module.exports = {
   development: {
-    username: keys.DB_USERNAME,
-    password: keys.DB_PASSWORD,
-    database: keys.DB_NAME,
+    username: keys.POSTGRES_USER,
+    password: keys.POSTGRES_PASSWORD,
+    database: keys.POSTGRES_DB,
     host: "localhost",
     dialect: "postgres",
-    logging: false
+    logging: false,
+    force: true,
+    retry: {
+      max: 100
+    }
+  },
+  production: {
+    username: keys.POSTGRES_USER,
+    password: keys.POSTGRES_PASSWORD,
+    // database: keys.POSTGRES_DB,
+    host: "postgres",
+    dialect: "postgres",
+    logging: false,
+    retry: {
+      max: 100
+    }
   },
   test: {
     username: "postgres",
@@ -16,12 +31,5 @@ module.exports = {
     host: "localhost",
     dialect: "postgres",
     logging: false
-  },
-  production: {
-    username: "root",
-    password: null,
-    database: "leadcloud_prod",
-    host: "localhost",
-    dialect: "postgres"
   }
 };

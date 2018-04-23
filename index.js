@@ -1,4 +1,6 @@
 require("dotenv").config();
+const keys = require("./config/keys");
+console.log("NODE_ENV=" + process.env.NODE_ENV);
 
 const express = require("express");
 const morgan = require("morgan");
@@ -7,15 +9,38 @@ const path = require("path");
 const helmet = require("helmet");
 // const passport = require("passport");
 // const session = require("cookie-session");
-
 const redis = require("redis");
-const redisClient = redis.createClient({ host: "localhost", port: 6379 });
+
+const redisClient = redis.createClient({
+  host: keys.REDIS_URI,
+  port: 6379,
+  retry_strategy: options => {
+    if (options.error && options.error.code === "ECONNREFUSED") {
+      // End reconnecting on a specific error and flush all commands with
+      // a individual error
+      return new Error("The server refused the connection");
+    }
+    if (options.total_retry_time > 1000 * 60 * 60) {
+      // End reconnecting after a specific timeout and flush all commands
+      // with a individual error
+      return new Error("Retry time exhausted");
+    }
+    if (options.attempt > 10) {
+      // End reconnecting with built in error
+      console.error("THIS WILL FAIL");
+      return undefined;
+    }
+    // reconnect after
+    return Math.min(options.attempt * 100, 3000);
+  }
+});
+
 const session = require("express-session");
 const RedisStore = require("connect-redis")(session);
 
 const db = require("./db/models");
-const keys = require("./config/keys");
-require("./services/passport");
+
+// require("./services/passport");
 
 const app = express();
 
@@ -25,8 +50,8 @@ redisClient.on("ready", () => {
   console.log("Redis is ready");
 });
 
-redisClient.on("error", () => {
-  console.log("Error in Redis");
+redisClient.on("error", err => {
+  console.log("Error in Redis", err);
 });
 
 // REDIS SESSION

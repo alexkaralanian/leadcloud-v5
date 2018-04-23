@@ -2,25 +2,29 @@ version: '3'
 
 services:
   postgres:
-    image: 'postgres:10.1-alpine'
+    image: 'postgres:alpine'
     restart: 'always'
     ports:
       - '5432:5432'
     env_file:
       - '.env'
+    restart: 'always'
 
   redis:
-      image: 'redis:3.2-alpine'
-      restart: always
-      ports:
-        - "6379:6379"
+    image: 'redis:alpine'
+    ports:
+      - '6379:6379'
+    volumes:
+      - 'redis:/data'
+    restart: 'always'
+
 
   web:
     build: .
     depends_on:
       - 'redis'
       - 'postgres'
-    command: nodemon --inspect server
+    command: nodemon --inspect index.js
     env_file:
       - '.env'
     ports:
@@ -29,3 +33,7 @@ services:
       - '.:/app'
     environment:
       - NODE_ENV=production
+    restart: 'always'
+
+volumes:
+  redis: {}

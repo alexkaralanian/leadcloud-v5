@@ -2,7 +2,8 @@ module.exports = {
   GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
   SESSION_SECRET: process.env.SESSION_SECRET,
-  DB_USERNAME: process.env.DB_USERNAME,
-  DB_PASSWORD: process.env.DB_PASSWORD,
-  DB_NAME: process.env.DB_NAME
+  POSTGRES_USER: process.env.POSTGRES_USER,
+  POSTGRES_PASSWORD: process.env.POSTGRES_PASSWORD,
+  POSTGRES_DB: process.env.POSTGRES_DB,
+  REDIS_URI: process.env.REDIS_URI
 };
