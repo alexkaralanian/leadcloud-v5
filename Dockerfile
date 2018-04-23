@@ -20,4 +20,4 @@ EXPOSE 3001
 LABEL maintainer="Alex Karalanian <alex.karalanian@gmail.com>" \
       version="1.0"
 
-CMD pm2 start index.js
+CMD pm2 start index.js -i 0
