@@ -1,5 +1,8 @@
 FROM node:9.10.0-alpine
 
+LABEL maintainer="Alex Karalanian <alex.karalanian@gmail.com>" \
+      version="1.0"
+
 RUN mkdir /app
 
 WORKDIR /app
@@ -13,11 +16,13 @@ COPY package-lock.json package-lock.json
 
 RUN npm install --production && mv node_modules /node_modules
 
+ENV NODE_ENV=production
+
 COPY . .
 
 EXPOSE 3001
 
-LABEL maintainer="Alex Karalanian <alex.karalanian@gmail.com>" \
-      version="1.0"
 
-CMD pm2 start index.js -i 0
+
+
+

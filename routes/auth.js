@@ -61,6 +61,7 @@ router.get("/google/callback", (req, res) => {
           // Add session obj to req.session.user
           req.session["user"] = user.id;
           // redirect back to app
+          console.log("isprod", process.env.NODE_ENV);
           process.env.NODE_ENV === "production"
             ? res.redirect("/")
             : res.redirect("http://localhost:3000/");

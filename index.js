@@ -27,7 +27,7 @@ const redisClient = redis.createClient({
     }
     if (options.attempt > 10) {
       // End reconnecting with built in error
-      console.error("THIS WILL FAIL");
+      console.error("Redis - Connetion retry timeout");
       return undefined;
     }
     // reconnect after

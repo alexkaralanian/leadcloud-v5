@@ -16,7 +16,7 @@ module.exports = {
   production: {
     username: keys.POSTGRES_USER,
     password: keys.POSTGRES_PASSWORD,
-    // database: keys.POSTGRES_DB,
+    database: keys.POSTGRES_DB,
     host: "postgres",
     dialect: "postgres",
     logging: false,

@@ -8,8 +8,8 @@
     "npm": "5.6.0"
   },
   "scripts": {
-    "start": "sequelize db:migrate && pm2 start index.js -i 0",
-    "server": "export NODE_ENV=development && nodemon index.js",
+    "start": "pm2 start index.js -i 0",
+    "server": "nodemon index.js",
     "client": "npm run start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "jest:watch": "jest --watch",
