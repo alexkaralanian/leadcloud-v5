@@ -29,7 +29,7 @@ const redisClient = redis.createClient({
       return undefined;
     }
     // reconnect after
-    return Math.min(options.attempt * 100, 3000);
+    return Math.min(options.attempt * 10, 3000);
   }
 });
 
