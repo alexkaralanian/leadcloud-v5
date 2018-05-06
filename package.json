@@ -14,7 +14,7 @@
     "dev":
       "concurrently \"nodemon index.js\" \"npm run start --prefix client\"",
     "build": "npm run build --prefix client",
-    "test:client": "npm run test --prefix client && mocha",
+    "test": "npm run test --prefix client",
     "migrate": "sequelize db:migrate",
     "rollback": "sequelize db:migrate:undo"
   },

@@ -2,24 +2,22 @@ const keys = require("../../config/keys");
 
 module.exports = {
   development: {
-    username: keys.POSTGRES_USER,
-    password: keys.POSTGRES_PASSWORD,
-    database: keys.POSTGRES_DB,
-    host: "localhost",
+    username: keys.DB_USERNAME,
+    password: keys.DB_PASSWORD,
+    database: keys.DB_NAME,
+    host: keys.DB_HOST,
     dialect: "postgres",
     logging: false,
-    force: true,
     retry: {
       max: 100
     }
   },
   production: {
-    username: keys.POSTGRES_USER,
-    password: keys.POSTGRES_PASSWORD,
-    database: keys.POSTGRES_DB,
-    host: "postgres",
+    username: keys.DB_USERNAME,
+    password: keys.DB_PASSWORD,
+    database: keys.DB_NAME,
+    host: keys.DB_HOST,
     dialect: "postgres",
-    logging: false,
     retry: {
       max: 100
     }
