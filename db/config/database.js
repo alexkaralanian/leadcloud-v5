@@ -7,9 +7,9 @@ module.exports = {
     database: keys.DB_NAME,
     host: keys.DB_HOST,
     dialect: "postgres",
-    logging: false,
+    logging: true,
     retry: {
-      max: 100
+      max: 10
     }
   },
   production: {
@@ -19,7 +19,7 @@ module.exports = {
     host: keys.DB_HOST,
     dialect: "postgres",
     retry: {
-      max: 100
+      max: 10
     }
   },
   test: {
