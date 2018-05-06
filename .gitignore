@@ -5,7 +5,6 @@ client/.env.prod
 client/.env.test
 .env
 dump.rdb
-Dockerfile
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
