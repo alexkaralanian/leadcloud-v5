@@ -1,4 +1,3 @@
-require("dotenv").config();
 const keys = require("./config/keys");
 console.log("NODE_ENV=" + process.env.NODE_ENV);
 
@@ -12,8 +11,8 @@ const helmet = require("helmet");
 const redis = require("redis");
 
 const redisClient = redis.createClient({
-  host: keys.REDIS_URI,
-  port: 6379,
+  // host: keys.REDIS_URI,
+  // port: 6379,
   retry_strategy: options => {
     if (options.error && options.error.code === "ECONNREFUSED") {
       // End reconnecting on a specific error and flush all commands with

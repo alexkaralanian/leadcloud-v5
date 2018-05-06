@@ -1,7 +1,5 @@
 if (process.env.NODE_ENV === "production") {
-  const production = require("./prod");
-  module.exports = production;
+  module.exports = require("./prod");
 } else {
-  const development = require("./dev");
-  module.exports = development;
+  module.exports = require("./dev");
 }

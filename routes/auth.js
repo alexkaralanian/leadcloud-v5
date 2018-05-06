@@ -68,7 +68,10 @@ router.get("/google/callback", (req, res) => {
         }
       );
     } else {
-      res.status(400).send({ error: "ERROR LOGGIN IN" });
+      res.status(400).send({
+        message: "ERROR LOGGIN IN",
+        error: err
+      });
     }
   });
 });
