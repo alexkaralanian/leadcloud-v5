@@ -12,6 +12,11 @@ const { oAuth2Client } = require("../services/googleapis");
 const gmail = google.gmail("v1");
 const router = express.Router();
 
+router.get("/gmail", (req, res) => {
+  console.log("HI FROM GMAIL");
+  res.json("HI FROM GMAIL");
+});
+
 // FETCH ALL EMAILS
 router.get("/gmail", authCheck, findUserById, (req, res) => {
   gmail.users.messages.list(

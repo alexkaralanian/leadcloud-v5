@@ -11,7 +11,10 @@ const helmet = require("helmet");
 const redis = require("redis");
 
 const redisClient = redis.createClient({
-  url: keys.REDIS_URI,
+  // url: keys.REDIS_URI,
+  host: keys.REDIS_HOST,
+  port: keys.REDIS_PORT,
+  logErrors: true,
   retry_strategy: options => {
     if (options.error && options.error.code === "ECONNREFUSED") {
       // End reconnecting on a specific error and flush all commands with
@@ -65,7 +68,6 @@ app.use(
   })
 );
 
-app.use(express.static(path.join(__dirname, "./client/dist")));
 app.use(morgan("dev"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -74,8 +76,9 @@ app.use(bodyParser.json());
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/email", require("./routes/email"));
 
-app.get("/*", (req, res) => {
-  res.sendFile(path.join(__dirname, "./client/dist/index.html"));
+app.use(express.static("client/build"));
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
 });
 
 //ERROR HANDLING MIDDLEWARE

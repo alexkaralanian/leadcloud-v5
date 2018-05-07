@@ -6,6 +6,11 @@ const authCheck = require("../middlewares/authChecker");
 const router = express.Router();
 const plus = google.plus("v1");
 
+router.get("/test", (req, res) => {
+  res.json("TEST");
+  console.log("TEST");
+});
+
 // GOOGLE LOGIN
 router.get("/google", (req, res) => {
   res.redirect(url);
@@ -60,11 +65,9 @@ router.get("/google/callback", (req, res) => {
           }
           // Add session obj to req.session.user
           req.session["user"] = user.id;
-          // redirect back to app
-          console.log("isprod", process.env.NODE_ENV);
-          process.env.NODE_ENV === "production"
-            ? res.redirect("/")
-            : res.redirect("http://localhost:3000/");
+          if (process.env.NODE_ENV === "production") {
+            res.redirect("/");
+          } else res.redirect("http://localhost:3000/");
         }
       );
     } else {
@@ -78,7 +81,6 @@ router.get("/google/callback", (req, res) => {
 
 // GET CURRENT USER
 router.get("/current-user", authCheck, async (req, res) => {
-  // console.log(req.session);
   if (req.session.user) {
     const user = await Users.findById(req.session.user);
     const userMap = {

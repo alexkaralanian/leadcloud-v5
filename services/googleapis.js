@@ -7,9 +7,7 @@ const keys = require("../config/keys");
 const oAuth2Client = new OAuth2(
   keys.GOOGLE_CLIENT_ID,
   keys.GOOGLE_CLIENT_SECRET,
-  process.env.NODE_ENV === "production"
-    ? "http://leadcloud-v5-dev.us-east-1.elasticbeanstalk.com/api/auth/google/callback"
-    : "http://localhost:3001/api/auth/google/callback"
+  "http://localhost:3001/api/auth/google/callback"
 );
 
 const scopes = [

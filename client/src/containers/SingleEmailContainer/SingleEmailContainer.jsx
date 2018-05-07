@@ -6,8 +6,7 @@ import SingleEmail from "../../components/SingleEmail/SingleEmail";
 import {
   fetchEmail,
   clearEmail,
-  clearError,
-  fetchSingleEmailId
+  clearError
 } from "../../actions/email-actions";
 import { Row, Col } from "react-bootstrap";
 
@@ -50,7 +49,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   fetchEmail,
   clearEmail,
-  fetchSingleEmailId,
   clearError
 };
 
