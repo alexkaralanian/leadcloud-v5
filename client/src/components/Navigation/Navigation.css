@@ -1,0 +1,21 @@
+.NavContainer {
+  margin-left: 0px;
+  border-radius: 0px;
+}
+
+.menuItem a {
+  background-color: transparent !important;
+  outline: none !important;
+}
+
+.navProfilePic {
+  border-radius: 50%;
+  width: 33px;
+  height: 33px;
+}
+
+.navContainerRight {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}

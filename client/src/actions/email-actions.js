@@ -3,13 +3,11 @@ import * as types from "../types";
 
 /* ------------   ACTION CREATORS     ------------------ */
 
-export const setEmails = (emails, pageToken) => {
-  return {
-    type: types.SET_EMAILS,
-    emails,
-    pageToken
-  };
-};
+export const setEmails = (emails, pageToken) => ({
+  type: types.SET_EMAILS,
+  emails,
+  pageToken
+});
 
 export const setEmail = email => ({
   type: types.SET_EMAIL,

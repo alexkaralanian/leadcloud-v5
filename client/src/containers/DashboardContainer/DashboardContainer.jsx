@@ -7,10 +7,6 @@ import Navigation from "../NavContainer/NavContainer";
 import { fetchUser } from "../../actions/auth-actions";
 
 class DashboardContainer extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return this.props.isAuthed ? (
       <div>
@@ -32,8 +28,7 @@ const mapDispatchToProps = {
 };
 
 DashboardContainer.propTypes = {
-  isAuthed: PropTypes.bool.isRequired,
-  fetchUser: PropTypes.func.isRequired
+  isAuthed: PropTypes.bool.isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DashboardContainer);

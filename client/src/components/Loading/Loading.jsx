@@ -11,8 +11,8 @@ const Loading = props => (
           <ReactLoading
             type="spinningBubbles"
             color="#444"
-            height="100"
-            width="100"
+            height={100}
+            width={100}
             delay={500}
             className={loadingContainer2}
           />

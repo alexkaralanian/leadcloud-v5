@@ -1,33 +1,25 @@
 import React from "react";
-import { NavLink, Link } from "react-router-dom";
-import { Navbar, NavItem, Nav, NavDropdown, MenuItem } from "react-bootstrap";
-import {
-  navBar,
-  active,
-  navitem,
-  toggle,
-  profilePic,
-  navContainerRight,
-  link,
-  menuItem,
-  brand
-} from "./styles.css";
+import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
+import { Navbar, Nav, NavDropdown, MenuItem } from "react-bootstrap";
+import "./Navigation.css";
 
 const Navigation = ({ isAuthed, user, logout, profile, push }) => (
-  <Navbar inverse className={navBar}>
-    <Navbar.Header className={navBar}>
-      <Navbar.Brand className={brand}>
+  <Navbar inverse className="NavContainer">
+    <Navbar.Header>
+      <Navbar.Brand>
         <Link to="/dashboard">LeadCloud</Link>
       </Navbar.Brand>
-      <Navbar.Toggle className={toggle} />
+      <Navbar.Toggle className="toggle" />
     </Navbar.Header>
+
     <Navbar.Collapse>
       <Nav>
         <Contacts isAuthed={isAuthed} push={push} />
         <Listings isAuthed={isAuthed} push={push} />
         <Emails isAuthed={isAuthed} push={push} />
       </Nav>
-      <Nav className={navContainerRight} pullRight>
+      <Nav className="navContainerRight" pullRight>
         <Profile
           isAuthed={isAuthed}
           user={user}
@@ -44,7 +36,7 @@ const Navigation = ({ isAuthed, user, logout, profile, push }) => (
 const Contacts = ({ isAuthed, push }) =>
   isAuthed && (
     <MenuItem
-      className={menuItem}
+      className="menuItem"
       eventKey="2"
       onSelect={() => push("/contacts")}
     >
@@ -55,7 +47,7 @@ const Contacts = ({ isAuthed, push }) =>
 const Listings = ({ isAuthed, push }) =>
   isAuthed && (
     <MenuItem
-      className={menuItem}
+      className="menuItem"
       eventKey="3"
       onSelect={() => push("/listings")}
     >
@@ -66,7 +58,7 @@ const Listings = ({ isAuthed, push }) =>
 const Emails = ({ isAuthed, push }) =>
   isAuthed && (
     <MenuItem
-      className={menuItem}
+      className="menuItem"
       eventKey="1"
       onSelect={() => push("/emails")}
     >
@@ -77,13 +69,13 @@ const Emails = ({ isAuthed, push }) =>
 const Profile = ({ isAuthed, user, logout, profile, push }) =>
   isAuthed && (
     <NavDropdown
-      className={menuItem}
+      className="menuItem"
       eventKey={2}
       title={`Welcome, ${user.firstName}!`}
       id="basic-nav-dropdown"
     >
       <MenuItem
-        className={menuItem}
+        className="menuItem"
         eventKey="3"
         onSelect={() => push("/profile")}
       >
@@ -104,10 +96,10 @@ const Profile = ({ isAuthed, user, logout, profile, push }) =>
 
 const ProfilePic = ({ isAuthed, user }) =>
   isAuthed && (
-    <Link className={navitem} to="/profile">
+    <Link className="navitem" to="/profile">
       <div>
         <img
-          className={profilePic}
+          className="navProfilePic"
           src={user.googlePhoto || null}
           alt="profile pic"
         />

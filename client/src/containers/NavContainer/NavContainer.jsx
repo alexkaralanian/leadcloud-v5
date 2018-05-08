@@ -16,10 +16,6 @@ class NavContainer extends React.Component {
     this.props.push("/");
   }
 
-  // profileReroute() {
-  //   push("/profile");
-  // }
-
   render() {
     return (
       <Nav

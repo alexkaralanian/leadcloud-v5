@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Grid, Col, Row, Image, Button } from "react-bootstrap";
-import { profilePic, logoutBtn } from "./styles.css";
-import { headerText } from "../../index.css";
+import "./Profile.css";
+
 // import { LogoutButton, GetGmailProfile } from "../Buttons/AuthButtons";
 
 const Profile = ({ logout, user }) => (
@@ -10,10 +10,10 @@ const Profile = ({ logout, user }) => (
     <Row>
       <Col xs={12}>
         <div>
-          <h1 className={headerText}>Welcome, {user.firstName}!</h1>
-          <Image src={user.googlePhoto} className={profilePic} />
+          <h1 className="headerText">Welcome, {user.firstName}!</h1>
+          <Image src={user.googlePhoto} className="profilePic" />
           <div>
-            <Button className={logoutBtn} bsStyle="primary" onClick={logout}>
+            <Button className="logoutBtn" bsStyle="primary" onClick={logout}>
               <span>LOGOUT</span>
             </Button>
             {/* <GetGmailProfile onClick={getGmailProfile} /> */}
