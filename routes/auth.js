@@ -94,7 +94,7 @@ router.get("/current-user", authCheck, async (req, res) => {
     };
     res.json(userMap);
   } else {
-    res.json(null);
+    res.json("not so fast");
   }
 });
 

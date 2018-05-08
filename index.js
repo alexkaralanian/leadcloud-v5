@@ -12,7 +12,7 @@ const RedisStore = require("connect-redis")(session);
 
 const app = express();
 
-app.use(helmet());
+// app.use(helmet());
 
 // REDIS SESSION
 app.use(

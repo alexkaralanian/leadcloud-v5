@@ -9,14 +9,11 @@ WORKDIR /app
 
 RUN npm install -g nodemon
 RUN npm install sequelize-cli -g
-RUN npm install pm2 -g
 
 COPY package.json package.json
 COPY package-lock.json package-lock.json
 
 RUN npm install --production && mv node_modules /node_modules
-
-ENV NODE_ENV=production
 
 COPY . .
 
