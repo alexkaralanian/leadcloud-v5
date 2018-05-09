@@ -7,7 +7,7 @@ const keys = require("../config/keys");
 const oAuth2Client = new OAuth2(
   keys.GOOGLE_CLIENT_ID,
   keys.GOOGLE_CLIENT_SECRET,
-  "http://localhost:3001/api/auth/google/callback"
+  `${keys.GOOGLE_REDIRECT_URI}/api/auth/google/callback`
 );
 
 const scopes = [
