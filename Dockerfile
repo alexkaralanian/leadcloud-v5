@@ -15,8 +15,6 @@ COPY package-lock.json package-lock.json
 
 RUN npm install --production && mv node_modules /node_modules
 
-ENV NODE_ENV=production
-
 COPY . .
 
 EXPOSE 3001

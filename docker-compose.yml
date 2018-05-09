@@ -30,8 +30,8 @@ services:
       - '3001:3001'
     volumes:
       - '.:/app'
-    environment:
-      - NODE_ENV=production
+    # environment:
+    #   - NODE_ENV=production
     restart: 'always'
 
 volumes:

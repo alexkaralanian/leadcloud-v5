@@ -1,5 +1,5 @@
 node_modules
-dev.js
+config/dev.js
 client/.env.dev
 client/.env.prod
 client/.env.test
