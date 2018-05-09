@@ -2,9 +2,9 @@ const redis = require("redis");
 const keys = require("../config/keys");
 
 const redisClient = redis.createClient({
-  // url: keys.REDIS_URI,
-  host: keys.REDIS_HOST,
-  port: keys.REDIS_PORT,
+  url: keys.REDIS_URI,
+  // host: keys.REDIS_HOST,
+  // port: keys.REDIS_PORT,
   logErrors: true,
   retry_strategy: options => {
     if (options.error && options.error.code === "ECONNREFUSED") {

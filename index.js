@@ -1,3 +1,4 @@
+require("dotenv").config();
 const keys = require("./config/keys");
 console.log("NODE_ENV=" + process.env.NODE_ENV);
 

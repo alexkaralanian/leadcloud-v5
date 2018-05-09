@@ -8,6 +8,7 @@ module.exports = {
   DB_NAME: process.env.RDS_DB_NAME,
   DB_USERNAME: process.env.RDS_USERNAME,
   DB_PASSWORD: process.env.RDS_PASSWORD,
-  REDIS_HOST: process.env.REDIS_HOST,
-  REDIS_PORT: process.env.REDIS_PORT
+  REDIS_URI: process.env.REDIS_URI
+  // REDIS_HOST: process.env.REDIS_HOST,
+  // REDIS_PORT: process.env.REDIS_PORT
 };
