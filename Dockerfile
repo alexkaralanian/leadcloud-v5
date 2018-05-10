@@ -13,12 +13,11 @@ RUN npm install sequelize-cli -g
 COPY package.json package.json
 COPY package-lock.json package-lock.json
 
-RUN npm install --production && mv node_modules /node_modules
+RUN npm install && mv node_modules /node_modules
 
 COPY . .
 
 EXPOSE 3001
 
-CMD ["sequelize", "db:migrate"]
 CMD ["npm", "start"]
 

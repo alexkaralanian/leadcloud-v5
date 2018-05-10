@@ -8,8 +8,9 @@
     "npm": "5.6.0"
   },
   "scripts": {
-    "postinstall": "npm i --prefix client && npm run build",
-    "start": "node index.js",
+    "postinstall": "npm i --prefix client",
+    "start": "sh start.sh",
+    "server": "node index.sjs",
     "dev:server": "nodemon index.js",
     "dev:client": "npm start --prefix client",
     "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
@@ -61,9 +62,7 @@
     "supertest-session": "^3.1.2"
   },
   "jest": {
-    "collectCoverageFrom": [
-      "*.js"
-    ],
+    "collectCoverageFrom": ["*.js"],
     "globals": {
       "statement": 50,
       "branches": 50,
@@ -71,7 +70,8 @@
       "lines": 100
     },
     "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$":
+        "<rootDir>/__mocks__/fileMock.js",
       "\\.(css|less)$": "identity-obj-proxy"
     }
   }

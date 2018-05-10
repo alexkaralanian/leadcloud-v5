@@ -6,10 +6,10 @@ const authCheck = require("../middlewares/authChecker");
 const router = express.Router();
 const plus = google.plus("v1");
 
-router.get("/test", (req, res) => {
-  res.json("TEST");
-  console.log("TEST");
-});
+// router.get("/test", (req, res) => {
+//   res.json("TEST");
+//   console.log("TEST");
+// });
 
 // GOOGLE LOGIN
 router.get("/google", (req, res) => {
@@ -81,26 +81,23 @@ router.get("/google/callback", (req, res) => {
 
 // GET CURRENT USER
 router.get("/current-user", authCheck, async (req, res) => {
-  if (req.session.user) {
-    const user = await Users.findById(req.session.user);
-    const userMap = {
-      googleId: user.googleId,
-      createdAt: user.createdAt,
-      username: user.username,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      googlePhoto: user.googlePhoto
-    };
-    res.json(userMap);
-  } else {
-    res.json("not so fast");
-  }
+  const user = await Users.findById(req.session.user);
+  const userMap = {
+    googleId: user.googleId,
+    createdAt: user.createdAt,
+    username: user.username,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    email: user.email,
+    googlePhoto: user.googlePhoto
+  };
+  res.json(userMap);
 });
 
 // LOGOUT
 router.get("/logout", (req, res) => {
   req.session.destroy();
+  console.log("LOGOUT SESSION", req.session);
   res.sendStatus(200);
 });
 
