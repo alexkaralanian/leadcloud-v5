@@ -3,8 +3,6 @@ import PropTypes from "prop-types";
 import { Grid, Col, Row, Image, Button } from "react-bootstrap";
 import "./Profile.css";
 
-// import { LogoutButton, GetGmailProfile } from "../Buttons/AuthButtons";
-
 const Profile = ({ logout, user }) => (
   <Grid>
     <Row>
@@ -16,7 +14,6 @@ const Profile = ({ logout, user }) => (
             <Button className="logoutBtn" bsStyle="primary" onClick={logout}>
               <span>LOGOUT</span>
             </Button>
-            {/* <GetGmailProfile onClick={getGmailProfile} /> */}
           </div>
         </div>
       </Col>

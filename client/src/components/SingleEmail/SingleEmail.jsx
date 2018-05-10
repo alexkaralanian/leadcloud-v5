@@ -3,7 +3,7 @@ import ReactHtmlParser from "react-html-parser";
 import PropTypes from "prop-types";
 import { Grid, Row, Col } from "react-bootstrap";
 import Loading from "../Loading/Loading";
-import { singleEmailBody } from "./styles.css";
+import "./SingleEmail.css";
 
 const SingleEmail = ({ email, isFetching }) => {
   return isFetching ? (
@@ -33,7 +33,7 @@ const SingleEmail = ({ email, isFetching }) => {
                   .replace(/&gt;/g, "")
               )}
           </h4>
-          <div className={singleEmailBody}>
+          <div className="singleEmailBody">
             {email &&
               email.html &&
               ReactHtmlParser(

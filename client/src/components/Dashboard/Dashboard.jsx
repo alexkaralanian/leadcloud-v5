@@ -5,8 +5,6 @@ import { Grid, Col, Row } from "react-bootstrap";
 import Loading from "../Loading/Loading";
 import "./Dashboard.css";
 
-// import { background } from "../../index.css";
-
 const Dashboard = () => (
   <div className="background">
     <Grid className="content">

@@ -7,9 +7,7 @@ module.exports = async (req, res, next) => {
     oAuth2Client.setCredentials({
       access_token: user.googleAccessToken,
       refresh_token: user.googleRefreshToken,
-      // ms / sec / min / hour / day :: 7 days
-      // 1000 * 60 * 60 * 24 * 7
-      expiry_date: new Date().getTime() + 1000 * 60 * 60 // 1hr expiry
+      expiry_date: new Date().getTime() + 1000 * 60 * 60
     });
   } catch (err) {
     res

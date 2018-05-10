@@ -4,8 +4,7 @@ import PropTypes from "prop-types";
 import { Grid, Row, Col, Table } from "react-bootstrap";
 import moment from "moment";
 import Loading from "../Loading/Loading";
-import { tableCell, emailAddress, emailTable } from "./styles.css";
-// import { error, background, content } from "../../sharedStyles/styles.css";
+import "./Emails.css";
 
 const Emails = ({ emails, createContact, isFetching, emailError }) =>
   isFetching ? (
@@ -27,13 +26,13 @@ const Emails = ({ emails, createContact, isFetching, emailError }) =>
                 emails.map(email => {
                   return (
                     <tr key={email.id}>
-                      <td className={emailTable} id="sender">
+                      <td className="emailTable" id="sender">
                         <a
                           onClick={() =>
                             createContact(email.emailAddress, email.name)
                           }
                         >
-                          <span className={emailAddress}>{email.name}</span>
+                          <span className="emailAddress">{email.name}</span>
                         </a>
                       </td>
 

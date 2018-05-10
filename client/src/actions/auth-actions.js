@@ -16,7 +16,6 @@ export const isFetching = bool => ({
 });
 
 export const fetchUser = () => async dispatch => {
-  console.log("FETCH USER");
   try {
     dispatch(isFetching(true));
     const res = await axios.get("/api/auth/current-user");

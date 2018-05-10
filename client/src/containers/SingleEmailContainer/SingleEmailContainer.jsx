@@ -25,9 +25,7 @@ class SingleEmailContainer extends React.Component {
   }
 
   render() {
-    return !this.props.isAuthed ? (
-      <Redirect push to="/" />
-    ) : (
+    return this.props.isAuthed ? (
       <div>
         <Navigation />
         <SingleEmail
@@ -35,6 +33,8 @@ class SingleEmailContainer extends React.Component {
           isFetching={this.props.isFetching}
         />
       </div>
+    ) : (
+      <Redirect push to="/" />
     );
   }
 }
