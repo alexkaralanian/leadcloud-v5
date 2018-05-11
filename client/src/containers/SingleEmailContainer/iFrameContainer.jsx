@@ -7,7 +7,6 @@ class iFrameContainer extends React.Component {
     this.state = {
       email: {}
     };
-
     this.receivePostMessage = this.receivePostMessage.bind(this);
   }
 
@@ -30,12 +29,7 @@ class iFrameContainer extends React.Component {
   }
 
   render() {
-    return (
-      <SingleEmail
-        email={this.state.email}
-        isFetching={this.state.isFetching}
-      />
-    );
+    return <SingleEmail email={this.state.email} />;
   }
 }
 

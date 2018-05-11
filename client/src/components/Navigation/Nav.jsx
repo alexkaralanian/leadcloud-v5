@@ -66,7 +66,7 @@ const Emails = ({ isAuthed, push }) =>
     </MenuItem>
   );
 
-const Profile = ({ isAuthed, user, logout, profile, push }) =>
+const Profile = ({ isAuthed, user, logout, push }) =>
   isAuthed && (
     <NavDropdown
       className="menuItem"
@@ -85,8 +85,8 @@ const Profile = ({ isAuthed, user, logout, profile, push }) =>
       <MenuItem divider />
       <MenuItem
         onClick={() => {
-          logout();
           push("/");
+          logout();
         }}
         eventKey={2.4}
       >

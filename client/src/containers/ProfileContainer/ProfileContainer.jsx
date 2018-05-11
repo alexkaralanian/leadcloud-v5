@@ -5,7 +5,6 @@ import PropTypes from "prop-types";
 import Navigation from "../NavContainer/NavContainer";
 import Profile from "../../components/Profile/Profile";
 import { logout } from "../../actions/auth-actions";
-import { push } from "react-router-redux";
 
 class ProfileContainer extends React.Component {
   constructor(props) {

@@ -2,6 +2,8 @@ import React from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router";
 import ReactHtmlParser from "react-html-parser";
+import { Grid, Row, Col } from "react-bootstrap";
+
 import Navigation from "../NavContainer/NavContainer";
 
 import {
@@ -9,28 +11,13 @@ import {
   clearEmail,
   clearError
 } from "../../actions/email-actions";
-import { Grid, Row, Col } from "react-bootstrap";
 
 class SingleEmailContainer extends React.Component {
-  constructor(props) {
-    super(props);
-    console.log("PROPS", props);
-    // this.receiveIframeData = this.receiveIframeData.bind(this);
-  }
-
   componentWillMount() {
     this.props.fetchEmail(this.props.match.params.id);
   }
 
-  componentDidMount() {
-    // window.addEventListener("message", this.receiveIframeData);
-    // this.iframe.contentWindow.postMessage({ email: this.props.email }, "*");
-    // this.props.fetchEmail(this.props.match.params.id);
-  }
-
   componentWillReceiveProps(nextProps) {
-    console.log("NEXT PROPS", nextProps);
-    console.log("EMAIL PROPS", this.props.email);
     if (this.props.email !== nextProps.email) {
       this.iframe.contentWindow.postMessage({ email: nextProps.email }, "*");
     }
