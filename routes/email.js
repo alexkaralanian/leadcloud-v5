@@ -14,11 +14,12 @@ const router = express.Router();
 
 // FETCH ALL EMAILS
 router.get("/gmail", authCheck, findUserById, (req, res) => {
+  console.log("QUERY", req.query);
   gmail.users.messages.list(
     {
       userId: "me",
       auth: oAuth2Client,
-      maxResults: 15,
+      maxResults: req.query.maxResults,
       pageToken: req.query.pageToken,
       q: req.query.q
     },

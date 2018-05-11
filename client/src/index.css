@@ -34,3 +34,9 @@ body {
   background-position: top;
   background-size: cover;
 }
+
+iframe {
+  border: none;
+  width: 100%;
+  height: calc(100vh - 100px);
+}

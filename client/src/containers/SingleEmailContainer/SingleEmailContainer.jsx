@@ -8,15 +8,31 @@ import {
   clearEmail,
   clearError
 } from "../../actions/email-actions";
-import { Row, Col } from "react-bootstrap";
+// import { Row, Col } from "react-bootstrap";
 
 class SingleEmailContainer extends React.Component {
   constructor(props) {
     super(props);
+    console.log("PROPS", props);
+    // this.receiveIframeData = this.receiveIframeData.bind(this);
+  }
+
+  componentWillMount() {
+    this.props.fetchEmail(this.props.match.params.id);
   }
 
   componentDidMount() {
-    this.props.fetchEmail(this.props.match.params.id);
+    // window.addEventListener("message", this.receiveIframeData);
+    // this.iframe.contentWindow.postMessage({ email: this.props.email }, "*");
+    // this.props.fetchEmail(this.props.match.params.id);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log("NEXT PROPS", nextProps);
+    console.log("EMAIL PROPS", this.props.email);
+    if (this.props.email !== nextProps.email) {
+      this.iframe.contentWindow.postMessage({ email: nextProps.email }, "*");
+    }
   }
 
   componentWillUnmount() {
@@ -28,10 +44,18 @@ class SingleEmailContainer extends React.Component {
     return this.props.isAuthed ? (
       <div>
         <Navigation />
-        <SingleEmail
-          email={this.props.email}
-          isFetching={this.props.isFetching}
-        />
+        <div>
+          <iframe
+            ref={el => (this.iframe = el)}
+            title="Email"
+            frameBorder={1}
+            src="/iframecontainer"
+            scrolling="yes"
+          />
+          {/*<SingleEmail
+            email={this.props.email}
+            isFetching={this.props.isFetching}/>*/}
+        </div>
       </div>
     ) : (
       <Redirect push to="/" />

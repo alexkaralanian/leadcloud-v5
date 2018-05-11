@@ -8,6 +8,8 @@ import { fetchUser } from "./actions/auth-actions";
 import { history } from "./store";
 import "./index.css";
 
+import iFrameContainer from "./containers/SingleEmailContainer/iFrameContainer";
+import Email from "./components/SingleEmail/SingleEmail";
 import Loading from "./components/Loading/Loading";
 
 const LandingPage = Loadable({
@@ -52,6 +54,7 @@ class App extends React.Component {
             <Route path="/profile" component={Profile} />
             <Route path="/emails" component={Emails} />
             <Route path="/email/:id" component={SingleEmail} />
+            <Route path="/iframecontainer" component={iFrameContainer} />
             <Route
               render={() => (
                 <div>
