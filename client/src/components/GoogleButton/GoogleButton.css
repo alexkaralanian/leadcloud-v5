@@ -7,6 +7,8 @@
   margin-bottom: 14px;
   outline: none;
   transition: all 0.2s;
+  background-color: white;
+  border: none;
 }
 
 .googleButton a {

@@ -1,0 +1,3 @@
+describe("Nav Component", () => {
+  test("", () => {});
+});

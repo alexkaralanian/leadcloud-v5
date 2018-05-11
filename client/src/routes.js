@@ -50,7 +50,7 @@ class App extends React.Component {
         <div>
           <Switch>
             <Route exact path="/" component={LandingPage} />
-            <Route exact path="/dashboard" component={Dashboard} />
+            <Route path="/dashboard" component={Dashboard} />
             <Route path="/profile" component={Profile} />
             <Route path="/emails" component={Emails} />
             <Route path="/email/:id" component={SingleEmail} />

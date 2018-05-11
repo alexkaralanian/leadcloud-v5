@@ -10,8 +10,8 @@
   background-image: url(../../images/mountain.jpg);
   background-position: top;
   background-size: cover;
-  height: 97vh;
-  clip-path: polygon(0 0, 100% 0, 100% 87%, 0 100%);
+  height: calc(100vh);
+  /*clip-path: polygon(0 0, 100% 0, 100% 87%, 0 100%);*/
 }
 
 .LandingPage {
@@ -26,11 +26,14 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.75);
   color: black;
-  height: 45rem;
-  max-width: 65rem;
+  height: 50rem;
+  width: 40rem;
   padding: 1rem;
+  border-radius: 3px;
+  overflow: hidden;
+  margin-top: -0rem;
 }
 /*Heading*/
 
@@ -48,7 +51,7 @@
   padding: 0rem;
   font-size: 7rem;
   font-weight: 300;
-  margin-top: -15rem;
+  margin-top: -4rem;
   letter-spacing: 2.5rem;
   margin-right: -2.5rem;
   animation-name: moveInLeft;
@@ -75,11 +78,11 @@
 @keyframes moveInLeft {
   0% {
     opacity: 0;
-    transform: translateX(-100px);
+    transform: translateX(-20px);
   }
-  80% {
+  /*80% {
     transform: translateX(5px);
-  }
+  }*/
   100% {
     opacity: 1;
     transform: translateX(0);
@@ -89,7 +92,7 @@
 @keyframes moveInRight {
   0% {
     opacity: 0;
-    transform: translateX(100px);
+    transform: translateX(20px);
   }
   100% {
     opacity: 1;

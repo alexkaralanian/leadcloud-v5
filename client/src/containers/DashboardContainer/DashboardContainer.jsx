@@ -4,7 +4,6 @@ import { Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
 import Dashboard from "../../components/Dashboard/Dashboard";
 import Navigation from "../NavContainer/NavContainer";
-import { fetchUser } from "../../actions/auth-actions";
 
 class DashboardContainer extends React.Component {
   render() {
@@ -23,12 +22,8 @@ const mapStateToProps = state => ({
   isAuthed: state.authReducer.isAuthed
 });
 
-const mapDispatchToProps = {
-  fetchUser
-};
-
 DashboardContainer.propTypes = {
   isAuthed: PropTypes.bool.isRequired
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DashboardContainer);
+export default connect(mapStateToProps, null)(DashboardContainer);

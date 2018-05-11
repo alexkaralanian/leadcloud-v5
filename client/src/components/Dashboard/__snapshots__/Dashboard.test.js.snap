@@ -1,0 +1,1239 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Dashboard Component renders correctly 1`] = `
+ShallowWrapper {
+  "length": 1,
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <Dashboard />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "host",
+    "props": Object {
+      "children": <Grid
+        bsClass="container"
+        className="content"
+        componentClass="div"
+        fluid={false}
+>
+        <Row
+                bsClass="row"
+                componentClass="div"
+        >
+                <Col
+                        bsClass="col"
+                        componentClass="div"
+                        sm={6}
+                >
+                        <Link
+                                className="navLink"
+                                replace={false}
+                                to="/contacts"
+                        >
+                                <div
+                                        className="dashCard"
+                                >
+                                        <h3
+                                                className="dashText"
+                                        >
+                                                Contacts
+                                        </h3>
+                                </div>
+                        </Link>
+                </Col>
+                <Col
+                        bsClass="col"
+                        componentClass="div"
+                        sm={6}
+                >
+                        <Link
+                                className="navLink"
+                                replace={false}
+                                to="/listings"
+                        >
+                                <div
+                                        className="dashCard"
+                                >
+                                        <h3
+                                                className="dashText"
+                                        >
+                                                Listings
+                                        </h3>
+                                </div>
+                        </Link>
+                </Col>
+                <Col
+                        bsClass="col"
+                        componentClass="div"
+                        sm={6}
+                >
+                        <Link
+                                className="navLink"
+                                replace={false}
+                                to="/emails"
+                        >
+                                <div
+                                        className="dashCard"
+                                >
+                                        <h3
+                                                className="dashText"
+                                        >
+                                                Emails
+                                        </h3>
+                                </div>
+                        </Link>
+                </Col>
+                <Col
+                        bsClass="col"
+                        componentClass="div"
+                        sm={6}
+                >
+                        <Link
+                                className="navLink"
+                                replace={false}
+                                to="/profile"
+                        >
+                                <div
+                                        className="dashCard"
+                                >
+                                        <h3
+                                                className="dashText"
+                                        >
+                                                Profile
+                                        </h3>
+                                </div>
+                        </Link>
+                </Col>
+        </Row>
+</Grid>,
+      "className": "background",
+    },
+    "ref": null,
+    "rendered": Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "class",
+      "props": Object {
+        "bsClass": "container",
+        "children": <Row
+          bsClass="row"
+          componentClass="div"
+>
+          <Col
+                    bsClass="col"
+                    componentClass="div"
+                    sm={6}
+          >
+                    <Link
+                              className="navLink"
+                              replace={false}
+                              to="/contacts"
+                    >
+                              <div
+                                        className="dashCard"
+                              >
+                                        <h3
+                                                  className="dashText"
+                                        >
+                                                  Contacts
+                                        </h3>
+                              </div>
+                    </Link>
+          </Col>
+          <Col
+                    bsClass="col"
+                    componentClass="div"
+                    sm={6}
+          >
+                    <Link
+                              className="navLink"
+                              replace={false}
+                              to="/listings"
+                    >
+                              <div
+                                        className="dashCard"
+                              >
+                                        <h3
+                                                  className="dashText"
+                                        >
+                                                  Listings
+                                        </h3>
+                              </div>
+                    </Link>
+          </Col>
+          <Col
+                    bsClass="col"
+                    componentClass="div"
+                    sm={6}
+          >
+                    <Link
+                              className="navLink"
+                              replace={false}
+                              to="/emails"
+                    >
+                              <div
+                                        className="dashCard"
+                              >
+                                        <h3
+                                                  className="dashText"
+                                        >
+                                                  Emails
+                                        </h3>
+                              </div>
+                    </Link>
+          </Col>
+          <Col
+                    bsClass="col"
+                    componentClass="div"
+                    sm={6}
+          >
+                    <Link
+                              className="navLink"
+                              replace={false}
+                              to="/profile"
+                    >
+                              <div
+                                        className="dashCard"
+                              >
+                                        <h3
+                                                  className="dashText"
+                                        >
+                                                  Profile
+                                        </h3>
+                              </div>
+                    </Link>
+          </Col>
+</Row>,
+        "className": "content",
+        "componentClass": "div",
+        "fluid": false,
+      },
+      "ref": null,
+      "rendered": Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "class",
+        "props": Object {
+          "bsClass": "row",
+          "children": Array [
+            <Col
+              bsClass="col"
+              componentClass="div"
+              sm={6}
+>
+              <Link
+                            className="navLink"
+                            replace={false}
+                            to="/contacts"
+              >
+                            <div
+                                          className="dashCard"
+                            >
+                                          <h3
+                                                        className="dashText"
+                                          >
+                                                        Contacts
+                                          </h3>
+                            </div>
+              </Link>
+</Col>,
+            <Col
+              bsClass="col"
+              componentClass="div"
+              sm={6}
+>
+              <Link
+                            className="navLink"
+                            replace={false}
+                            to="/listings"
+              >
+                            <div
+                                          className="dashCard"
+                            >
+                                          <h3
+                                                        className="dashText"
+                                          >
+                                                        Listings
+                                          </h3>
+                            </div>
+              </Link>
+</Col>,
+            <Col
+              bsClass="col"
+              componentClass="div"
+              sm={6}
+>
+              <Link
+                            className="navLink"
+                            replace={false}
+                            to="/emails"
+              >
+                            <div
+                                          className="dashCard"
+                            >
+                                          <h3
+                                                        className="dashText"
+                                          >
+                                                        Emails
+                                          </h3>
+                            </div>
+              </Link>
+</Col>,
+            <Col
+              bsClass="col"
+              componentClass="div"
+              sm={6}
+>
+              <Link
+                            className="navLink"
+                            replace={false}
+                            to="/profile"
+              >
+                            <div
+                                          className="dashCard"
+                            >
+                                          <h3
+                                                        className="dashText"
+                                          >
+                                                        Profile
+                                          </h3>
+                            </div>
+              </Link>
+</Col>,
+          ],
+          "componentClass": "div",
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "class",
+            "props": Object {
+              "bsClass": "col",
+              "children": <Link
+                className="navLink"
+                replace={false}
+                to="/contacts"
+>
+                <div
+                                className="dashCard"
+                >
+                                <h3
+                                                className="dashText"
+                                >
+                                                Contacts
+                                </h3>
+                </div>
+</Link>,
+              "componentClass": "div",
+              "sm": 6,
+            },
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "class",
+              "props": Object {
+                "children": <div
+                  className="dashCard"
+>
+                  <h3
+                                    className="dashText"
+                  >
+                                    Contacts
+                  </h3>
+</div>,
+                "className": "navLink",
+                "replace": false,
+                "to": "/contacts",
+              },
+              "ref": null,
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": <h3
+                    className="dashText"
+>
+                    Contacts
+</h3>,
+                  "className": "dashCard",
+                },
+                "ref": null,
+                "rendered": Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": "Contacts",
+                    "className": "dashText",
+                  },
+                  "ref": null,
+                  "rendered": "Contacts",
+                  "type": "h3",
+                },
+                "type": "div",
+              },
+              "type": [Function],
+            },
+            "type": [Function],
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "class",
+            "props": Object {
+              "bsClass": "col",
+              "children": <Link
+                className="navLink"
+                replace={false}
+                to="/listings"
+>
+                <div
+                                className="dashCard"
+                >
+                                <h3
+                                                className="dashText"
+                                >
+                                                Listings
+                                </h3>
+                </div>
+</Link>,
+              "componentClass": "div",
+              "sm": 6,
+            },
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "class",
+              "props": Object {
+                "children": <div
+                  className="dashCard"
+>
+                  <h3
+                                    className="dashText"
+                  >
+                                    Listings
+                  </h3>
+</div>,
+                "className": "navLink",
+                "replace": false,
+                "to": "/listings",
+              },
+              "ref": null,
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": <h3
+                    className="dashText"
+>
+                    Listings
+</h3>,
+                  "className": "dashCard",
+                },
+                "ref": null,
+                "rendered": Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": "Listings",
+                    "className": "dashText",
+                  },
+                  "ref": null,
+                  "rendered": "Listings",
+                  "type": "h3",
+                },
+                "type": "div",
+              },
+              "type": [Function],
+            },
+            "type": [Function],
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "class",
+            "props": Object {
+              "bsClass": "col",
+              "children": <Link
+                className="navLink"
+                replace={false}
+                to="/emails"
+>
+                <div
+                                className="dashCard"
+                >
+                                <h3
+                                                className="dashText"
+                                >
+                                                Emails
+                                </h3>
+                </div>
+</Link>,
+              "componentClass": "div",
+              "sm": 6,
+            },
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "class",
+              "props": Object {
+                "children": <div
+                  className="dashCard"
+>
+                  <h3
+                                    className="dashText"
+                  >
+                                    Emails
+                  </h3>
+</div>,
+                "className": "navLink",
+                "replace": false,
+                "to": "/emails",
+              },
+              "ref": null,
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": <h3
+                    className="dashText"
+>
+                    Emails
+</h3>,
+                  "className": "dashCard",
+                },
+                "ref": null,
+                "rendered": Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": "Emails",
+                    "className": "dashText",
+                  },
+                  "ref": null,
+                  "rendered": "Emails",
+                  "type": "h3",
+                },
+                "type": "div",
+              },
+              "type": [Function],
+            },
+            "type": [Function],
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "class",
+            "props": Object {
+              "bsClass": "col",
+              "children": <Link
+                className="navLink"
+                replace={false}
+                to="/profile"
+>
+                <div
+                                className="dashCard"
+                >
+                                <h3
+                                                className="dashText"
+                                >
+                                                Profile
+                                </h3>
+                </div>
+</Link>,
+              "componentClass": "div",
+              "sm": 6,
+            },
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "class",
+              "props": Object {
+                "children": <div
+                  className="dashCard"
+>
+                  <h3
+                                    className="dashText"
+                  >
+                                    Profile
+                  </h3>
+</div>,
+                "className": "navLink",
+                "replace": false,
+                "to": "/profile",
+              },
+              "ref": null,
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": <h3
+                    className="dashText"
+>
+                    Profile
+</h3>,
+                  "className": "dashCard",
+                },
+                "ref": null,
+                "rendered": Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": "Profile",
+                    "className": "dashText",
+                  },
+                  "ref": null,
+                  "rendered": "Profile",
+                  "type": "h3",
+                },
+                "type": "div",
+              },
+              "type": [Function],
+            },
+            "type": [Function],
+          },
+        ],
+        "type": [Function],
+      },
+      "type": [Function],
+    },
+    "type": "div",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": <Grid
+          bsClass="container"
+          className="content"
+          componentClass="div"
+          fluid={false}
+>
+          <Row
+                    bsClass="row"
+                    componentClass="div"
+          >
+                    <Col
+                              bsClass="col"
+                              componentClass="div"
+                              sm={6}
+                    >
+                              <Link
+                                        className="navLink"
+                                        replace={false}
+                                        to="/contacts"
+                              >
+                                        <div
+                                                  className="dashCard"
+                                        >
+                                                  <h3
+                                                            className="dashText"
+                                                  >
+                                                            Contacts
+                                                  </h3>
+                                        </div>
+                              </Link>
+                    </Col>
+                    <Col
+                              bsClass="col"
+                              componentClass="div"
+                              sm={6}
+                    >
+                              <Link
+                                        className="navLink"
+                                        replace={false}
+                                        to="/listings"
+                              >
+                                        <div
+                                                  className="dashCard"
+                                        >
+                                                  <h3
+                                                            className="dashText"
+                                                  >
+                                                            Listings
+                                                  </h3>
+                                        </div>
+                              </Link>
+                    </Col>
+                    <Col
+                              bsClass="col"
+                              componentClass="div"
+                              sm={6}
+                    >
+                              <Link
+                                        className="navLink"
+                                        replace={false}
+                                        to="/emails"
+                              >
+                                        <div
+                                                  className="dashCard"
+                                        >
+                                                  <h3
+                                                            className="dashText"
+                                                  >
+                                                            Emails
+                                                  </h3>
+                                        </div>
+                              </Link>
+                    </Col>
+                    <Col
+                              bsClass="col"
+                              componentClass="div"
+                              sm={6}
+                    >
+                              <Link
+                                        className="navLink"
+                                        replace={false}
+                                        to="/profile"
+                              >
+                                        <div
+                                                  className="dashCard"
+                                        >
+                                                  <h3
+                                                            className="dashText"
+                                                  >
+                                                            Profile
+                                                  </h3>
+                                        </div>
+                              </Link>
+                    </Col>
+          </Row>
+</Grid>,
+        "className": "background",
+      },
+      "ref": null,
+      "rendered": Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "class",
+        "props": Object {
+          "bsClass": "container",
+          "children": <Row
+            bsClass="row"
+            componentClass="div"
+>
+            <Col
+                        bsClass="col"
+                        componentClass="div"
+                        sm={6}
+            >
+                        <Link
+                                    className="navLink"
+                                    replace={false}
+                                    to="/contacts"
+                        >
+                                    <div
+                                                className="dashCard"
+                                    >
+                                                <h3
+                                                            className="dashText"
+                                                >
+                                                            Contacts
+                                                </h3>
+                                    </div>
+                        </Link>
+            </Col>
+            <Col
+                        bsClass="col"
+                        componentClass="div"
+                        sm={6}
+            >
+                        <Link
+                                    className="navLink"
+                                    replace={false}
+                                    to="/listings"
+                        >
+                                    <div
+                                                className="dashCard"
+                                    >
+                                                <h3
+                                                            className="dashText"
+                                                >
+                                                            Listings
+                                                </h3>
+                                    </div>
+                        </Link>
+            </Col>
+            <Col
+                        bsClass="col"
+                        componentClass="div"
+                        sm={6}
+            >
+                        <Link
+                                    className="navLink"
+                                    replace={false}
+                                    to="/emails"
+                        >
+                                    <div
+                                                className="dashCard"
+                                    >
+                                                <h3
+                                                            className="dashText"
+                                                >
+                                                            Emails
+                                                </h3>
+                                    </div>
+                        </Link>
+            </Col>
+            <Col
+                        bsClass="col"
+                        componentClass="div"
+                        sm={6}
+            >
+                        <Link
+                                    className="navLink"
+                                    replace={false}
+                                    to="/profile"
+                        >
+                                    <div
+                                                className="dashCard"
+                                    >
+                                                <h3
+                                                            className="dashText"
+                                                >
+                                                            Profile
+                                                </h3>
+                                    </div>
+                        </Link>
+            </Col>
+</Row>,
+          "className": "content",
+          "componentClass": "div",
+          "fluid": false,
+        },
+        "ref": null,
+        "rendered": Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "class",
+          "props": Object {
+            "bsClass": "row",
+            "children": Array [
+              <Col
+                bsClass="col"
+                componentClass="div"
+                sm={6}
+>
+                <Link
+                                className="navLink"
+                                replace={false}
+                                to="/contacts"
+                >
+                                <div
+                                                className="dashCard"
+                                >
+                                                <h3
+                                                                className="dashText"
+                                                >
+                                                                Contacts
+                                                </h3>
+                                </div>
+                </Link>
+</Col>,
+              <Col
+                bsClass="col"
+                componentClass="div"
+                sm={6}
+>
+                <Link
+                                className="navLink"
+                                replace={false}
+                                to="/listings"
+                >
+                                <div
+                                                className="dashCard"
+                                >
+                                                <h3
+                                                                className="dashText"
+                                                >
+                                                                Listings
+                                                </h3>
+                                </div>
+                </Link>
+</Col>,
+              <Col
+                bsClass="col"
+                componentClass="div"
+                sm={6}
+>
+                <Link
+                                className="navLink"
+                                replace={false}
+                                to="/emails"
+                >
+                                <div
+                                                className="dashCard"
+                                >
+                                                <h3
+                                                                className="dashText"
+                                                >
+                                                                Emails
+                                                </h3>
+                                </div>
+                </Link>
+</Col>,
+              <Col
+                bsClass="col"
+                componentClass="div"
+                sm={6}
+>
+                <Link
+                                className="navLink"
+                                replace={false}
+                                to="/profile"
+                >
+                                <div
+                                                className="dashCard"
+                                >
+                                                <h3
+                                                                className="dashText"
+                                                >
+                                                                Profile
+                                                </h3>
+                                </div>
+                </Link>
+</Col>,
+            ],
+            "componentClass": "div",
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "class",
+              "props": Object {
+                "bsClass": "col",
+                "children": <Link
+                  className="navLink"
+                  replace={false}
+                  to="/contacts"
+>
+                  <div
+                                    className="dashCard"
+                  >
+                                    <h3
+                                                      className="dashText"
+                                    >
+                                                      Contacts
+                                    </h3>
+                  </div>
+</Link>,
+                "componentClass": "div",
+                "sm": 6,
+              },
+              "ref": null,
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "class",
+                "props": Object {
+                  "children": <div
+                    className="dashCard"
+>
+                    <h3
+                                        className="dashText"
+                    >
+                                        Contacts
+                    </h3>
+</div>,
+                  "className": "navLink",
+                  "replace": false,
+                  "to": "/contacts",
+                },
+                "ref": null,
+                "rendered": Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": <h3
+                      className="dashText"
+>
+                      Contacts
+</h3>,
+                    "className": "dashCard",
+                  },
+                  "ref": null,
+                  "rendered": Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": "Contacts",
+                      "className": "dashText",
+                    },
+                    "ref": null,
+                    "rendered": "Contacts",
+                    "type": "h3",
+                  },
+                  "type": "div",
+                },
+                "type": [Function],
+              },
+              "type": [Function],
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "class",
+              "props": Object {
+                "bsClass": "col",
+                "children": <Link
+                  className="navLink"
+                  replace={false}
+                  to="/listings"
+>
+                  <div
+                                    className="dashCard"
+                  >
+                                    <h3
+                                                      className="dashText"
+                                    >
+                                                      Listings
+                                    </h3>
+                  </div>
+</Link>,
+                "componentClass": "div",
+                "sm": 6,
+              },
+              "ref": null,
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "class",
+                "props": Object {
+                  "children": <div
+                    className="dashCard"
+>
+                    <h3
+                                        className="dashText"
+                    >
+                                        Listings
+                    </h3>
+</div>,
+                  "className": "navLink",
+                  "replace": false,
+                  "to": "/listings",
+                },
+                "ref": null,
+                "rendered": Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": <h3
+                      className="dashText"
+>
+                      Listings
+</h3>,
+                    "className": "dashCard",
+                  },
+                  "ref": null,
+                  "rendered": Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": "Listings",
+                      "className": "dashText",
+                    },
+                    "ref": null,
+                    "rendered": "Listings",
+                    "type": "h3",
+                  },
+                  "type": "div",
+                },
+                "type": [Function],
+              },
+              "type": [Function],
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "class",
+              "props": Object {
+                "bsClass": "col",
+                "children": <Link
+                  className="navLink"
+                  replace={false}
+                  to="/emails"
+>
+                  <div
+                                    className="dashCard"
+                  >
+                                    <h3
+                                                      className="dashText"
+                                    >
+                                                      Emails
+                                    </h3>
+                  </div>
+</Link>,
+                "componentClass": "div",
+                "sm": 6,
+              },
+              "ref": null,
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "class",
+                "props": Object {
+                  "children": <div
+                    className="dashCard"
+>
+                    <h3
+                                        className="dashText"
+                    >
+                                        Emails
+                    </h3>
+</div>,
+                  "className": "navLink",
+                  "replace": false,
+                  "to": "/emails",
+                },
+                "ref": null,
+                "rendered": Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": <h3
+                      className="dashText"
+>
+                      Emails
+</h3>,
+                    "className": "dashCard",
+                  },
+                  "ref": null,
+                  "rendered": Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": "Emails",
+                      "className": "dashText",
+                    },
+                    "ref": null,
+                    "rendered": "Emails",
+                    "type": "h3",
+                  },
+                  "type": "div",
+                },
+                "type": [Function],
+              },
+              "type": [Function],
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "class",
+              "props": Object {
+                "bsClass": "col",
+                "children": <Link
+                  className="navLink"
+                  replace={false}
+                  to="/profile"
+>
+                  <div
+                                    className="dashCard"
+                  >
+                                    <h3
+                                                      className="dashText"
+                                    >
+                                                      Profile
+                                    </h3>
+                  </div>
+</Link>,
+                "componentClass": "div",
+                "sm": 6,
+              },
+              "ref": null,
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "class",
+                "props": Object {
+                  "children": <div
+                    className="dashCard"
+>
+                    <h3
+                                        className="dashText"
+                    >
+                                        Profile
+                    </h3>
+</div>,
+                  "className": "navLink",
+                  "replace": false,
+                  "to": "/profile",
+                },
+                "ref": null,
+                "rendered": Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": <h3
+                      className="dashText"
+>
+                      Profile
+</h3>,
+                    "className": "dashCard",
+                  },
+                  "ref": null,
+                  "rendered": Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": "Profile",
+                      "className": "dashText",
+                    },
+                    "ref": null,
+                    "rendered": "Profile",
+                    "type": "h3",
+                  },
+                  "type": "div",
+                },
+                "type": [Function],
+              },
+              "type": [Function],
+            },
+          ],
+          "type": [Function],
+        },
+        "type": [Function],
+      },
+      "type": "div",
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+      },
+    },
+  },
+}
+`;
