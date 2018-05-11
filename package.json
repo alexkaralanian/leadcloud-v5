@@ -1,7 +1,6 @@
 {
   "name": "server",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.5.0",
   "main": "index.js",
   "engines": {
     "node": "8.10.0",
@@ -63,9 +62,7 @@
     "supertest-session": "^3.1.2"
   },
   "jest": {
-    "collectCoverageFrom": [
-      "*.js"
-    ],
+    "collectCoverageFrom": ["*.js"],
     "globals": {
       "statement": 50,
       "branches": 50,
@@ -73,7 +70,8 @@
       "lines": 100
     },
     "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$":
+        "<rootDir>/__mocks__/fileMock.js",
       "\\.(css|less)$": "identity-obj-proxy"
     }
   }
