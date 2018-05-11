@@ -17,7 +17,8 @@
     "build": "npm run build --prefix client",
     "test": "npm run test --prefix client",
     "migrate": "sequelize db:migrate",
-    "rollback": "sequelize db:migrate:undo"
+    "rollback": "sequelize db:migrate:undo",
+    "analyze": "npm run analyze --prefix client"
   },
   "keywords": [],
   "author": "",

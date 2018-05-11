@@ -1,14 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-// import { Button, Grid, Col, Row } from "react-bootstrap";
 import { Redirect } from "react-router";
 import axios from "axios";
 import Emails from "../../components/Emails/Emails";
 import Navigation from "../NavContainer/NavContainer";
 import { fetchEmails, clearEmails } from "../../actions/email-actions";
 // import { clearError } from "../../actions/common-actions";
-// import { submitButton } from "../../sharedStyles/styles.css";
 
 class EmailsContainer extends React.Component {
   constructor(props) {

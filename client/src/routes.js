@@ -1,16 +1,41 @@
 import React from "react";
 import { connect } from "react-redux";
 import { BroweserRouter, Route, Switch } from "react-router-dom";
+import Loadable from "react-loadable";
+
 import { ConnectedRouter } from "react-router-redux";
 import { fetchUser } from "./actions/auth-actions";
 import { history } from "./store";
 import "./index.css";
 
-import LandingPageContainer from "./containers/LandingPageContainer/LandingPageContainer";
-import DashboardContainer from "./containers/DashboardContainer/DashboardContainer";
-import ProfileContainer from "./containers/ProfileContainer/ProfileContainer";
-import EmailsContainer from "./containers/EmailsContainer/EmailsContainer";
-import SingleEmailContainer from "./containers/SingleEmailContainer/SingleEmailContainer";
+import Loading from "./components/Loading/Loading";
+
+const LandingPage = Loadable({
+  loader: () =>
+    import("./containers/LandingPageContainer/LandingPageContainer"),
+  loading: Loading
+});
+
+const Dashboard = Loadable({
+  loader: () => import("./containers/DashboardContainer/DashboardContainer"),
+  loading: Loading
+});
+
+const Profile = Loadable({
+  loader: () => import("./containers/ProfileContainer/ProfileContainer"),
+  loading: Loading
+});
+
+const Emails = Loadable({
+  loader: () => import("./containers/EmailsContainer/EmailsContainer"),
+  loading: Loading
+});
+
+const SingleEmail = Loadable({
+  loader: () =>
+    import("./containers/SingleEmailContainer/SingleEmailContainer"),
+  loading: Loading
+});
 
 class App extends React.Component {
   componentDidMount() {
@@ -22,11 +47,11 @@ class App extends React.Component {
       <ConnectedRouter history={history}>
         <div>
           <Switch>
-            <Route exact path="/" component={LandingPageContainer} />
-            <Route exact path="/dashboard" component={DashboardContainer} />
-            <Route path="/profile" component={ProfileContainer} />
-            <Route path="/emails" component={EmailsContainer} />
-            <Route path="/email/:id" component={SingleEmailContainer} />
+            <Route exact path="/" component={LandingPage} />
+            <Route exact path="/dashboard" component={Dashboard} />
+            <Route path="/profile" component={Profile} />
+            <Route path="/emails" component={Emails} />
+            <Route path="/email/:id" component={SingleEmail} />
             <Route
               render={() => (
                 <div>
