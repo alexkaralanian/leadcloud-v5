@@ -20,8 +20,8 @@ class iFrameContainer extends React.Component {
   }
 
   receivePostMessage(event) {
-    // console.log("EMAIL POST MESSAGE", event.data.email);
     const email = event.data.email;
+
     if (email) {
       this.setState({
         email

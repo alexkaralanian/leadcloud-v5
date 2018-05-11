@@ -1,14 +1,15 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router";
+import ReactHtmlParser from "react-html-parser";
 import Navigation from "../NavContainer/NavContainer";
-import SingleEmail from "../../components/SingleEmail/SingleEmail";
+
 import {
   fetchEmail,
   clearEmail,
   clearError
 } from "../../actions/email-actions";
-// import { Row, Col } from "react-bootstrap";
+import { Grid, Row, Col } from "react-bootstrap";
 
 class SingleEmailContainer extends React.Component {
   constructor(props) {
@@ -41,10 +42,37 @@ class SingleEmailContainer extends React.Component {
   }
 
   render() {
+    const { email } = this.props;
+
     return this.props.isAuthed ? (
       <div>
         <Navigation />
-        <div>
+        <Grid>
+          <Row>
+            <Col xs={12}>
+              <h4>Subject: {email && email.subject}</h4>
+              <h4>
+                To:{" "}
+                {email.to &&
+                  ReactHtmlParser(
+                    email.to.html
+                      .replace(/&#x27;/g, "'")
+                      .replace(/&lt;/g, "")
+                      .replace(/&gt;/g, "")
+                  )}
+              </h4>
+              <h4>
+                From:{" "}
+                {email.from &&
+                  ReactHtmlParser(
+                    email.from.html
+                      .replace(/&#x27;/g, "'")
+                      .replace(/&lt;/g, "")
+                      .replace(/&gt;/g, "")
+                  )}
+              </h4>
+            </Col>
+          </Row>
           <iframe
             ref={el => (this.iframe = el)}
             title="Email"
@@ -52,10 +80,7 @@ class SingleEmailContainer extends React.Component {
             src="/iframecontainer"
             scrolling="yes"
           />
-          {/*<SingleEmail
-            email={this.props.email}
-            isFetching={this.props.isFetching}/>*/}
-        </div>
+        </Grid>
       </div>
     ) : (
       <Redirect push to="/" />
