@@ -86,6 +86,7 @@ const Profile = ({ isAuthed, user, logout, profile, push }) =>
       <MenuItem
         onClick={() => {
           logout();
+          push("/");
         }}
         eventKey={2.4}
       >
