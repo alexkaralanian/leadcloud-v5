@@ -5,7 +5,6 @@ import PropTypes from "prop-types";
 import Navigation from "../NavContainer/NavContainer";
 import Profile from "../../components/Profile/Profile";
 import { logout } from "../../actions/auth-actions";
-import { push } from "react-router-redux";
 
 class ProfileContainer extends React.Component {
   constructor(props) {
@@ -20,7 +19,7 @@ class ProfileContainer extends React.Component {
   render() {
     return this.props.isAuthed ? (
       <div>
-        {/*<Navigation />*/}
+        <Navigation />
         <Profile logout={this.handleLogout} user={this.props.user} />
       </div>
     ) : (

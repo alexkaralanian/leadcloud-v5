@@ -1,13 +1,11 @@
-"use strict";
-
 process.env.NODE_ENV = "test";
 
 const chai = require("chai");
-const expect = chai.expect;
 const chaiHttp = require("chai-http");
-chai.use(chaiHttp);
-
 const app = require("../index.js");
+
+const expect = chai.expect;
+chai.use(chaiHttp);
 
 describe("Test Route", () => {
   it("Returns a 200 response", done => {

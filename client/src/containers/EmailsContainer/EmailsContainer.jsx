@@ -8,7 +8,6 @@ import Errors from "../../components/Error/Error";
 import Navigation from "../NavContainer/NavContainer";
 import { fetchEmails, clearEmails } from "../../actions/email-actions";
 // import { clearError } from "../../actions/common-actions";
-// import { submitButton } from "../../sharedStyles/styles.css";
 
 class EmailsContainer extends React.Component {
   constructor(props) {

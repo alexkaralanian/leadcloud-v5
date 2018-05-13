@@ -1,9 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import _ from "lodash";
-import { submitButton, formGroup, headerText } from "../../index.css";
-import { contactList, addButton } from "./styles.css";
+import _ from "lodash"; // refactor
+import { Field, reduxForm } from "redux-form";
 import {
   Grid,
   Col,
@@ -14,7 +13,7 @@ import {
   FormControl,
   Table
 } from "react-bootstrap";
-import { Field, reduxForm } from "redux-form";
+import "./SingleContact.css";
 
 const inputField = ({
   input,
@@ -47,9 +46,9 @@ const SearchContacts = ({
   <Grid>
     <Row>
       <Col xs={12}>
-        <h3 className={headerText}>Add Listings</h3>
+        <h3 className="headerText">Add Listings</h3>
         <Form onSubmit={handleSubmit}>
-          <FormGroup className={formGroup}>
+          <FormGroup className="formGroup">
             <Field
               type="text"
               name="contactSearch"
@@ -69,7 +68,7 @@ const SearchContacts = ({
                       <td>{listing.fullName}</td>
                       <td>
                         <Button
-                          className={addButton}
+                          className="addButton"
                           bsStyle="warning"
                           onClick={() =>
                             submitContactListing(listing.id, contact.id)
@@ -98,7 +97,7 @@ const SearchContacts = ({
                       </td>
                       <td>
                         <Button
-                          className={addButton}
+                          className="addButton"
                           bsStyle="danger"
                           onClick={() =>
                             deleteContactListing(listing.id, contact.id)

@@ -22,97 +22,97 @@ ShallowWrapper {
         className="content"
         componentClass="div"
         fluid={false}
-      >
+>
         <Row
-          bsClass="row"
-          componentClass="div"
+                bsClass="row"
+                componentClass="div"
         >
-          <Col
-            bsClass="col"
-            componentClass="div"
-            sm={6}
-          >
-            <Link
-              className="navLink"
-              replace={false}
-              to="/contacts"
-            >
-              <div
-                className="dashCard"
-              >
-                <h3
-                  className="dashText"
+                <Col
+                        bsClass="col"
+                        componentClass="div"
+                        sm={6}
                 >
-                  Contacts
-                </h3>
-              </div>
-            </Link>
-          </Col>
-          <Col
-            bsClass="col"
-            componentClass="div"
-            sm={6}
-          >
-            <Link
-              className="navLink"
-              replace={false}
-              to="/listings"
-            >
-              <div
-                className="dashCard"
-              >
-                <h3
-                  className="dashText"
+                        <Link
+                                className="navLink"
+                                replace={false}
+                                to="/contacts"
+                        >
+                                <div
+                                        className="dashCard"
+                                >
+                                        <h3
+                                                className="dashText"
+                                        >
+                                                Contacts
+                                        </h3>
+                                </div>
+                        </Link>
+                </Col>
+                <Col
+                        bsClass="col"
+                        componentClass="div"
+                        sm={6}
                 >
-                  Listings
-                </h3>
-              </div>
-            </Link>
-          </Col>
-          <Col
-            bsClass="col"
-            componentClass="div"
-            sm={6}
-          >
-            <Link
-              className="navLink"
-              replace={false}
-              to="/emails"
-            >
-              <div
-                className="dashCard"
-              >
-                <h3
-                  className="dashText"
+                        <Link
+                                className="navLink"
+                                replace={false}
+                                to="/listings"
+                        >
+                                <div
+                                        className="dashCard"
+                                >
+                                        <h3
+                                                className="dashText"
+                                        >
+                                                Listings
+                                        </h3>
+                                </div>
+                        </Link>
+                </Col>
+                <Col
+                        bsClass="col"
+                        componentClass="div"
+                        sm={6}
                 >
-                  Emails
-                </h3>
-              </div>
-            </Link>
-          </Col>
-          <Col
-            bsClass="col"
-            componentClass="div"
-            sm={6}
-          >
-            <Link
-              className="navLink"
-              replace={false}
-              to="/profile"
-            >
-              <div
-                className="dashCard"
-              >
-                <h3
-                  className="dashText"
+                        <Link
+                                className="navLink"
+                                replace={false}
+                                to="/emails"
+                        >
+                                <div
+                                        className="dashCard"
+                                >
+                                        <h3
+                                                className="dashText"
+                                        >
+                                                Emails
+                                        </h3>
+                                </div>
+                        </Link>
+                </Col>
+                <Col
+                        bsClass="col"
+                        componentClass="div"
+                        sm={6}
                 >
-                  Profile
-                </h3>
-              </div>
-            </Link>
-          </Col>
+                        <Link
+                                className="navLink"
+                                replace={false}
+                                to="/profile"
+                        >
+                                <div
+                                        className="dashCard"
+                                >
+                                        <h3
+                                                className="dashText"
+                                        >
+                                                Profile
+                                        </h3>
+                                </div>
+                        </Link>
+                </Col>
         </Row>
-      </Grid>,
+</Grid>,
       "className": "background",
     },
     "ref": null,
@@ -125,92 +125,92 @@ ShallowWrapper {
         "children": <Row
           bsClass="row"
           componentClass="div"
-        >
+>
           <Col
-            bsClass="col"
-            componentClass="div"
-            sm={6}
+                    bsClass="col"
+                    componentClass="div"
+                    sm={6}
           >
-            <Link
-              className="navLink"
-              replace={false}
-              to="/contacts"
-            >
-              <div
-                className="dashCard"
-              >
-                <h3
-                  className="dashText"
-                >
-                  Contacts
-                </h3>
-              </div>
-            </Link>
+                    <Link
+                              className="navLink"
+                              replace={false}
+                              to="/contacts"
+                    >
+                              <div
+                                        className="dashCard"
+                              >
+                                        <h3
+                                                  className="dashText"
+                                        >
+                                                  Contacts
+                                        </h3>
+                              </div>
+                    </Link>
           </Col>
           <Col
-            bsClass="col"
-            componentClass="div"
-            sm={6}
+                    bsClass="col"
+                    componentClass="div"
+                    sm={6}
           >
-            <Link
-              className="navLink"
-              replace={false}
-              to="/listings"
-            >
-              <div
-                className="dashCard"
-              >
-                <h3
-                  className="dashText"
-                >
-                  Listings
-                </h3>
-              </div>
-            </Link>
+                    <Link
+                              className="navLink"
+                              replace={false}
+                              to="/listings"
+                    >
+                              <div
+                                        className="dashCard"
+                              >
+                                        <h3
+                                                  className="dashText"
+                                        >
+                                                  Listings
+                                        </h3>
+                              </div>
+                    </Link>
           </Col>
           <Col
-            bsClass="col"
-            componentClass="div"
-            sm={6}
+                    bsClass="col"
+                    componentClass="div"
+                    sm={6}
           >
-            <Link
-              className="navLink"
-              replace={false}
-              to="/emails"
-            >
-              <div
-                className="dashCard"
-              >
-                <h3
-                  className="dashText"
-                >
-                  Emails
-                </h3>
-              </div>
-            </Link>
+                    <Link
+                              className="navLink"
+                              replace={false}
+                              to="/emails"
+                    >
+                              <div
+                                        className="dashCard"
+                              >
+                                        <h3
+                                                  className="dashText"
+                                        >
+                                                  Emails
+                                        </h3>
+                              </div>
+                    </Link>
           </Col>
           <Col
-            bsClass="col"
-            componentClass="div"
-            sm={6}
+                    bsClass="col"
+                    componentClass="div"
+                    sm={6}
           >
-            <Link
-              className="navLink"
-              replace={false}
-              to="/profile"
-            >
-              <div
-                className="dashCard"
-              >
-                <h3
-                  className="dashText"
-                >
-                  Profile
-                </h3>
-              </div>
-            </Link>
+                    <Link
+                              className="navLink"
+                              replace={false}
+                              to="/profile"
+                    >
+                              <div
+                                        className="dashCard"
+                              >
+                                        <h3
+                                                  className="dashText"
+                                        >
+                                                  Profile
+                                        </h3>
+                              </div>
+                    </Link>
           </Col>
-        </Row>,
+</Row>,
         "className": "content",
         "componentClass": "div",
         "fluid": false,
@@ -227,86 +227,86 @@ ShallowWrapper {
               bsClass="col"
               componentClass="div"
               sm={6}
-            >
+>
               <Link
-                className="navLink"
-                replace={false}
-                to="/contacts"
+                            className="navLink"
+                            replace={false}
+                            to="/contacts"
               >
-                <div
-                  className="dashCard"
-                >
-                  <h3
-                    className="dashText"
-                  >
-                    Contacts
-                  </h3>
-                </div>
+                            <div
+                                          className="dashCard"
+                            >
+                                          <h3
+                                                        className="dashText"
+                                          >
+                                                        Contacts
+                                          </h3>
+                            </div>
               </Link>
-            </Col>,
+</Col>,
             <Col
               bsClass="col"
               componentClass="div"
               sm={6}
-            >
+>
               <Link
-                className="navLink"
-                replace={false}
-                to="/listings"
+                            className="navLink"
+                            replace={false}
+                            to="/listings"
               >
-                <div
-                  className="dashCard"
-                >
-                  <h3
-                    className="dashText"
-                  >
-                    Listings
-                  </h3>
-                </div>
+                            <div
+                                          className="dashCard"
+                            >
+                                          <h3
+                                                        className="dashText"
+                                          >
+                                                        Listings
+                                          </h3>
+                            </div>
               </Link>
-            </Col>,
+</Col>,
             <Col
               bsClass="col"
               componentClass="div"
               sm={6}
-            >
+>
               <Link
-                className="navLink"
-                replace={false}
-                to="/emails"
+                            className="navLink"
+                            replace={false}
+                            to="/emails"
               >
-                <div
-                  className="dashCard"
-                >
-                  <h3
-                    className="dashText"
-                  >
-                    Emails
-                  </h3>
-                </div>
+                            <div
+                                          className="dashCard"
+                            >
+                                          <h3
+                                                        className="dashText"
+                                          >
+                                                        Emails
+                                          </h3>
+                            </div>
               </Link>
-            </Col>,
+</Col>,
             <Col
               bsClass="col"
               componentClass="div"
               sm={6}
-            >
+>
               <Link
-                className="navLink"
-                replace={false}
-                to="/profile"
+                            className="navLink"
+                            replace={false}
+                            to="/profile"
               >
-                <div
-                  className="dashCard"
-                >
-                  <h3
-                    className="dashText"
-                  >
-                    Profile
-                  </h3>
-                </div>
+                            <div
+                                          className="dashCard"
+                            >
+                                          <h3
+                                                        className="dashText"
+                                          >
+                                                        Profile
+                                          </h3>
+                            </div>
               </Link>
-            </Col>,
+</Col>,
           ],
           "componentClass": "div",
         },
@@ -322,17 +322,17 @@ ShallowWrapper {
                 className="navLink"
                 replace={false}
                 to="/contacts"
-              >
+>
                 <div
-                  className="dashCard"
+                                className="dashCard"
                 >
-                  <h3
-                    className="dashText"
-                  >
-                    Contacts
-                  </h3>
+                                <h3
+                                                className="dashText"
+                                >
+                                                Contacts
+                                </h3>
                 </div>
-              </Link>,
+</Link>,
               "componentClass": "div",
               "sm": 6,
             },
@@ -344,13 +344,13 @@ ShallowWrapper {
               "props": Object {
                 "children": <div
                   className="dashCard"
-                >
+>
                   <h3
-                    className="dashText"
+                                    className="dashText"
                   >
-                    Contacts
+                                    Contacts
                   </h3>
-                </div>,
+</div>,
                 "className": "navLink",
                 "replace": false,
                 "to": "/contacts",
@@ -363,9 +363,9 @@ ShallowWrapper {
                 "props": Object {
                   "children": <h3
                     className="dashText"
-                  >
+>
                     Contacts
-                  </h3>,
+</h3>,
                   "className": "dashCard",
                 },
                 "ref": null,
@@ -397,17 +397,17 @@ ShallowWrapper {
                 className="navLink"
                 replace={false}
                 to="/listings"
-              >
+>
                 <div
-                  className="dashCard"
+                                className="dashCard"
                 >
-                  <h3
-                    className="dashText"
-                  >
-                    Listings
-                  </h3>
+                                <h3
+                                                className="dashText"
+                                >
+                                                Listings
+                                </h3>
                 </div>
-              </Link>,
+</Link>,
               "componentClass": "div",
               "sm": 6,
             },
@@ -419,13 +419,13 @@ ShallowWrapper {
               "props": Object {
                 "children": <div
                   className="dashCard"
-                >
+>
                   <h3
-                    className="dashText"
+                                    className="dashText"
                   >
-                    Listings
+                                    Listings
                   </h3>
-                </div>,
+</div>,
                 "className": "navLink",
                 "replace": false,
                 "to": "/listings",
@@ -438,9 +438,9 @@ ShallowWrapper {
                 "props": Object {
                   "children": <h3
                     className="dashText"
-                  >
+>
                     Listings
-                  </h3>,
+</h3>,
                   "className": "dashCard",
                 },
                 "ref": null,
@@ -472,17 +472,17 @@ ShallowWrapper {
                 className="navLink"
                 replace={false}
                 to="/emails"
-              >
+>
                 <div
-                  className="dashCard"
+                                className="dashCard"
                 >
-                  <h3
-                    className="dashText"
-                  >
-                    Emails
-                  </h3>
+                                <h3
+                                                className="dashText"
+                                >
+                                                Emails
+                                </h3>
                 </div>
-              </Link>,
+</Link>,
               "componentClass": "div",
               "sm": 6,
             },
@@ -494,13 +494,13 @@ ShallowWrapper {
               "props": Object {
                 "children": <div
                   className="dashCard"
-                >
+>
                   <h3
-                    className="dashText"
+                                    className="dashText"
                   >
-                    Emails
+                                    Emails
                   </h3>
-                </div>,
+</div>,
                 "className": "navLink",
                 "replace": false,
                 "to": "/emails",
@@ -513,9 +513,9 @@ ShallowWrapper {
                 "props": Object {
                   "children": <h3
                     className="dashText"
-                  >
+>
                     Emails
-                  </h3>,
+</h3>,
                   "className": "dashCard",
                 },
                 "ref": null,
@@ -547,17 +547,17 @@ ShallowWrapper {
                 className="navLink"
                 replace={false}
                 to="/profile"
-              >
+>
                 <div
-                  className="dashCard"
+                                className="dashCard"
                 >
-                  <h3
-                    className="dashText"
-                  >
-                    Profile
-                  </h3>
+                                <h3
+                                                className="dashText"
+                                >
+                                                Profile
+                                </h3>
                 </div>
-              </Link>,
+</Link>,
               "componentClass": "div",
               "sm": 6,
             },
@@ -569,13 +569,13 @@ ShallowWrapper {
               "props": Object {
                 "children": <div
                   className="dashCard"
-                >
+>
                   <h3
-                    className="dashText"
+                                    className="dashText"
                   >
-                    Profile
+                                    Profile
                   </h3>
-                </div>,
+</div>,
                 "className": "navLink",
                 "replace": false,
                 "to": "/profile",
@@ -588,9 +588,9 @@ ShallowWrapper {
                 "props": Object {
                   "children": <h3
                     className="dashText"
-                  >
+>
                     Profile
-                  </h3>,
+</h3>,
                   "className": "dashCard",
                 },
                 "ref": null,
@@ -630,97 +630,97 @@ ShallowWrapper {
           className="content"
           componentClass="div"
           fluid={false}
-        >
+>
           <Row
-            bsClass="row"
-            componentClass="div"
+                    bsClass="row"
+                    componentClass="div"
           >
-            <Col
-              bsClass="col"
-              componentClass="div"
-              sm={6}
-            >
-              <Link
-                className="navLink"
-                replace={false}
-                to="/contacts"
-              >
-                <div
-                  className="dashCard"
-                >
-                  <h3
-                    className="dashText"
-                  >
-                    Contacts
-                  </h3>
-                </div>
-              </Link>
-            </Col>
-            <Col
-              bsClass="col"
-              componentClass="div"
-              sm={6}
-            >
-              <Link
-                className="navLink"
-                replace={false}
-                to="/listings"
-              >
-                <div
-                  className="dashCard"
-                >
-                  <h3
-                    className="dashText"
-                  >
-                    Listings
-                  </h3>
-                </div>
-              </Link>
-            </Col>
-            <Col
-              bsClass="col"
-              componentClass="div"
-              sm={6}
-            >
-              <Link
-                className="navLink"
-                replace={false}
-                to="/emails"
-              >
-                <div
-                  className="dashCard"
-                >
-                  <h3
-                    className="dashText"
-                  >
-                    Emails
-                  </h3>
-                </div>
-              </Link>
-            </Col>
-            <Col
-              bsClass="col"
-              componentClass="div"
-              sm={6}
-            >
-              <Link
-                className="navLink"
-                replace={false}
-                to="/profile"
-              >
-                <div
-                  className="dashCard"
-                >
-                  <h3
-                    className="dashText"
-                  >
-                    Profile
-                  </h3>
-                </div>
-              </Link>
-            </Col>
+                    <Col
+                              bsClass="col"
+                              componentClass="div"
+                              sm={6}
+                    >
+                              <Link
+                                        className="navLink"
+                                        replace={false}
+                                        to="/contacts"
+                              >
+                                        <div
+                                                  className="dashCard"
+                                        >
+                                                  <h3
+                                                            className="dashText"
+                                                  >
+                                                            Contacts
+                                                  </h3>
+                                        </div>
+                              </Link>
+                    </Col>
+                    <Col
+                              bsClass="col"
+                              componentClass="div"
+                              sm={6}
+                    >
+                              <Link
+                                        className="navLink"
+                                        replace={false}
+                                        to="/listings"
+                              >
+                                        <div
+                                                  className="dashCard"
+                                        >
+                                                  <h3
+                                                            className="dashText"
+                                                  >
+                                                            Listings
+                                                  </h3>
+                                        </div>
+                              </Link>
+                    </Col>
+                    <Col
+                              bsClass="col"
+                              componentClass="div"
+                              sm={6}
+                    >
+                              <Link
+                                        className="navLink"
+                                        replace={false}
+                                        to="/emails"
+                              >
+                                        <div
+                                                  className="dashCard"
+                                        >
+                                                  <h3
+                                                            className="dashText"
+                                                  >
+                                                            Emails
+                                                  </h3>
+                                        </div>
+                              </Link>
+                    </Col>
+                    <Col
+                              bsClass="col"
+                              componentClass="div"
+                              sm={6}
+                    >
+                              <Link
+                                        className="navLink"
+                                        replace={false}
+                                        to="/profile"
+                              >
+                                        <div
+                                                  className="dashCard"
+                                        >
+                                                  <h3
+                                                            className="dashText"
+                                                  >
+                                                            Profile
+                                                  </h3>
+                                        </div>
+                              </Link>
+                    </Col>
           </Row>
-        </Grid>,
+</Grid>,
         "className": "background",
       },
       "ref": null,
@@ -733,92 +733,92 @@ ShallowWrapper {
           "children": <Row
             bsClass="row"
             componentClass="div"
-          >
+>
             <Col
-              bsClass="col"
-              componentClass="div"
-              sm={6}
+                        bsClass="col"
+                        componentClass="div"
+                        sm={6}
             >
-              <Link
-                className="navLink"
-                replace={false}
-                to="/contacts"
-              >
-                <div
-                  className="dashCard"
-                >
-                  <h3
-                    className="dashText"
-                  >
-                    Contacts
-                  </h3>
-                </div>
-              </Link>
+                        <Link
+                                    className="navLink"
+                                    replace={false}
+                                    to="/contacts"
+                        >
+                                    <div
+                                                className="dashCard"
+                                    >
+                                                <h3
+                                                            className="dashText"
+                                                >
+                                                            Contacts
+                                                </h3>
+                                    </div>
+                        </Link>
             </Col>
             <Col
-              bsClass="col"
-              componentClass="div"
-              sm={6}
+                        bsClass="col"
+                        componentClass="div"
+                        sm={6}
             >
-              <Link
-                className="navLink"
-                replace={false}
-                to="/listings"
-              >
-                <div
-                  className="dashCard"
-                >
-                  <h3
-                    className="dashText"
-                  >
-                    Listings
-                  </h3>
-                </div>
-              </Link>
+                        <Link
+                                    className="navLink"
+                                    replace={false}
+                                    to="/listings"
+                        >
+                                    <div
+                                                className="dashCard"
+                                    >
+                                                <h3
+                                                            className="dashText"
+                                                >
+                                                            Listings
+                                                </h3>
+                                    </div>
+                        </Link>
             </Col>
             <Col
-              bsClass="col"
-              componentClass="div"
-              sm={6}
+                        bsClass="col"
+                        componentClass="div"
+                        sm={6}
             >
-              <Link
-                className="navLink"
-                replace={false}
-                to="/emails"
-              >
-                <div
-                  className="dashCard"
-                >
-                  <h3
-                    className="dashText"
-                  >
-                    Emails
-                  </h3>
-                </div>
-              </Link>
+                        <Link
+                                    className="navLink"
+                                    replace={false}
+                                    to="/emails"
+                        >
+                                    <div
+                                                className="dashCard"
+                                    >
+                                                <h3
+                                                            className="dashText"
+                                                >
+                                                            Emails
+                                                </h3>
+                                    </div>
+                        </Link>
             </Col>
             <Col
-              bsClass="col"
-              componentClass="div"
-              sm={6}
+                        bsClass="col"
+                        componentClass="div"
+                        sm={6}
             >
-              <Link
-                className="navLink"
-                replace={false}
-                to="/profile"
-              >
-                <div
-                  className="dashCard"
-                >
-                  <h3
-                    className="dashText"
-                  >
-                    Profile
-                  </h3>
-                </div>
-              </Link>
+                        <Link
+                                    className="navLink"
+                                    replace={false}
+                                    to="/profile"
+                        >
+                                    <div
+                                                className="dashCard"
+                                    >
+                                                <h3
+                                                            className="dashText"
+                                                >
+                                                            Profile
+                                                </h3>
+                                    </div>
+                        </Link>
             </Col>
-          </Row>,
+</Row>,
           "className": "content",
           "componentClass": "div",
           "fluid": false,
@@ -835,86 +835,86 @@ ShallowWrapper {
                 bsClass="col"
                 componentClass="div"
                 sm={6}
-              >
+>
                 <Link
-                  className="navLink"
-                  replace={false}
-                  to="/contacts"
+                                className="navLink"
+                                replace={false}
+                                to="/contacts"
                 >
-                  <div
-                    className="dashCard"
-                  >
-                    <h3
-                      className="dashText"
-                    >
-                      Contacts
-                    </h3>
-                  </div>
+                                <div
+                                                className="dashCard"
+                                >
+                                                <h3
+                                                                className="dashText"
+                                                >
+                                                                Contacts
+                                                </h3>
+                                </div>
                 </Link>
-              </Col>,
+</Col>,
               <Col
                 bsClass="col"
                 componentClass="div"
                 sm={6}
-              >
+>
                 <Link
-                  className="navLink"
-                  replace={false}
-                  to="/listings"
+                                className="navLink"
+                                replace={false}
+                                to="/listings"
                 >
-                  <div
-                    className="dashCard"
-                  >
-                    <h3
-                      className="dashText"
-                    >
-                      Listings
-                    </h3>
-                  </div>
+                                <div
+                                                className="dashCard"
+                                >
+                                                <h3
+                                                                className="dashText"
+                                                >
+                                                                Listings
+                                                </h3>
+                                </div>
                 </Link>
-              </Col>,
+</Col>,
               <Col
                 bsClass="col"
                 componentClass="div"
                 sm={6}
-              >
+>
                 <Link
-                  className="navLink"
-                  replace={false}
-                  to="/emails"
+                                className="navLink"
+                                replace={false}
+                                to="/emails"
                 >
-                  <div
-                    className="dashCard"
-                  >
-                    <h3
-                      className="dashText"
-                    >
-                      Emails
-                    </h3>
-                  </div>
+                                <div
+                                                className="dashCard"
+                                >
+                                                <h3
+                                                                className="dashText"
+                                                >
+                                                                Emails
+                                                </h3>
+                                </div>
                 </Link>
-              </Col>,
+</Col>,
               <Col
                 bsClass="col"
                 componentClass="div"
                 sm={6}
-              >
+>
                 <Link
-                  className="navLink"
-                  replace={false}
-                  to="/profile"
+                                className="navLink"
+                                replace={false}
+                                to="/profile"
                 >
-                  <div
-                    className="dashCard"
-                  >
-                    <h3
-                      className="dashText"
-                    >
-                      Profile
-                    </h3>
-                  </div>
+                                <div
+                                                className="dashCard"
+                                >
+                                                <h3
+                                                                className="dashText"
+                                                >
+                                                                Profile
+                                                </h3>
+                                </div>
                 </Link>
-              </Col>,
+</Col>,
             ],
             "componentClass": "div",
           },
@@ -930,17 +930,17 @@ ShallowWrapper {
                   className="navLink"
                   replace={false}
                   to="/contacts"
-                >
+>
                   <div
-                    className="dashCard"
+                                    className="dashCard"
                   >
-                    <h3
-                      className="dashText"
-                    >
-                      Contacts
-                    </h3>
+                                    <h3
+                                                      className="dashText"
+                                    >
+                                                      Contacts
+                                    </h3>
                   </div>
-                </Link>,
+</Link>,
                 "componentClass": "div",
                 "sm": 6,
               },
@@ -952,13 +952,13 @@ ShallowWrapper {
                 "props": Object {
                   "children": <div
                     className="dashCard"
-                  >
+>
                     <h3
-                      className="dashText"
+                                        className="dashText"
                     >
-                      Contacts
+                                        Contacts
                     </h3>
-                  </div>,
+</div>,
                   "className": "navLink",
                   "replace": false,
                   "to": "/contacts",
@@ -971,9 +971,9 @@ ShallowWrapper {
                   "props": Object {
                     "children": <h3
                       className="dashText"
-                    >
+>
                       Contacts
-                    </h3>,
+</h3>,
                     "className": "dashCard",
                   },
                   "ref": null,
@@ -1005,17 +1005,17 @@ ShallowWrapper {
                   className="navLink"
                   replace={false}
                   to="/listings"
-                >
+>
                   <div
-                    className="dashCard"
+                                    className="dashCard"
                   >
-                    <h3
-                      className="dashText"
-                    >
-                      Listings
-                    </h3>
+                                    <h3
+                                                      className="dashText"
+                                    >
+                                                      Listings
+                                    </h3>
                   </div>
-                </Link>,
+</Link>,
                 "componentClass": "div",
                 "sm": 6,
               },
@@ -1027,13 +1027,13 @@ ShallowWrapper {
                 "props": Object {
                   "children": <div
                     className="dashCard"
-                  >
+>
                     <h3
-                      className="dashText"
+                                        className="dashText"
                     >
-                      Listings
+                                        Listings
                     </h3>
-                  </div>,
+</div>,
                   "className": "navLink",
                   "replace": false,
                   "to": "/listings",
@@ -1046,9 +1046,9 @@ ShallowWrapper {
                   "props": Object {
                     "children": <h3
                       className="dashText"
-                    >
+>
                       Listings
-                    </h3>,
+</h3>,
                     "className": "dashCard",
                   },
                   "ref": null,
@@ -1080,17 +1080,17 @@ ShallowWrapper {
                   className="navLink"
                   replace={false}
                   to="/emails"
-                >
+>
                   <div
-                    className="dashCard"
+                                    className="dashCard"
                   >
-                    <h3
-                      className="dashText"
-                    >
-                      Emails
-                    </h3>
+                                    <h3
+                                                      className="dashText"
+                                    >
+                                                      Emails
+                                    </h3>
                   </div>
-                </Link>,
+</Link>,
                 "componentClass": "div",
                 "sm": 6,
               },
@@ -1102,13 +1102,13 @@ ShallowWrapper {
                 "props": Object {
                   "children": <div
                     className="dashCard"
-                  >
+>
                     <h3
-                      className="dashText"
+                                        className="dashText"
                     >
-                      Emails
+                                        Emails
                     </h3>
-                  </div>,
+</div>,
                   "className": "navLink",
                   "replace": false,
                   "to": "/emails",
@@ -1121,9 +1121,9 @@ ShallowWrapper {
                   "props": Object {
                     "children": <h3
                       className="dashText"
-                    >
+>
                       Emails
-                    </h3>,
+</h3>,
                     "className": "dashCard",
                   },
                   "ref": null,
@@ -1155,17 +1155,17 @@ ShallowWrapper {
                   className="navLink"
                   replace={false}
                   to="/profile"
-                >
+>
                   <div
-                    className="dashCard"
+                                    className="dashCard"
                   >
-                    <h3
-                      className="dashText"
-                    >
-                      Profile
-                    </h3>
+                                    <h3
+                                                      className="dashText"
+                                    >
+                                                      Profile
+                                    </h3>
                   </div>
-                </Link>,
+</Link>,
                 "componentClass": "div",
                 "sm": 6,
               },
@@ -1177,13 +1177,13 @@ ShallowWrapper {
                 "props": Object {
                   "children": <div
                     className="dashCard"
-                  >
+>
                     <h3
-                      className="dashText"
+                                        className="dashText"
                     >
-                      Profile
+                                        Profile
                     </h3>
-                  </div>,
+</div>,
                   "className": "navLink",
                   "replace": false,
                   "to": "/profile",
@@ -1196,9 +1196,9 @@ ShallowWrapper {
                   "props": Object {
                     "children": <h3
                       className="dashText"
-                    >
+>
                       Profile
-                    </h3>,
+</h3>,
                     "className": "dashCard",
                   },
                   "ref": null,

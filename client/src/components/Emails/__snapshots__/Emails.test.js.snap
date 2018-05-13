@@ -9,7 +9,7 @@ ShallowWrapper {
     emailError=""
     emails={Array []}
     isFetching={false}
-  />,
+/>,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
     "getNode": [Function],
@@ -26,37 +26,39 @@ ShallowWrapper {
       "children": <Row
         bsClass="row"
         componentClass="div"
-      >
+>
         <Col
-          bsClass="col"
-          componentClass="div"
-          xs={12}
+                bsClass="col"
+                componentClass="div"
+                xs={12}
         >
-          <Table
-            bordered={false}
-            bsClass="table"
-            condensed={false}
-            hover={false}
-            responsive={false}
-            striped={true}
-          >
-            <thead>
-              <tr>
-                <th>
-                  Sender
-                </th>
-                <th>
-                  Subject
-                </th>
-                <th>
-                  Date
-                </th>
-              </tr>
-            </thead>
-            <tbody />
-          </Table>
+                <Table
+                        bordered={false}
+                        bsClass="table"
+                        condensed={false}
+                        hover={false}
+                        responsive={false}
+                        striped={true}
+                >
+                        <thead>
+                                <tr>
+                                        <th>
+                                                Sender
+                                        </th>
+                                        <th>
+                                                Subject
+                                        </th>
+                                        <th>
+                                                Date
+                                        </th>
+                                </tr>
+                        </thead>
+                        <tbody>
+                                
+                        </tbody>
+                </Table>
         </Col>
-      </Row>,
+</Row>,
       "componentClass": "div",
       "fluid": false,
     },
@@ -71,31 +73,33 @@ ShallowWrapper {
           bsClass="col"
           componentClass="div"
           xs={12}
-        >
+>
           <Table
-            bordered={false}
-            bsClass="table"
-            condensed={false}
-            hover={false}
-            responsive={false}
-            striped={true}
+                    bordered={false}
+                    bsClass="table"
+                    condensed={false}
+                    hover={false}
+                    responsive={false}
+                    striped={true}
           >
-            <thead>
-              <tr>
-                <th>
-                  Sender
-                </th>
-                <th>
-                  Subject
-                </th>
-                <th>
-                  Date
-                </th>
-              </tr>
-            </thead>
-            <tbody />
+                    <thead>
+                              <tr>
+                                        <th>
+                                                  Sender
+                                        </th>
+                                        <th>
+                                                  Subject
+                                        </th>
+                                        <th>
+                                                  Date
+                                        </th>
+                              </tr>
+                    </thead>
+                    <tbody>
+                              
+                    </tbody>
           </Table>
-        </Col>,
+</Col>,
         "componentClass": "div",
       },
       "ref": null,
@@ -112,22 +116,24 @@ ShallowWrapper {
             hover={false}
             responsive={false}
             striped={true}
-          >
+>
             <thead>
-              <tr>
-                <th>
-                  Sender
-                </th>
-                <th>
-                  Subject
-                </th>
-                <th>
-                  Date
-                </th>
-              </tr>
+                        <tr>
+                                    <th>
+                                                Sender
+                                    </th>
+                                    <th>
+                                                Subject
+                                    </th>
+                                    <th>
+                                                Date
+                                    </th>
+                        </tr>
             </thead>
-            <tbody />
-          </Table>,
+            <tbody>
+                        
+            </tbody>
+</Table>,
           "componentClass": "div",
           "xs": 12,
         },
@@ -142,18 +148,20 @@ ShallowWrapper {
             "children": Array [
               <thead>
                 <tr>
-                  <th>
-                    Sender
-                  </th>
-                  <th>
-                    Subject
-                  </th>
-                  <th>
-                    Date
-                  </th>
+                                <th>
+                                                Sender
+                                </th>
+                                <th>
+                                                Subject
+                                </th>
+                                <th>
+                                                Date
+                                </th>
                 </tr>
-              </thead>,
-              <tbody />,
+</thead>,
+              <tbody>
+                
+</tbody>,
             ],
             "condensed": false,
             "hover": false,
@@ -169,15 +177,15 @@ ShallowWrapper {
               "props": Object {
                 "children": <tr>
                   <th>
-                    Sender
+                                    Sender
                   </th>
                   <th>
-                    Subject
+                                    Subject
                   </th>
                   <th>
-                    Date
+                                    Date
                   </th>
-                </tr>,
+</tr>,
               },
               "ref": null,
               "rendered": Object {
@@ -188,13 +196,13 @@ ShallowWrapper {
                   "children": Array [
                     <th>
                       Sender
-                    </th>,
+</th>,
                     <th>
                       Subject
-                    </th>,
+</th>,
                     <th>
                       Date
-                    </th>,
+</th>,
                   ],
                 },
                 "ref": null,
@@ -267,37 +275,39 @@ ShallowWrapper {
         "children": <Row
           bsClass="row"
           componentClass="div"
-        >
+>
           <Col
-            bsClass="col"
-            componentClass="div"
-            xs={12}
+                    bsClass="col"
+                    componentClass="div"
+                    xs={12}
           >
-            <Table
-              bordered={false}
-              bsClass="table"
-              condensed={false}
-              hover={false}
-              responsive={false}
-              striped={true}
-            >
-              <thead>
-                <tr>
-                  <th>
-                    Sender
-                  </th>
-                  <th>
-                    Subject
-                  </th>
-                  <th>
-                    Date
-                  </th>
-                </tr>
-              </thead>
-              <tbody />
-            </Table>
+                    <Table
+                              bordered={false}
+                              bsClass="table"
+                              condensed={false}
+                              hover={false}
+                              responsive={false}
+                              striped={true}
+                    >
+                              <thead>
+                                        <tr>
+                                                  <th>
+                                                            Sender
+                                                  </th>
+                                                  <th>
+                                                            Subject
+                                                  </th>
+                                                  <th>
+                                                            Date
+                                                  </th>
+                                        </tr>
+                              </thead>
+                              <tbody>
+                                        
+                              </tbody>
+                    </Table>
           </Col>
-        </Row>,
+</Row>,
         "componentClass": "div",
         "fluid": false,
       },
@@ -312,31 +322,33 @@ ShallowWrapper {
             bsClass="col"
             componentClass="div"
             xs={12}
-          >
+>
             <Table
-              bordered={false}
-              bsClass="table"
-              condensed={false}
-              hover={false}
-              responsive={false}
-              striped={true}
+                        bordered={false}
+                        bsClass="table"
+                        condensed={false}
+                        hover={false}
+                        responsive={false}
+                        striped={true}
             >
-              <thead>
-                <tr>
-                  <th>
-                    Sender
-                  </th>
-                  <th>
-                    Subject
-                  </th>
-                  <th>
-                    Date
-                  </th>
-                </tr>
-              </thead>
-              <tbody />
+                        <thead>
+                                    <tr>
+                                                <th>
+                                                            Sender
+                                                </th>
+                                                <th>
+                                                            Subject
+                                                </th>
+                                                <th>
+                                                            Date
+                                                </th>
+                                    </tr>
+                        </thead>
+                        <tbody>
+                                    
+                        </tbody>
             </Table>
-          </Col>,
+</Col>,
           "componentClass": "div",
         },
         "ref": null,
@@ -353,22 +365,24 @@ ShallowWrapper {
               hover={false}
               responsive={false}
               striped={true}
-            >
+>
               <thead>
-                <tr>
-                  <th>
-                    Sender
-                  </th>
-                  <th>
-                    Subject
-                  </th>
-                  <th>
-                    Date
-                  </th>
-                </tr>
+                            <tr>
+                                          <th>
+                                                        Sender
+                                          </th>
+                                          <th>
+                                                        Subject
+                                          </th>
+                                          <th>
+                                                        Date
+                                          </th>
+                            </tr>
               </thead>
-              <tbody />
-            </Table>,
+              <tbody>
+                            
+              </tbody>
+</Table>,
             "componentClass": "div",
             "xs": 12,
           },
@@ -383,18 +397,20 @@ ShallowWrapper {
               "children": Array [
                 <thead>
                   <tr>
-                    <th>
-                      Sender
-                    </th>
-                    <th>
-                      Subject
-                    </th>
-                    <th>
-                      Date
-                    </th>
+                                    <th>
+                                                      Sender
+                                    </th>
+                                    <th>
+                                                      Subject
+                                    </th>
+                                    <th>
+                                                      Date
+                                    </th>
                   </tr>
-                </thead>,
-                <tbody />,
+</thead>,
+                <tbody>
+                  
+</tbody>,
               ],
               "condensed": false,
               "hover": false,
@@ -410,15 +426,15 @@ ShallowWrapper {
                 "props": Object {
                   "children": <tr>
                     <th>
-                      Sender
+                                        Sender
                     </th>
                     <th>
-                      Subject
+                                        Subject
                     </th>
                     <th>
-                      Date
+                                        Date
                     </th>
-                  </tr>,
+</tr>,
                 },
                 "ref": null,
                 "rendered": Object {
@@ -429,13 +445,13 @@ ShallowWrapper {
                     "children": Array [
                       <th>
                         Sender
-                      </th>,
+</th>,
                       <th>
                         Subject
-                      </th>,
+</th>,
                       <th>
                         Date
-                      </th>,
+</th>,
                     ],
                   },
                   "ref": null,

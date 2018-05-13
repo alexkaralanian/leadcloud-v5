@@ -1,0 +1,35 @@
+.googleButton {
+  display: block;
+  margin-top: 2.5rem;
+  width: 22.5rem;
+  height: 4.5rem;
+  border-radius: 3rem;
+  margin-bottom: 14px;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.googleButton a {
+  font-size: 14px;
+  font-weight: 400;
+  text-decoration: none;
+}
+
+.googleButton_text {
+  color: black;
+  font-size: 1.6rem;
+  font-weight: 300;
+  letter-spacing: 0.125rem;
+  margin-right: -0.125rem;
+  text-decoration: none;
+}
+
+.googleButton:hover {
+  transform: translateY(-0.2rem);
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+}
+
+.googleButton:active {
+  transform: translateY(-0.1rem);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+}

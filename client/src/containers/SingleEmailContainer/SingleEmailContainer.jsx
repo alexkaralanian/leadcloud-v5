@@ -1,23 +1,26 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router";
+import ReactHtmlParser from "react-html-parser";
+import { Grid, Row, Col } from "react-bootstrap";
+
 import Navigation from "../NavContainer/NavContainer";
-import SingleEmail from "../../components/SingleEmail/SingleEmail";
+
 import {
   fetchEmail,
   clearEmail,
-  clearError,
-  fetchSingleEmailId
+  clearError
 } from "../../actions/email-actions";
-import { Row, Col } from "react-bootstrap";
 
 class SingleEmailContainer extends React.Component {
-  constructor(props) {
-    super(props);
+  componentWillMount() {
+    this.props.fetchEmail(this.props.match.params.id);
   }
 
-  componentDidMount() {
-    this.props.fetchEmail(this.props.match.params.id);
+  componentWillReceiveProps(nextProps) {
+    if (this.props.email !== nextProps.email) {
+      this.iframe.contentWindow.postMessage({ email: nextProps.email }, "*");
+    }
   }
 
   componentWillUnmount() {
@@ -26,16 +29,48 @@ class SingleEmailContainer extends React.Component {
   }
 
   render() {
-    return !this.props.isAuthed ? (
-      <Redirect push to="/" />
-    ) : (
+    const { email } = this.props;
+
+    return this.props.isAuthed ? (
       <div>
         <Navigation />
-        <SingleEmail
-          email={this.props.email}
-          isFetching={this.props.isFetching}
-        />
+        <Grid>
+          <Row>
+            <Col xs={12}>
+              <h4>Subject: {email && email.subject}</h4>
+              <h4>
+                To:{" "}
+                {email.to &&
+                  ReactHtmlParser(
+                    email.to.html
+                      .replace(/&#x27;/g, "'")
+                      .replace(/&lt;/g, "")
+                      .replace(/&gt;/g, "")
+                  )}
+              </h4>
+              <h4>
+                From:{" "}
+                {email.from &&
+                  ReactHtmlParser(
+                    email.from.html
+                      .replace(/&#x27;/g, "'")
+                      .replace(/&lt;/g, "")
+                      .replace(/&gt;/g, "")
+                  )}
+              </h4>
+            </Col>
+          </Row>
+          <iframe
+            ref={el => (this.iframe = el)}
+            title="Email"
+            frameBorder={1}
+            src="/iframecontainer"
+            scrolling="yes"
+          />
+        </Grid>
       </div>
+    ) : (
+      <Redirect push to="/" />
     );
   }
 }
@@ -50,7 +85,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   fetchEmail,
   clearEmail,
-  fetchSingleEmailId,
   clearError
 };
 

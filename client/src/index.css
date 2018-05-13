@@ -23,12 +23,12 @@ body {
   font-size: 14px;
   line-height: 1.7;
   color: #444;
-  padding: 1rem;
+  /*padding: 1rem;*/
 }
 
 .background {
   margin-top: -20px;
-  height: calc(100vh - 72px);
+  height: calc(100vh - 52px);
   background-image: url("./images/mountain.jpg");
   background-repeat: no-repeat;
   background-position: top;
@@ -68,4 +68,10 @@ body {
   margin-bottom: 10px;
   border-radius: 3px;
   float: left;
+}
+
+iframe {
+  border: none;
+  width: 100%;
+  height: calc(100vh - 195px);
 }

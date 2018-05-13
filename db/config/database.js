@@ -5,9 +5,22 @@ module.exports = {
     username: keys.DB_USERNAME,
     password: keys.DB_PASSWORD,
     database: keys.DB_NAME,
-    host: "localhost",
+    host: keys.DB_HOST,
+    logging: false,
     dialect: "postgres",
-    logging: false
+    retry: {
+      max: 10
+    }
+  },
+  production: {
+    username: keys.DB_USERNAME,
+    password: keys.DB_PASSWORD,
+    database: keys.DB_NAME,
+    host: keys.DB_HOST,
+    dialect: "postgres",
+    retry: {
+      max: 10
+    }
   },
   test: {
     username: "postgres",
@@ -16,12 +29,5 @@ module.exports = {
     host: "localhost",
     dialect: "postgres",
     logging: false
-  },
-  production: {
-    username: "root",
-    password: null,
-    database: "leadcloud_prod",
-    host: "localhost",
-    dialect: "postgres"
   }
 };

@@ -5,7 +5,7 @@ import { Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
 import SearchForm from "../../components/SearchForm/SearchForm";
 import Contacts from "../../components/Contacts/Contacts";
-import * as styles from "../../components/Contacts/styles.css";
+
 import Navigation from "../NavContainer/NavContainer";
 import Errors from "../../components/Error/Error";
 // import FilterInput from "../../components/FilterInput/FilterInput";
@@ -18,7 +18,8 @@ import {
   clearError
 } from "../../actions/contact-actions";
 // import { clearError } from "../../actions/common-actions";
-import { formGroup, submitButton } from "../../index.css";
+import "../../components/Contacts/Contacts.css";
+import "../../index.css";
 
 class ContactsContainer extends React.Component {
   constructor(props) {
@@ -90,7 +91,7 @@ class ContactsContainer extends React.Component {
           <Row id="load-contacts-btn">
             <Col sm={6}>
               <Button
-                className={submitButton}
+                className="submitButton"
                 bsStyle="primary"
                 onClick={this.createNewContact}
               >
@@ -99,7 +100,7 @@ class ContactsContainer extends React.Component {
             </Col>
             <Col sm={6}>
               <Button
-                className={submitButton}
+                className="submitButton"
                 bsStyle="primary"
                 onClick={() =>
                   this.props.loadContacts(

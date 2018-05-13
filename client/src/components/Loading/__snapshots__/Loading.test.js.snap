@@ -21,26 +21,26 @@ ShallowWrapper {
       "children": <Row
         bsClass="row"
         componentClass="div"
-      >
+>
         <Col
-          bsClass="col"
-          componentClass="div"
-          xs={12}
+                bsClass="col"
+                componentClass="div"
+                xs={12}
         >
-          <div
-            className="loadingContainer"
-          >
-            <Loading
-              className="loadingContainer2"
-              color="#444"
-              delay={500}
-              height="100"
-              type="spinningBubbles"
-              width="100"
-            />
-          </div>
+                <div
+                        className="LoadingContainer"
+                >
+                        <Loading
+                                className="ReactLoading_Icon"
+                                color="#444"
+                                delay={0}
+                                height={200}
+                                type="spinningBubbles"
+                                width={200}
+                        />
+                </div>
         </Col>
-      </Row>,
+</Row>,
       "componentClass": "div",
       "fluid": false,
     },
@@ -55,20 +55,20 @@ ShallowWrapper {
           bsClass="col"
           componentClass="div"
           xs={12}
-        >
+>
           <div
-            className="loadingContainer"
+                    className="LoadingContainer"
           >
-            <Loading
-              className="loadingContainer2"
-              color="#444"
-              delay={500}
-              height="100"
-              type="spinningBubbles"
-              width="100"
-            />
+                    <Loading
+                              className="ReactLoading_Icon"
+                              color="#444"
+                              delay={0}
+                              height={200}
+                              type="spinningBubbles"
+                              width={200}
+                    />
           </div>
-        </Col>,
+</Col>,
         "componentClass": "div",
       },
       "ref": null,
@@ -79,17 +79,17 @@ ShallowWrapper {
         "props": Object {
           "bsClass": "col",
           "children": <div
-            className="loadingContainer"
-          >
+            className="LoadingContainer"
+>
             <Loading
-              className="loadingContainer2"
-              color="#444"
-              delay={500}
-              height="100"
-              type="spinningBubbles"
-              width="100"
+                        className="ReactLoading_Icon"
+                        color="#444"
+                        delay={0}
+                        height={200}
+                        type="spinningBubbles"
+                        width={200}
             />
-          </div>,
+</div>,
           "componentClass": "div",
           "xs": 12,
         },
@@ -100,14 +100,14 @@ ShallowWrapper {
           "nodeType": "host",
           "props": Object {
             "children": <Loading
-              className="loadingContainer2"
+              className="ReactLoading_Icon"
               color="#444"
-              delay={500}
-              height="100"
+              delay={0}
+              height={200}
               type="spinningBubbles"
-              width="100"
-            />,
-            "className": "loadingContainer",
+              width={200}
+/>,
+            "className": "LoadingContainer",
           },
           "ref": null,
           "rendered": Object {
@@ -115,12 +115,12 @@ ShallowWrapper {
             "key": undefined,
             "nodeType": "class",
             "props": Object {
-              "className": "loadingContainer2",
+              "className": "ReactLoading_Icon",
               "color": "#444",
-              "delay": 500,
-              "height": "100",
+              "delay": 0,
+              "height": 200,
               "type": "spinningBubbles",
-              "width": "100",
+              "width": 200,
             },
             "ref": null,
             "rendered": null,
@@ -144,26 +144,26 @@ ShallowWrapper {
         "children": <Row
           bsClass="row"
           componentClass="div"
-        >
+>
           <Col
-            bsClass="col"
-            componentClass="div"
-            xs={12}
+                    bsClass="col"
+                    componentClass="div"
+                    xs={12}
           >
-            <div
-              className="loadingContainer"
-            >
-              <Loading
-                className="loadingContainer2"
-                color="#444"
-                delay={500}
-                height="100"
-                type="spinningBubbles"
-                width="100"
-              />
-            </div>
+                    <div
+                              className="LoadingContainer"
+                    >
+                              <Loading
+                                        className="ReactLoading_Icon"
+                                        color="#444"
+                                        delay={0}
+                                        height={200}
+                                        type="spinningBubbles"
+                                        width={200}
+                              />
+                    </div>
           </Col>
-        </Row>,
+</Row>,
         "componentClass": "div",
         "fluid": false,
       },
@@ -178,20 +178,20 @@ ShallowWrapper {
             bsClass="col"
             componentClass="div"
             xs={12}
-          >
+>
             <div
-              className="loadingContainer"
+                        className="LoadingContainer"
             >
-              <Loading
-                className="loadingContainer2"
-                color="#444"
-                delay={500}
-                height="100"
-                type="spinningBubbles"
-                width="100"
-              />
+                        <Loading
+                                    className="ReactLoading_Icon"
+                                    color="#444"
+                                    delay={0}
+                                    height={200}
+                                    type="spinningBubbles"
+                                    width={200}
+                        />
             </div>
-          </Col>,
+</Col>,
           "componentClass": "div",
         },
         "ref": null,
@@ -202,17 +202,17 @@ ShallowWrapper {
           "props": Object {
             "bsClass": "col",
             "children": <div
-              className="loadingContainer"
-            >
+              className="LoadingContainer"
+>
               <Loading
-                className="loadingContainer2"
-                color="#444"
-                delay={500}
-                height="100"
-                type="spinningBubbles"
-                width="100"
+                            className="ReactLoading_Icon"
+                            color="#444"
+                            delay={0}
+                            height={200}
+                            type="spinningBubbles"
+                            width={200}
               />
-            </div>,
+</div>,
             "componentClass": "div",
             "xs": 12,
           },
@@ -223,14 +223,14 @@ ShallowWrapper {
             "nodeType": "host",
             "props": Object {
               "children": <Loading
-                className="loadingContainer2"
+                className="ReactLoading_Icon"
                 color="#444"
-                delay={500}
-                height="100"
+                delay={0}
+                height={200}
                 type="spinningBubbles"
-                width="100"
-              />,
-              "className": "loadingContainer",
+                width={200}
+/>,
+              "className": "LoadingContainer",
             },
             "ref": null,
             "rendered": Object {
@@ -238,12 +238,12 @@ ShallowWrapper {
               "key": undefined,
               "nodeType": "class",
               "props": Object {
-                "className": "loadingContainer2",
+                "className": "ReactLoading_Icon",
                 "color": "#444",
-                "delay": 500,
-                "height": "100",
+                "delay": 0,
+                "height": 200,
                 "type": "spinningBubbles",
-                "width": "100",
+                "width": 200,
               },
               "ref": null,
               "rendered": null,

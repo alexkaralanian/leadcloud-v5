@@ -1,123 +1,104 @@
 const express = require("express");
-// const axios = require("axios");
 const simpleParser = require("mailparser").simpleParser;
-const moment = require("moment");
 const { google } = require("googleapis");
-const { oAuth2Client } = require("../services/googleapis");
-const Users = require("../db/models").users;
 const authCheck = require("../middlewares/authChecker");
+const findUserById = require("../middlewares/findUserById");
+const emailTransform = require("../services/emailTransform");
+const { oAuth2Client } = require("../services/googleapis");
+
+// const moment = require("moment");
 // const Contacts = require("../../db/models/contacts");
-const emailTransform = require("../services/helperFunctions").emailTransform;
 
 const gmail = google.gmail("v1");
 const router = express.Router();
 
 // FETCH ALL EMAILS
-router.get("/gmail", authCheck, (req, res, next) => {
-  // console.log("session", req.session);
-  Users.findById(req.session.user)
-    .then(user => {
-      oAuth2Client.setCredentials({
-        access_token: user.googleAccessToken,
-        refresh_token: user.googleRefreshToken,
-        expiry_date: new Date().getTime() + 1000 * 60 * 60 * 24 * 7
-      });
-    })
-    .then(() => {
-      gmail.users.messages.list(
-        {
-          userId: "me",
-          auth: oAuth2Client,
-          maxResults: 15,
-          pageToken: req.query.pageToken,
-          q: req.query.q
-        },
-        (err, response) => {
-          console.error(err);
-          const messageIDs = response.data.messages;
-          const nextPageToken = response.data.nextPageToken;
+router.get("/gmail", authCheck, findUserById, (req, res) => {
+  console.log("QUERY", req.query);
+  gmail.users.messages.list(
+    {
+      userId: "me",
+      auth: oAuth2Client,
+      maxResults: req.query.maxResults,
+      pageToken: req.query.pageToken,
+      q: req.query.q
+    },
+    (err, response) => {
+      if (!err) {
+        const messageIDs = response.data.messages;
+        const nextPageToken = response.data.nextPageToken;
 
-          // Return an array of email promises
-          const emailPromises = messageIDs.map(
-            message =>
-              new Promise((resolve, reject) => {
-                // Fetch individual email messages
-                gmail.users.messages.get(
-                  {
-                    userId: "me",
-                    id: message.id,
-                    format: "metadata",
-                    auth: oAuth2Client
-                  },
-                  (error, email) => {
-                    if (email) {
-                      resolve(email.data);
-                    } else {
-                      reject(error);
-                    }
+        // Return an array of email promises
+        const emailPromises = messageIDs.map(
+          message =>
+            new Promise((resolve, reject) => {
+              // Fetch individual email messages
+              gmail.users.messages.get(
+                {
+                  userId: "me",
+                  id: message.id,
+                  format: "metadata",
+                  auth: oAuth2Client
+                },
+                (error, email) => {
+                  if (email) {
+                    resolve(email.data);
+                  } else {
+                    reject(error);
                   }
-                );
-              })
-          );
-          // Resolve array of email promises
-          Promise.all(emailPromises)
-            .then(values => [nextPageToken, values])
-            .then(emails => {
-              // Custom helper to transform / map email array
-              res.json(emailTransform(emails));
+                }
+              );
             })
-            .catch(error => {
-              console.error(error);
-              next(error);
-            });
-        }
-      );
-    });
+        );
+        // Resolve all email promises
+        Promise.all(emailPromises)
+          .then(values => [nextPageToken, values])
+          .then(emails => {
+            // Custom helper to transform / map email array
+            res.json(emailTransform(emails));
+          });
+      } else {
+        res.status(404).send({ error: "ERROR FETCHING EMAILS FROM GMAIL API" });
+        console.error(err);
+      }
+    }
+  );
 });
 
 // /GET SINGLE EMAIL BY ID / VIEW EMAIL MESSAGE
-router.get("/gmail/:id", authCheck, (req, res, next) => {
-  Users.findById(req.session.user)
-    .then(user => {
-      oAuth2Client.setCredentials({
-        access_token: user.googleAccessToken,
-        refresh_token: user.googleRefreshToken,
-        expiry_date: new Date().getTime() + 1000 * 60 * 60 * 24 * 7
-      });
-    })
-    .then(() => {
-      new Promise((resolve, reject) => {
-        gmail.users.messages.get(
-          {
-            userId: "me",
-            id: req.params.id,
-            format: "raw",
-            auth: oAuth2Client
-          },
-          (error, email) => {
-            if (email) {
-              resolve(email);
-            } else {
-              reject(error);
-            }
-          }
-        );
-      }).then(response => {
-        const body = response.data.raw;
-        const buff = Buffer.from(body, "base64").toString("utf8");
-        simpleParser(buff).then(results => {
-          res.json(results);
-        });
+router.get("/gmail/:id", authCheck, findUserById, (req, res) => {
+  new Promise((resolve, reject) => {
+    gmail.users.messages.get(
+      {
+        userId: "me",
+        id: req.params.id,
+        format: "raw",
+        auth: oAuth2Client
+      },
+      (error, email) => {
+        if (email) {
+          resolve(email);
+        } else {
+          reject(error);
+        }
+      }
+    );
+  })
+    .then(response => {
+      const body = response.data.raw;
+      const buff = Buffer.from(body, "base64").toString("utf8");
+      simpleParser(buff).then(results => {
+        res.json(results);
       });
     })
     .catch(err => {
+      res.status(404).send({ error: "ERROR FETCHING EMAIL FROM GMAIL API" });
       console.error(err);
-      next(err);
     });
 });
 
 // // FIND OR CREATE CONTACT BY EMAIL ADDRESS
-// router.post("/gmail/fetchcontact", (req, res, next) => {
+// router.post("/gmail/fetchcontact", authCheck, (req, res, next) => {
 //   // Check to see if contact exists
 //   Contacts.findOne({
 //     where: {

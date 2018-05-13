@@ -1,0 +1,61 @@
+.navContainer {
+  flex-direction: row;
+  align-items: center;
+  margin-left: 0px;
+}
+
+.navContainer ul {
+  display: flex;
+  flex-direction: row;
+}
+
+.active {
+  font-weight: bold;
+}
+
+.active,
+.active:hover,
+.navitem a,
+.navitem a:hover {
+  text-decoration: none;
+}
+
+.nav:focus {
+  background-color: transparent;
+}
+
+.navBar {
+  /*background-color: white;*/
+  border-radius: 0px;
+  border-right: 0px;
+  border-left: 0px;
+}
+
+.brand {
+  /* color: white !important;*/
+}
+
+.toggle {
+  margin-right: 15px;
+}
+
+.profilePic {
+  border-radius: 100%;
+  width: 30px;
+  height: 30px;
+}
+
+.navContainerRight {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.link {
+  text-decoration: none !important;
+}
+
+.menuItem a {
+  background-color: transparent !important;
+  outline: none !important;
+}

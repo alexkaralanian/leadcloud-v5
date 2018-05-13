@@ -1,12 +1,8 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { groupStyle } from "./styles.css";
 import { Grid, Row, Col, Button } from "react-bootstrap";
+import "./SingleContact.css";
 import ContactForm from "./ContactForm";
 import Loading from "../Loading/Loading";
-import Groups from "../Groups/Groups";
-
-import { submitButton } from "../../index.css";
 
 const SingleContact = ({
   contact,
@@ -47,7 +43,7 @@ const SingleContact = ({
               onClick={() => {
                 deleteContact(contact.id);
               }}
-              className={submitButton}
+              className="submitButton"
               bsStyle="danger"
             >
               <span>Delete Contact</span>

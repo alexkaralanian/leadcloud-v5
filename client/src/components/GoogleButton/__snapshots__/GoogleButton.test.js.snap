@@ -20,13 +20,13 @@ ShallowWrapper {
       "children": <a
         href="/api/auth/google"
         target="_self"
-      >
+>
         <span
-          className="googleButton_text"
+                className="googleButton_text"
         >
-          Login with Google
+                Login with Google
         </span>
-      </a>,
+</a>,
       "className": "googleButton",
     },
     "ref": null,
@@ -37,9 +37,9 @@ ShallowWrapper {
       "props": Object {
         "children": <span
           className="googleButton_text"
-        >
+>
           Login with Google
-        </span>,
+</span>,
         "href": "/api/auth/google",
         "target": "_self",
       },
@@ -69,13 +69,13 @@ ShallowWrapper {
         "children": <a
           href="/api/auth/google"
           target="_self"
-        >
+>
           <span
-            className="googleButton_text"
+                    className="googleButton_text"
           >
-            Login with Google
+                    Login with Google
           </span>
-        </a>,
+</a>,
         "className": "googleButton",
       },
       "ref": null,
@@ -86,9 +86,9 @@ ShallowWrapper {
         "props": Object {
           "children": <span
             className="googleButton_text"
-          >
+>
             Login with Google
-          </span>,
+</span>,
           "href": "/api/auth/google",
           "target": "_self",
         },

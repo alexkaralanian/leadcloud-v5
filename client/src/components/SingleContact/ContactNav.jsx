@@ -1,10 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Grid, Col, Row, Nav, NavItem } from "react-bootstrap";
-import { NavWrapper } from "./styles.css";
+import "./SingleContact.css";
 
 const ContactNav = ({ contactId, isContactNew }) => (
-  <div className={NavWrapper}>
+  <div className="NavWrapper">
     <Grid>
       <Row>
         <Col xs={12}>

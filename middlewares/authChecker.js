@@ -1,6 +1,8 @@
 module.exports = (req, res, next) => {
-  if (!req.session.user) {
-    return res.status(401).send({ error: "Must be logged in!" });
+  if (!req.session) {
+    console.warn("MUST BE LOGGED IN");
+    res.status(401).send({ error: "MUST BE LOGGED IN!" });
+  } else {
+    next();
   }
-  next();
 };

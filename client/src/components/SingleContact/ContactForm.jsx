@@ -2,17 +2,18 @@ import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import { submitButton, formGroup } from "../../index.css";
+import { Field, reduxForm } from "redux-form";
 import {
   Button,
   Form,
   FormGroup,
   FormControl,
-  ControlLabel
+  ControlLabel,
+  Col,
+  Row
 } from "react-bootstrap";
-import { Field, reduxForm } from "redux-form";
+
 import { contactValidate } from "../../helpers/redux-form/validate";
-import { Col, Row } from "react-bootstrap";
 import { fetchContact } from "../../actions/contact-actions";
 
 const inputField = ({
@@ -67,7 +68,7 @@ let ContactForm = ({
     {/* *** NAMES *** */}
     <Row>
       <Col xs={12} sm={6}>
-        <FormGroup className={formGroup}>
+        <FormGroup className="formGroup">
           <Field
             type="text"
             name="firstName"
@@ -77,7 +78,7 @@ let ContactForm = ({
         </FormGroup>
       </Col>
       <Col xs={12} sm={6}>
-        <FormGroup className={formGroup}>
+        <FormGroup className="formGroup">
           <Field
             type="text"
             name="lastName"
@@ -92,7 +93,7 @@ let ContactForm = ({
     <Row>
       {isContactNew || !contact.email ? (
         <Col xs={12} sm={6}>
-          <FormGroup className={formGroup}>
+          <FormGroup className="formGroup">
             <Field
               type="email"
               name={"email"}
@@ -106,7 +107,7 @@ let ContactForm = ({
         contact.email.map(address => {
           return (
             <Col xs={12} sm={6}>
-              <FormGroup className={formGroup}>
+              <FormGroup className="formGroup">
                 <Field
                   type="email"
                   name={`email[${contact.email.indexOf(address)}].value`}
@@ -124,7 +125,7 @@ let ContactForm = ({
     <Row>
       {isContactNew || !contact.phone ? (
         <Col xs={12} sm={6}>
-          <FormGroup className={formGroup}>
+          <FormGroup className="formGroup">
             <Field
               type="tel"
               name={"phone"}
@@ -138,7 +139,7 @@ let ContactForm = ({
         contact.phone.map(number => {
           return (
             <Col xs={12} sm={6}>
-              <FormGroup className={formGroup}>
+              <FormGroup className="formGroup">
                 <Field
                   type="tel"
                   name={`phone[${contact.phone.indexOf(number)}].value`}
@@ -171,7 +172,7 @@ let ContactForm = ({
       <Col xs={12}>
         {isContactNew ? (
           <Button
-            className={submitButton}
+            className="submitButton"
             type="submit"
             bsStyle="primary"
             disabled={pristine || submitting}
@@ -181,7 +182,7 @@ let ContactForm = ({
         ) : (
           <div>
             <Button
-              className={submitButton}
+              className="submitButton"
               type="submit"
               bsStyle="primary"
               disabled={pristine || submitting}

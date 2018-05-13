@@ -7,7 +7,7 @@ ShallowWrapper {
   Symbol(enzyme.__unrendered__): <Profile
     logout={[Function]}
     user={Object {}}
-  />,
+/>,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
     "getNode": [Function],
@@ -24,46 +24,46 @@ ShallowWrapper {
       "children": <Row
         bsClass="row"
         componentClass="div"
-      >
+>
         <Col
-          bsClass="col"
-          componentClass="div"
-          xs={12}
+                bsClass="col"
+                componentClass="div"
+                xs={12}
         >
-          <div>
-            <h1
-              className="headerText"
-            >
-              Welcome, 
-              !
-            </h1>
-            <Image
-              bsClass="img"
-              circle={false}
-              className="profilePic"
-              responsive={false}
-              rounded={false}
-              src={undefined}
-              thumbnail={false}
-            />
-            <div>
-              <Button
-                active={false}
-                block={false}
-                bsClass="btn"
-                bsStyle="primary"
-                className="logoutBtn"
-                disabled={false}
-                onClick={[Function]}
-              >
-                <span>
-                  LOGOUT
-                </span>
-              </Button>
-            </div>
-          </div>
+                <div>
+                        <h1
+                                className="headerText"
+                        >
+                                Welcome, 
+                                !
+                        </h1>
+                        <Image
+                                bsClass="img"
+                                circle={false}
+                                className="profilePic"
+                                responsive={false}
+                                rounded={false}
+                                src={undefined}
+                                thumbnail={false}
+                        />
+                        <div>
+                                <Button
+                                        active={false}
+                                        block={false}
+                                        bsClass="btn"
+                                        bsStyle="primary"
+                                        className="logoutBtn"
+                                        disabled={false}
+                                        onClick={[Function]}
+                                >
+                                        <span>
+                                                LOGOUT
+                                        </span>
+                                </Button>
+                        </div>
+                </div>
         </Col>
-      </Row>,
+</Row>,
       "componentClass": "div",
       "fluid": false,
     },
@@ -78,40 +78,40 @@ ShallowWrapper {
           bsClass="col"
           componentClass="div"
           xs={12}
-        >
+>
           <div>
-            <h1
-              className="headerText"
-            >
-              Welcome, 
-              !
-            </h1>
-            <Image
-              bsClass="img"
-              circle={false}
-              className="profilePic"
-              responsive={false}
-              rounded={false}
-              src={undefined}
-              thumbnail={false}
-            />
-            <div>
-              <Button
-                active={false}
-                block={false}
-                bsClass="btn"
-                bsStyle="primary"
-                className="logoutBtn"
-                disabled={false}
-                onClick={[Function]}
-              >
-                <span>
-                  LOGOUT
-                </span>
-              </Button>
-            </div>
+                    <h1
+                              className="headerText"
+                    >
+                              Welcome, 
+                              !
+                    </h1>
+                    <Image
+                              bsClass="img"
+                              circle={false}
+                              className="profilePic"
+                              responsive={false}
+                              rounded={false}
+                              src={undefined}
+                              thumbnail={false}
+                    />
+                    <div>
+                              <Button
+                                        active={false}
+                                        block={false}
+                                        bsClass="btn"
+                                        bsStyle="primary"
+                                        className="logoutBtn"
+                                        disabled={false}
+                                        onClick={[Function]}
+                              >
+                                        <span>
+                                                  LOGOUT
+                                        </span>
+                              </Button>
+                    </div>
           </div>
-        </Col>,
+</Col>,
         "componentClass": "div",
       },
       "ref": null,
@@ -123,36 +123,36 @@ ShallowWrapper {
           "bsClass": "col",
           "children": <div>
             <h1
-              className="headerText"
+                        className="headerText"
             >
-              Welcome, 
-              !
+                        Welcome, 
+                        !
             </h1>
             <Image
-              bsClass="img"
-              circle={false}
-              className="profilePic"
-              responsive={false}
-              rounded={false}
-              src={undefined}
-              thumbnail={false}
+                        bsClass="img"
+                        circle={false}
+                        className="profilePic"
+                        responsive={false}
+                        rounded={false}
+                        src={undefined}
+                        thumbnail={false}
             />
             <div>
-              <Button
-                active={false}
-                block={false}
-                bsClass="btn"
-                bsStyle="primary"
-                className="logoutBtn"
-                disabled={false}
-                onClick={[Function]}
-              >
-                <span>
-                  LOGOUT
-                </span>
-              </Button>
+                        <Button
+                                    active={false}
+                                    block={false}
+                                    bsClass="btn"
+                                    bsStyle="primary"
+                                    className="logoutBtn"
+                                    disabled={false}
+                                    onClick={[Function]}
+                        >
+                                    <span>
+                                                LOGOUT
+                                    </span>
+                        </Button>
             </div>
-          </div>,
+</div>,
           "componentClass": "div",
           "xs": 12,
         },
@@ -165,10 +165,10 @@ ShallowWrapper {
             "children": Array [
               <h1
                 className="headerText"
-              >
+>
                 Welcome, 
                 !
-              </h1>,
+</h1>,
               <Image
                 bsClass="img"
                 circle={false}
@@ -177,22 +177,22 @@ ShallowWrapper {
                 rounded={false}
                 src={undefined}
                 thumbnail={false}
-              />,
+/>,
               <div>
                 <Button
-                  active={false}
-                  block={false}
-                  bsClass="btn"
-                  bsStyle="primary"
-                  className="logoutBtn"
-                  disabled={false}
-                  onClick={[Function]}
+                                active={false}
+                                block={false}
+                                bsClass="btn"
+                                bsStyle="primary"
+                                className="logoutBtn"
+                                disabled={false}
+                                onClick={[Function]}
                 >
-                  <span>
-                    LOGOUT
-                  </span>
+                                <span>
+                                                LOGOUT
+                                </span>
                 </Button>
-              </div>,
+</div>,
             ],
           },
           "ref": null,
@@ -247,11 +247,11 @@ ShallowWrapper {
                   className="logoutBtn"
                   disabled={false}
                   onClick={[Function]}
-                >
+>
                   <span>
-                    LOGOUT
+                                    LOGOUT
                   </span>
-                </Button>,
+</Button>,
               },
               "ref": null,
               "rendered": Object {
@@ -265,7 +265,7 @@ ShallowWrapper {
                   "bsStyle": "primary",
                   "children": <span>
                     LOGOUT
-                  </span>,
+</span>,
                   "className": "logoutBtn",
                   "disabled": false,
                   "onClick": [Function],
@@ -305,46 +305,46 @@ ShallowWrapper {
         "children": <Row
           bsClass="row"
           componentClass="div"
-        >
+>
           <Col
-            bsClass="col"
-            componentClass="div"
-            xs={12}
+                    bsClass="col"
+                    componentClass="div"
+                    xs={12}
           >
-            <div>
-              <h1
-                className="headerText"
-              >
-                Welcome, 
-                !
-              </h1>
-              <Image
-                bsClass="img"
-                circle={false}
-                className="profilePic"
-                responsive={false}
-                rounded={false}
-                src={undefined}
-                thumbnail={false}
-              />
-              <div>
-                <Button
-                  active={false}
-                  block={false}
-                  bsClass="btn"
-                  bsStyle="primary"
-                  className="logoutBtn"
-                  disabled={false}
-                  onClick={[Function]}
-                >
-                  <span>
-                    LOGOUT
-                  </span>
-                </Button>
-              </div>
-            </div>
+                    <div>
+                              <h1
+                                        className="headerText"
+                              >
+                                        Welcome, 
+                                        !
+                              </h1>
+                              <Image
+                                        bsClass="img"
+                                        circle={false}
+                                        className="profilePic"
+                                        responsive={false}
+                                        rounded={false}
+                                        src={undefined}
+                                        thumbnail={false}
+                              />
+                              <div>
+                                        <Button
+                                                  active={false}
+                                                  block={false}
+                                                  bsClass="btn"
+                                                  bsStyle="primary"
+                                                  className="logoutBtn"
+                                                  disabled={false}
+                                                  onClick={[Function]}
+                                        >
+                                                  <span>
+                                                            LOGOUT
+                                                  </span>
+                                        </Button>
+                              </div>
+                    </div>
           </Col>
-        </Row>,
+</Row>,
         "componentClass": "div",
         "fluid": false,
       },
@@ -359,40 +359,40 @@ ShallowWrapper {
             bsClass="col"
             componentClass="div"
             xs={12}
-          >
+>
             <div>
-              <h1
-                className="headerText"
-              >
-                Welcome, 
-                !
-              </h1>
-              <Image
-                bsClass="img"
-                circle={false}
-                className="profilePic"
-                responsive={false}
-                rounded={false}
-                src={undefined}
-                thumbnail={false}
-              />
-              <div>
-                <Button
-                  active={false}
-                  block={false}
-                  bsClass="btn"
-                  bsStyle="primary"
-                  className="logoutBtn"
-                  disabled={false}
-                  onClick={[Function]}
-                >
-                  <span>
-                    LOGOUT
-                  </span>
-                </Button>
-              </div>
+                        <h1
+                                    className="headerText"
+                        >
+                                    Welcome, 
+                                    !
+                        </h1>
+                        <Image
+                                    bsClass="img"
+                                    circle={false}
+                                    className="profilePic"
+                                    responsive={false}
+                                    rounded={false}
+                                    src={undefined}
+                                    thumbnail={false}
+                        />
+                        <div>
+                                    <Button
+                                                active={false}
+                                                block={false}
+                                                bsClass="btn"
+                                                bsStyle="primary"
+                                                className="logoutBtn"
+                                                disabled={false}
+                                                onClick={[Function]}
+                                    >
+                                                <span>
+                                                            LOGOUT
+                                                </span>
+                                    </Button>
+                        </div>
             </div>
-          </Col>,
+</Col>,
           "componentClass": "div",
         },
         "ref": null,
@@ -404,36 +404,36 @@ ShallowWrapper {
             "bsClass": "col",
             "children": <div>
               <h1
-                className="headerText"
+                            className="headerText"
               >
-                Welcome, 
-                !
+                            Welcome, 
+                            !
               </h1>
               <Image
-                bsClass="img"
-                circle={false}
-                className="profilePic"
-                responsive={false}
-                rounded={false}
-                src={undefined}
-                thumbnail={false}
+                            bsClass="img"
+                            circle={false}
+                            className="profilePic"
+                            responsive={false}
+                            rounded={false}
+                            src={undefined}
+                            thumbnail={false}
               />
               <div>
-                <Button
-                  active={false}
-                  block={false}
-                  bsClass="btn"
-                  bsStyle="primary"
-                  className="logoutBtn"
-                  disabled={false}
-                  onClick={[Function]}
-                >
-                  <span>
-                    LOGOUT
-                  </span>
-                </Button>
+                            <Button
+                                          active={false}
+                                          block={false}
+                                          bsClass="btn"
+                                          bsStyle="primary"
+                                          className="logoutBtn"
+                                          disabled={false}
+                                          onClick={[Function]}
+                            >
+                                          <span>
+                                                        LOGOUT
+                                          </span>
+                            </Button>
               </div>
-            </div>,
+</div>,
             "componentClass": "div",
             "xs": 12,
           },
@@ -446,10 +446,10 @@ ShallowWrapper {
               "children": Array [
                 <h1
                   className="headerText"
-                >
+>
                   Welcome, 
                   !
-                </h1>,
+</h1>,
                 <Image
                   bsClass="img"
                   circle={false}
@@ -458,22 +458,22 @@ ShallowWrapper {
                   rounded={false}
                   src={undefined}
                   thumbnail={false}
-                />,
+/>,
                 <div>
                   <Button
-                    active={false}
-                    block={false}
-                    bsClass="btn"
-                    bsStyle="primary"
-                    className="logoutBtn"
-                    disabled={false}
-                    onClick={[Function]}
+                                    active={false}
+                                    block={false}
+                                    bsClass="btn"
+                                    bsStyle="primary"
+                                    className="logoutBtn"
+                                    disabled={false}
+                                    onClick={[Function]}
                   >
-                    <span>
-                      LOGOUT
-                    </span>
+                                    <span>
+                                                      LOGOUT
+                                    </span>
                   </Button>
-                </div>,
+</div>,
               ],
             },
             "ref": null,
@@ -528,11 +528,11 @@ ShallowWrapper {
                     className="logoutBtn"
                     disabled={false}
                     onClick={[Function]}
-                  >
+>
                     <span>
-                      LOGOUT
+                                        LOGOUT
                     </span>
-                  </Button>,
+</Button>,
                 },
                 "ref": null,
                 "rendered": Object {
@@ -546,7 +546,7 @@ ShallowWrapper {
                     "bsStyle": "primary",
                     "children": <span>
                       LOGOUT
-                    </span>,
+</span>,
                     "className": "logoutBtn",
                     "disabled": false,
                     "onClick": [Function],
