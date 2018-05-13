@@ -1,12 +1,20 @@
 import React from "react";
-import { connect } from "react-redux";
-import { BroweserRouter, Route, Switch } from "react-router-dom";
 import Loadable from "react-loadable";
-
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { Route, Switch } from "react-router-dom";
 import { ConnectedRouter } from "react-router-redux";
 import { fetchUser } from "./actions/auth-actions";
 import { history } from "./store";
 import "./index.css";
+
+import LandingPageContainer from "./containers/LandingPageContainer/LandingPageContainer";
+import DashboardContainer from "./containers/DashboardContainer/DashboardContainer";
+import ProfileContainer from "./containers/ProfileContainer/ProfileContainer";
+import EmailsContainer from "./containers/EmailsContainer/EmailsContainer";
+import SingleEmailContainer from "./containers/SingleEmailContainer/SingleEmailContainer";
+import ContactsContainer from "./containers/ContactsContainer/ContactsContainer";
+import SingleContactContainer from "./containers/SingleContactContainer/SingleContactContainer";
 
 import iFrameContainer from "./containers/SingleEmailContainer/iFrameContainer";
 import Email from "./components/SingleEmail/SingleEmail";
@@ -55,6 +63,9 @@ class App extends React.Component {
             <Route path="/emails" component={Emails} />
             <Route path="/email/:id" component={SingleEmail} />
             <Route path="/iframecontainer" component={iFrameContainer} />
+            <Route path="/contacts" component={ContactsContainer} />
+            <Route path="/contact/:id" component={SingleContactContainer} />
+            <Route path="/contact/new" component={SingleContactContainer} />
             <Route
               render={() => (
                 <div>
@@ -70,3 +81,7 @@ class App extends React.Component {
 }
 
 export default connect(null, { fetchUser })(App);
+
+App.propTypes = {
+  fetchUser: PropTypes.func.isRequired
+};

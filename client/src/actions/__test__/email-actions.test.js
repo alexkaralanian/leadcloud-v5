@@ -94,7 +94,7 @@ describe("Email Actions", () => {
   });
 });
 
-describe("Async Email Actions {{THUNKS}}", () => {
+describe("Async Email Actions", () => {
   const middlewares = [thunk];
   const mockStore = configureMockStore(middlewares);
 

@@ -1,13 +1,16 @@
 module.exports = {
   up: (queryInterface, Sequelize) =>
-    queryInterface.createTable("users", {
+    queryInterface.createTable("contacts", {
       id: {
         allowNull: false,
-        primaryKey: true,
         autoIncrement: true,
+        primaryKey: true,
         type: Sequelize.INTEGER
       },
-      username: {
+      googleId: {
+        type: Sequelize.STRING
+      },
+      fullName: {
         type: Sequelize.STRING
       },
       firstName: {
@@ -17,18 +20,24 @@ module.exports = {
         type: Sequelize.STRING
       },
       email: {
-        type: Sequelize.STRING
+        type: Sequelize.JSONB
       },
-      googleId: {
-        type: Sequelize.STRING
+      phone: {
+        type: Sequelize.JSONB
       },
-      googlePhoto: {
-        type: Sequelize.STRING
+      address: {
+        type: Sequelize.JSONB
       },
-      googleAccessToken: {
-        type: Sequelize.STRING
+      images: {
+        type: Sequelize.JSONB
       },
-      googleRefreshToken: {
+      membership: {
+        type: Sequelize.JSONB
+      },
+      notes: {
+        type: Sequelize.TEXT
+      },
+      updated: {
         type: Sequelize.STRING
       },
       createdAt: {
@@ -40,5 +49,5 @@ module.exports = {
         type: Sequelize.DATE
       }
     }),
-  down: (queryInterface, Sequelize) => queryInterface.dropTable("users")
+  down: (queryInterface, Sequelize) => queryInterface.dropTable("contacts")
 };

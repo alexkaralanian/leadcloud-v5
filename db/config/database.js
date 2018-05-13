@@ -6,6 +6,7 @@ module.exports = {
     password: keys.DB_PASSWORD,
     database: keys.DB_NAME,
     host: keys.DB_HOST,
+    logging: false,
     dialect: "postgres",
     retry: {
       max: 10

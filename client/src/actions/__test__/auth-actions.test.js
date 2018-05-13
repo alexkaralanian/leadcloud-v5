@@ -26,7 +26,7 @@ describe("Auth Actions", () => {
   });
 });
 
-describe("Async Auth Actions ((THUNKS))", () => {
+describe("Async Auth Actions", () => {
   const middlewares = [thunk];
   const mockStore = configureMockStore(middlewares);
 
@@ -37,7 +37,14 @@ describe("Async Auth Actions ((THUNKS))", () => {
     moxios.uninstall();
   });
 
-  test("fetchUser", () => {
+  const store = mockStore({
+    isFetching: false,
+    isAuthed: false,
+    user: null,
+    error: ""
+  });
+
+  it("fetchUser", () => {
     const response = {
       data: {
         name: "Elon Musk"
@@ -52,13 +59,6 @@ describe("Async Auth Actions ((THUNKS))", () => {
       });
     });
 
-    const store = mockStore({
-      isFetching: false,
-      isAuthed: false,
-      user: null,
-      error: ""
-    });
-
     return store.dispatch(actions.fetchUser()).then(() => {
       const actionz = store.getActions();
       expect(actionz[0]).toEqual(actions.isFetching(true));
@@ -66,43 +66,18 @@ describe("Async Auth Actions ((THUNKS))", () => {
     });
   });
 
-  test("fetchUser failure", () => {
+  it("logout", () => {
     moxios.wait(() => {
       const request = moxios.requests.mostRecent();
-      request.respondWith({
-        status: 500
-      });
-    });
-
-    const store = mockStore({
-      isFetching: false,
-      isAuthed: false,
-      user: null
-    });
-
-    return store.dispatch(actions.fetchUser()).then(() => {
-      const actionz = store.getActions();
-      expect(actionz[0]).toEqual(actions.isFetching(true));
-      expect(actionz[1]).toEqual(actions.isFetching(false));
-    });
-  });
-
-  test("logout", () => {
-    moxios.wait(() => {
-      const request = moxios.requests.mostRecent();
+      console.log("REQUEST", request);
       request.respondWith({
         status: 200
       });
     });
 
-    const store = mockStore({
-      isFetching: false,
-      isAuthed: false,
-      user: null
-    });
-
     return store.dispatch(actions.logout()).then(() => {
       const actionz = store.getActions();
+      console.log("ACTIONZ", actionz);
       expect(actionz[0]).toEqual(actions.unauthUser());
     });
   });

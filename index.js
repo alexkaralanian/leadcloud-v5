@@ -35,6 +35,7 @@ app.use(bodyParser.json());
 // ROUTES
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/email", require("./routes/email"));
+app.use("/api/contacts", require("./routes/contacts"));
 
 app.use(express.static("client/build"));
 app.get("*", (req, res) => {

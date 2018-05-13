@@ -1,0 +1,113 @@
+/*CAROUSEL*/
+
+.carousel {
+  /*display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: nowrap;*/
+  /*padding-left: 15px;*/
+  /*justify-content: center;
+  align-items: center;*/
+  /*overflow: scroll;*/
+  margin-bottom: 15px;
+  border: 1px solid lightgrey;
+  border-radius: 1px;
+}
+
+.dropZone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 120px;
+  padding: 10px;
+  /* margin-bottom: 15px;*/
+}
+
+.dropButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 75px;
+  width: 75px;
+  background-color: gray;
+  border: 1px solid black;
+  border-radius: 100%;
+  padding: 10px;
+  font-size: 50px;
+  margin-top: -10px;
+}
+
+.dropButton span {
+  font-size: 50px;
+  margin-top: -10px;
+}
+
+.imagesContainer {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: left;
+  /*border: 1px dotted lightgrey;*/
+}
+
+/*.carouselContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-left: 15px;
+}*/
+
+.imageContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 240px;
+  height: 240px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  margin-right: 15px;
+  border: 1px dotted lightgrey;
+  border-radius: 3px;
+}
+
+.imageStyle {
+  margin: 0 auto;
+  max-width: 220px;
+  max-height: 220px;
+  border-radius: 6px;
+}
+
+.imgDelete {
+  position: absolute;
+  border: 1px dotted lightgrey;
+  background-color: white;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 20px;
+  height: 20px;
+  z-index: 5;
+  top: 0px;
+  right: 0px;
+  margin-top: -4px;
+  margin-right: -4px;
+}
+
+.imgDelete span {
+  font-weight: 500;
+  font-size: 12px;
+  margin-bottom: 2px;
+  color: lightgrey;
+}
+
+/*img*/
+
+/*img {
+  width: 150px;
+  height: 150px;
+}
+*/
