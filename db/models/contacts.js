@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     {}
   );
   contacts.associate = models => {
-    // associations can be defined here
+    contacts.belongsTo(models.users, { as: "User" });
   };
   return contacts;
 };
