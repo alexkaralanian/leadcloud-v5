@@ -56,7 +56,7 @@ export const isFetching = bool => ({
 });
 
 export const isLoading = bool => ({
-  type: types.IS_FETCHING,
+  type: types.IS_LOADING,
   isLoading: bool
 });
 
@@ -86,6 +86,7 @@ export const fetchContacts = (
   query,
   contactsArray
 ) => async dispatch => {
+  console.log("FETCHING CONTACTS");
   if (!offset) dispatch(isFetching(true));
   dispatch(isLoading(true));
 

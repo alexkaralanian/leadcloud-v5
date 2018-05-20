@@ -2,8 +2,10 @@ const express = require("express");
 const moment = require("moment");
 const _ = require("lodash");
 const { google } = require("googleapis");
+const findUserById = require("../middlewares/findUserById");
+const isAuthed = require("../middlewares/authChecker");
 
-const Users = require("../db/models").users;
+// const Users = require("../db/models").users;
 const Contacts = require("../db/models").contacts;
 const Listings = require("../db/models").listings;
 const ContactTags = require("../db/models").contactTags;
@@ -14,14 +16,17 @@ const router = express.Router();
 const people = google.people("v1");
 
 // FETCH, MAP, AND LOAD USER'S GROUPS AND CONTACTS TO DB
-router.get("/loadcontacts", (req, res, next) => {
-  Users.findById(req.session.user.id).then(user => {
-    oAuth2Client.setCredentials({
-      access_token: user.googleAccessToken,
-      refresh_token: user.googleRefreshToken,
-      expiry_date: new Date().getTime() + 1000 * 60 * 60 * 24 * 7
-    });
-  });
+router.get("/loadcontacts", findUserById, (req, res, next) => {
+  const userId = req.session.user.toString();
+
+  // Users.findById(USER_ID).then(user => {
+  //   console.log("USER", user);
+  //   oAuth2Client.setCredentials({
+  //     access_token: user.googleAccessToken,
+  //     refresh_token: user.googleRefreshToken,
+  //     expiry_date: new Date().getTime() + 1000 * 60 * 60 * 24 * 7
+  //   });
+  // });
 
   // FETCH, MAP, & LOAD USER'S GROUPS
   new Promise((resolve, reject) => {
@@ -42,7 +47,7 @@ router.get("/loadcontacts", (req, res, next) => {
       groups.contactGroups.map(group => {
         ContactTags.findOrCreate({
           where: {
-            UserId: req.session.user.id,
+            UserId: userId,
             googleId: group.resourceName.slice(
               group.resourceName.indexOf("/") + 1 // contactGroups/...
             )
@@ -61,6 +66,8 @@ router.get("/loadcontacts", (req, res, next) => {
   // FETCH, MAP, & LOAD ALL GOOGLE CONTACTS
   new Promise((resolve, reject) => {
     let contactsArray = [];
+    const userId = req.session.user.toString();
+
     function getContacts(pageToken) {
       people.people.connections.list(
         {
@@ -90,27 +97,24 @@ router.get("/loadcontacts", (req, res, next) => {
     .then(results => {
       // MAP CONTACTS TO DB SCHEMA
       return results.map(contact => {
-        const imageArray = contact.photos
-          ? contact.photos.map(photo => {
-              return photo.url;
-            })
-          : null;
+        const imageArray =
+          contact.photos && contact.photos.map(photo => photo.url);
 
-        const membershipArray = contact.memberships
-          ? contact.memberships.map(group => {
-              return group.contactGroupMembership.contactGroupId;
-            })
-          : null;
+        const membershipArray =
+          contact.memberships &&
+          contact.memberships.map(
+            group => group.contactGroupMembership.contactGroupId
+          );
 
         const defaults = {
           firstName:
-            contact.names && contact.names[0].givenName
-              ? contact.names[0].givenName
-              : null,
+            contact.names &&
+            contact.names[0].givenName &&
+            contact.names[0].givenName,
           lastName:
-            contact.names && contact.names[0].familyName
-              ? contact.names[0].familyName
-              : null,
+            contact.names &&
+            contact.names[0].familyName &&
+            contact.names[0].familyName,
           fullName:
             contact.names && contact.names[0].displayName
               ? contact.names[0].displayName
@@ -127,11 +131,11 @@ router.get("/loadcontacts", (req, res, next) => {
         Contacts.findOrCreate({
           where: {
             googleId: contact.metadata.sources[0].id,
-            UserId: req.session.user.id
+            UserId: userId
           },
           defaults
         }).then(createdContact => {
-          createdContact[0].setUser(req.session.user.id);
+          createdContact[0].setUser(userId);
         });
       });
     })
@@ -144,11 +148,13 @@ router.get("/loadcontacts", (req, res, next) => {
 
 // GET ALL CONTACTS FROM DB
 router.get("/", (req, res, next) => {
+  const userId = req.session.user.toString();
+
   Contacts.findAll({
     limit: req.query.limit,
     offset: req.query.offset,
     where: {
-      UserId: req.session.user.id,
+      UserId: userId,
       $and: {
         fullName: {
           $iLike: `${req.query.query}%`
@@ -168,11 +174,12 @@ router.get("/", (req, res, next) => {
 
 // GET SINGLE CONTACT
 router.get("/:id", (req, res, next) => {
-  // RETURNS AN ARRAY!!!!!!!!
+  const userId = req.session.user.toString();
+
   Contacts.findOne({
     where: {
       id: req.params.id,
-      UserId: req.session.user.id
+      UserId: userId
     }
   })
     .then(response => {
@@ -185,11 +192,13 @@ router.get("/:id", (req, res, next) => {
 });
 
 // GET GROUPS
-router.post("/groups", (req, res, next) => {
+router.post("/groups", isAuthed, (req, res, next) => {
+  const userId = req.session.user.toString();
+
   ContactTags.findAll({
     where: {
       googleId: req.body.groups,
-      UserId: req.session.user.id
+      UserId: userId
     }
   })
     .then(response => {
@@ -235,9 +244,11 @@ router.patch("/:id/update", (req, res, next) => {
 
 // CREATE NEW CONTACT
 router.post("/new", (req, res, next) => {
+  const user = req.session.user.toString();
+
   Contacts.findAll({
     where: {
-      UserId: req.session.user.id,
+      UserId: user,
       email: {
         $contains: [
           {
@@ -251,7 +262,7 @@ router.post("/new", (req, res, next) => {
       // query return an array
       if (_.isEmpty(response)) {
         Contacts.create({
-          UserId: req.session.user.id,
+          UserId: user,
           email: [
             {
               value: req.body.email,

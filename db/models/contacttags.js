@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
     {}
   );
   contactTags.associate = models => {
-    // associations can be defined here
+    contactTags.belongsTo(models.users, { as: "User" });
   };
   return contactTags;
 };

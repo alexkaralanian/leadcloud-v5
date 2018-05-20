@@ -120,7 +120,7 @@ class ContactsContainer extends React.Component {
           contacts={this.props.contacts}
           isFetching={this.props.isFetching}
         />
-        <Errors errorText={this.props.error} />
+        {/*<Errors errorText={this.props.error} />*/}
       </div>
     );
   }

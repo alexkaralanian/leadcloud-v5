@@ -8,16 +8,16 @@ import { fetchUser } from "./actions/auth-actions";
 import { history } from "./store";
 import "./index.css";
 
-import LandingPageContainer from "./containers/LandingPageContainer/LandingPageContainer";
-import DashboardContainer from "./containers/DashboardContainer/DashboardContainer";
-import ProfileContainer from "./containers/ProfileContainer/ProfileContainer";
-import EmailsContainer from "./containers/EmailsContainer/EmailsContainer";
-import SingleEmailContainer from "./containers/SingleEmailContainer/SingleEmailContainer";
-import ContactsContainer from "./containers/ContactsContainer/ContactsContainer";
-import SingleContactContainer from "./containers/SingleContactContainer/SingleContactContainer";
+// import LandingPageContainer from "./containers/LandingPageContainer/LandingPageContainer";
+// import DashboardContainer from "./containers/DashboardContainer/DashboardContainer";
+// import ProfileContainer from "./containers/ProfileContainer/ProfileContainer";
+// import EmailsContainer from "./containers/EmailsContainer/EmailsContainer";
+// import SingleEmailContainer from "./containers/SingleEmailContainer/SingleEmailContainer";
+// import ContactsContainer from "./containers/ContactsContainer/ContactsContainer";
+// import SingleContactContainer from "./containers/SingleContactContainer/SingleContactContainer";
 
-import iFrameContainer from "./containers/SingleEmailContainer/iFrameContainer";
-import Email from "./components/SingleEmail/SingleEmail";
+// import iFrameContainer from "./containers/SingleEmailContainer/iFrameContainer";
+// import Email from "./components/SingleEmail/SingleEmail";
 import Loading from "./components/Loading/Loading";
 
 const LandingPage = Loadable({
@@ -47,6 +47,22 @@ const SingleEmail = Loadable({
   loading: Loading
 });
 
+const iFrameContainer = Loadable({
+  loader: () => import("./containers/SingleEmailContainer/iFrameContainer"),
+  loading: Loading
+});
+
+const Contacts = Loadable({
+  loader: () => import("./containers/ContactsContainer/ContactsContainer"),
+  loading: Loading
+});
+
+const SingleContact = Loadable({
+  loader: () =>
+    import("./containers/SingleContactContainer/SingleContactContainer"),
+  loading: Loading
+});
+
 class App extends React.Component {
   componentDidMount() {
     this.props.fetchUser();
@@ -63,9 +79,9 @@ class App extends React.Component {
             <Route path="/emails" component={Emails} />
             <Route path="/email/:id" component={SingleEmail} />
             <Route path="/iframecontainer" component={iFrameContainer} />
-            <Route path="/contacts" component={ContactsContainer} />
-            <Route path="/contact/:id" component={SingleContactContainer} />
-            <Route path="/contact/new" component={SingleContactContainer} />
+            <Route path="/contacts" component={Contacts} />
+            <Route path="/contact/:id" component={SingleContact} />
+            <Route path="/contact/new" component={SingleContact} />
             <Route
               render={() => (
                 <div>

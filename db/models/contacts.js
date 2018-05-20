@@ -2,20 +2,62 @@ module.exports = (sequelize, DataTypes) => {
   const contacts = sequelize.define(
     "contacts",
     {
-      googleId: DataTypes.STRING,
-      fullName: DataTypes.STRING,
-      firstName: DataTypes.STRING,
-      lastName: DataTypes.STRING,
-      email: DataTypes.JSONB,
-      phone: DataTypes.JSONB,
-      address: DataTypes.JSONB,
-      images: DataTypes.JSONB,
-      membership: DataTypes.JSONB,
-      organizations: DataTypes.JSONB,
-      relationships: DataTypes.JSONB,
-      websites: DataTypes.JSONB,
-      notes: DataTypes.TEXT,
-      updated: DataTypes.STRING
+      googleId: {
+        type: DataTypes.STRING,
+        allowNull: true
+      },
+      fullName: {
+        type: DataTypes.STRING,
+        allowNull: true
+      },
+      firstName: {
+        type: DataTypes.STRING,
+        allowNull: true
+      },
+      lastName: {
+        type: DataTypes.STRING,
+        allowNull: true
+      },
+      email: {
+        type: DataTypes.JSONB,
+        allowNull: true
+      },
+      phone: {
+        type: DataTypes.JSONB,
+        allowNull: true
+      },
+      address: {
+        type: DataTypes.JSONB,
+        allowNull: true
+      },
+      images: {
+        type: DataTypes.JSONB,
+        allowNull: true
+      },
+      membership: {
+        type: DataTypes.JSONB,
+        allowNull: true
+      },
+      organizations: {
+        type: DataTypes.JSONB,
+        allowNull: true
+      },
+      relationships: {
+        type: DataTypes.JSONB,
+        allowNull: true
+      },
+      websites: {
+        type: DataTypes.JSONB,
+        allowNull: true
+      },
+      notes: {
+        type: DataTypes.TEXT,
+        allowNull: true
+      },
+      updated: {
+        type: DataTypes.STRING,
+        allowNull: true
+      }
     },
     {}
   );

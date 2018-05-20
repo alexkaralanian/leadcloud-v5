@@ -5,6 +5,7 @@ import * as types from "../types";
 
 const initialState = {
   contacts: [],
+  limit: 25,
   offset: 0,
   contact: {},
   contactListings: [],

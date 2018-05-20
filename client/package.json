@@ -9,6 +9,7 @@
     },
     "dependencies": {
         "axios": "^0.18.0",
+        "bootstrap": "^3.3.7",
         "history": "^4.7.2",
         "moment": "^2.22.1",
         "prop-types": "^15.6.1",
