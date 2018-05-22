@@ -19,15 +19,6 @@ const people = google.people("v1");
 router.get("/loadcontacts", findUserById, (req, res, next) => {
   const userId = req.session.user.toString();
 
-  // Users.findById(USER_ID).then(user => {
-  //   console.log("USER", user);
-  //   oAuth2Client.setCredentials({
-  //     access_token: user.googleAccessToken,
-  //     refresh_token: user.googleRefreshToken,
-  //     expiry_date: new Date().getTime() + 1000 * 60 * 60 * 24 * 7
-  //   });
-  // });
-
   // FETCH, MAP, & LOAD USER'S GROUPS
   new Promise((resolve, reject) => {
     people.contactGroups.list(
@@ -116,12 +107,12 @@ router.get("/loadcontacts", findUserById, (req, res, next) => {
             contact.names[0].familyName &&
             contact.names[0].familyName,
           fullName:
-            contact.names && contact.names[0].displayName
-              ? contact.names[0].displayName
-              : null,
-          email: contact.emailAddresses ? contact.emailAddresses : null,
-          phone: contact.phoneNumbers ? contact.phoneNumbers : null,
-          address: contact.addresses ? contact.addresses : null,
+            contact.names &&
+            contact.names[0].displayName &&
+            contact.names[0].displayName,
+          email: contact.emailAddresses && contact.emailAddresses,
+          phone: contact.phoneNumbers && contact.phoneNumbers,
+          address: contact.addresses && contact.addresses,
           membership: membershipArray,
           updated: moment(contact.metadata.sources[0].updateTime).format(),
           images: imageArray
@@ -205,9 +196,8 @@ router.post("/groups", isAuthed, (req, res, next) => {
       return response.map(group => {
         if (group !== null) {
           return group.dataValues.title;
-        } else {
-          return null;
         }
+        return null;
       });
     })
     .then(response => {
@@ -221,10 +211,12 @@ router.post("/groups", isAuthed, (req, res, next) => {
 
 // UPDATE CONACT
 router.patch("/:id/update", (req, res, next) => {
+  const userId = req.session.user.toString();
+
   Contacts.findOne({
     where: {
       id: req.params.id,
-      UserId: req.session.user.id
+      UserId: userId
     }
   })
     .then(contact => {
@@ -244,11 +236,11 @@ router.patch("/:id/update", (req, res, next) => {
 
 // CREATE NEW CONTACT
 router.post("/new", (req, res, next) => {
-  const user = req.session.user.toString();
+  const userId = req.session.user.toString();
 
   Contacts.findAll({
     where: {
-      UserId: user,
+      UserId: userId,
       email: {
         $contains: [
           {
@@ -262,7 +254,7 @@ router.post("/new", (req, res, next) => {
       // query return an array
       if (_.isEmpty(response)) {
         Contacts.create({
-          UserId: user,
+          UserId: userId,
           email: [
             {
               value: req.body.email,
@@ -278,8 +270,8 @@ router.post("/new", (req, res, next) => {
           fullName: `${req.body.firstName ? req.body.firstName.trim() : ""} ${
             req.body.lastName ? req.body.lastName.trim() : ""
           }`,
-          firstName: req.body.firstName ? req.body.firstName.trim() : null,
-          lastName: req.body.lastName ? req.body.lastName.trim() : null,
+          firstName: req.body.firstName && req.body.firstName.trim(),
+          lastName: req.body.lastName && req.body.lastName.trim(),
           notes: req.body.notes,
           updated: moment(Date.now()).toISOString()
         }).then(createdContact => {
@@ -308,9 +300,11 @@ router.post("/new", (req, res, next) => {
 });
 
 router.post("/new/openhouse", (req, res, next) => {
+  const userId = req.session.user.toString();
+
   Contacts.findAll({
     where: {
-      UserId: req.session.user.id,
+      UserId: userId,
       email: {
         $contains: [
           {
@@ -375,10 +369,12 @@ router.post("/new/openhouse", (req, res, next) => {
 
 // DELETE CONTACT
 router.delete("/:id/delete", (req, res, next) => {
+  const userId = req.session.user.toString();
+
   Contacts.findOne({
     where: {
       id: req.params.id,
-      UserId: req.session.user.id
+      UserId: userId
     }
   })
     .then(contact => {
@@ -452,10 +448,12 @@ router.post("/fetchContactListings", (req, res, next) => {
 
 // ADD NEW IMAGES
 router.post("/images", (req, res) => {
+  const userId = req.session.user.toString();
+
   Contacts.findOne({
     where: {
       id: req.body.contactId,
-      UserId: req.session.user.id
+      UserId: userId
     }
   }).then(contact => {
     let images = contact.images;
@@ -476,9 +474,11 @@ router.post("/images", (req, res) => {
 
 // DELETE IMAGES
 router.post("/images/delete", (req, res) => {
+  const userId = req.session.user.toString();
+
   Contacts.findOne({
     where: {
-      UserId: req.session.user.id,
+      UserId: userId,
       id: req.body.contactId
     }
   }).then(contact => {

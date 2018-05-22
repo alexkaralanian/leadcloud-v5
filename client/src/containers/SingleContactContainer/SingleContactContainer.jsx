@@ -14,13 +14,11 @@ import Groups from "../../components/Groups/Groups";
 
 import {
   fetchContact,
-  // fetchImages,
   submitNewContact,
   updateContact,
   deleteContact,
   clearContact,
   fetchGroups,
-  // fetchGoogleImages,
   onDrop,
   deleteContactImage,
   fetchContactListings,
@@ -39,15 +37,26 @@ class SingleContactContainer extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.match.params.id !== "new") {
-      this.props.fetchContact(this.props.match.params.id);
-      this.props.fetchContactListings(this.props.match.params.id);
+    const { fetchContact, fetchContactListings, match } = this.props;
+
+    if (match.params.id !== "new") {
+      fetchContact(match.params.id);
+      fetchContactListings(match.params.id);
     }
     window.addEventListener("scroll", this.onScroll, false);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.contact !== nextProps.contact) {
+    const {
+      contact,
+      setEmailQuery,
+      fetchEmailsByContact,
+      fetchGroups,
+      emailsByContact,
+      maxResults
+    } = this.props;
+
+    if (contact !== nextProps.contact) {
       if (nextProps.contact.email) {
         // Map over all contacts email addresses + create query string...
         let request = "";
@@ -56,41 +65,61 @@ class SingleContactContainer extends React.Component {
         });
         request = request.slice(0, request.length - 4);
 
-        this.props.setEmailQuery(request);
-        this.props.fetchEmailsByContact(
+        setEmailQuery(request);
+        fetchEmailsByContact(
           // args: query, maxResults, pageToken, emailsArray
           request,
-          this.props.maxResults,
+          maxResults,
           0, // reset page token on new contact
-          this.props.emailsByContact
+          emailsByContact
         );
       }
-      this.props.fetchGroups(nextProps.contact.membership);
+      fetchGroups(nextProps.contact.membership);
     }
   }
 
   componentWillUnmount() {
+    const { clearContact, clearError } = this.props;
+
     window.removeEventListener("scroll", this.onScroll, false);
-    this.props.clearContact();
-    this.props.clearError();
+    clearContact();
+    clearError();
   }
 
   onScroll() {
-    if (
-      window.innerHeight + window.scrollY >= document.body.offsetHeight - 500 &&
-      this.props.emailsByContact.length &&
-      !this.props.isLoading
-    ) {
-      this.props.fetchEmailsByContact(
-        this.props.emailQuery,
-        this.props.maxResults,
-        this.props.pageToken,
-        this.props.emailsByContact
-      );
-    }
+    // const {
+    //   fetchEmailsByContact,
+    //   emailsByContact,
+    //   isLoading,
+    //   emailQuery,
+    //   maxResults,
+    //   pageToken
+    // } = this.props;
+    // if (
+    //   window.innerHeight + window.scrollY >= document.body.offsetHeight - 500 &&
+    //   emailsByContact.length &&
+    //   !isLoading
+    // ) {
+    //   fetchEmailsByContact(emailQuery, maxResults, pageToken, emailsByContact);
+    // }
   }
 
   render() {
+    const {
+      match,
+      isAuthed,
+      contact,
+      submitNewContact,
+      updateContact,
+      deleteContact,
+      groups,
+      contactListings,
+      isFetching,
+      emailsByContact,
+      onDrop,
+      deleteContactImage
+    } = this.props;
+
     return !this.props.isAuthed ? (
       <Redirect path="/" />
     ) : (
@@ -99,78 +128,76 @@ class SingleContactContainer extends React.Component {
 
         {/* CONTACT HEADER */}
         <ContactHeader
-          contact={this.props.contact}
-          isContactNew={this.props.match.params.id === "new"}
-          images={this.props.contact.images}
+          contact={contact}
+          isContactNew={match.params.id === "new"}
+          images={contact.images}
         />
 
         {/* CONTACT NESTED NAV */}
-        {this.props.match.params.id === "new" ? null : (
-          <ContactNav contactId={this.props.contact.id} />
+        {match.params.id === "new" ? null : (
+          <ContactNav contactId={contact.id} />
         )}
 
         {/* CONTACT FORM */}
         <Route
           exact
           path={
-            this.props.match.params.id === "new"
+            match.params.id === "new"
               ? `/contact/new`
-              : `/contact/${this.props.contact.id}`
+              : `/contact/${contact.id}`
           }
           render={routeProps => (
             <SingleContact
               {...routeProps}
-              contact={this.props.contact}
-              isContactNew={this.props.match.params.id === "new"}
-              submitNewContact={this.props.submitNewContact}
-              updateContact={this.props.updateContact}
-              deleteContact={this.props.deleteContact}
-              groups={this.props.groups}
+              contact={contact}
+              isContactNew={match.params.id === "new"}
+              submitNewContact={submitNewContact}
+              updateContact={updateContact}
+              deleteContact={deleteContact}
+              groups={groups}
             />
           )}
         />
 
         {/* CONTACT LISTINGS */}
         <Route
-          path={`/contact/${this.props.contact.id}/listings`}
+          path={`/contact/${contact.id}/listings`}
           render={routeProps => (
             <SearchListings
-              contact={this.props.contact}
-              contactListings={this.props.contactListings}
+              contact={contact}
+              contactListings={contactListings}
             />
           )}
         />
 
         {/* CONTACT EMAILS */}
         <Route
-          path={`/contact/${this.props.contact.id}/emails`}
+          path={`/contact/${contact.id}/emails`}
           render={routeProps => (
             <Emails
               {...routeProps}
-              emails={this.props.emailsByContact}
-              isFetching={this.props.isFetching}
+              emails={emailsByContact}
+              isFetching={isFetching}
             />
           )}
         />
 
         {/* CONTACT GROUPS */}
         <Route
-          path={`/contact/${this.props.contact.id}/groups`}
-          render={routeProps => (
-            <Groups {...routeProps} groups={this.props.groups} />
-          )}
+          path={`/contact/${contact.id}/groups`}
+          render={routeProps => <Groups {...routeProps} groups={groups} />}
         />
 
         {/* CONTACT MEDIA */}
         <Route
-          path={`/contact/${this.props.contact.id}/media`}
+          path={`/contact/${contact.id}/media`}
           render={routeProps => (
             <ImageCarousel
               {...routeProps}
-              onDrop={this.props.onDrop}
-              component={this.props.contact}
-              images={this.props.contact.images}
-              deleteImg={this.props.deleteContactImage}
+              onDrop={onDrop}
+              component={contact}
+              images={contact.images}
+              deleteImg={deleteContactImage}
             />
           )}
         />
@@ -196,8 +223,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   fetchContact,
-  // fetchImages,
-  // fetchGoogleImages,
   submitNewContact,
   updateContact,
   deleteContact,

@@ -87,7 +87,7 @@ export const fetchContacts = (
   contactsArray
 ) => async dispatch => {
   console.log("FETCHING CONTACTS");
-  if (!offset) dispatch(isFetching(true));
+  // if (!offset) dispatch(isFetching(true));
   dispatch(isLoading(true));
 
   const newOffset = offset + limit;
@@ -238,46 +238,25 @@ export const fetchGroups = groups => async dispatch => {
 };
 
 // CONTACT IMAGES
-export const onDrop = (files, contactId) => dispatch => {
-  // Push all the axios request promise into a single array
-  const images = [];
+export const onDrop = (files, contactId) => async dispatch => {
+  const uploadConfig = await axios.post("/api/upload", { contactId });
 
-  const uploaders = files.map(file => {
-    // Initial FormData
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("tags", `leadcloud, contacts`);
-    formData.append("upload_preset", "wdummsbt"); // Replace the preset name with your own
-    formData.append("api_key", "578481212729746"); // Replace API key with your own Cloudinary key
-    formData.append("timestamp", Date.now() / 1000 || 0);
-    formData.append("width", "175");
-    formData.append("height", "175");
-
-    return axios
-      .post(
-        "https://api.cloudinary.com/v1_1/leadcloud/image/upload/",
-        formData,
-        {
-          headers: { "X-Requested-With": "XMLHttpRequest" }
-        }
-      )
-      .then(response => {
-        const data = response.data;
-        const fileURL = data.secure_url;
-        images.push(fileURL);
-      });
+  await axios.put(uploadConfig.data.url, files[0], {
+    headers: {
+      "Content-Type": files[0].type
+    }
   });
 
-  axios.all(uploaders).then(() =>
-    axios
-      .post("/api/contacts/images", {
-        images,
-        contactId
-      })
-      .then(res => {
-        dispatch(setContact(res.data));
-      })
-  );
+  const res = await axios.post("/api/contacts/images", {
+    images: [
+      `https://s3.amazonaws.com/leadcloud-v5-user-images/${
+        uploadConfig.data.key
+      }`
+    ],
+    contactId
+  });
+
+  dispatch(setContact(res.data));
 };
 
 export const deleteContactImage = (image, contactId) => async dispatch => {
