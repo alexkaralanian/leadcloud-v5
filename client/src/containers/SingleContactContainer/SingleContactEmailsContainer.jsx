@@ -2,11 +2,20 @@ import React from "react";
 import { connect } from "react-redux";
 
 import Emails from "../../components/Emails/Emails";
+import { fetchEmailsByContact, clearEmails } from "../../actions/email-actions";
 
 class SingleContactEmailsContainer extends React.Component {
   constructor(props) {
     super(props);
     this.onScroll = this.onScroll.bind(this);
+  }
+
+  componentDidMount() {
+    window.addEventListener("scroll", this.onScroll, false);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("scroll", this.onScroll, false);
   }
 
   onScroll() {
@@ -34,4 +43,17 @@ class SingleContactEmailsContainer extends React.Component {
   }
 }
 
-export default connect(null, null)(SingleContactEmailsContainer);
+const mapStateToProps = state => ({
+  isFetching: state.emailReducer.isFetching,
+  isLoading: state.emailReducer.isLoading,
+  emailsByContact: state.contactReducer.emailsByContact,
+  emailQuery: state.emailReducer.emailQuery,
+  maxResults: state.emailReducer.maxResults,
+  pageToken: state.emailReducer.pageToken
+});
+
+const mapDispatchToProps = { fetchEmailsByContact, clearEmails };
+
+export default connect(mapStateToProps, mapDispatchToProps)(
+  SingleContactEmailsContainer
+);

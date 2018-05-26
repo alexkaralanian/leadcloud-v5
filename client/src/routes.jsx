@@ -16,7 +16,7 @@ import "./index.css";
 // import ContactsContainer from "./containers/ContactsContainer/ContactsContainer";
 // import SingleContactContainer from "./containers/SingleContactContainer/SingleContactContainer";
 
-// import iFrameContainer from "./containers/SingleEmailContainer/iFrameContainer";
+import iFrameContainer from "./containers/SingleEmailContainer/iFrameContainer";
 // import Email from "./components/SingleEmail/SingleEmail";
 import Loading from "./components/Loading/Loading";
 
@@ -47,10 +47,10 @@ const SingleEmail = Loadable({
   loading: Loading
 });
 
-const iFrameContainer = Loadable({
-  loader: () => import("./containers/SingleEmailContainer/iFrameContainer"),
-  loading: Loading
-});
+// const iFrameContainer = Loadable({
+//   loader: () => import("./containers/SingleEmailContainer/iFrameContainer"),
+//   loading: Loading
+// });
 
 const Contacts = Loadable({
   loader: () => import("./containers/ContactsContainer/ContactsContainer"),

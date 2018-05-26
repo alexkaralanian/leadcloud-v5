@@ -9,7 +9,7 @@ import ContactNav from "../../components/SingleContact/ContactNav";
 import SingleContact from "../../components/SingleContact/SingleContact";
 import ImageCarousel from "../../components/ImageCarousel/ImageCarousel";
 import SearchListings from "../../components/SingleContact/SearchListings";
-import Emails from "../../components/Emails/Emails";
+import SingleContactEmailsContainer from "./SingleContactEmailsContainer";
 import Groups from "../../components/Groups/Groups";
 
 import {
@@ -31,11 +31,6 @@ import {
 } from "../../actions/email-actions";
 
 class SingleContactContainer extends React.Component {
-  constructor(props) {
-    super(props);
-    this.onScroll = this.onScroll.bind(this);
-  }
-
   componentDidMount() {
     const { fetchContact, fetchContactListings, match } = this.props;
 
@@ -43,7 +38,6 @@ class SingleContactContainer extends React.Component {
       fetchContact(match.params.id);
       fetchContactListings(match.params.id);
     }
-    window.addEventListener("scroll", this.onScroll, false);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -81,27 +75,8 @@ class SingleContactContainer extends React.Component {
   componentWillUnmount() {
     const { clearContact, clearError } = this.props;
 
-    window.removeEventListener("scroll", this.onScroll, false);
     clearContact();
     clearError();
-  }
-
-  onScroll() {
-    // const {
-    //   fetchEmailsByContact,
-    //   emailsByContact,
-    //   isLoading,
-    //   emailQuery,
-    //   maxResults,
-    //   pageToken
-    // } = this.props;
-    // if (
-    //   window.innerHeight + window.scrollY >= document.body.offsetHeight - 500 &&
-    //   emailsByContact.length &&
-    //   !isLoading
-    // ) {
-    //   fetchEmailsByContact(emailQuery, maxResults, pageToken, emailsByContact);
-    // }
   }
 
   render() {
@@ -164,6 +139,7 @@ class SingleContactContainer extends React.Component {
           path={`/contact/${contact.id}/listings`}
           render={routeProps => (
             <SearchListings
+              {...routeProps}
               contact={contact}
               contactListings={contactListings}
             />
@@ -174,11 +150,7 @@ class SingleContactContainer extends React.Component {
         <Route
           path={`/contact/${contact.id}/emails`}
           render={routeProps => (
-            <Emails
-              {...routeProps}
-              emails={emailsByContact}
-              isFetching={isFetching}
-            />
+            <SingleContactEmailsContainer {...routeProps} />
           )}
         />
 
