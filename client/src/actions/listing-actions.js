@@ -19,14 +19,26 @@ export const setListing = listing => ({
   payload: listing
 });
 
-export const setContactSearch = searchResults => ({
-  type: types.SET_CONTACT_SEARCH,
-  payload: searchResults
-});
+// export const setContactSearch = searchResults => ({
+//   type: types.SET_CONTACT_SEARCH,
+//   payload: searchResults
+// });
 
 export const setListingContacts = contacts => ({
   type: types.SET_LISTING_CONTACTS,
   payload: contacts
+});
+
+export const setListingImages = images => ({
+  type: types.SET_LISTING_IMAGES,
+  payload: images
+});
+
+// ADMINISTRATIVE
+
+export const isFetching = bool => ({
+  type: types.IS_FETCHING,
+  isFetching: bool
 });
 
 export const setError = error => ({
@@ -34,9 +46,8 @@ export const setError = error => ({
   error
 });
 
-export const isFetching = bool => ({
-  type: types.IS_FETCHING,
-  isFetching: bool
+export const clearError = () => ({
+  type: types.CLEAR_ERROR
 });
 
 export const clearListing = () => ({
@@ -47,10 +58,7 @@ export const clearListings = () => ({
   type: types.CLEAR_LISTINGS
 });
 
-export const setListingImages = images => ({
-  type: types.SET_LISTING_IMAGES,
-  payload: images
-});
+// ASYNC ACTION CREATORS
 
 export const fetchListings = () => async dispatch => {
   dispatch(isFetching(true));
@@ -179,46 +187,46 @@ export const deleteListingContact = (
 };
 
 // // LISTING IMAGES
-// export const onDrop = (files, listingId) => dispatch => {
-//   const images = [];
+export const onDrop = (files, listingId) => dispatch => {
+  const images = [];
 
-//   const uploaders = files.map(file => {
-//     // Initial FormData
-//     const formData = new FormData();
-//     formData.append("file", file);
-//     formData.append("tags", `leadcloud, listings`);
-//     formData.append("upload_preset", "wdummsbt"); // Replace the preset name with your own
-//     formData.append("api_key", "578481212729746"); // Replace API key with your own Cloudinary key
-//     formData.append("timestamp", Date.now() / 1000 || 0);
-//     formData.append("width", "175");
-//     formData.append("height", "175");
-//     // Make an AJAX upload request using Axios (replace Cloudinary URL below with your own)
-//     return axios
-//       .post(
-//         "https://api.cloudinary.com/v1_1/leadcloud/image/upload/",
-//         formData,
-//         {
-//           headers: { "X-Requested-With": "XMLHttpRequest" }
-//         }
-//       )
-//       .then(response => {
-//         const data = response.data;
-//         const fileURL = data.secure_url;
-//         images.push(fileURL);
-//       });
-//   });
+  const uploaders = files.map(file => {
+    // Initial FormData
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("tags", `leadcloud, listings`);
+    formData.append("upload_preset", "wdummsbt"); // Replace the preset name with your own
+    formData.append("api_key", "578481212729746"); // Replace API key with your own Cloudinary key
+    formData.append("timestamp", Date.now() / 1000 || 0);
+    formData.append("width", "175");
+    formData.append("height", "175");
+    // Make an AJAX upload request using Axios (replace Cloudinary URL below with your own)
+    return axios
+      .post(
+        "https://api.cloudinary.com/v1_1/leadcloud/image/upload/",
+        formData,
+        {
+          headers: { "X-Requested-With": "XMLHttpRequest" }
+        }
+      )
+      .then(response => {
+        const data = response.data;
+        const fileURL = data.secure_url;
+        images.push(fileURL);
+      });
+  });
 
-//   axios.all(uploaders).then(() => {
-//     axios
-//       .post("/api/listings/images", {
-//         images,
-//         listingId
-//       })
-//       .then(res => {
-//         dispatch(setListing(res.data));
-//       });
-//   });
-// };
+  axios.all(uploaders).then(() => {
+    axios
+      .post("/api/listings/images", {
+        images,
+        listingId
+      })
+      .then(res => {
+        dispatch(setListing(res.data));
+      });
+  });
+};
 
 export const deleteListingImage = (image, listingId) => async dispatch => {
   try {

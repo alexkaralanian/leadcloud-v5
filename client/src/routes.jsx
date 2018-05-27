@@ -63,6 +63,22 @@ const SingleContact = Loadable({
   loading: Loading
 });
 
+const Listings = Loadable({
+  loader: () => import("./containers/ListingsContainer/ListingsContainer"),
+  loading: Loading
+});
+
+const SingleListing = Loadable({
+  loader: () =>
+    import("./containers/SingleListingContainer/SingleListingContainer"),
+  loading: Loading
+});
+
+const OpenHouse = Loadable({
+  loader: () => import("./containers/OpenHouseContainer/OpenHouseContainer"),
+  loading: Loading
+});
+
 class App extends React.Component {
   componentDidMount() {
     this.props.fetchUser();
@@ -82,6 +98,9 @@ class App extends React.Component {
             <Route path="/contacts" component={Contacts} />
             <Route path="/contact/:id" component={SingleContact} />
             <Route path="/contact/new" component={SingleContact} />
+            <Route path="/listings" component={Listings} />
+            <Route path="/listing/:id" component={SingleListing} />
+            <Route path="/openhouse/:listingId" component={OpenHouse} />
             <Route
               render={() => (
                 <div>

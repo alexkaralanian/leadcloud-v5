@@ -1,0 +1,58 @@
+.inlineForm {
+  display: flex;
+  flex-direction: row;
+}
+
+.canvas {
+  background-color: gray;
+}
+
+.contactList {
+  list-style-type: none;
+  margin: 0px;
+  padding-left: 0px;
+}
+
+.contactList li {
+  margin: 10px 0;
+}
+
+td img {
+  height: 50px;
+  width: 50px;
+  border-radius: 3px;
+  margin-right: 10px;
+}
+
+.addButton {
+  border-radius: 2px !important;
+}
+
+.addButton span {
+  font-size: 12px;
+}
+
+.NavBar {
+  margin: 15px 0;
+}
+
+.headerContent {
+  min-height: 150px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.listingImage {
+  height: 125px;
+  border-radius: 3px;
+  margin-right: 20px;
+  margin-bottom: 10px;
+}
+
+.openHouseBtn {
+  /*  margin-top: 10px;*/
+  /*height: 45px;*/
+  width: 175px;
+  margin-bottom: 10px;
+}

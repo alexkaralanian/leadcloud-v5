@@ -7,8 +7,8 @@ const initialState = {
   isListingNew: true,
   error: "",
   message: "",
-  images: null
-  // isListingSubmitted: false
+  images: null,
+  isFetching: false
 };
 
 const listingReducer = (state = initialState, action) => {
@@ -45,33 +45,43 @@ const listingReducer = (state = initialState, action) => {
         isListingNew: action.payload
       };
 
-    case types.CLEAR_LISTING:
-      return {
-        ...state,
-        listing: {}
-      };
-
     case types.SET_LISTING_IMAGES:
       return {
         ...state,
         images: action.payload
       };
 
-    // case types.CLEAR_LISTING:
-    //   newState.emails = [];
-    //   break;
+    // ADMINISTRATIVE
 
-    // case types.IS_FETCHING:
-    //   newState.isFetching = action.isFetching;
-    //   break;
+    case types.IS_FETCHING:
+      return {
+        ...state,
+        isFetching: action.payload
+      };
 
-    // case types.GET_ERROR:
-    //   newState.error = action.error;
-    //   break;
+    case types.SET_ERROR:
+      return {
+        ...state,
+        error: action.payload
+      };
 
-    // case types.CLEAR_ERROR:
-    //   newState.error = "";
-    //   break;
+    case types.CLEAR_ERROR:
+      return {
+        ...state,
+        error: ""
+      };
+
+    case types.CLEAR_LISTINGS:
+      return {
+        ...state,
+        listings: []
+      };
+
+    case types.CLEAR_LISTING:
+      return {
+        ...state,
+        listing: {}
+      };
 
     default:
       return state;
