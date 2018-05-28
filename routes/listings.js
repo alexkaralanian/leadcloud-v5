@@ -12,9 +12,9 @@ router.get("/", (req, res, next) => {
 
   Listings.findAll({
     where: {
-      UserId: userId
-    },
-    order: "updated DESC"
+      UserUuid: userId
+    }
+    // order: "updated DESC"
   })
     .then(listings => {
       res.json(listings);
@@ -30,7 +30,7 @@ router.post("/new", (req, res, next) => {
   const userId = req.session.user.toString();
 
   Listings.create({
-    UserId: userId,
+    UserUuid: userId,
     address: req.body.address,
     street: req.body.street,
     city: req.body.city,
@@ -55,7 +55,7 @@ router.patch("/:id/update", (req, res, next) => {
   Listings.findOne({
     where: {
       id: req.params.id,
-      UserId: userId
+      UserUuid: userId
     }
   })
     .then(listing => {
@@ -76,7 +76,7 @@ router.delete("/:id/delete", (req, res, next) => {
   Listings.findOne({
     where: {
       id: req.params.id,
-      UserId: userId
+      UserUuid: userId
     }
   })
     .then(listing => {
@@ -98,7 +98,7 @@ router.get("/:id", (req, res, next) => {
   Listings.findOne({
     where: {
       id: req.params.id,
-      UserId: userId
+      UserUuid: userId
     }
   })
     .then(listing => {
@@ -116,7 +116,7 @@ router.post("/setListingContacts", (req, res, next) => {
   Contacts.findOne({
     where: {
       id: req.body.contactId,
-      UserId: userId
+      UserUuid: userId
     }
   })
     .then(contact => contact.addListing(req.body.listingId))
@@ -124,7 +124,7 @@ router.post("/setListingContacts", (req, res, next) => {
       Listings.findOne({
         where: {
           id: req.body.listingId,
-          UserId: userId
+          UserUuid: userId
         }
       }).then(listing => {
         listing.addContact(req.body.contactId).then(() => {
@@ -178,8 +178,8 @@ router.post("/images", (req, res) => {
   const userId = req.session.user.toString();
   Listings.findOne({
     where: {
-      id: req.body.listingId,
-      UserId: userId
+      id: req.body.componentId,
+      UserUuid: userId
     }
   }).then(listing => {
     let images = listing.images;
@@ -203,7 +203,7 @@ router.post("/images/delete", (req, res) => {
   const userId = req.session.user.toString();
   Listings.findOne({
     where: {
-      UserId: userId,
+      UserUuid: userId,
       id: req.body.listingId
     }
   }).then(listing => {

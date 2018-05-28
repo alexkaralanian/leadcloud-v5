@@ -12,7 +12,8 @@ module.exports = (sequelize, DataTypes) => {
     {}
   );
   listings.associate = models => {
-    // associations can be defined here
+    listings.belongsTo(models.users, { as: "User" });
+    listings.belongsToMany(models.contacts, { through: "ListingContact" });
   };
   return listings;
 };

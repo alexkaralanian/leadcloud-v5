@@ -38,7 +38,7 @@ router.get("/loadcontacts", findUserById, (req, res, next) => {
       groups.contactGroups.map(group => {
         ContactTags.findOrCreate({
           where: {
-            UserId: userId,
+            UserUuid: userId,
             googleId: group.resourceName.slice(
               group.resourceName.indexOf("/") + 1 // contactGroups/...
             )
@@ -122,7 +122,7 @@ router.get("/loadcontacts", findUserById, (req, res, next) => {
         Contacts.findOrCreate({
           where: {
             googleId: contact.metadata.sources[0].id,
-            UserId: userId
+            UserUuid: userId
           },
           defaults
         }).then(createdContact => {
@@ -145,7 +145,7 @@ router.get("/", (req, res, next) => {
     limit: req.query.limit,
     offset: req.query.offset,
     where: {
-      UserId: userId,
+      UserUuid: userId,
       $and: {
         fullName: {
           $iLike: `${req.query.query}%`
@@ -170,7 +170,7 @@ router.get("/:id", (req, res, next) => {
   Contacts.findOne({
     where: {
       id: req.params.id,
-      UserId: userId
+      UserUuid: userId
     }
   })
     .then(response => {
@@ -189,7 +189,7 @@ router.post("/groups", isAuthed, (req, res, next) => {
   ContactTags.findAll({
     where: {
       googleId: req.body.groups,
-      UserId: userId
+      UserUuid: userId
     }
   })
     .then(response => {
@@ -216,7 +216,7 @@ router.patch("/:id/update", (req, res, next) => {
   Contacts.findOne({
     where: {
       id: req.params.id,
-      UserId: userId
+      UserUuid: userId
     }
   })
     .then(contact => {
@@ -240,7 +240,7 @@ router.post("/new", (req, res, next) => {
 
   Contacts.findAll({
     where: {
-      UserId: userId,
+      UserUuid: userId,
       email: {
         $contains: [
           {
@@ -254,7 +254,7 @@ router.post("/new", (req, res, next) => {
       // query return an array
       if (_.isEmpty(response)) {
         Contacts.create({
-          UserId: userId,
+          UserUuid: userId,
           email: [
             {
               value: req.body.email,
@@ -304,7 +304,7 @@ router.post("/new/openhouse", (req, res, next) => {
 
   Contacts.findAll({
     where: {
-      UserId: userId,
+      UserUuid: userId,
       email: {
         $contains: [
           {
@@ -318,7 +318,7 @@ router.post("/new/openhouse", (req, res, next) => {
       // query return an array
       if (_.isEmpty(response)) {
         Contacts.create({
-          UserId: req.session.user.id,
+          UserUuid: req.session.user.id,
           email: [
             {
               value: req.body.email,
@@ -374,7 +374,7 @@ router.delete("/:id/delete", (req, res, next) => {
   Contacts.findOne({
     where: {
       id: req.params.id,
-      UserId: userId
+      UserUuid: userId
     }
   })
     .then(contact => {
@@ -452,8 +452,8 @@ router.post("/images", (req, res) => {
 
   Contacts.findOne({
     where: {
-      id: req.body.contactId,
-      UserId: userId
+      id: req.body.componentId,
+      UserUuid: userId
     }
   }).then(contact => {
     let images = contact.images;
@@ -478,7 +478,7 @@ router.post("/images/delete", (req, res) => {
 
   Contacts.findOne({
     where: {
-      UserId: userId,
+      UserUuid: userId,
       id: req.body.contactId
     }
   }).then(contact => {

@@ -13,8 +13,9 @@ const s3 = new AWS.S3({
 
 router.post("/", isAuthed, (req, res) => {
   const userId = req.session.user.toString();
-  const contactId = req.body.contactId;
-  const key = `${userId}/${contactId}/${uuid()}.jpeg`;
+  const componentType = req.body.componentType;
+  const componentId = req.body.componentId;
+  const key = `${userId}/${componentType}/${componentId}/${uuid()}.jpeg`;
 
   s3.getSignedUrl(
     "putObject",

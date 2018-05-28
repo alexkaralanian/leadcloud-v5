@@ -238,8 +238,11 @@ export const fetchGroups = groups => async dispatch => {
 };
 
 // CONTACT IMAGES
-export const onDrop = (files, contactId) => async dispatch => {
-  const uploadConfig = await axios.post("/api/upload", { contactId });
+export const onDrop = (files, componentId) => async dispatch => {
+  const uploadConfig = await axios.post("/api/upload", {
+    componentType: "contact",
+    componentId
+  });
 
   await axios.put(uploadConfig.data.url, files[0], {
     headers: {
@@ -253,7 +256,7 @@ export const onDrop = (files, contactId) => async dispatch => {
         uploadConfig.data.key
       }`
     ],
-    contactId
+    componentId
   });
 
   dispatch(setContact(res.data));

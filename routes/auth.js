@@ -64,10 +64,9 @@ router.get("/google/callback", (req, res) => {
             });
           }
           // Add session obj to req.session.user
-          req.session["user"] = user.id;
-          if (process.env.NODE_ENV === "production") {
-            res.redirect("/");
-          } else res.redirect("http://localhost:3000/");
+          req.session["user"] = user.uuid;
+
+          res.redirect("http://localhost:3000");
         }
       );
     } else {

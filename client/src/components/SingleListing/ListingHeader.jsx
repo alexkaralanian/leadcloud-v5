@@ -12,24 +12,27 @@ const ListingHeader = ({ listing, images, isListingNew }) => (
           <h1 className="headerText">
             {isListingNew ? "New Listing" : listing.address}
           </h1>
-          <div className="headerContent">
-            <img
-              className="listingImage"
-              alt="Listing"
-              src={images && images[0]}
-            />
-            <Link
-              to={{
-                pathname: `/openhouse/${listing.id}`,
-                state: {
-                  listing,
-                  images
-                }
-              }}
-            >
-              <span>Launch Open House</span>
-            </Link>
-          </div>
+          {!isListingNew && (
+            <div className="headerContent">
+              <img
+                className="listingImage"
+                alt="Listing"
+                src={images && images[0]}
+              />
+
+              <Link
+                to={{
+                  pathname: `/openhouse/${listing.id}`,
+                  state: {
+                    listing,
+                    images
+                  }
+                }}
+              >
+                <span>Launch Open House</span>
+              </Link>
+            </div>
+          )}
         </div>
       </Col>
     </Row>
