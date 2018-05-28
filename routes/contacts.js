@@ -1,6 +1,6 @@
 const express = require("express");
 const moment = require("moment");
-const _ = require("lodash");
+const isEmpty = require("lodash.isempty");
 const { google } = require("googleapis");
 const findUserById = require("../middlewares/findUserById");
 const isAuthed = require("../middlewares/authChecker");
@@ -16,11 +16,11 @@ const router = express.Router();
 const people = google.people("v1");
 
 // FETCH, MAP, AND LOAD USER'S GROUPS AND CONTACTS TO DB
-router.get("/loadcontacts", findUserById, (req, res, next) => {
+router.get("/loadcontacts", findUserById, async (req, res) => {
   const userId = req.session.user.toString();
 
   // FETCH, MAP, & LOAD USER'S GROUPS
-  new Promise((resolve, reject) => {
+  const groups = await new Promise((resolve, reject) => {
     people.contactGroups.list(
       {
         auth: oAuth2Client
@@ -33,33 +33,26 @@ router.get("/loadcontacts", findUserById, (req, res, next) => {
         }
       }
     );
-  })
-    .then(groups => {
-      groups.contactGroups.map(group => {
-        ContactTags.findOrCreate({
-          where: {
-            UserUuid: userId,
-            googleId: group.resourceName.slice(
-              group.resourceName.indexOf("/") + 1 // contactGroups/...
-            )
-          },
-          defaults: {
-            title: group.name
-          }
-        });
-      });
-    })
-    .catch(err => {
-      console.error(err);
-      next(err);
+  });
+
+  groups.contactGroups.map(group => {
+    ContactTags.findOrCreate({
+      where: {
+        UserUuid: userId,
+        googleId: group.resourceName.slice(
+          group.resourceName.indexOf("/") + 1 // contactGroups/...
+        )
+      },
+      defaults: {
+        title: group.name
+      }
     });
+  });
 
-  // FETCH, MAP, & LOAD ALL GOOGLE CONTACTS
-  new Promise((resolve, reject) => {
+  // FETCH USER'S GOOGLE CONTACTS
+  const contacts = await new Promise((resolve, reject) => {
     let contactsArray = [];
-    const userId = req.session.user.toString();
-
-    function getContacts(pageToken) {
+    const getContacts = pageToken => {
       people.people.connections.list(
         {
           resourceName: "people/me",
@@ -82,328 +75,279 @@ router.get("/loadcontacts", findUserById, (req, res, next) => {
           }
         }
       );
-    }
+    };
     getContacts();
-  })
-    .then(results => {
-      // MAP CONTACTS TO DB SCHEMA
-      return results.map(contact => {
-        const imageArray =
-          contact.photos && contact.photos.map(photo => photo.url);
+  });
 
-        const membershipArray =
-          contact.memberships &&
-          contact.memberships.map(
-            group => group.contactGroupMembership.contactGroupId
-          );
+  // MAP & LOAD USER CONTACTS TO DB
+  contacts.map(contact => {
+    const imageArray = contact.photos && contact.photos.map(photo => photo.url);
 
-        const defaults = {
-          firstName:
-            contact.names &&
-            contact.names[0].givenName &&
-            contact.names[0].givenName,
-          lastName:
-            contact.names &&
-            contact.names[0].familyName &&
-            contact.names[0].familyName,
-          fullName:
-            contact.names &&
-            contact.names[0].displayName &&
-            contact.names[0].displayName,
-          email: contact.emailAddresses && contact.emailAddresses,
-          phone: contact.phoneNumbers && contact.phoneNumbers,
-          address: contact.addresses && contact.addresses,
-          membership: membershipArray,
-          updated: moment(contact.metadata.sources[0].updateTime).format(),
-          images: imageArray
-        };
+    const membershipArray =
+      contact.memberships &&
+      contact.memberships.map(
+        group => group.contactGroupMembership.contactGroupId
+      );
 
-        // LOAD CONTACTS TO DB
-        Contacts.findOrCreate({
-          where: {
-            googleId: contact.metadata.sources[0].id,
-            UserUuid: userId
-          },
-          defaults
-        }).then(createdContact => {
-          createdContact[0].setUser(userId);
-        });
-      });
-    })
-    .then(() => res.sendStatus(200))
-    .catch(err => {
-      console.error(err);
-      next(err);
+    const defaults = {
+      firstName:
+        contact.names &&
+        contact.names[0].givenName &&
+        contact.names[0].givenName,
+      lastName:
+        contact.names &&
+        contact.names[0].familyName &&
+        contact.names[0].familyName,
+      fullName:
+        contact.names &&
+        contact.names[0].displayName &&
+        contact.names[0].displayName,
+      email: contact.emailAddresses && contact.emailAddresses,
+      phone: contact.phoneNumbers && contact.phoneNumbers,
+      address: contact.addresses && contact.addresses,
+      membership: membershipArray,
+      updated: moment(contact.metadata.sources[0].updateTime).format(),
+      images: imageArray
+    };
+
+    Contacts.findOrCreate({
+      where: {
+        googleId: contact.metadata.sources[0].id,
+        UserUuid: userId
+      },
+      defaults
+    }).then(createdContact => {
+      createdContact[0].setUser(userId);
     });
+  });
+
+  res.sendStatus(200);
 });
 
 // GET ALL CONTACTS FROM DB
-router.get("/", (req, res, next) => {
+router.get("/", async (req, res) => {
   const userId = req.session.user.toString();
 
-  Contacts.findAll({
-    limit: req.query.limit,
-    offset: req.query.offset,
-    where: {
-      UserUuid: userId,
-      $and: {
-        fullName: {
-          $iLike: `${req.query.query}%`
+  try {
+    const contacts = await Contacts.findAll({
+      limit: req.query.limit,
+      offset: req.query.offset,
+      where: {
+        UserUuid: userId,
+        $and: {
+          fullName: {
+            $iLike: `${req.query.query}%`
+          }
         }
-      }
-    },
-    order: [["updated", "DESC"], ["lastName", "ASC"]]
-  })
-    .then(contacts => {
-      res.json(contacts);
-    })
-    .catch(error => {
-      console.error(error);
-      next(error);
+      },
+      order: [["updated", "DESC"], ["lastName", "ASC"]]
     });
+
+    res.json(contacts);
+  } catch (err) {
+    console.error(err);
+  }
 });
 
 // GET SINGLE CONTACT
-router.get("/:id", (req, res, next) => {
+router.get("/:id", async (req, res) => {
   const userId = req.session.user.toString();
 
-  Contacts.findOne({
-    where: {
-      id: req.params.id,
-      UserUuid: userId
-    }
-  })
-    .then(response => {
-      res.json(response);
-    })
-    .catch(error => {
-      console.error(error);
-      next(error);
+  try {
+    const contact = await Contacts.findOne({
+      where: {
+        id: req.params.id,
+        UserUuid: userId
+      }
     });
+    res.json(contact);
+  } catch (err) {
+    console.error(err);
+  }
 });
 
 // GET GROUPS
-router.post("/groups", isAuthed, (req, res, next) => {
+router.post("/groups", isAuthed, async (req, res) => {
   const userId = req.session.user.toString();
 
-  ContactTags.findAll({
-    where: {
-      googleId: req.body.groups,
-      UserUuid: userId
-    }
-  })
-    .then(response => {
-      return response.map(group => {
-        if (group !== null) {
-          return group.dataValues.title;
-        }
-        return null;
-      });
-    })
-    .then(response => {
-      res.json(response);
-    })
-    .catch(error => {
-      console.error(error);
-      next(error);
+  try {
+    const contactTags = await ContactTags.findAll({
+      where: {
+        googleId: req.body.groups,
+        UserUuid: userId
+      }
     });
+    const tagsMap = contactTags.map(group => {
+      if (group !== null) {
+        return group.dataValues.title;
+      }
+      return null;
+    });
+    res.json(tagsMap);
+  } catch (err) {
+    console.error(err);
+  }
 });
 
 // UPDATE CONACT
-router.patch("/:id/update", (req, res, next) => {
+router.patch("/:id/update", async (req, res) => {
   const userId = req.session.user.toString();
 
-  Contacts.findOne({
-    where: {
-      id: req.params.id,
-      UserUuid: userId
-    }
-  })
-    .then(contact => {
-      req.body.updated = moment(Date.now()).toISOString();
-      req.body.fullName = `${
-        req.body.firstName ? req.body.firstName.trim() : ""
-      } ${req.body.lastName ? req.body.lastName.trim() : ""}`;
-      contact.update(req.body).then(updatedContact => {
-        res.json(updatedContact);
-      });
-    })
-    .catch(error => {
-      console.error(error);
-      next(error);
+  try {
+    const contact = await Contacts.findOne({
+      where: {
+        id: req.params.id,
+        UserUuid: userId
+      }
     });
+
+    req.body.updated = moment(Date.now()).toISOString();
+    req.body.fullName = `${
+      req.body.firstName ? req.body.firstName.trim() : ""
+    } ${req.body.lastName ? req.body.lastName.trim() : ""}`;
+
+    const updatedConact = await contact.update(req.body);
+    res.json(updatedContact);
+  } catch (err) {
+    console.error(err);
+  }
 });
 
 // CREATE NEW CONTACT
-router.post("/new", (req, res, next) => {
+router.post("/new", async (req, res) => {
   const userId = req.session.user.toString();
 
-  Contacts.findAll({
-    where: {
-      UserUuid: userId,
-      email: {
-        $contains: [
-          {
-            address: req.body.email
-          }
-        ]
-      }
-    }
-  })
-    .then(response => {
-      // query return an array
-      if (_.isEmpty(response)) {
-        Contacts.create({
-          UserUuid: userId,
-          email: [
+  try {
+    const contacts = await Contacts.findAll({
+      where: {
+        UserUuid: userId,
+        email: {
+          $contains: [
             {
-              value: req.body.email,
-              type: null
+              address: req.body.email
             }
-          ],
-          phone: [
-            {
-              value: req.body.phone,
-              type: null
-            }
-          ],
-          fullName: `${req.body.firstName ? req.body.firstName.trim() : ""} ${
-            req.body.lastName ? req.body.lastName.trim() : ""
-          }`,
-          firstName: req.body.firstName && req.body.firstName.trim(),
-          lastName: req.body.lastName && req.body.lastName.trim(),
-          notes: req.body.notes,
-          updated: moment(Date.now()).toISOString()
-        }).then(createdContact => {
-          res.json(createdContact.dataValues);
-        });
-      } else {
-        // here we are returning the first item - array[0]
-        // however in certain cases where contacts were imported from another db this array may yield several items, in which we case we need to respond appropriately
-        // maybe boolean flag with a pop-up window with option redirecting us to the user
-        // also an option to merge existing contacts into 1 single contact
-
-        // add an 'isUnique' flag
-        // map over array
-        // extract id name, emails...
-        // return cleaned object
-        //
-        res.json(response[0].dataValues);
+          ]
+        }
       }
-    })
-    .catch(error => {
-      console.error(error);
-      next(error);
     });
 
-  // res.json("/listings/new", req.data);
+    if (isEmpty(contacts)) {
+      const createdContact = await Contacts.create({
+        UserUuid: userId,
+        email: [
+          {
+            value: req.body.email,
+            type: null
+          }
+        ],
+        phone: [
+          {
+            value: req.body.phone,
+            type: null
+          }
+        ],
+        fullName: `${req.body.firstName ? req.body.firstName.trim() : ""} ${
+          req.body.lastName ? req.body.lastName.trim() : ""
+        }`,
+        firstName: req.body.firstName && req.body.firstName.trim(),
+        lastName: req.body.lastName && req.body.lastName.trim(),
+        notes: req.body.notes,
+        updated: moment(Date.now()).toISOString()
+      });
+      res.json(createdContact.dataValues);
+    } else {
+      res.json(contacts[0].dataValues);
+    }
+  } catch (err) {
+    console.error(err);
+  }
 });
 
-router.post("/new/openhouse", (req, res, next) => {
+router.post("/new/openhouse", async (req, res) => {
   const userId = req.session.user.toString();
 
-  Contacts.findAll({
-    where: {
-      UserUuid: userId,
-      email: {
-        $contains: [
-          {
-            address: req.body.email
-          }
-        ]
-      }
-    }
-  })
-    .then(response => {
-      // query return an array
-      if (_.isEmpty(response)) {
-        Contacts.create({
-          UserUuid: userId,
-          email: [
+  try {
+    const contact = await Contacts.findAll({
+      where: {
+        UserUuid: userId,
+        email: {
+          $contains: [
             {
-              value: req.body.email,
-              type: null
+              address: req.body.email
             }
-          ],
-          phone: [
-            {
-              value: req.body.phone,
-              type: null
-            }
-          ],
-          fullName: `${req.body.firstName ? req.body.firstName.trim() : ""} ${
-            req.body.lastName ? req.body.lastName.trim() : ""
-          }`,
-          firstName: req.body.firstName && req.body.firstName.trim(),
-          lastName: req.body.lastName && req.body.lastName.trim(),
-          notes: req.body.notes,
-          updated: moment(Date.now()).toISOString()
-        }).then(createdContact => {
-          Listings.findById(req.body.listingId).then(listing => {
-            listing.addContact(createdContact.id);
-            createdContact.addListing(req.body.listingId);
-            res.json(createdContact.dataValues);
-          });
-        });
-      } else {
-        // here we are returning the first item - array[0]
-        // however in certain cases where contacts were imported from another db this array may yield several items, in which we case we need to respond appropriately
-        // maybe boolean flag with a pop-up window with option redirecting us to the user
-        // also an option to merge existing contacts into 1 single contact
-
-        // add an 'isUnique' flag
-        // map over array
-        // extract id name, emails...
-        // return cleaned object
-        //
-        res.json(response[0].dataValues);
+          ]
+        }
       }
-    })
-    .catch(error => {
-      console.error(error);
-      next(error);
     });
 
-  // res.json("/listings/new", req.data);
+    // query return an array
+    if (isEmpty(contact)) {
+      const createdContact = await Contacts.create({
+        UserUuid: userId,
+        email: [
+          {
+            value: req.body.email,
+            type: null
+          }
+        ],
+        phone: [
+          {
+            value: req.body.phone,
+            type: null
+          }
+        ],
+        fullName: `${req.body.firstName ? req.body.firstName.trim() : ""} ${
+          req.body.lastName ? req.body.lastName.trim() : ""
+        }`,
+        firstName: req.body.firstName && req.body.firstName.trim(),
+        lastName: req.body.lastName && req.body.lastName.trim(),
+        notes: req.body.notes,
+        updated: moment(Date.now()).toISOString()
+      });
+
+      const listing = await Listings.findById(req.body.listingId);
+      listing.addContact(createdContact.id);
+      createdContact.addListing(req.body.listingId);
+      res.json(createdContact.dataValues);
+    } else {
+      res.json(contact[0].dataValues);
+    }
+  } catch (err) {
+    console.error(err);
+  }
 });
 
 // DELETE CONTACT
-router.delete("/:id/delete", (req, res, next) => {
+router.delete("/:id/delete", async (req, res) => {
   const userId = req.session.user.toString();
 
-  Contacts.findOne({
-    where: {
-      id: req.params.id,
-      UserUuid: userId
-    }
-  })
-    .then(contact => {
-      contact.destroy();
-      res.json({
-        message: "Listing Deleted Successfully"
-      });
-    })
-    .catch(error => {
-      console.error(error);
-      next(error);
+  try {
+    const contact = await Contacts.findOne({
+      where: {
+        id: req.params.id,
+        UserUuid: userId
+      }
     });
+
+    contact.destroy();
+    res.json({
+      message: "Listing Deleted Successfully"
+    });
+  } catch (err) {
+    console.error(err);
+  }
 });
 
 // CONTACT LISTINGS
 
-router.post("/fetchContactListings", (req, res, next) => {
-  Contacts.findById(req.body.contactId)
-    .then(contact => {
-      contact
-        .getListings()
-        .then(listings =>
-          res.json(listings.map(listing => listing.dataValues))
-        );
-    })
-    .catch(err => {
-      console.error(err);
-      next(err);
-    });
+router.post("/fetchContactListings", async (req, res) => {
+  try {
+    const contact = await Contacts.findById(req.body.contactId);
+    const listings = await contact.getListings();
+    res.json(listings.map(listing => listing.dataValues));
+  } catch (err) {
+    console.error(err);
+  }
 });
 
 // router.post("/setContactListings", (req, res, next) => {

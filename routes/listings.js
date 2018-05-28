@@ -7,216 +7,197 @@ const Contacts = require("../db/models").contacts;
 const router = express.Router();
 
 // Fetch all listings
-router.get("/", (req, res, next) => {
+router.get("/", async (req, res) => {
   const userId = req.session.user.toString();
 
-  Listings.findAll({
-    where: {
-      UserUuid: userId
-    }
-    // order: "updated DESC"
-  })
-    .then(listings => {
-      res.json(listings);
-    })
-    .catch(error => {
-      console.error(error);
-      next(error);
+  try {
+    const listings = await Listings.findAll({
+      where: {
+        UserUuid: userId
+      }
+      // order: "updated DESC"
     });
+    res.json(listings);
+  } catch (err) {
+    console.error(err);
+  }
 });
 
 // Create new listing
-router.post("/new", (req, res, next) => {
+router.post("/new", async (req, res) => {
   const userId = req.session.user.toString();
 
-  Listings.create({
-    UserUuid: userId,
-    address: req.body.address,
-    street: req.body.street,
-    city: req.body.city,
-    state: req.body.state,
-    zip: req.body.zip,
-    updated: moment(Date.now()).toISOString(),
-    listingContacts: []
-  })
-    .then(response => {
-      res.json(response.dataValues);
-    })
-    .catch(error => {
-      console.error(error);
-      next(error);
+  try {
+    const createdListing = await Listings.create({
+      UserUuid: userId,
+      address: req.body.address,
+      street: req.body.street,
+      city: req.body.city,
+      state: req.body.state,
+      zip: req.body.zip,
+      updated: moment(Date.now()).toISOString(),
+      listingContacts: []
     });
+
+    res.json(createdListing.dataValues);
+  } catch (err) {
+    console.error(err);
+  }
 });
 
 // Update listing
-router.patch("/:id/update", (req, res, next) => {
+router.patch("/:id/update", async (req, res) => {
   const userId = req.session.user.toString();
-
-  Listings.findOne({
-    where: {
-      id: req.params.id,
-      UserUuid: userId
-    }
-  })
-    .then(listing => {
-      listing.update(req.body).then(updatedListing => {
-        res.json(updatedListing);
-      });
-    })
-    .catch(error => {
-      console.error(error);
-      next(error);
+  try {
+    const listing = await Listings.findOne({
+      where: {
+        id: req.params.id,
+        UserUuid: userId
+      }
     });
+    const updatedListing = await listing.update(req.body);
+    res.json(updatedListing);
+  } catch (err) {
+    console.error(err);
+  }
 });
 
 // Delete listing
-router.delete("/:id/delete", (req, res, next) => {
+router.delete("/:id/delete", async (req, res, next) => {
   const userId = req.session.user.toString();
 
-  Listings.findOne({
-    where: {
-      id: req.params.id,
-      UserUuid: userId
-    }
-  })
-    .then(listing => {
-      listing.destroy();
-      res.json({
-        message: "Listing Deleted Successfully"
-      });
-    })
-    .catch(error => {
-      console.error(error);
-      next(error);
+  try {
+    const listing = await Listings.findOne({
+      where: {
+        id: req.params.id,
+        UserUuid: userId
+      }
     });
+
+    listing.destroy();
+    res.json({
+      message: "Listing Deleted Successfully"
+    });
+  } catch (err) {
+    console.error(err);
+  }
 });
 
 // Fetch single listing
-router.get("/:id", (req, res, next) => {
+router.get("/:id", async (req, res) => {
   const userId = req.session.user.toString();
 
-  Listings.findOne({
-    where: {
-      id: req.params.id,
-      UserUuid: userId
-    }
-  })
-    .then(listing => {
-      res.json(listing);
-    })
-    .catch(error => {
-      console.error(error);
-      next(error);
+  try {
+    const listing = await Listings.findOne({
+      where: {
+        id: req.params.id,
+        UserUuid: userId
+      }
     });
+
+    res.json(listing);
+  } catch (err) {
+    console.error(err);
+  }
 });
 
 // LISTING CONTACTS
-router.post("/setListingContacts", (req, res, next) => {
+router.post("/setListingContacts", async (req, res) => {
   const userId = req.session.user.toString();
-  Contacts.findOne({
-    where: {
-      id: req.body.contactId,
-      UserUuid: userId
-    }
-  })
-    .then(contact => contact.addListing(req.body.listingId))
-    .then(() => {
-      Listings.findOne({
-        where: {
-          id: req.body.listingId,
-          UserUuid: userId
-        }
-      }).then(listing => {
-        listing.addContact(req.body.contactId).then(() => {
-          listing
-            .getContacts()
-            .then(contacts =>
-              res.json(contacts.map(contact => contact.dataValues))
-            );
-        });
-      });
-    })
-    .catch(err => {
-      console.error(err);
-      next(err);
+
+  try {
+    const contact = await Contacts.findOne({
+      where: {
+        id: req.body.contactId,
+        UserUuid: userId
+      }
     });
+    contact.addListing(req.body.listingId);
+
+    const listing = await Listings.findOne({
+      where: {
+        id: req.body.listingId,
+        UserUuid: userId
+      }
+    });
+    listing.addContact(req.body.contactId);
+
+    const contacts = await listing.getContacts();
+    res.json(contacts.map(contact => contact.dataValues));
+  } catch (err) {
+    console.error(err);
+  }
 });
 
-router.post("/fetchListingContacts", (req, res, next) => {
-  Listings.findById(req.body.listingId)
-    .then(listing => {
-      listing
-        .getContacts()
-        .then(contacts =>
-          res.json(contacts.map(contact => contact.dataValues))
-        );
-    })
-    .catch(err => {
-      console.error(err);
-      next(err);
-    });
+router.post("/fetchListingContacts", async (req, res) => {
+  try {
+    const listing = await Listings.findById(req.body.listingId);
+    const contacts = await listing.getContacts();
+    res.json(contacts.map(contact => contact.dataValues));
+  } catch (err) {
+    console.error(err);
+  }
 });
 
-router.post("/deleteListingContact", (req, res, next) => {
-  Listings.findById(req.body.listingId)
-    .then(listing => {
-      listing.removeContact(req.body.contactId).then(() => {
-        listing
-          .getContacts()
-          .then(contacts =>
-            res.json(contacts.map(contact => contact.dataValues))
-          );
-      });
-    })
-    .catch(err => {
-      console.error(err);
-    });
+router.post("/deleteListingContact", async (req, res) => {
+  try {
+    const listing = await Listings.findById(req.body.listingId);
+    listing.removeContact(req.body.contactId);
+
+    const contacts = await listing.getContacts();
+    res.json(contacts.map(contact => contact.dataValues));
+  } catch (err) {
+    console.error(err);
+  }
 });
 
 // LISTING IMAGES
-router.post("/images", (req, res) => {
+router.post("/images", async (req, res) => {
   const userId = req.session.user.toString();
-  Listings.findOne({
-    where: {
-      id: req.body.componentId,
-      UserUuid: userId
-    }
-  }).then(listing => {
-    let images = listing.images;
 
+  try {
+    const listing = await Listings.findOne({
+      where: {
+        id: req.body.componentId,
+        UserUuid: userId
+      }
+    });
+    let images = listing.images;
     if (!images || images.length === 0) {
       images = req.body.images;
     } else {
       images = images.concat(req.body.images);
     }
-    listing
-      .update({
-        images
-      })
-      .then(updatedListing => {
-        res.json(updatedListing);
-      });
-  });
+
+    const updatedListing = await listing.update({
+      images
+    });
+    res.json(updatedListing);
+  } catch (err) {
+    console.error(err);
+  }
 });
 
-router.post("/images/delete", (req, res) => {
+router.post("/images/delete", async (req, res) => {
   const userId = req.session.user.toString();
-  Listings.findOne({
-    where: {
-      UserUuid: userId,
-      id: req.body.listingId
-    }
-  }).then(listing => {
+
+  try {
+    const listing = await Listings.findOne({
+      where: {
+        UserUuid: userId,
+        id: req.body.listingId
+      }
+    });
     const imageArray = listing.images;
     imageArray.splice(imageArray.indexOf(req.body.image), 1);
-    listing
-      .update({
-        images: imageArray.length === 0 ? null : imageArray
-      })
-      .then(updatedListing => {
-        res.json(updatedListing);
-      });
-  });
+
+    const updatedListing = await listing.update({
+      images: imageArray.length === 0 ? null : imageArray
+    });
+    res.json(updatedListing);
+  } catch (err) {
+    console.error(err);
+  }
 });
 
 module.exports = router;
