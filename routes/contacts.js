@@ -318,7 +318,7 @@ router.post("/new/openhouse", (req, res, next) => {
       // query return an array
       if (_.isEmpty(response)) {
         Contacts.create({
-          UserUuid: req.session.user.id,
+          UserUuid: userId,
           email: [
             {
               value: req.body.email,
