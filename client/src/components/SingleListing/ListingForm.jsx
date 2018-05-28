@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import { Field, reduxForm } from "redux-form";
 import {
   Grid,
@@ -11,8 +12,7 @@ import {
   FormControl,
   ControlLabel
 } from "react-bootstrap";
-import PropTypes from "prop-types";
-// import { submitButton, formGroup } from "../../sharedStyles/styles.css";
+
 import { contactValidate } from "../../helpers/redux-form/validate";
 import { fetchListing } from "../../actions/listing-actions";
 

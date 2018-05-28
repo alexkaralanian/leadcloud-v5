@@ -1,13 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-// import _ from "lodash";
+import { Field, reduxForm } from "redux-form";
 import { Link } from "react-router-dom";
-// import {
-//   submitButton,
-//   formGroup,
-//   headerText
-// } from "../../sharedStyles/styles.css";
-import "./SingleListing.css";
 import {
   Grid,
   Row,
@@ -18,8 +12,9 @@ import {
   FormControl,
   Table
 } from "react-bootstrap";
-import { Field, reduxForm } from "redux-form";
+
 import SearchForm from "../SearchForm/SearchForm";
+import "./SingleListing.css";
 
 const SearchContacts = ({
   load,
@@ -74,7 +69,10 @@ const SearchContacts = ({
               listingContacts.map(contact => (
                 <tr key={contact.id}>
                   <td>
-                    <img src={contact.images && contact.images[0]} />
+                    <img
+                      src={contact.images && contact.images[0]}
+                      alt={contact.fullName}
+                    />
                   </td>
                   <td>
                     <Link to={`/contact/${contact.id}`}>

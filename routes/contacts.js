@@ -120,7 +120,6 @@ router.get("/loadcontacts", authCheck, findUserById, async (req, res) => {
         createdContact[0].setUser(userId);
       });
     });
-
     res.sendStatus(200);
   } catch (err) {
     console.error(err);

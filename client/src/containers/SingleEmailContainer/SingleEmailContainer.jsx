@@ -14,24 +14,30 @@ import {
 
 class SingleEmailContainer extends React.Component {
   componentWillMount() {
-    this.props.fetchEmail(this.props.match.params.id);
+    const { fetchEmail, match } = this.props;
+
+    fetchEmail(match.params.id);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.email !== nextProps.email) {
+    const { email } = this.props;
+
+    if (email !== nextProps.email) {
       this.iframe.contentWindow.postMessage({ email: nextProps.email }, "*");
     }
   }
 
   componentWillUnmount() {
-    this.props.clearEmail();
-    this.props.clearError();
+    const { clearEmail, clearError } = this.props;
+
+    clearEmail();
+    clearError();
   }
 
   render() {
-    const { email } = this.props;
+    const { isAuthed, email } = this.props;
 
-    return this.props.isAuthed ? (
+    return isAuthed ? (
       <div>
         <Navigation />
         <Grid>
