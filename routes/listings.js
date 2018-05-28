@@ -1,6 +1,7 @@
 const express = require("express");
 const moment = require("moment");
 
+const authCheck = require("../middlewares/authChecker");
 const Listings = require("../db/models").listings;
 const Contacts = require("../db/models").contacts;
 
@@ -14,8 +15,8 @@ router.get("/", async (req, res) => {
     const listings = await Listings.findAll({
       where: {
         UserUuid: userId
-      }
-      // order: "updated DESC"
+      },
+      order: [["updated", "DESC"]]
     });
     res.json(listings);
   } catch (err) {
@@ -24,7 +25,7 @@ router.get("/", async (req, res) => {
 });
 
 // Create new listing
-router.post("/new", async (req, res) => {
+router.post("/new", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
 
   try {
@@ -46,7 +47,7 @@ router.post("/new", async (req, res) => {
 });
 
 // Update listing
-router.patch("/:id/update", async (req, res) => {
+router.patch("/:id/update", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
   try {
     const listing = await Listings.findOne({
@@ -63,7 +64,7 @@ router.patch("/:id/update", async (req, res) => {
 });
 
 // Delete listing
-router.delete("/:id/delete", async (req, res, next) => {
+router.delete("/:id/delete", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
 
   try {
@@ -84,7 +85,7 @@ router.delete("/:id/delete", async (req, res, next) => {
 });
 
 // Fetch single listing
-router.get("/:id", async (req, res) => {
+router.get("/:id", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
 
   try {
@@ -102,7 +103,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // LISTING CONTACTS
-router.post("/setListingContacts", async (req, res) => {
+router.post("/setListingContacts", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
 
   try {
@@ -129,7 +130,7 @@ router.post("/setListingContacts", async (req, res) => {
   }
 });
 
-router.post("/fetchListingContacts", async (req, res) => {
+router.post("/fetchListingContacts", authCheck, async (req, res) => {
   try {
     const listing = await Listings.findById(req.body.listingId);
     const contacts = await listing.getContacts();
@@ -139,7 +140,7 @@ router.post("/fetchListingContacts", async (req, res) => {
   }
 });
 
-router.post("/deleteListingContact", async (req, res) => {
+router.post("/deleteListingContact", authCheck, async (req, res) => {
   try {
     const listing = await Listings.findById(req.body.listingId);
     listing.removeContact(req.body.contactId);
@@ -152,7 +153,7 @@ router.post("/deleteListingContact", async (req, res) => {
 });
 
 // LISTING IMAGES
-router.post("/images", async (req, res) => {
+router.post("/images", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
 
   try {
@@ -178,7 +179,7 @@ router.post("/images", async (req, res) => {
   }
 });
 
-router.post("/images/delete", async (req, res) => {
+router.post("/images/delete", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
 
   try {

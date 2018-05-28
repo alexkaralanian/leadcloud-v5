@@ -30,51 +30,56 @@ class ContactsContainer extends React.Component {
   }
 
   componentDidMount() {
-    this.props.fetchContacts(
-      this.props.limit,
-      this.props.offset,
-      this.props.contactsQuery,
-      this.props.contacts
-    );
+    const {
+      fetchContacts,
+      limit,
+      offset,
+      contactsQuery,
+      contacts
+    } = this.props;
+
+    fetchContacts(limit, offset, contactsQuery, contacts);
     window.addEventListener("scroll", this.onScroll, false);
   }
 
   componentWillUnmount() {
+    const { clearError, clearContacts } = this.props;
+
     window.removeEventListener("scroll", this.onScroll, false);
-    this.props.clearError();
-    this.props.clearContacts();
+    clearError();
+    clearContacts();
   }
 
   onScroll() {
+    const { isLoading, limit, offset, contactsQuery, contacts } = this.props;
+
     if (
       window.innerHeight + window.scrollY >= document.body.offsetHeight - 500 &&
-      this.props.contacts.length &&
-      !this.props.isLoading
+      contacts.length &&
+      !isLoading
     ) {
-      this.props.fetchContacts(
-        this.props.limit,
-        this.props.offset,
-        this.props.contactsQuery,
-        this.props.contacts
-      );
+      this.props.fetchContacts(limit, offset, contactsQuery, contacts);
     }
   }
 
   searchContacts(values) {
     const query = values.nativeEvent.target.defaultValue;
-    this.props.setContactsQuery(query);
-    if (query.length < 1) this.props.clearContacts();
+    const {
+      setContactsQuery,
+      clearContacts,
+      searchContacts,
+      limit,
+      contacts,
+      fetchContacts
+    } = this.props;
+
+    setContactsQuery(query);
+    if (query.length < 1) clearContacts();
     if (query.length >= 1) {
-      this.props.searchContacts(
-        this.props.limit,
-        0,
-        query,
-        this.props.contacts
-      );
+      searchContacts(limit, 0, query, contacts);
     }
 
-    if (!query)
-      this.props.fetchContacts(this.props.limit, 0, query, this.props.contacts);
+    if (!query) fetchContacts(limit, 0, query, contacts);
   }
 
   createNewContact() {
@@ -82,7 +87,17 @@ class ContactsContainer extends React.Component {
   }
 
   render() {
-    return !this.props.isAuthed ? (
+    const {
+      isAuthed,
+      createNewContact,
+      loadContacts,
+      limit,
+      offset,
+      contacts,
+      isFetching
+    } = this.props;
+
+    return !isAuthed ? (
       <Redirect to="/" />
     ) : (
       <div>
@@ -93,7 +108,7 @@ class ContactsContainer extends React.Component {
               <Button
                 className="submitButton"
                 bsStyle="primary"
-                onClick={this.createNewContact}
+                onClick={createNewContact}
               >
                 <span>Create New</span>
               </Button>
@@ -102,13 +117,7 @@ class ContactsContainer extends React.Component {
               <Button
                 className="submitButton"
                 bsStyle="primary"
-                onClick={() =>
-                  this.props.loadContacts(
-                    this.props.limit,
-                    this.props.offset,
-                    this.props.contacts
-                  )
-                }
+                onClick={() => loadContacts(limit, offset, contacts)}
               >
                 <span>Sync Contacts</span>
               </Button>
@@ -116,10 +125,7 @@ class ContactsContainer extends React.Component {
           </Row>
           <SearchForm searchFunction={this.searchContacts} />
         </Grid>
-        <Contacts
-          contacts={this.props.contacts}
-          isFetching={this.props.isFetching}
-        />
+        <Contacts contacts={contacts} isFetching={isFetching} />
         {/*<Errors errorText={this.props.error} />*/}
       </div>
     );

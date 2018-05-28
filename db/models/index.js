@@ -48,7 +48,7 @@ sequelize
     console.log("Sequelize is ready.");
   })
   .catch(err => {
-    console.error("Unable to connect to the database:", err);
+    console.error("Sequelize is unable to connect:", err);
   });
 
 module.exports = db;

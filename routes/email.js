@@ -1,10 +1,11 @@
 const express = require("express");
 const simpleParser = require("mailparser").simpleParser;
 const { google } = require("googleapis");
+
+const { oAuth2Client } = require("../services/googleapis");
+const emailTransform = require("../services/emailTransform");
 const authCheck = require("../middlewares/authChecker");
 const findUserById = require("../middlewares/findUserById");
-const emailTransform = require("../services/emailTransform");
-const { oAuth2Client } = require("../services/googleapis");
 
 // const moment = require("moment");
 // const Contacts = require("../../db/models/contacts");
@@ -14,7 +15,6 @@ const router = express.Router();
 
 // FETCH ALL EMAILS
 router.get("/gmail", authCheck, findUserById, (req, res) => {
-  console.log("QUERY", req.query);
   gmail.users.messages.list(
     {
       userId: "me",
@@ -66,35 +66,35 @@ router.get("/gmail", authCheck, findUserById, (req, res) => {
 });
 
 // /GET SINGLE EMAIL BY ID / VIEW EMAIL MESSAGE
-router.get("/gmail/:id", authCheck, findUserById, (req, res) => {
-  new Promise((resolve, reject) => {
-    gmail.users.messages.get(
-      {
-        userId: "me",
-        id: req.params.id,
-        format: "raw",
-        auth: oAuth2Client
-      },
-      (error, email) => {
-        if (email) {
-          resolve(email);
-        } else {
-          reject(error);
+router.get("/gmail/:id", authCheck, findUserById, async (req, res) => {
+  try {
+    const response = await new Promise((resolve, reject) => {
+      gmail.users.messages.get(
+        {
+          userId: "me",
+          id: req.params.id,
+          format: "raw",
+          auth: oAuth2Client
+        },
+        (error, email) => {
+          if (email) {
+            resolve(email);
+          } else {
+            reject(error);
+          }
         }
-      }
-    );
-  })
-    .then(response => {
-      const body = response.data.raw;
-      const buff = Buffer.from(body, "base64").toString("utf8");
-      simpleParser(buff).then(results => {
-        res.json(results);
-      });
-    })
-    .catch(err => {
-      res.status(404).send({ error: "ERROR FETCHING EMAIL FROM GMAIL API" });
-      console.error(err);
+      );
     });
+
+    const body = response.data.raw;
+    const buff = Buffer.from(body, "base64").toString("utf8");
+
+    const email = await simpleParser(buff);
+    res.json(email);
+  } catch (err) {
+    res.status(404).send({ error: "ERROR FETCHING EMAIL FROM GMAIL API" });
+    console.error(err);
+  }
 });
 
 // // FIND OR CREATE CONTACT BY EMAIL ADDRESS

@@ -2,126 +2,129 @@ const express = require("express");
 const moment = require("moment");
 const isEmpty = require("lodash.isempty");
 const { google } = require("googleapis");
-const findUserById = require("../middlewares/findUserById");
-const isAuthed = require("../middlewares/authChecker");
 
-// const Users = require("../db/models").users;
+const { oAuth2Client } = require("../services/googleapis");
+const findUserById = require("../middlewares/findUserById");
+const authCheck = require("../middlewares/authChecker");
 const Contacts = require("../db/models").contacts;
 const Listings = require("../db/models").listings;
 const ContactTags = require("../db/models").contactTags;
-
-const { oAuth2Client } = require("../services/googleapis");
 
 const router = express.Router();
 const people = google.people("v1");
 
 // FETCH, MAP, AND LOAD USER'S GROUPS AND CONTACTS TO DB
-router.get("/loadcontacts", findUserById, async (req, res) => {
-  const userId = req.session.user.toString();
+router.get("/loadcontacts", authCheck, findUserById, async (req, res) => {
+  try {
+    const userId = req.session.user.toString();
 
-  // FETCH, MAP, & LOAD USER'S GROUPS
-  const groups = await new Promise((resolve, reject) => {
-    people.contactGroups.list(
-      {
-        auth: oAuth2Client
-      },
-      (err, response) => {
-        if (response) {
-          resolve(response.data);
-        } else {
-          reject(err);
-        }
-      }
-    );
-  });
-
-  groups.contactGroups.map(group => {
-    ContactTags.findOrCreate({
-      where: {
-        UserUuid: userId,
-        googleId: group.resourceName.slice(
-          group.resourceName.indexOf("/") + 1 // contactGroups/...
-        )
-      },
-      defaults: {
-        title: group.name
-      }
-    });
-  });
-
-  // FETCH USER'S GOOGLE CONTACTS
-  const contacts = await new Promise((resolve, reject) => {
-    let contactsArray = [];
-    const getContacts = pageToken => {
-      people.people.connections.list(
+    // FETCH, MAP, & LOAD USER'S GROUPS
+    const groups = await new Promise((resolve, reject) => {
+      people.contactGroups.list(
         {
-          resourceName: "people/me",
-          personFields:
-            "metadata,names,addresses,emailAddresses,phoneNumbers,memberships,occupations,organizations,photos,birthdays",
-          auth: oAuth2Client,
-          pageSize: 2000,
-          pageToken
+          auth: oAuth2Client
         },
         (err, response) => {
           if (response) {
-            contactsArray = contactsArray.concat(response.data.connections);
-            if (response.data.nextPageToken) {
-              getContacts(response.data.nextPageToken);
-            } else {
-              resolve(contactsArray);
-            }
+            resolve(response.data);
           } else {
             reject(err);
           }
         }
       );
-    };
-    getContacts();
-  });
-
-  // MAP & LOAD USER CONTACTS TO DB
-  contacts.map(contact => {
-    const imageArray = contact.photos && contact.photos.map(photo => photo.url);
-
-    const membershipArray =
-      contact.memberships &&
-      contact.memberships.map(
-        group => group.contactGroupMembership.contactGroupId
-      );
-
-    const defaults = {
-      firstName:
-        contact.names &&
-        contact.names[0].givenName &&
-        contact.names[0].givenName,
-      lastName:
-        contact.names &&
-        contact.names[0].familyName &&
-        contact.names[0].familyName,
-      fullName:
-        contact.names &&
-        contact.names[0].displayName &&
-        contact.names[0].displayName,
-      email: contact.emailAddresses && contact.emailAddresses,
-      phone: contact.phoneNumbers && contact.phoneNumbers,
-      address: contact.addresses && contact.addresses,
-      membership: membershipArray,
-      updated: moment(contact.metadata.sources[0].updateTime).format(),
-      images: imageArray
-    };
-
-    Contacts.findOrCreate({
-      where: {
-        googleId: contact.metadata.sources[0].id,
-        UserUuid: userId
-      },
-      defaults
-    }).then(createdContact => {
-      createdContact[0].setUser(userId);
     });
-  });
 
-  res.sendStatus(200);
+    groups.contactGroups.map(group => {
+      ContactTags.findOrCreate({
+        where: {
+          UserUuid: userId,
+          googleId: group.resourceName.slice(
+            group.resourceName.indexOf("/") + 1 // contactGroups/...
+          )
+        },
+        defaults: {
+          title: group.name
+        }
+      });
+    });
+
+    // FETCH USER'S GOOGLE CONTACTS
+    const contacts = await new Promise((resolve, reject) => {
+      let contactsArray = [];
+      const getContacts = pageToken => {
+        people.people.connections.list(
+          {
+            resourceName: "people/me",
+            personFields:
+              "metadata,names,addresses,emailAddresses,phoneNumbers,memberships,occupations,organizations,photos,birthdays",
+            auth: oAuth2Client,
+            pageSize: 2000,
+            pageToken
+          },
+          (err, response) => {
+            if (response) {
+              contactsArray = contactsArray.concat(response.data.connections);
+              if (response.data.nextPageToken) {
+                getContacts(response.data.nextPageToken);
+              } else {
+                resolve(contactsArray);
+              }
+            } else {
+              reject(err);
+            }
+          }
+        );
+      };
+      getContacts();
+    });
+
+    // MAP & LOAD USER CONTACTS TO DB
+    contacts.map(contact => {
+      const imageArray =
+        contact.photos && contact.photos.map(photo => photo.url);
+
+      const membershipArray =
+        contact.memberships &&
+        contact.memberships.map(
+          group => group.contactGroupMembership.contactGroupId
+        );
+
+      const defaults = {
+        firstName:
+          contact.names &&
+          contact.names[0].givenName &&
+          contact.names[0].givenName,
+        lastName:
+          contact.names &&
+          contact.names[0].familyName &&
+          contact.names[0].familyName,
+        fullName:
+          contact.names &&
+          contact.names[0].displayName &&
+          contact.names[0].displayName,
+        email: contact.emailAddresses && contact.emailAddresses,
+        phone: contact.phoneNumbers && contact.phoneNumbers,
+        address: contact.addresses && contact.addresses,
+        membership: membershipArray,
+        updated: moment(contact.metadata.sources[0].updateTime).format(),
+        images: imageArray
+      };
+
+      Contacts.findOrCreate({
+        where: {
+          googleId: contact.metadata.sources[0].id,
+          UserUuid: userId
+        },
+        defaults
+      }).then(createdContact => {
+        createdContact[0].setUser(userId);
+      });
+    });
+
+    res.sendStatus(200);
+  } catch (err) {
+    console.error(err);
+  }
 });
 
 // GET ALL CONTACTS FROM DB
@@ -150,7 +153,7 @@ router.get("/", async (req, res) => {
 });
 
 // GET SINGLE CONTACT
-router.get("/:id", async (req, res) => {
+router.get("/:id", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
 
   try {
@@ -167,7 +170,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // GET GROUPS
-router.post("/groups", isAuthed, async (req, res) => {
+router.post("/groups", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
 
   try {
@@ -190,7 +193,7 @@ router.post("/groups", isAuthed, async (req, res) => {
 });
 
 // UPDATE CONACT
-router.patch("/:id/update", async (req, res) => {
+router.patch("/:id/update", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
 
   try {
@@ -206,7 +209,7 @@ router.patch("/:id/update", async (req, res) => {
       req.body.firstName ? req.body.firstName.trim() : ""
     } ${req.body.lastName ? req.body.lastName.trim() : ""}`;
 
-    const updatedConact = await contact.update(req.body);
+    const updatedContact = await contact.update(req.body);
     res.json(updatedContact);
   } catch (err) {
     console.error(err);
@@ -214,7 +217,7 @@ router.patch("/:id/update", async (req, res) => {
 });
 
 // CREATE NEW CONTACT
-router.post("/new", async (req, res) => {
+router.post("/new", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
 
   try {
@@ -263,7 +266,7 @@ router.post("/new", async (req, res) => {
   }
 });
 
-router.post("/new/openhouse", async (req, res) => {
+router.post("/new/openhouse", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
 
   try {
@@ -318,7 +321,7 @@ router.post("/new/openhouse", async (req, res) => {
 });
 
 // DELETE CONTACT
-router.delete("/:id/delete", async (req, res) => {
+router.delete("/:id/delete", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
 
   try {
@@ -340,7 +343,7 @@ router.delete("/:id/delete", async (req, res) => {
 
 // CONTACT LISTINGS
 
-router.post("/fetchContactListings", async (req, res) => {
+router.post("/fetchContactListings", authCheck, async (req, res) => {
   try {
     const contact = await Contacts.findById(req.body.contactId);
     const listings = await contact.getListings();
@@ -391,51 +394,51 @@ router.post("/fetchContactListings", async (req, res) => {
 // });
 
 // ADD NEW IMAGES
-router.post("/images", (req, res) => {
+router.post("/images", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
 
-  Contacts.findOne({
-    where: {
-      id: req.body.componentId,
-      UserUuid: userId
-    }
-  }).then(contact => {
+  try {
+    const contact = await Contacts.findOne({
+      where: {
+        id: req.body.componentId,
+        UserUuid: userId
+      }
+    });
+
     let images = contact.images;
     if (!images || images.length === 0) {
       images = req.body.images;
     } else {
       images = images.concat(req.body.images);
     }
-    contact
-      .update({
-        images
-      })
-      .then(updatedContact => {
-        res.json(updatedContact);
-      });
-  });
+    const updatedContact = await contact.update({ images });
+    res.json(updatedContact);
+  } catch (err) {
+    console.error(err);
+  }
 });
 
 // DELETE IMAGES
-router.post("/images/delete", (req, res) => {
+router.post("/images/delete", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
-
-  Contacts.findOne({
-    where: {
-      UserUuid: userId,
-      id: req.body.contactId
-    }
-  }).then(contact => {
+  try {
+    const contact = await Contacts.findOne({
+      where: {
+        UserUuid: userId,
+        id: req.body.contactId
+      }
+    });
     const imageArray = contact.images;
     imageArray.splice(imageArray.indexOf(req.body.image), 1);
-    contact
-      .update({
-        images: imageArray.length === 0 ? null : imageArray
-      })
-      .then(updatedContact => {
-        res.json(updatedContact);
-      });
-  });
+
+    const updatedContact = contact.update({
+      images: imageArray.length === 0 ? null : imageArray
+    });
+
+    res.json(updatedContact);
+  } catch (err) {
+    console.error(err);
+  }
 });
 
 module.exports = router;

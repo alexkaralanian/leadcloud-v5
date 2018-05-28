@@ -1,15 +1,12 @@
 const express = require("express");
 const { google } = require("googleapis");
 const Users = require("../db/models").users;
+
 const { oAuth2Client, url } = require("../services/googleapis");
 const authCheck = require("../middlewares/authChecker");
+
 const router = express.Router();
 const plus = google.plus("v1");
-
-// router.get("/test", (req, res) => {
-//   res.json("TEST");
-//   console.log("TEST");
-// });
 
 // GOOGLE LOGIN
 router.get("/google", (req, res) => {
@@ -66,7 +63,9 @@ router.get("/google/callback", (req, res) => {
           // Add session obj to req.session.user
           req.session["user"] = user.uuid;
 
-          res.redirect("http://localhost:3000");
+          process.env.NODE_ENV === "production"
+            ? res.redirect("/")
+            : res.redirect("http://localhost:3000");
         }
       );
     } else {

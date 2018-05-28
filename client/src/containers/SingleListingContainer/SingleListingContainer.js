@@ -21,7 +21,6 @@ import {
   deleteListing,
   clearListing,
   submitListingContact,
-  // setSearchResult,
   onDrop,
   deleteListingImage,
   deleteListingContact
@@ -40,39 +39,70 @@ class SingleListingContainer extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.match.params.id !== "new") {
-      this.props.fetchListing(this.props.match.params.id);
-      this.props.fetchListingContacts(this.props.match.params.id);
+    const { match, fetchListing, fetchListingContacts } = this.props;
+
+    if (match.params.id !== "new") {
+      fetchListing(match.params.id);
+      fetchListingContacts(match.params.id);
     }
   }
 
   componentWillUnmount() {
-    this.props.clearListing();
+    const { clearListing } = this.props;
+    clearListing();
   }
 
   searchContacts(values) {
     const query = values.nativeEvent.target.defaultValue;
-    if (query.length < 1) this.props.clearListingContactsSearchResults();
+    const {
+      clearListingContactsSearchResults,
+      searchContacts,
+      listingContactsSearchResults
+    } = this.props;
+
+    if (query.length < 1) clearListingContactsSearchResults();
     if (query.length >= 1) {
-      this.props.searchContacts(
+      searchContacts(
         25,
         0,
         query,
-        this.props.listingContactsSearchResults,
+        listingContactsSearchResults,
         "listingContacts"
       );
     }
 
-    if (!query) this.props.clearListingContactsSearchResults();
+    if (!query) clearListingContactsSearchResults();
   }
 
   submitListingContact(contactId, listingId) {
-    this.props.submitListingContact(contactId, listingId);
-    this.props.clearListingContactsSearchResults();
+    const {
+      submitListingContact,
+      clearListingContactsSearchResults
+    } = this.props;
+
+    submitListingContact(contactId, listingId);
+    clearListingContactsSearchResults();
   }
 
   render() {
-    return !this.props.isAuthed ? (
+    const {
+      isAuthed,
+      listing,
+      match,
+      images,
+      submitNewListing,
+      updateListing,
+      deleteListing,
+      listingContactsSearchResults,
+      listingContacts,
+      deleteListingContact,
+      listingEmails,
+      isFetching,
+      onDrop,
+      deleteListingImage
+    } = this.props;
+
+    return !isAuthed ? (
       <Redirect path="/" />
     ) : (
       <div>
@@ -80,50 +110,50 @@ class SingleListingContainer extends React.Component {
 
         {/* HEADER */}
         <ListingHeader
-          listing={this.props.listing}
-          isListingNew={this.props.match.params.id === "new"}
-          images={this.props.images}
+          listing={listing}
+          isListingNew={match.params.id === "new"}
+          images={images}
         />
 
-        {this.props.match.params.id === "new" ? null : (
-          <ListingNav listingId={this.props.listing.id} />
+        {match.params.id === "new" ? null : (
+          <ListingNav listingId={listing.id} />
         )}
 
         {/* LISTING FORM (INFO) */}
         <Route
           exact
           path={
-            this.props.match.params.id === "new"
+            match.params.id === "new"
               ? `/listing/new`
-              : `/listing/${this.props.listing.id}`
+              : `/listing/${listing.id}`
           }
           render={routeProps => (
             <ListingForm
               {...routeProps}
               onSubmit={values => {
-                this.props.match.params.id === "new"
-                  ? this.props.submitNewListing(values)
-                  : this.props.updateListing(values, this.props.listing.id);
+                match.params.id === "new"
+                  ? submitNewListing(values)
+                  : updateListing(values, listing.id);
               }}
-              listing={this.props.listing}
-              deleteListing={this.props.deleteListing}
-              isListingNew={this.props.match.params.id === "new"}
+              listing={listing}
+              deleteListing={deleteListing}
+              isListingNew={match.params.id === "new"}
             />
           )}
         />
 
         {/* LISTING CONTACTS */}
         <Route
-          path={`/listing/${this.props.listing.id}/contacts`}
+          path={`/listing/${listing.id}/contacts`}
           render={routeProps => (
             <div>
               <SearchContacts
-                searchResults={this.props.listingContactsSearchResults}
+                searchResults={listingContactsSearchResults}
                 searchContacts={this.searchContacts}
                 submitListingContact={this.submitListingContact}
-                listing={this.props.listing}
-                listingContacts={this.props.listingContacts}
-                deleteListingContact={this.props.deleteListingContact}
+                listing={listing}
+                listingContacts={listingContacts}
+                deleteListingContact={deleteListingContact}
               />
             </div>
           )}
@@ -131,25 +161,25 @@ class SingleListingContainer extends React.Component {
 
         {/* LISTING EMAILS */}
         <Route
-          path={`/listing/${this.props.listing.id}/emails`}
+          path={`/listing/${listing.id}/emails`}
           render={routeProps => (
             <Emails
               {...routeProps}
-              contacts={this.props.listingEmails}
-              isFetching={this.props.isFetching}
+              contacts={listingEmails}
+              isFetching={isFetching}
             />
           )}
         />
 
         {/* LISTING MEDIA */}
         <Route
-          path={`/listing/${this.props.listing.id}/media`}
+          path={`/listing/${listing.id}/media`}
           render={routeProps => (
             <ImageCarousel
-              component={this.props.listing}
-              onDrop={this.props.onDrop}
-              images={this.props.images}
-              deleteImg={this.props.deleteListingImage}
+              component={listing}
+              onDrop={onDrop}
+              images={images}
+              deleteImg={deleteListingImage}
             />
           )}
         />
@@ -179,6 +209,7 @@ SingleListingContainer.propTypes = {
 };
 
 export const Unwrapped = SingleListingContainer;
+
 export default connect(mapStateToProps, {
   submitNewListing,
   setIsListingNew,
@@ -190,7 +221,6 @@ export default connect(mapStateToProps, {
   searchContacts,
   clearListingContactsSearchResults,
   submitListingContact,
-  // setSearchResult,
   onDrop,
   deleteListingImage,
   deleteListingContact

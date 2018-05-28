@@ -1,3 +1,0 @@
-describe("Nav Component", () => {
-  test("", () => {});
-});

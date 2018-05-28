@@ -18,12 +18,14 @@ class ListingsContainer extends React.Component {
   }
 
   componentDidMount() {
-    this.props.fetchListings();
+    const { fetchListings } = this.props;
+    fetchListings();
   }
 
   componentWillUnmount() {
-    this.props.clearListings();
-    this.props.clearError();
+    const { clearListings, clearError } = this.props;
+    clearListings();
+    clearError();
   }
 
   createNewListing() {
@@ -31,7 +33,9 @@ class ListingsContainer extends React.Component {
   }
 
   render() {
-    return !this.props.isAuthed ? (
+    const { isAuthed, createNewListing, isFetching, listings } = this.props;
+
+    return !isAuthed ? (
       <Redirect to="/" />
     ) : (
       <div>
@@ -42,7 +46,7 @@ class ListingsContainer extends React.Component {
               <div>
                 <Button
                   bsStyle="primary"
-                  onClick={this.createNewListing}
+                  onClick={createNewListing}
                   className="submitButton"
                 >
                   <span>Create New</span>
@@ -51,10 +55,7 @@ class ListingsContainer extends React.Component {
             </Col>
           </Row>
           <div>
-            <Listings
-              isFetching={this.props.isFetching}
-              listings={this.props.listings}
-            />
+            <Listings isFetching={isFetching} listings={listings} />
           </div>
         </Grid>
       </div>
