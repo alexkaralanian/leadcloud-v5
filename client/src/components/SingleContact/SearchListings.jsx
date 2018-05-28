@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import _ from "lodash"; // refactor
 import { Field, reduxForm } from "redux-form";
 import {
   Grid,
@@ -10,23 +9,11 @@ import {
   Button,
   Form,
   FormGroup,
-  FormControl,
   Table
 } from "react-bootstrap";
-import "./SingleContact.css";
 
-const inputField = ({
-  input,
-  label,
-  type,
-  list,
-  meta: { touched, active, error }
-}) => (
-  <div>
-    <FormControl {...input} placeholder={label} type={type} list={list} />
-    {touched && !active && error && <div>{error}</div>}
-  </div>
-);
+import inputField from "../InputField/InputField";
+import "./SingleContact.css";
 
 const SearchContacts = ({
   handleSubmit,

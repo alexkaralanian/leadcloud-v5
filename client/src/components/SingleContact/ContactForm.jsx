@@ -1,51 +1,14 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { Field, reduxForm } from "redux-form";
-import {
-  Button,
-  Form,
-  FormGroup,
-  FormControl,
-  ControlLabel,
-  Col,
-  Row
-} from "react-bootstrap";
+import { Button, Form, FormGroup, Col, Row } from "react-bootstrap";
 
 import { contactValidate } from "../../helpers/redux-form/validate";
 import { fetchContact } from "../../actions/contact-actions";
 
-const inputField = ({
-  input,
-  label,
-  type,
-  meta: { touched, active, error }
-}) => (
-  <div>
-    <ControlLabel>{label}</ControlLabel>
-    <FormControl {...input} placeholder={label} type={type} />
-    {touched && !active && error && <div>{error}</div>}
-  </div>
-);
-
-const textAreaField = ({
-  input,
-  label,
-  type,
-  meta: { touched, active, error }
-}) => (
-  <div>
-    <ControlLabel>{label}</ControlLabel>
-    <FormControl
-      componentClass="textarea"
-      {...input}
-      placeholder={label}
-      type={type}
-    />
-    {touched && !active && error && <div>{error}</div>}
-  </div>
-);
+import inputField from "../InputField/InputField";
+import textAreaField from "../InputField/TextAreaField";
 
 const capitalize = word => {
   if (word) word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();

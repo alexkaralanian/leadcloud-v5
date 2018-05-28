@@ -2,32 +2,13 @@ import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Field, reduxForm } from "redux-form";
-import {
-  Grid,
-  Row,
-  Col,
-  Button,
-  Form,
-  FormGroup,
-  FormControl,
-  ControlLabel
-} from "react-bootstrap";
+
+import { Grid, Row, Col, Button, Form, FormGroup } from "react-bootstrap";
 
 import { contactValidate } from "../../helpers/redux-form/validate";
 import { fetchListing } from "../../actions/listing-actions";
 
-const inputField = ({
-  input,
-  label,
-  type,
-  meta: { touched, active, error }
-}) => (
-  <div>
-    <ControlLabel>{label}</ControlLabel>
-    <FormControl {...input} placeholder={label} type={type} />
-    {touched && !active && error && <div>{error}</div>}
-  </div>
-);
+import inputField from "../InputField/InputField";
 
 let ListingForm = ({
   handleSubmit,

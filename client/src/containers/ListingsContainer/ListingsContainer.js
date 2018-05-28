@@ -33,7 +33,7 @@ class ListingsContainer extends React.Component {
   }
 
   render() {
-    const { isAuthed, createNewListing, isFetching, listings } = this.props;
+    const { isAuthed, isFetching, listings } = this.props;
 
     return !isAuthed ? (
       <Redirect to="/" />
@@ -46,7 +46,7 @@ class ListingsContainer extends React.Component {
               <div>
                 <Button
                   bsStyle="primary"
-                  onClick={createNewListing}
+                  onClick={this.createNewListing}
                   className="submitButton"
                 >
                   <span>Create New</span>

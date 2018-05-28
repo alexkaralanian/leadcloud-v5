@@ -89,7 +89,6 @@ class ContactsContainer extends React.Component {
   render() {
     const {
       isAuthed,
-      createNewContact,
       loadContacts,
       limit,
       offset,
@@ -108,7 +107,7 @@ class ContactsContainer extends React.Component {
               <Button
                 className="submitButton"
                 bsStyle="primary"
-                onClick={createNewContact}
+                onClick={this.createNewContact}
               >
                 <span>Create New</span>
               </Button>

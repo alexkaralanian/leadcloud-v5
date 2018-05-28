@@ -1,20 +1,9 @@
 import React from "react";
-import _ from "lodash";
+import debounce from "lodash.debounce";
 import { Field, reduxForm } from "redux-form";
-import { FormGroup, FormControl } from "react-bootstrap";
+import { FormGroup } from "react-bootstrap";
 
-const inputField = ({
-  input,
-  label,
-  type,
-  list,
-  meta: { touched, active, error }
-}) => (
-  <div>
-    <FormControl {...input} placeholder={label} type={type} list={list} />
-    {touched && !active && error && <div>{error}</div>}
-  </div>
-);
+import inputField from "../InputField/InputField";
 
 const SearchForm = ({ load, pristine, reset, onChange, searchFunction }) => (
   <FormGroup>
@@ -23,7 +12,7 @@ const SearchForm = ({ load, pristine, reset, onChange, searchFunction }) => (
       name="contactSearch"
       component={inputField}
       label="Search for a contact"
-      onChange={_.debounce(searchFunction, 500)}
+      onChange={debounce(searchFunction, 500)}
     />
   </FormGroup>
 );
