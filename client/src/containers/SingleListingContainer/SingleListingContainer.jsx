@@ -148,11 +148,12 @@ class SingleListingContainer extends React.Component {
           render={routeProps => (
             <div>
               <SearchContacts
+                {...routeProps}
+                listing={listing}
+                listingContacts={listingContacts}
                 searchResults={listingContactsSearchResults}
                 searchContacts={this.searchContacts}
                 submitListingContact={this.submitListingContact}
-                listing={listing}
-                listingContacts={listingContacts}
                 deleteListingContact={deleteListingContact}
               />
             </div>
@@ -176,6 +177,7 @@ class SingleListingContainer extends React.Component {
           path={`/listing/${listing.id}/media`}
           render={routeProps => (
             <ImageCarousel
+              {...routeProps}
               component={listing}
               onDrop={onDrop}
               images={images}

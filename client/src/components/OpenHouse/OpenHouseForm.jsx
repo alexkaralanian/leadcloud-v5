@@ -37,7 +37,7 @@ let OpenHouseForm = ({
   auditClick,
   listing
 }) => (
-  <Grid>
+  <Grid className="marginTop20">
     <Form onSubmit={handleSubmit}>
       <FormGroup className="formGroup">
         <Field

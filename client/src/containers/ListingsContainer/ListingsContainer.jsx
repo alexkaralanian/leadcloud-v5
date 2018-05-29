@@ -19,17 +19,21 @@ class ListingsContainer extends React.Component {
 
   componentDidMount() {
     const { fetchListings } = this.props;
+
     fetchListings();
   }
 
   componentWillUnmount() {
     const { clearListings, clearError } = this.props;
+
     clearListings();
     clearError();
   }
 
   createNewListing() {
-    this.props.history.push("/listing/new");
+    const { history } = this.props;
+
+    history.push("/listing/new");
   }
 
   render() {

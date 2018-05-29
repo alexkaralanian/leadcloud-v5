@@ -4,6 +4,7 @@ import { FormControl, ControlLabel } from "react-bootstrap";
 const textAreaField = ({
   input,
   label,
+  placeholder,
   type,
   meta: { touched, active, error }
 }) => (
@@ -12,7 +13,8 @@ const textAreaField = ({
     <FormControl
       componentClass="textarea"
       {...input}
-      placeholder={label}
+      label={label}
+      placeholder={placeholder}
       type={type}
     />
     {touched && !active && error && <div>{error}</div>}

@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import debounce from "lodash.debounce";
 import { Link } from "react-router-dom";
 import { Field, reduxForm } from "redux-form";
 import {
@@ -40,8 +41,8 @@ const SearchContacts = ({
               type="text"
               name="contactSearch"
               component={inputField}
-              label="Search for a contact"
-              // onChange={_.debounce(searchListings, 500)}
+              label="Search for a listing"
+              onChange={debounce(searchListings, 500)}
             />
 
             <Table striped>
@@ -50,9 +51,13 @@ const SearchContacts = ({
                   searchResults.map(listing => (
                     <tr key={listing.id}>
                       <td>
-                        <img src={listing.images ? listing.images[0] : null} />
+                        <img
+                          className="imgTableThumbnail"
+                          src={listing.images && listing.images[0]}
+                          alt={listing.address}
+                        />
                       </td>
-                      <td>{listing.fullName}</td>
+                      <td>{listing.address}</td>
                       <td>
                         <Button
                           className="addButton"
@@ -75,7 +80,11 @@ const SearchContacts = ({
                   contactListings.map(listing => (
                     <tr key={listing.id}>
                       <td>
-                        <img src={listing.images ? listing.images[0] : null} />
+                        <img
+                          className="imgTableThumbnail"
+                          src={listing.images ? listing.images[0] : null}
+                          alt={listing.address}
+                        />
                       </td>
                       <td>
                         <Link to={`/listing/${listing.id}`}>

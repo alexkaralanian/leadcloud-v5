@@ -79,6 +79,39 @@ class SingleContactContainer extends React.Component {
     clearError();
   }
 
+  searchListings(values) {
+    console.log("SEARCH CONTACTS VALUES", values);
+    // const query = values.nativeEvent.target.defaultValue;
+    // const {
+    //   clearListingContactsSearchResults,
+    //   searchContacts,
+    //   listingContactsSearchResults
+    // } = this.props;
+
+    // if (query.length < 1) clearListingContactsSearchResults();
+    // if (query.length >= 1) {
+    //   searchContacts(
+    //     25,
+    //     0,
+    //     query,
+    //     listingContactsSearchResults,
+    //     "listingContacts"
+    //   );
+    // }
+
+    // if (!query) clearListingContactsSearchResults();
+  }
+
+  submitContactListing(contactId, listingId) {
+    console.log("SUBMITLISTING CONTACT", { contactId, listingId });
+    // const {
+    //   submitListingContact,
+    //   clearListingContactsSearchResults
+    // } = this.props;
+    // submitListingContact(contactId, listingId);
+    // clearListingContactsSearchResults();
+  }
+
   render() {
     const {
       match,
@@ -142,6 +175,10 @@ class SingleContactContainer extends React.Component {
               {...routeProps}
               contact={contact}
               contactListings={contactListings}
+              searchListings={this.searchListings}
+              // searchResults={contactListingSearchResults}
+              // submitContactListing={this.submitContactListing}
+              // deleteContactListing={deleteContactListing}
             />
           )}
         />

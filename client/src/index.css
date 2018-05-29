@@ -70,8 +70,28 @@ body {
   float: left;
 }
 
+.imgTableThumbnail {
+  height: 50px;
+  width: 50px;
+  border-radius: 3px;
+  margin-right: 10px;
+}
+
+.tableColumn {
+  /*background-color: black;*/
+  /*  height: 65px;*/
+  /* height: 100% !important;*/
+  /*display: flex;
+  align-items: center;*/
+  /*padding: 0px !important;*/
+}
+
 iframe {
   border: none;
   width: 100%;
   height: calc(100vh - 195px);
+}
+
+.marginTop20 {
+  margin-top: 2rem;
 }

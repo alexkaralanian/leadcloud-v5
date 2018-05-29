@@ -11,7 +11,7 @@ const SearchForm = ({ load, pristine, reset, onChange, searchFunction }) => (
       type="text"
       name="contactSearch"
       component={inputField}
-      label="Search for a contact"
+      placeholder="Search for a contact"
       onChange={debounce(searchFunction, 500)}
     />
   </FormGroup>

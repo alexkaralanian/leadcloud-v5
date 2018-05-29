@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import OpenHouse from "../../components/OpenHouse/OpenHouse";
 import OpenHouseForm from "../../components/OpenHouse/OpenHouseForm";
 import { submitNewOpenHouseContact } from "../../actions/contact-actions";
+import Navigation from "../NavContainer/NavContainer";
 
 class OpenHouseContainer extends React.Component {
   constructor(props) {
@@ -12,6 +13,7 @@ class OpenHouseContainer extends React.Component {
   render() {
     return (
       <div>
+        <Navigation />
         <OpenHouse
           listing={this.props.location.state.listing}
           images={this.props.location.state.images}

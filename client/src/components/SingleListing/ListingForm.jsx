@@ -2,7 +2,6 @@ import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Field, reduxForm } from "redux-form";
-
 import { Grid, Row, Col, Button, Form, FormGroup } from "react-bootstrap";
 
 import { contactValidate } from "../../helpers/redux-form/validate";

@@ -14,12 +14,13 @@ const ListingHeader = ({ listing, images, isListingNew }) => (
           </h1>
           {!isListingNew && (
             <div className="headerContent">
-              <img
-                className="listingImage"
-                alt="Listing"
-                src={images && images[0]}
-              />
-
+              {images && (
+                <img
+                  className="listingImage"
+                  alt="Listing"
+                  src={images && images[0]}
+                />
+              )}
               <Link
                 to={{
                   pathname: `/openhouse/${listing.id}`,

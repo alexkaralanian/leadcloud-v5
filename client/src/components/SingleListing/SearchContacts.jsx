@@ -1,17 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Field, reduxForm } from "redux-form";
+import { reduxForm } from "redux-form";
+
 import { Link } from "react-router-dom";
-import {
-  Grid,
-  Row,
-  Col,
-  Button,
-  Form,
-  FormGroup,
-  FormControl,
-  Table
-} from "react-bootstrap";
+import { Grid, Row, Col, Button, Table } from "react-bootstrap";
 
 import SearchForm from "../SearchForm/SearchForm";
 import "./SingleListing.css";
@@ -42,6 +34,7 @@ const SearchContacts = ({
                 <tr key={contact.id}>
                   <td>
                     <img
+                      className="imgTableThumbnail"
                       src={contact.images && contact.images[0]}
                       alt="Contact"
                     />
@@ -63,6 +56,7 @@ const SearchContacts = ({
           </tbody>
         </Table>
         <hr />
+
         <Table striped>
           <tbody>
             {listingContacts &&
@@ -70,6 +64,7 @@ const SearchContacts = ({
                 <tr key={contact.id}>
                   <td>
                     <img
+                      className="imgTableThumbnail"
                       src={contact.images && contact.images[0]}
                       alt={contact.fullName}
                     />

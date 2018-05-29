@@ -17,12 +17,12 @@
   margin: 10px 0;
 }
 
-td img {
+/*.imgTableThumbnail img {
   height: 50px;
   width: 50px;
   border-radius: 3px;
   margin-right: 10px;
-}
+}*/
 
 .addButton {
   border-radius: 2px !important;
