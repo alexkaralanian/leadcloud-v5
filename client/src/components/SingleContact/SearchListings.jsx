@@ -1,19 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
-import debounce from "lodash.debounce";
-import { Link } from "react-router-dom";
-import { Field, reduxForm } from "redux-form";
-import {
-  Grid,
-  Col,
-  Row,
-  Button,
-  Form,
-  FormGroup,
-  Table
-} from "react-bootstrap";
+import { reduxForm } from "redux-form";
+import { Grid, Col, Row } from "react-bootstrap";
 
-import inputField from "../InputField/InputField";
+import SearchForm from "../SearchForm/SearchForm";
+import TableRow from "../TableRow/TableRow";
+
 import "./SingleContact.css";
 
 const SearchContacts = ({
@@ -35,79 +27,28 @@ const SearchContacts = ({
     <Row>
       <Col xs={12}>
         <h3 className="headerText">Add Listings</h3>
-        <Form onSubmit={handleSubmit}>
-          <FormGroup className="formGroup">
-            <Field
-              type="text"
-              name="contactSearch"
-              component={inputField}
-              label="Search for a listing"
-              onChange={debounce(searchListings, 500)}
-            />
 
-            <Table striped>
-              <tbody>
-                {searchResults &&
-                  searchResults.map(listing => (
-                    <tr key={listing.id}>
-                      <td>
-                        <img
-                          className="imgTableThumbnail"
-                          src={listing.images && listing.images[0]}
-                          alt={listing.address}
-                        />
-                      </td>
-                      <td>{listing.address}</td>
-                      <td>
-                        <Button
-                          className="addButton"
-                          bsStyle="warning"
-                          onClick={() =>
-                            submitContactListing(listing.id, contact.id)
-                          }
-                        >
-                          <span>Add Listing</span>
-                        </Button>
-                      </td>
-                    </tr>
-                  ))}
-              </tbody>
-            </Table>
-            <hr />
-            <Table striped>
-              <tbody>
-                {contactListings &&
-                  contactListings.map(listing => (
-                    <tr key={listing.id}>
-                      <td>
-                        <img
-                          className="imgTableThumbnail"
-                          src={listing.images ? listing.images[0] : null}
-                          alt={listing.address}
-                        />
-                      </td>
-                      <td>
-                        <Link to={`/listing/${listing.id}`}>
-                          <span>{listing.address}</span>
-                        </Link>
-                      </td>
-                      <td>
-                        <Button
-                          className="addButton"
-                          bsStyle="danger"
-                          onClick={() =>
-                            deleteContactListing(listing.id, contact.id)
-                          }
-                        >
-                          <span>DeleteListing</span>
-                        </Button>
-                      </td>
-                    </tr>
-                  ))}
-              </tbody>
-            </Table>
-          </FormGroup>
-        </Form>
+        <SearchForm searchFunction={searchListings} />
+
+        <TableRow
+          componentName="listing"
+          rowText="address"
+          collection={searchResults}
+          submitFunction={submitContactListing}
+          hostComponent={contact}
+          buttonText="Add Listing"
+          buttonStyle="warning"
+        />
+        <hr />
+        <TableRow
+          componentName="listing"
+          rowText="address"
+          collection={contactListings}
+          submitFunction={deleteContactListing}
+          hostComponent={contact}
+          buttonText="Delete Listing"
+          buttonStyle="danger"
+        />
       </Col>
     </Row>
   </Grid>

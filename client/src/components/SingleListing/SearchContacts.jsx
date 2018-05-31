@@ -2,10 +2,11 @@ import React from "react";
 import PropTypes from "prop-types";
 import { reduxForm } from "redux-form";
 
-import { Link } from "react-router-dom";
-import { Grid, Row, Col, Button, Table } from "react-bootstrap";
+import { Grid, Row, Col } from "react-bootstrap";
 
 import SearchForm from "../SearchForm/SearchForm";
+import TableRow from "../TableRow/TableRow";
+
 import "./SingleListing.css";
 
 const SearchContacts = ({
@@ -26,69 +27,28 @@ const SearchContacts = ({
     <Row>
       <Col xs={12}>
         <h3 className="headerText">Add Contacts</h3>
-        <SearchForm searchFunction={searchContacts} />
-        <Table striped>
-          <tbody>
-            {searchResults &&
-              searchResults.map(contact => (
-                <tr key={contact.id}>
-                  <td>
-                    <img
-                      className="imgTableThumbnail"
-                      src={contact.images && contact.images[0]}
-                      alt="Contact"
-                    />
-                  </td>
-                  <td>{contact.fullName}</td>
-                  <td>
-                    <Button
-                      className="addButton"
-                      bsStyle="warning"
-                      onClick={() =>
-                        submitListingContact(contact.id, listing.id)
-                      }
-                    >
-                      <span>Add Contact</span>
-                    </Button>
-                  </td>
-                </tr>
-              ))}
-          </tbody>
-        </Table>
-        <hr />
 
-        <Table striped>
-          <tbody>
-            {listingContacts &&
-              listingContacts.map(contact => (
-                <tr key={contact.id}>
-                  <td>
-                    <img
-                      className="imgTableThumbnail"
-                      src={contact.images && contact.images[0]}
-                      alt={contact.fullName}
-                    />
-                  </td>
-                  <td>
-                    <Link to={`/contact/${contact.id}`}>
-                      <span>{contact.fullName}</span>
-                    </Link>
-                  </td>
-                  <td>
-                    <Button
-                      className="addButton"
-                      bsStyle="danger"
-                      onClick={() =>
-                        deleteListingContact(contact.id, listing.id)
-                      }
-                    >
-                      <span>DeleteContact</span>
-                    </Button>
-                  </td>
-                </tr>
-              ))}
-          </tbody>
-        </Table>
+        <SearchForm searchFunction={searchContacts} />
+
+        <TableRow
+          componentName="contact"
+          rowText="fullName"
+          collection={searchResults}
+          submitFunction={submitListingContact}
+          hostComponent={listing}
+          buttonText="Add Contact"
+          buttonStyle="warning"
+        />
+        <hr />
+        <TableRow
+          componentName="contact"
+          rowText="fullName"
+          collection={listingContacts}
+          submitFunction={deleteListingContact}
+          hostComponent={listing}
+          buttonText="Delete Contact"
+          buttonStyle="danger"
+        />
       </Col>
     </Row>
   </Grid>
