@@ -8,16 +8,8 @@ import { fetchUser } from "./actions/auth-actions";
 import { history } from "./store";
 import "./index.css";
 
-// import LandingPageContainer from "./containers/LandingPageContainer/LandingPageContainer";
-// import DashboardContainer from "./containers/DashboardContainer/DashboardContainer";
-// import ProfileContainer from "./containers/ProfileContainer/ProfileContainer";
-// import EmailsContainer from "./containers/EmailsContainer/EmailsContainer";
-// import SingleEmailContainer from "./containers/SingleEmailContainer/SingleEmailContainer";
-// import ContactsContainer from "./containers/ContactsContainer/ContactsContainer";
-// import SingleContactContainer from "./containers/SingleContactContainer/SingleContactContainer";
-
 import iFrameContainer from "./containers/SingleEmailContainer/iFrameContainer";
-// import Email from "./components/SingleEmail/SingleEmail";
+
 import Loading from "./components/Loading/Loading";
 
 const LandingPage = Loadable({
@@ -79,6 +71,17 @@ const OpenHouse = Loadable({
   loading: Loading
 });
 
+const Groups = Loadable({
+  loader: () => import("./containers/GroupsContainer/GroupsContainer"),
+  loading: Loading
+});
+
+const SingleGroup = Loadable({
+  loader: () =>
+    import("./containers/SingleGroupContainer/SingleGroupContainer"),
+  loading: Loading
+});
+
 class App extends React.Component {
   componentDidMount() {
     this.props.fetchUser();
@@ -101,6 +104,8 @@ class App extends React.Component {
             <Route path="/listings" component={Listings} />
             <Route path="/listing/:id" component={SingleListing} />
             <Route path="/openhouse/:listingId" component={OpenHouse} />
+            <Route path="/groups" component={Groups} />
+            <Route path="/groups/:id" component={SingleGroup} />
             <Route
               render={() => (
                 <div>

@@ -38,6 +38,7 @@ app.use("/api/auth", require("./routes/auth"));
 app.use("/api/email", require("./routes/email"));
 app.use("/api/contacts", require("./routes/contacts"));
 app.use("/api/listings", require("./routes/listings"));
+app.use("/api/groups", require("./routes/groups"));
 
 app.use(express.static("client/build"));
 app.get("*", (req, res) => {

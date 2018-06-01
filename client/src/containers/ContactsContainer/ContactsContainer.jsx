@@ -18,8 +18,7 @@ import {
   clearError
 } from "../../actions/contact-actions";
 // import { clearError } from "../../actions/common-actions";
-import "../../components/Contacts/Contacts.css";
-import "../../index.css";
+// import "../../components/Contacts/Contacts.css";
 
 class ContactsContainer extends React.Component {
   constructor(props) {

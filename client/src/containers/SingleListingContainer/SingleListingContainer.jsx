@@ -95,11 +95,11 @@ class SingleListingContainer extends React.Component {
       deleteListing,
       listingContactsSearchResults,
       listingContacts,
-      deleteListingContact,
       listingEmails,
       isFetching,
       onDrop,
-      deleteListingImage
+      deleteListingImage,
+      deleteListingContact
     } = this.props;
 
     return !isAuthed ? (
@@ -207,7 +207,8 @@ SingleListingContainer.propTypes = {
   submitNewListing: PropTypes.func.isRequired,
   fetchListing: PropTypes.func.isRequired,
   updateListing: PropTypes.func.isRequired,
-  deleteListing: PropTypes.func.isRequired
+  deleteListing: PropTypes.func.isRequired,
+  deleteListingContact: PropTypes.func.isRequired
 };
 
 export const Unwrapped = SingleListingContainer;
@@ -223,7 +224,7 @@ export default connect(mapStateToProps, {
   searchContacts,
   clearListingContactsSearchResults,
   submitListingContact,
+  deleteListingContact,
   onDrop,
-  deleteListingImage,
-  deleteListingContact
+  deleteListingImage
 })(SingleListingContainer);

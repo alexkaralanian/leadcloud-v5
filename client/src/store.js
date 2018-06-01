@@ -12,6 +12,7 @@ import authReducer from "./reducers/auth-reducer";
 import emailReducer from "./reducers/email-reducer";
 import contactReducer from "./reducers/contact-reducer";
 import listingReducer from "./reducers/listing-reducer";
+import groupReducer from "./reducers/group-reducer";
 import formReducer from "./reducers/form-reducer";
 
 // ROUTER HISTORY
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
   emailReducer,
   contactReducer,
   listingReducer,
+  groupReducer,
   router: routerReducer,
   form: formReducer
 });

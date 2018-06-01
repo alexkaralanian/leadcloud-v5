@@ -10,7 +10,7 @@ import SingleContact from "../../components/SingleContact/SingleContact";
 import ImageCarousel from "../../components/ImageCarousel/ImageCarousel";
 import SearchListings from "../../components/SingleContact/SearchListings";
 import SingleContactEmailsContainer from "./SingleContactEmailsContainer";
-import Groups from "../../components/Groups/Groups";
+import GroupsRow from "../../components/GroupsRow/GroupsRow";
 
 import {
   fetchContact,
@@ -194,7 +194,7 @@ class SingleContactContainer extends React.Component {
         {/* CONTACT GROUPS */}
         <Route
           path={`/contact/${contact.id}/groups`}
-          render={routeProps => <Groups {...routeProps} groups={groups} />}
+          render={routeProps => <GroupsRow {...routeProps} groups={groups} />}
         />
 
         {/* CONTACT MEDIA */}
