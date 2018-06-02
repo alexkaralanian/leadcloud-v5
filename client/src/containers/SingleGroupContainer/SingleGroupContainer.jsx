@@ -1,17 +1,19 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
-import { Grid, Row, Col } from "react-bootstrap";
-
 import Navigation from "../NavContainer/NavContainer";
+import GroupContacts from "../../components/SingleGroup/GroupContacts";
 
-class GroupsContainer extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+import { fetchGroup, fetchGroupContacts } from "../../actions/group-actions";
 
+class SingleGroupContainer extends React.Component {
   componentDidMount() {
-    const {} = this.props;
+    const { fetchGroup, fetchGroupContacts, match } = this.props;
+
+    if (match.params.id !== "new") {
+      fetchGroup(match.params.id);
+      fetchGroupContacts(match.params.id);
+    }
   }
 
   componentWillUnmount() {
@@ -19,29 +21,31 @@ class GroupsContainer extends React.Component {
   }
 
   render() {
-    const { isAuthed } = this.props;
+    const { isAuthed, groupContacts, group } = this.props;
+    console.log("GROUP ", group);
 
     return !isAuthed ? (
       <Redirect to="/" />
     ) : (
       <div>
         <Navigation />
-        <Grid>
-          <Row id="load-contacts-btn">
-            <Col sm={12}>
-              <div>SINGLE GROUP</div>
-            </Col>
-          </Row>
-        </Grid>
+        <GroupContacts group={group} groupContacts={groupContacts} />
       </div>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  isAuthed: state.authReducer.isAuthed
+  isAuthed: state.authReducer.isAuthed,
+  group: state.groupReducer.group,
+  groupContacts: state.groupReducer.groupContacts
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  fetchGroup,
+  fetchGroupContacts
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(GroupsContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(
+  SingleGroupContainer
+);

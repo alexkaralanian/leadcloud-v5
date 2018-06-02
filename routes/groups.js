@@ -21,19 +21,36 @@ router.get("/", authCheck, async (req, res) => {
   }
 });
 
-router.get("/:id", authCheck, async (req, res) => {
+router.get("/:googleId", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
+  console.log("GROUP ID", req.params.id);
 
   try {
-    const contacts = await Contacts.findAll({
+    const group = await ContactTags.findOne({
+      where: {
+        UserUuid: userId,
+        googleId: req.params.googleId
+      }
+    });
+    res.json(group);
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+router.get("/:googleId/contacts", authCheck, async (req, res) => {
+  const userId = req.session.user.toString();
+  try {
+    const groupContacts = await Contacts.findAll({
       where: {
         UserUuid: userId,
         membership: {
-          $contains: [req.params.id]
+          $contains: [req.params.googleId]
         }
       }
     });
-    res.json(contacts);
+
+    res.json(groupContacts);
   } catch (err) {
     console.error(err);
   }

@@ -36,7 +36,7 @@ const SingleContact = ({
         fetchContact={fetchContact}
       />
 
-      {isContactNew ? null : (
+      {!isContactNew && (
         <Row>
           <Col xs={12}>
             <Button

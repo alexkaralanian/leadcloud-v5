@@ -24,6 +24,13 @@ const Dashboard = () => (
           </Link>
         </Col>
         <Col sm={6}>
+          <Link className="navLink" to="/groups">
+            <div className="dashCard">
+              <h3 className="dashText">Groups</h3>
+            </div>
+          </Link>
+        </Col>
+        <Col sm={6}>
           <Link className="navLink" to="/emails">
             <div className="dashCard">
               <h3 className="dashText">Emails</h3>

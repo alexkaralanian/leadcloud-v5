@@ -8,10 +8,6 @@ import Navigation from "../NavContainer/NavContainer";
 import { fetchGroups } from "../../actions/group-actions";
 
 class GroupsContainer extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   componentDidMount() {
     const { fetchGroups } = this.props;
     fetchGroups();

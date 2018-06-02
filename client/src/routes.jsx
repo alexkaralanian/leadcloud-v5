@@ -105,7 +105,7 @@ class App extends React.Component {
             <Route path="/listing/:id" component={SingleListing} />
             <Route path="/openhouse/:listingId" component={OpenHouse} />
             <Route path="/groups" component={Groups} />
-            <Route path="/groups/:id" component={SingleGroup} />
+            <Route path="/group/:id" component={SingleGroup} />
             <Route
               render={() => (
                 <div>

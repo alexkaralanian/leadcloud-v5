@@ -2,7 +2,9 @@ module.exports = (sequelize, DataTypes) => {
   const contactTags = sequelize.define(
     "contactTags",
     {
-      googleId: DataTypes.STRING,
+      googleId: {
+        type: DataTypes.STRING
+      },
       title: DataTypes.STRING
     },
     {}

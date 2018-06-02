@@ -40,7 +40,7 @@ const Groups = ({ groups, isFetching }) =>
                       )}
                     </td>
                     <td className="nameDisplay">
-                      <Link to={`/group/${group.id}`}>
+                      <Link to={`/group/${group.googleId}`}>
                         <span>{group.title}</span>
                       </Link>
                     </td>
