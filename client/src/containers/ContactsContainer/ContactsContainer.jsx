@@ -17,6 +17,9 @@ import {
   setContactsQuery,
   clearError
 } from "../../actions/contact-actions";
+
+import { fetchGroups } from "../../actions/group-actions";
+
 // import { clearError } from "../../actions/common-actions";
 // import "../../components/Contacts/Contacts.css";
 
@@ -31,6 +34,7 @@ class ContactsContainer extends React.Component {
   componentDidMount() {
     const {
       fetchContacts,
+      fetchGroups,
       limit,
       offset,
       contactsQuery,
@@ -38,6 +42,8 @@ class ContactsContainer extends React.Component {
     } = this.props;
 
     fetchContacts(limit, offset, contactsQuery, contacts);
+    fetchGroups();
+
     window.addEventListener("scroll", this.onScroll, false);
   }
 
@@ -92,6 +98,7 @@ class ContactsContainer extends React.Component {
       limit,
       offset,
       contacts,
+      groups,
       isFetching
     } = this.props;
 
@@ -123,7 +130,7 @@ class ContactsContainer extends React.Component {
           </Row>
           <SearchForm searchFunction={this.searchContacts} />
         </Grid>
-        <Contacts contacts={contacts} isFetching={isFetching} />
+        <Contacts groups={groups} contacts={contacts} isFetching={isFetching} />
         {/*<Errors errorText={this.props.error} />*/}
       </div>
     );
@@ -134,7 +141,7 @@ const mapStateToProps = state => ({
   isAuthed: state.authReducer.isAuthed,
   contacts: state.contactReducer.contacts,
   contactsQuery: state.contactReducer.contactsQuery,
-  // searchResults: state.contactReducer.searchResults,
+  groups: state.groupReducer.groups,
   limit: state.contactReducer.limit,
   offset: state.contactReducer.offset,
   isFetching: state.contactReducer.isFetching,
@@ -145,6 +152,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   loadContacts,
   fetchContacts,
+  fetchGroups,
   searchContacts,
   setContactsQuery,
   clearContacts,

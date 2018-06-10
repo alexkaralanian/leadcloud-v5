@@ -1,41 +1,27 @@
 import * as types from "../types";
 
 const initialState = {
-  groups: [],
-  groupContacts: null,
-  group: {},
-  isGroupNew: true,
   error: "",
   message: "",
-  isFetching: false
+  isFetching: false,
+  campaignGroups: [],
+  campaignListings: []
 };
 
-const groupReducer = (state = initialState, action) => {
+const campaignReducer = (state = initialState, action) => {
   switch (action.type) {
-    case types.SET_GROUPS:
-      return {
-        ...state,
-        groups: action.payload
-      };
-
-    case types.SET_GROUP:
-      return {
-        ...state,
-        group: action.payload
-      };
-
-    case types.SET_GROUP_CONTACTS:
-      return {
-        ...state,
-        groupContacts: action.payload
-      };
-
     // ADMINISTRATIVE
 
-    case types.CLEAR_GROUP_CONTACTS:
+    case types.SET_CAMPAIGN_GROUPS:
       return {
         ...state,
-        groupContacts: null
+        campaignGroups: action.payload
+      };
+
+    case types.SET_CAMPAIGN_LISTINGS:
+      return {
+        ...state,
+        campaignListings: action.payload
       };
 
     case types.IS_FETCHING:
@@ -61,4 +47,4 @@ const groupReducer = (state = initialState, action) => {
   }
 };
 
-export default groupReducer;
+export default campaignReducer;

@@ -1,0 +1,113 @@
+import React from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { Field, reduxForm } from "redux-form";
+import { Button, Form, FormGroup, Grid, Col, Row } from "react-bootstrap";
+import { contactValidate } from "../../helpers/redux-form/validate";
+
+import TableRowCheckbox from "../../components/TableRow/TableRow_Checkbox";
+import SearchForm from "../../components/SearchForm/SearchForm";
+import inputField from "../InputField/InputField";
+
+let CampaignFormA;
+
+CampaignFormA = ({
+  handleSubmit,
+  load,
+  pristine,
+  reset,
+  submitting,
+  auditClick,
+  searchListings,
+  campaignListings,
+  deleteCampaignListing,
+  campaign,
+  listings,
+  addCampaignListing,
+  nextPage
+}) => (
+  <Form>
+    <Grid>
+      <Row>
+        <Col xs={12}>
+          <h1>New Campaign</h1>
+        </Col>
+        <Col xs={12}>
+          <FormGroup className="formGroup">
+            <Field
+              type="text"
+              name="title"
+              component={inputField}
+              label="Title"
+            />
+          </FormGroup>
+        </Col>
+      </Row>
+
+      <Row>
+        <Col xs={12}>
+          <h3>Search Listings</h3>
+          <SearchForm searchFunction={searchListings} />
+        </Col>
+
+        <Col xs={12}>
+          <TableRowCheckbox
+            componentName="listing"
+            rowText="address"
+            collection={campaignListings}
+            submitFunction={deleteCampaignListing}
+            hostComponent={campaign}
+            buttonText="Delete Listing"
+            buttonStyle="danger"
+          />
+        </Col>
+
+        <Col xs={12}>
+          <TableRowCheckbox
+            componentName="listing"
+            rowText="address"
+            collection={listings}
+            submitFunction={addCampaignListing}
+            hostComponent={campaign}
+            buttonText="Add Listing"
+            buttonStyle="warning"
+          />
+        </Col>
+      </Row>
+
+      <Row>
+        <Col xs={12}>
+          <div>
+            <Button
+              onClick={nextPage}
+              className="submitButton"
+              type="submit"
+              bsStyle="primary"
+              disabled={pristine || submitting}
+            >
+              <span>Submit</span>
+            </Button>
+          </div>
+        </Col>
+      </Row>
+    </Grid>
+  </Form>
+);
+
+CampaignFormA = reduxForm({
+  form: "campaignForm", // a unique name for this form
+  destroyOnUnmount: false,
+  forceUnregisterOnUnmount: true,
+  // enableReinitialize: true,
+  // keepDirtyOnReinitialize: true,
+  validate: contactValidate
+})(CampaignFormA);
+
+// CampaignForm = connect(
+//   state => ({
+//     // initialValues: state.campaignReducer.campaign // pull initial values from CONTACT reducer
+//   })
+//   // { load: fetchCampaign } // bind fetchContact action creator
+// )(CampaignForm);
+
+export default CampaignFormA;

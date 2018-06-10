@@ -1,9 +1,9 @@
 import { createStore, applyMiddleware, combineReducers } from "redux";
-import { composeWithDevTools } from "redux-devtools-extension";
 
 // MIDDLEWARE
 import thunkMiddleware from "redux-thunk";
 import { createLogger } from "redux-logger";
+import { composeWithDevTools } from "redux-devtools-extension";
 import createHistory from "history/createBrowserHistory";
 import { routerReducer, routerMiddleware } from "react-router-redux";
 
@@ -13,6 +13,7 @@ import emailReducer from "./reducers/email-reducer";
 import contactReducer from "./reducers/contact-reducer";
 import listingReducer from "./reducers/listing-reducer";
 import groupReducer from "./reducers/group-reducer";
+import campaignReducer from "./reducers/campaign-reducer";
 import formReducer from "./reducers/form-reducer";
 
 // ROUTER HISTORY
@@ -25,6 +26,7 @@ const rootReducer = combineReducers({
   contactReducer,
   listingReducer,
   groupReducer,
+  campaignReducer,
   router: routerReducer,
   form: formReducer
 });

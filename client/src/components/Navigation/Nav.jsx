@@ -17,8 +17,9 @@ const Navigation = ({ isAuthed, user, logout, profile, push }) => (
       <Nav>
         <Contacts isAuthed={isAuthed} push={push} />
         <Listings isAuthed={isAuthed} push={push} />
+        {/*<Groups isAuthed={isAuthed} push={push} />*/}
+        <Campaigns isAuthed={isAuthed} push={push} />
         <Emails isAuthed={isAuthed} push={push} />
-        <Groups isAuthed={isAuthed} push={push} />
       </Nav>
       <Nav className="navContainerRight" pullRight>
         <Profile
@@ -63,18 +64,29 @@ const Emails = ({ isAuthed, push }) =>
       eventKey="1"
       onSelect={() => push("/emails")}
     >
-      Emails
+      Messages
     </MenuItem>
   );
 
-const Groups = ({ isAuthed, push }) =>
+// const Groups = ({ isAuthed, push }) =>
+//   isAuthed && (
+//     <MenuItem
+//       className="menuItem"
+//       eventKey="1"
+//       onSelect={() => push("/groups")}
+//     >
+//       Groups
+//     </MenuItem>
+//   );
+
+const Campaigns = ({ isAuthed, push }) =>
   isAuthed && (
     <MenuItem
       className="menuItem"
       eventKey="1"
-      onSelect={() => push("/groups")}
+      onSelect={() => push("/campaigns")}
     >
-      Groups
+      Campaigns
     </MenuItem>
   );
 

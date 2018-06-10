@@ -18,11 +18,16 @@ export const setGroupContacts = groupContacts => ({
   payload: groupContacts
 });
 
+export const clearGroupContacts = () => ({
+  type: types.CLEAR_GROUP_CONTACTS,
+  payload: clearGroupContacts
+});
+
 // ADMINISTRATIVE...
 
 export const isFetching = bool => ({
   type: types.IS_FETCHING,
-  isFetching: bool
+  payload: bool
 });
 
 export const setError = error => ({
@@ -37,6 +42,7 @@ export const clearError = () => ({
 /* ------------       DISPATCHERS     ------------------ */
 
 export const fetchGroups = () => async dispatch => {
+  console.log("FETCHING GROUPS");
   dispatch(isFetching(true));
   try {
     const res = await axios.get("/api/groups/");
@@ -63,11 +69,9 @@ export const fetchGroup = googleId => async dispatch => {
 };
 
 export const fetchGroupContacts = googleId => async dispatch => {
-  console.log("FECTHING GROUP CONTACTS", googleId);
   dispatch(isFetching(true));
   try {
     const res = await axios.get(`/api/groups/${googleId}/contacts`);
-    console.log("GROUP CONTACTS", res.data);
     dispatch(setGroupContacts(res.data));
     dispatch(isFetching(false));
   } catch (err) {

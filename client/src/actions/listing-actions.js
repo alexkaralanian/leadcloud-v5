@@ -60,6 +60,29 @@ export const clearListings = () => ({
 
 // ASYNC ACTION CREATORS
 
+export const searchListings = (
+  limit,
+  offset,
+  query,
+  contactsArray,
+  section
+) => async dispatch => {
+  console.log("SEARCH LISTINGS");
+  // try {
+  //   const res = await axios.get(
+  //     `/api/contacts/?limit=${limit}&offset=${offset}&query=${query}`
+  //   );
+  //   if (section === "listingContacts") {
+  //     dispatch(setListingSearchResults(res.data));
+  //   } else {
+  //     dispatch(setListing(res.data, limit, limit));
+  //   }
+  // } catch (err) {
+  //   console.error("fetchContacts ERROR", err.response);
+  //   dispatch(setError("ERROR FETCHING CONTACTS"));
+  // }
+};
+
 export const fetchListings = () => async dispatch => {
   dispatch(isFetching(true));
   try {

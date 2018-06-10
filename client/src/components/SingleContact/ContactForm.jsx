@@ -11,10 +11,12 @@ import inputField from "../InputField/InputField";
 import textAreaField from "../InputField/TextAreaField";
 
 const capitalize = word => {
-  if (word) word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+  if (word) return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
 };
 
-let ContactForm = ({
+let ContactForm;
+
+ContactForm = ({
   handleSubmit,
   load,
   pristine,

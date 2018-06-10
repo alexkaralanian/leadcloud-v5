@@ -4,7 +4,11 @@ import { Redirect } from "react-router-dom";
 import Navigation from "../NavContainer/NavContainer";
 import GroupContacts from "../../components/SingleGroup/GroupContacts";
 
-import { fetchGroup, fetchGroupContacts } from "../../actions/group-actions";
+import {
+  fetchGroup,
+  fetchGroupContacts,
+  clearGroupContacts
+} from "../../actions/group-actions";
 
 class SingleGroupContainer extends React.Component {
   componentDidMount() {
@@ -17,25 +21,29 @@ class SingleGroupContainer extends React.Component {
   }
 
   componentWillUnmount() {
-    const {} = this.props;
+    const { clearGroupContacts } = this.props;
   }
 
   render() {
-    const { isAuthed, groupContacts, group } = this.props;
-    console.log("GROUP ", group);
+    const { isAuthed, groupContacts, group, isFetching } = this.props;
 
     return !isAuthed ? (
       <Redirect to="/" />
     ) : (
       <div>
         <Navigation />
-        <GroupContacts group={group} groupContacts={groupContacts} />
+        <GroupContacts
+          group={group}
+          groupContacts={groupContacts}
+          isFetching={isFetching}
+        />
       </div>
     );
   }
 }
 
 const mapStateToProps = state => ({
+  isFetching: state.groupReducer.isFetching,
   isAuthed: state.authReducer.isAuthed,
   group: state.groupReducer.group,
   groupContacts: state.groupReducer.groupContacts
@@ -43,7 +51,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   fetchGroup,
-  fetchGroupContacts
+  fetchGroupContacts,
+  clearGroupContacts
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(

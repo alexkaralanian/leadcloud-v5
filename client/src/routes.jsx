@@ -8,7 +8,7 @@ import { fetchUser } from "./actions/auth-actions";
 import { history } from "./store";
 import "./index.css";
 
-import iFrameContainer from "./containers/SingleEmailContainer/iFrameContainer";
+// import iFrameContainer from "./containers/SingleEmailContainer/iFrameContainer";
 
 import Loading from "./components/Loading/Loading";
 
@@ -39,10 +39,10 @@ const SingleEmail = Loadable({
   loading: Loading
 });
 
-// const iFrameContainer = Loadable({
-//   loader: () => import("./containers/SingleEmailContainer/iFrameContainer"),
-//   loading: Loading
-// });
+const iFrameContainer = Loadable({
+  loader: () => import("./containers/SingleEmailContainer/iFrameContainer"),
+  loading: Loading
+});
 
 const Contacts = Loadable({
   loader: () => import("./containers/ContactsContainer/ContactsContainer"),
@@ -82,6 +82,17 @@ const SingleGroup = Loadable({
   loading: Loading
 });
 
+const Campaigns = Loadable({
+  loader: () => import("./containers/CampaignsContainer/CampaignsContainer"),
+  loading: Loading
+});
+
+const SingleCampaign = Loadable({
+  loader: () =>
+    import("./containers/SingleCampaignContainer/SingleCampaignContainer"),
+  loading: Loading
+});
+
 class App extends React.Component {
   componentDidMount() {
     this.props.fetchUser();
@@ -106,6 +117,8 @@ class App extends React.Component {
             <Route path="/openhouse/:listingId" component={OpenHouse} />
             <Route path="/groups" component={Groups} />
             <Route path="/group/:id" component={SingleGroup} />
+            <Route path="/campaigns" component={Campaigns} />
+            <Route path="/campaign/new" component={SingleCampaign} />
             <Route
               render={() => (
                 <div>
