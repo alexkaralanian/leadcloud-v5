@@ -10,6 +10,7 @@ const plus = google.plus("v1");
 
 // GOOGLE LOGIN
 router.get("/google", (req, res) => {
+  console.log("GOOGLE");
   res.redirect(url);
 });
 

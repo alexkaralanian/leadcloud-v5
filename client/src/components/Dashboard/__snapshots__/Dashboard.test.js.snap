@@ -77,7 +77,7 @@ ShallowWrapper {
                         <Link
                                 className="navLink"
                                 replace={false}
-                                to="/emails"
+                                to="/campaigns"
                         >
                                 <div
                                         className="dashCard"
@@ -85,7 +85,7 @@ ShallowWrapper {
                                         <h3
                                                 className="dashText"
                                         >
-                                                Emails
+                                                Campaigns
                                         </h3>
                                 </div>
                         </Link>
@@ -98,7 +98,7 @@ ShallowWrapper {
                         <Link
                                 className="navLink"
                                 replace={false}
-                                to="/profile"
+                                to="/emails"
                         >
                                 <div
                                         className="dashCard"
@@ -106,7 +106,7 @@ ShallowWrapper {
                                         <h3
                                                 className="dashText"
                                         >
-                                                Profile
+                                                Messages
                                         </h3>
                                 </div>
                         </Link>
@@ -176,7 +176,7 @@ ShallowWrapper {
                     <Link
                               className="navLink"
                               replace={false}
-                              to="/emails"
+                              to="/campaigns"
                     >
                               <div
                                         className="dashCard"
@@ -184,7 +184,7 @@ ShallowWrapper {
                                         <h3
                                                   className="dashText"
                                         >
-                                                  Emails
+                                                  Campaigns
                                         </h3>
                               </div>
                     </Link>
@@ -197,7 +197,7 @@ ShallowWrapper {
                     <Link
                               className="navLink"
                               replace={false}
-                              to="/profile"
+                              to="/emails"
                     >
                               <div
                                         className="dashCard"
@@ -205,7 +205,7 @@ ShallowWrapper {
                                         <h3
                                                   className="dashText"
                                         >
-                                                  Profile
+                                                  Messages
                                         </h3>
                               </div>
                     </Link>
@@ -273,7 +273,7 @@ ShallowWrapper {
               <Link
                             className="navLink"
                             replace={false}
-                            to="/emails"
+                            to="/campaigns"
               >
                             <div
                                           className="dashCard"
@@ -281,7 +281,7 @@ ShallowWrapper {
                                           <h3
                                                         className="dashText"
                                           >
-                                                        Emails
+                                                        Campaigns
                                           </h3>
                             </div>
               </Link>
@@ -294,7 +294,7 @@ ShallowWrapper {
               <Link
                             className="navLink"
                             replace={false}
-                            to="/profile"
+                            to="/emails"
               >
                             <div
                                           className="dashCard"
@@ -302,7 +302,7 @@ ShallowWrapper {
                                           <h3
                                                         className="dashText"
                                           >
-                                                        Profile
+                                                        Messages
                                           </h3>
                             </div>
               </Link>
@@ -471,7 +471,7 @@ ShallowWrapper {
               "children": <Link
                 className="navLink"
                 replace={false}
-                to="/emails"
+                to="/campaigns"
 >
                 <div
                                 className="dashCard"
@@ -479,7 +479,7 @@ ShallowWrapper {
                                 <h3
                                                 className="dashText"
                                 >
-                                                Emails
+                                                Campaigns
                                 </h3>
                 </div>
 </Link>,
@@ -498,12 +498,12 @@ ShallowWrapper {
                   <h3
                                     className="dashText"
                   >
-                                    Emails
+                                    Campaigns
                   </h3>
 </div>,
                 "className": "navLink",
                 "replace": false,
-                "to": "/emails",
+                "to": "/campaigns",
               },
               "ref": null,
               "rendered": Object {
@@ -514,7 +514,7 @@ ShallowWrapper {
                   "children": <h3
                     className="dashText"
 >
-                    Emails
+                    Campaigns
 </h3>,
                   "className": "dashCard",
                 },
@@ -524,11 +524,11 @@ ShallowWrapper {
                   "key": undefined,
                   "nodeType": "host",
                   "props": Object {
-                    "children": "Emails",
+                    "children": "Campaigns",
                     "className": "dashText",
                   },
                   "ref": null,
-                  "rendered": "Emails",
+                  "rendered": "Campaigns",
                   "type": "h3",
                 },
                 "type": "div",
@@ -546,7 +546,7 @@ ShallowWrapper {
               "children": <Link
                 className="navLink"
                 replace={false}
-                to="/profile"
+                to="/emails"
 >
                 <div
                                 className="dashCard"
@@ -554,7 +554,7 @@ ShallowWrapper {
                                 <h3
                                                 className="dashText"
                                 >
-                                                Profile
+                                                Messages
                                 </h3>
                 </div>
 </Link>,
@@ -573,12 +573,12 @@ ShallowWrapper {
                   <h3
                                     className="dashText"
                   >
-                                    Profile
+                                    Messages
                   </h3>
 </div>,
                 "className": "navLink",
                 "replace": false,
-                "to": "/profile",
+                "to": "/emails",
               },
               "ref": null,
               "rendered": Object {
@@ -589,7 +589,7 @@ ShallowWrapper {
                   "children": <h3
                     className="dashText"
 >
-                    Profile
+                    Messages
 </h3>,
                   "className": "dashCard",
                 },
@@ -599,11 +599,11 @@ ShallowWrapper {
                   "key": undefined,
                   "nodeType": "host",
                   "props": Object {
-                    "children": "Profile",
+                    "children": "Messages",
                     "className": "dashText",
                   },
                   "ref": null,
-                  "rendered": "Profile",
+                  "rendered": "Messages",
                   "type": "h3",
                 },
                 "type": "div",
@@ -685,7 +685,7 @@ ShallowWrapper {
                               <Link
                                         className="navLink"
                                         replace={false}
-                                        to="/emails"
+                                        to="/campaigns"
                               >
                                         <div
                                                   className="dashCard"
@@ -693,7 +693,7 @@ ShallowWrapper {
                                                   <h3
                                                             className="dashText"
                                                   >
-                                                            Emails
+                                                            Campaigns
                                                   </h3>
                                         </div>
                               </Link>
@@ -706,7 +706,7 @@ ShallowWrapper {
                               <Link
                                         className="navLink"
                                         replace={false}
-                                        to="/profile"
+                                        to="/emails"
                               >
                                         <div
                                                   className="dashCard"
@@ -714,7 +714,7 @@ ShallowWrapper {
                                                   <h3
                                                             className="dashText"
                                                   >
-                                                            Profile
+                                                            Messages
                                                   </h3>
                                         </div>
                               </Link>
@@ -784,7 +784,7 @@ ShallowWrapper {
                         <Link
                                     className="navLink"
                                     replace={false}
-                                    to="/emails"
+                                    to="/campaigns"
                         >
                                     <div
                                                 className="dashCard"
@@ -792,7 +792,7 @@ ShallowWrapper {
                                                 <h3
                                                             className="dashText"
                                                 >
-                                                            Emails
+                                                            Campaigns
                                                 </h3>
                                     </div>
                         </Link>
@@ -805,7 +805,7 @@ ShallowWrapper {
                         <Link
                                     className="navLink"
                                     replace={false}
-                                    to="/profile"
+                                    to="/emails"
                         >
                                     <div
                                                 className="dashCard"
@@ -813,7 +813,7 @@ ShallowWrapper {
                                                 <h3
                                                             className="dashText"
                                                 >
-                                                            Profile
+                                                            Messages
                                                 </h3>
                                     </div>
                         </Link>
@@ -881,7 +881,7 @@ ShallowWrapper {
                 <Link
                                 className="navLink"
                                 replace={false}
-                                to="/emails"
+                                to="/campaigns"
                 >
                                 <div
                                                 className="dashCard"
@@ -889,7 +889,7 @@ ShallowWrapper {
                                                 <h3
                                                                 className="dashText"
                                                 >
-                                                                Emails
+                                                                Campaigns
                                                 </h3>
                                 </div>
                 </Link>
@@ -902,7 +902,7 @@ ShallowWrapper {
                 <Link
                                 className="navLink"
                                 replace={false}
-                                to="/profile"
+                                to="/emails"
                 >
                                 <div
                                                 className="dashCard"
@@ -910,7 +910,7 @@ ShallowWrapper {
                                                 <h3
                                                                 className="dashText"
                                                 >
-                                                                Profile
+                                                                Messages
                                                 </h3>
                                 </div>
                 </Link>
@@ -1079,7 +1079,7 @@ ShallowWrapper {
                 "children": <Link
                   className="navLink"
                   replace={false}
-                  to="/emails"
+                  to="/campaigns"
 >
                   <div
                                     className="dashCard"
@@ -1087,7 +1087,7 @@ ShallowWrapper {
                                     <h3
                                                       className="dashText"
                                     >
-                                                      Emails
+                                                      Campaigns
                                     </h3>
                   </div>
 </Link>,
@@ -1106,12 +1106,12 @@ ShallowWrapper {
                     <h3
                                         className="dashText"
                     >
-                                        Emails
+                                        Campaigns
                     </h3>
 </div>,
                   "className": "navLink",
                   "replace": false,
-                  "to": "/emails",
+                  "to": "/campaigns",
                 },
                 "ref": null,
                 "rendered": Object {
@@ -1122,7 +1122,7 @@ ShallowWrapper {
                     "children": <h3
                       className="dashText"
 >
-                      Emails
+                      Campaigns
 </h3>,
                     "className": "dashCard",
                   },
@@ -1132,11 +1132,11 @@ ShallowWrapper {
                     "key": undefined,
                     "nodeType": "host",
                     "props": Object {
-                      "children": "Emails",
+                      "children": "Campaigns",
                       "className": "dashText",
                     },
                     "ref": null,
-                    "rendered": "Emails",
+                    "rendered": "Campaigns",
                     "type": "h3",
                   },
                   "type": "div",
@@ -1154,7 +1154,7 @@ ShallowWrapper {
                 "children": <Link
                   className="navLink"
                   replace={false}
-                  to="/profile"
+                  to="/emails"
 >
                   <div
                                     className="dashCard"
@@ -1162,7 +1162,7 @@ ShallowWrapper {
                                     <h3
                                                       className="dashText"
                                     >
-                                                      Profile
+                                                      Messages
                                     </h3>
                   </div>
 </Link>,
@@ -1181,12 +1181,12 @@ ShallowWrapper {
                     <h3
                                         className="dashText"
                     >
-                                        Profile
+                                        Messages
                     </h3>
 </div>,
                   "className": "navLink",
                   "replace": false,
-                  "to": "/profile",
+                  "to": "/emails",
                 },
                 "ref": null,
                 "rendered": Object {
@@ -1197,7 +1197,7 @@ ShallowWrapper {
                     "children": <h3
                       className="dashText"
 >
-                      Profile
+                      Messages
 </h3>,
                     "className": "dashCard",
                   },
@@ -1207,11 +1207,11 @@ ShallowWrapper {
                     "key": undefined,
                     "nodeType": "host",
                     "props": Object {
-                      "children": "Profile",
+                      "children": "Messages",
                       "className": "dashText",
                     },
                     "ref": null,
-                    "rendered": "Profile",
+                    "rendered": "Messages",
                     "type": "h3",
                   },
                   "type": "div",

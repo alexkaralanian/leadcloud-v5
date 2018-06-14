@@ -1,17 +1,19 @@
 import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import { Email, Item, Span, A, renderEmail } from "react-html-email";
 import { Field, reduxForm } from "redux-form";
 import { Button, Form, FormGroup, Grid, Col, Row } from "react-bootstrap";
 import { contactValidate } from "../../helpers/redux-form/validate";
 
 import TableRowCheckbox from "../../components/TableRow/TableRow_Checkbox";
+import EmailHTML from "../../components/EmailTemplate/EmailTemplate";
 import SearchForm from "../../components/SearchForm/SearchForm";
 import inputField from "../InputField/InputField";
 
-let CampaignFormA;
+let CampaignFormC;
 
-CampaignFormA = ({
+CampaignFormC = ({
   handleSubmit,
   load,
   pristine,
@@ -23,63 +25,46 @@ CampaignFormA = ({
   deleteCampaignListing,
   campaign,
   listings,
-  addCampaignListing,
-  nextPage
+  groups,
+  addGroup,
+  deleteGroup,
+  addCampaignListing
 }) => (
   <Form>
     <Grid>
       <Row>
         <Col xs={12}>
-          <h2>New Campaign</h2>
+          <h3>Select Groups</h3>
+          {/*<SearchForm searchFunction={searchListings} />*/}
         </Col>
-        <Col xs={12}>
-          <FormGroup className="formGroup">
-            <Field
-              type="text"
-              name="title"
-              component={inputField}
-              label="Title"
-            />
-          </FormGroup>
-        </Col>
-      </Row>
-
-      <Row>
-        <Col xs={12}>
-          <h3>Search Listings</h3>
-          <SearchForm searchFunction={searchListings} />
-        </Col>
-
         <Col xs={12}>
           <TableRowCheckbox
-            componentName="listing"
-            rowText="address"
-            collection={campaignListings}
-            submitFunction={deleteCampaignListing}
+            componentName="group"
+            rowText="title"
+            collection={groups}
+            submitFunction={deleteGroup}
             hostComponent={campaign}
-            buttonText="Delete Listing"
+            buttonText="Delete Group"
             buttonStyle="danger"
           />
         </Col>
 
         <Col xs={12}>
           <TableRowCheckbox
-            componentName="listing"
-            rowText="address"
-            collection={listings}
-            submitFunction={addCampaignListing}
+            componentName="group"
+            rowText="title"
+            collection={groups}
+            submitFunction={addGroup}
             hostComponent={campaign}
-            buttonText="Add Listing"
+            buttonText="Add Group"
             buttonStyle="warning"
           />
         </Col>
       </Row>
-
       <Row>
         <Col xs={12}>
           <div>
             <Button
-              onClick={nextPage}
               className="submitButton"
               type="submit"
               bsStyle="primary"
@@ -94,14 +79,14 @@ CampaignFormA = ({
   </Form>
 );
 
-CampaignFormA = reduxForm({
+CampaignFormC = reduxForm({
   form: "campaignForm", // a unique name for this form
   destroyOnUnmount: false,
   forceUnregisterOnUnmount: true,
   // enableReinitialize: true,
   // keepDirtyOnReinitialize: true,
   validate: contactValidate
-})(CampaignFormA);
+})(CampaignFormC);
 
 // CampaignForm = connect(
 //   state => ({
@@ -110,4 +95,4 @@ CampaignFormA = reduxForm({
 //   // { load: fetchCampaign } // bind fetchContact action creator
 // )(CampaignForm);
 
-export default CampaignFormA;
+export default CampaignFormC;

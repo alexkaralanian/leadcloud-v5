@@ -5,6 +5,7 @@ import { Grid, Col, Row } from "react-bootstrap";
 import Navigation from "../NavContainer/NavContainer";
 import CampaignFormA from "../../components/SingleCampaign/CampaignFormA";
 import CampaignFormB from "../../components/SingleCampaign/CampaignFormB";
+import CampaignFormC from "../../components/SingleCampaign/CampaignFormC";
 
 import { fetchGroups } from "../../actions/group-actions";
 import { fetchListings, searchListings } from "../../actions/listing-actions";
@@ -79,9 +80,6 @@ class SingleCampaignContainer extends React.Component {
 
           {page === 2 && (
             <CampaignFormB
-              // onSubmit={values => {
-              //   this.submitCampaignForm(values);
-              // }}
               groups={groups}
               listings={listings}
               campaign={campaign}
@@ -91,6 +89,22 @@ class SingleCampaignContainer extends React.Component {
               searchListings={searchListings}
               searchListingsResults={searchListingsResults}
               nextPage={this.nextPage}
+              previousPage={this.previousPage}
+            />
+          )}
+
+          {page === 3 && (
+            <CampaignFormC
+              groups={groups}
+              listings={listings}
+              campaign={campaign}
+              campaignListings={campaignListings}
+              addCampaignListing={addCampaignListing}
+              deleteCampaignListing={deleteCampaignListing}
+              searchListings={searchListings}
+              searchListingsResults={searchListingsResults}
+              nextPage={this.nextPage}
+              previousPage={this.previousPage}
             />
           )}
         </div>

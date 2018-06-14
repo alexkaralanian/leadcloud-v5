@@ -13,8 +13,15 @@ router.get("/", async (req, res) => {
 
   try {
     const listings = await Listings.findAll({
+      limit: req.query.limit,
+      offset: req.query.offset,
       where: {
-        UserUuid: userId
+        UserUuid: userId,
+        $and: {
+          address: {
+            $iLike: `${req.query.query}%`
+          }
+        }
       },
       order: [["updated", "DESC"]]
     });
@@ -41,6 +48,24 @@ router.post("/new", authCheck, async (req, res) => {
     });
 
     res.json(createdListing.dataValues);
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+// Fetch single listing
+router.get("/:id", authCheck, async (req, res) => {
+  const userId = req.session.user.toString();
+
+  try {
+    const listing = await Listings.findOne({
+      where: {
+        id: req.params.id,
+        UserUuid: userId
+      }
+    });
+
+    res.json(listing);
   } catch (err) {
     console.error(err);
   }
@@ -75,7 +100,7 @@ router.delete("/:id/delete", authCheck, async (req, res) => {
       }
     });
 
-    listing.destroy();
+    await listing.destroy();
     res.json({
       message: "Listing Deleted Successfully"
     });
@@ -84,51 +109,7 @@ router.delete("/:id/delete", authCheck, async (req, res) => {
   }
 });
 
-// Fetch single listing
-router.get("/:id", authCheck, async (req, res) => {
-  const userId = req.session.user.toString();
-
-  try {
-    const listing = await Listings.findOne({
-      where: {
-        id: req.params.id,
-        UserUuid: userId
-      }
-    });
-
-    res.json(listing);
-  } catch (err) {
-    console.error(err);
-  }
-});
-
 // LISTING CONTACTS
-router.post("/setListingContacts", authCheck, async (req, res) => {
-  const userId = req.session.user.toString();
-
-  try {
-    const contact = await Contacts.findOne({
-      where: {
-        id: req.body.contactId,
-        UserUuid: userId
-      }
-    });
-    contact.addListing(req.body.listingId);
-
-    const listing = await Listings.findOne({
-      where: {
-        id: req.body.listingId,
-        UserUuid: userId
-      }
-    });
-    listing.addContact(req.body.contactId);
-
-    const contacts = await listing.getContacts();
-    res.json(contacts.map(contact => contact.dataValues));
-  } catch (err) {
-    console.error(err);
-  }
-});
 
 router.post("/fetchListingContacts", authCheck, async (req, res) => {
   try {
@@ -140,10 +121,37 @@ router.post("/fetchListingContacts", authCheck, async (req, res) => {
   }
 });
 
+router.post("/setListingContacts", authCheck, async (req, res) => {
+  const userId = req.session.user.toString();
+
+  try {
+    const contact = await Contacts.findOne({
+      where: {
+        id: req.body.contactId,
+        UserUuid: userId
+      }
+    });
+    await contact.addListing(req.body.listingId);
+
+    const listing = await Listings.findOne({
+      where: {
+        id: req.body.listingId,
+        UserUuid: userId
+      }
+    });
+    await listing.addContact(req.body.contactId);
+
+    const contacts = await listing.getContacts();
+    res.json(contacts.map(contact => contact.dataValues));
+  } catch (err) {
+    console.error(err);
+  }
+});
+
 router.post("/deleteListingContact", authCheck, async (req, res) => {
   try {
     const listing = await Listings.findById(req.body.listingId);
-    listing.removeContact(req.body.contactId);
+    await listing.removeContact(req.body.contactId);
 
     const contacts = await listing.getContacts();
     res.json(contacts.map(contact => contact.dataValues));

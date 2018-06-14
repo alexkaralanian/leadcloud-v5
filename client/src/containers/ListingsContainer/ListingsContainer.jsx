@@ -19,7 +19,6 @@ class ListingsContainer extends React.Component {
 
   componentDidMount() {
     const { fetchListings } = this.props;
-
     fetchListings();
   }
 

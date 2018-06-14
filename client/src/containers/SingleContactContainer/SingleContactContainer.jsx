@@ -4,11 +4,12 @@ import { Route, Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import Navigation from "../NavContainer/NavContainer";
-import ContactHeader from "../../components/SingleContact/ContactHeader";
 import ContactNav from "../../components/SingleContact/ContactNav";
+import ContactHeader from "../../components/SingleContact/ContactHeader";
+import SearchListings from "../../components/SingleContact/SearchListings";
 import SingleContact from "../../components/SingleContact/SingleContact";
 import ImageCarousel from "../../components/ImageCarousel/ImageCarousel";
-import SearchListings from "../../components/SingleContact/SearchListings";
+
 import SingleContactEmailsContainer from "./SingleContactEmailsContainer";
 import GroupsRow from "../../components/GroupsRow/GroupsRow";
 
@@ -52,7 +53,7 @@ class SingleContactContainer extends React.Component {
 
     if (contact !== nextProps.contact) {
       if (nextProps.contact.email) {
-        // Map over all contacts email addresses + create query string...
+        // Map over all contacts email addresses + create query string to fetch ALL emails from ALL addresses.
         let request = "";
         nextProps.contact.email.forEach(email => {
           request += `from: ${email.value.trim()} OR `;
@@ -79,39 +80,6 @@ class SingleContactContainer extends React.Component {
     clearError();
   }
 
-  searchListings(values) {
-    console.log("SEARCH CONTACTS VALUES", values);
-    // const query = values.nativeEvent.target.defaultValue;
-    // const {
-    //   clearListingContactsSearchResults,
-    //   searchContacts,
-    //   listingContactsSearchResults
-    // } = this.props;
-
-    // if (query.length < 1) clearListingContactsSearchResults();
-    // if (query.length >= 1) {
-    //   searchContacts(
-    //     25,
-    //     0,
-    //     query,
-    //     listingContactsSearchResults,
-    //     "listingContacts"
-    //   );
-    // }
-
-    // if (!query) clearListingContactsSearchResults();
-  }
-
-  submitContactListing(contactId, listingId) {
-    console.log("SUBMITLISTING CONTACT", { contactId, listingId });
-    // const {
-    //   submitListingContact,
-    //   clearListingContactsSearchResults
-    // } = this.props;
-    // submitListingContact(contactId, listingId);
-    // clearListingContactsSearchResults();
-  }
-
   render() {
     const {
       match,
@@ -120,15 +88,21 @@ class SingleContactContainer extends React.Component {
       submitNewContact,
       updateContact,
       deleteContact,
-      groups,
+      searchListings,
+      contactListingsSearchResults,
       contactListings,
-      isFetching,
+      submitContactListing,
+      deleteContactListing,
+
       emailsByContact,
+      isFetching,
       onDrop,
-      deleteContactImage
+      deleteContactImage,
+      groups
+
     } = this.props;
 
-    return !this.props.isAuthed ? (
+    return !isAuthed ? (
       <Redirect path="/" />
     ) : (
       <div>
@@ -248,3 +222,36 @@ const mapDispatchToProps = {
 export default connect(mapStateToProps, mapDispatchToProps)(
   SingleContactContainer
 );
+
+
+  // searchListings(values) {
+  //   const query = values.nativeEvent.target.defaultValue;
+  //   const {
+  //     clearContactListingsSearchResults,
+  //     searchListings,
+  //     contactListingsSearchResults
+  //   } = this.props;
+
+  //   if (query.length < 1) clearContactListingsSearchResults();
+  //   if (query.length >= 1) {
+  //     searchListings(
+  //       25,
+  //       0,
+  //       query,
+  //       contactListingsSearchResults,
+  //       "contactListings"
+  //     );
+  //   }
+
+  //   if (!query) clearContactListingsSearchResults();
+  // }
+
+  // submitContactListing(contactId, listingId) {
+  //   console.log("SUBMITLISTING CONTACT", { contactId, listingId });
+  //   // const {
+  //   //   submitListingContact,
+  //   //   clearListingContactsSearchResults
+  //   // } = this.props;
+  //   // submitListingContact(contactId, listingId);
+  //   // clearListingContactsSearchResults();
+  // }

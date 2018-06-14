@@ -1,12 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Redirect } from "react-router";
-import { Route } from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
 
+import Navigation from "../NavContainer/NavContainer";
 import ListingNav from "../../components/SingleListing/ListingNav";
 import ListingHeader from "../../components/SingleListing/ListingHeader";
-import Navigation from "../NavContainer/NavContainer";
 import SearchContacts from "../../components/SingleListing/SearchContacts";
 import ListingForm from "../../components/SingleListing/ListingForm";
 import ImageCarousel from "../../components/ImageCarousel/ImageCarousel";
@@ -27,17 +26,11 @@ import {
 } from "../../actions/listing-actions";
 
 import {
-  searchContacts,
+  searchListingContacts,
   clearListingContactsSearchResults
 } from "../../actions/contact-actions";
 
 class SingleListingContainer extends React.Component {
-  constructor(props) {
-    super(props);
-    this.searchContacts = this.searchContacts.bind(this);
-    this.submitListingContact = this.submitListingContact.bind(this);
-  }
-
   componentDidMount() {
     const { match, fetchListing, fetchListingContacts } = this.props;
 
@@ -52,54 +45,25 @@ class SingleListingContainer extends React.Component {
     clearListing();
   }
 
-  searchContacts(values) {
-    const query = values.nativeEvent.target.defaultValue;
-    const {
-      clearListingContactsSearchResults,
-      searchContacts,
-      listingContactsSearchResults
-    } = this.props;
-
-    if (query.length < 1) clearListingContactsSearchResults();
-    if (query.length >= 1) {
-      searchContacts(
-        25,
-        0,
-        query,
-        listingContactsSearchResults,
-        "listingContacts"
-      );
-    }
-
-    if (!query) clearListingContactsSearchResults();
-  }
-
-  submitListingContact(contactId, listingId) {
-    const {
-      submitListingContact,
-      clearListingContactsSearchResults
-    } = this.props;
-
-    submitListingContact(contactId, listingId);
-    clearListingContactsSearchResults();
-  }
-
   render() {
     const {
+      match,
       isAuthed,
       listing,
-      match,
-      images,
       submitNewListing,
       updateListing,
       deleteListing,
+      searchContacts,
       listingContactsSearchResults,
       listingContacts,
+      submitListingContact,
+      deleteListingContact,
+
       listingEmails,
       isFetching,
       onDrop,
-      deleteListingImage,
-      deleteListingContact
+      images,
+      deleteListingImage
     } = this.props;
 
     return !isAuthed ? (
@@ -152,8 +116,8 @@ class SingleListingContainer extends React.Component {
                 listing={listing}
                 listingContacts={listingContacts}
                 searchResults={listingContactsSearchResults}
-                searchContacts={this.searchContacts}
-                submitListingContact={this.submitListingContact}
+                searchContacts={searchListingContacts}
+                submitListingContact={submitListingContact}
                 deleteListingContact={deleteListingContact}
               />
             </div>
@@ -221,7 +185,7 @@ export default connect(mapStateToProps, {
   updateListing,
   deleteListing,
   clearListing,
-  searchContacts,
+  searchListingContacts,
   clearListingContactsSearchResults,
   submitListingContact,
   deleteListingContact,

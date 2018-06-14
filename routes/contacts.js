@@ -34,8 +34,8 @@ router.get("/loadcontacts", authCheck, findUserById, async (req, res) => {
       );
     });
 
-    groups.contactGroups.map(group => {
-      ContactTags.findOrCreate({
+    groups.contactGroups.map(async group => {
+      await ContactTags.findOrCreate({
         where: {
           UserUuid: userId,
           googleId: group.resourceName.slice(
@@ -79,7 +79,7 @@ router.get("/loadcontacts", authCheck, findUserById, async (req, res) => {
     });
 
     // MAP & LOAD USER CONTACTS TO DB
-    contacts.map(contact => {
+    contacts.map(async contact => {
       const imageArray =
         contact.photos && contact.photos.map(photo => photo.url);
 
@@ -110,15 +110,14 @@ router.get("/loadcontacts", authCheck, findUserById, async (req, res) => {
         images: imageArray
       };
 
-      Contacts.findOrCreate({
+      const createdContact = await Contacts.findOrCreate({
         where: {
           googleId: contact.metadata.sources[0].id,
           UserUuid: userId
         },
         defaults
-      }).then(createdContact => {
-        createdContact[0].setUser(userId);
       });
+      await createdContact[0].setUser(userId);
     });
     res.sendStatus(200);
   } catch (err) {
@@ -142,74 +141,10 @@ router.get("/", async (req, res) => {
           }
         }
       },
-      order: [["updated", "DESC"], ["lastName", "ASC"]]
+      order: [["updated", "DESC"]]
     });
 
     res.json(contacts);
-  } catch (err) {
-    console.error(err);
-  }
-});
-
-// GET SINGLE CONTACT
-router.get("/:id", authCheck, async (req, res) => {
-  const userId = req.session.user.toString();
-
-  try {
-    const contact = await Contacts.findOne({
-      where: {
-        id: req.params.id,
-        UserUuid: userId
-      }
-    });
-    res.json(contact);
-  } catch (err) {
-    console.error(err);
-  }
-});
-
-// GET GROUPS
-router.post("/groups", authCheck, async (req, res) => {
-  const userId = req.session.user.toString();
-
-  try {
-    const contactTags = await ContactTags.findAll({
-      where: {
-        googleId: req.body.groups,
-        UserUuid: userId
-      }
-    });
-    const tagsMap = contactTags.map(group => {
-      if (group !== null) {
-        return group.dataValues.title;
-      }
-      return null;
-    });
-    res.json(tagsMap);
-  } catch (err) {
-    console.error(err);
-  }
-});
-
-// UPDATE CONACT
-router.patch("/:id/update", authCheck, async (req, res) => {
-  const userId = req.session.user.toString();
-
-  try {
-    const contact = await Contacts.findOne({
-      where: {
-        id: req.params.id,
-        UserUuid: userId
-      }
-    });
-
-    req.body.updated = moment(Date.now()).toISOString();
-    req.body.fullName = `${
-      req.body.firstName ? req.body.firstName.trim() : ""
-    } ${req.body.lastName ? req.body.lastName.trim() : ""}`;
-
-    const updatedContact = await contact.update(req.body);
-    res.json(updatedContact);
   } catch (err) {
     console.error(err);
   }
@@ -260,6 +195,143 @@ router.post("/new", authCheck, async (req, res) => {
     } else {
       res.json(contacts[0].dataValues);
     }
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+// GET SINGLE CONTACT
+router.get("/:id", authCheck, async (req, res) => {
+  const userId = req.session.user.toString();
+
+  try {
+    const contact = await Contacts.findOne({
+      where: {
+        id: req.params.id,
+        UserUuid: userId
+      }
+    });
+    res.json(contact);
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+// UPDATE CONACT
+router.patch("/:id/update", authCheck, async (req, res) => {
+  const userId = req.session.user.toString();
+
+  try {
+    const contact = await Contacts.findOne({
+      where: {
+        id: req.params.id,
+        UserUuid: userId
+      }
+    });
+
+    req.body.updated = moment(Date.now()).toISOString();
+    req.body.fullName = `${
+      req.body.firstName ? req.body.firstName.trim() : ""
+    } ${req.body.lastName ? req.body.lastName.trim() : ""}`;
+
+    const updatedContact = await contact.update(req.body);
+    res.json(updatedContact);
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+// DELETE CONTACT
+router.delete("/:id/delete", authCheck, async (req, res) => {
+  const userId = req.session.user.toString();
+
+  try {
+    const contact = await Contacts.findOne({
+      where: {
+        id: req.params.id,
+        UserUuid: userId
+      }
+    });
+
+    contact.destroy();
+    res.json({
+      message: "Listing Deleted Successfully"
+    });
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+// CONTACT LISTINGS
+
+router.post("/fetchContactListings", authCheck, async (req, res) => {
+  try {
+    const contact = await Contacts.findById(req.body.contactId);
+    const listings = await contact.getListings();
+    res.json(listings.map(listing => listing.dataValues));
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+router.post("/setContactListings", authCheck, async (req, res) => {
+  const userId = req.session.user.toString();
+
+  try {
+    const listing = await Listings.findByOne({
+      where: {
+        id: req.body.listingId,
+        UserUuid: userId
+      }
+    });
+
+    await listing.addContact(req.body.contactId);
+
+    const contact = await Contacts.findOne({
+      where: {
+        id: req.body.contactId,
+        UserUuid: userId
+      }
+    });
+    await contact.addListing(req.body.listingId);
+
+    const listings = await contact.getListings();
+    res.json(listings.map(listing => listing.dataValues));
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+router.post("/deleteContactListing", authCheck, async (req, res) => {
+  try {
+    const contact = await Contacts.findById(req.body.contactId);
+    await contact.removeListing(req.body.listingId);
+
+    const listings = contact.getListings();
+    res.json(listings.map(listing => listing.dataValues));
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+// GET CONTACT GROUPS
+router.post("/groups", authCheck, async (req, res) => {
+  const userId = req.session.user.toString();
+
+  try {
+    const contactTags = await ContactTags.findAll({
+      where: {
+        googleId: req.body.groups,
+        UserUuid: userId
+      }
+    });
+    const tagsMap = contactTags.map(group => {
+      if (group !== null) {
+        return group;
+      }
+      return null;
+    });
+    res.json(tagsMap);
   } catch (err) {
     console.error(err);
   }
@@ -318,79 +390,6 @@ router.post("/new/openhouse", authCheck, async (req, res) => {
     console.error(err);
   }
 });
-
-// DELETE CONTACT
-router.delete("/:id/delete", authCheck, async (req, res) => {
-  const userId = req.session.user.toString();
-
-  try {
-    const contact = await Contacts.findOne({
-      where: {
-        id: req.params.id,
-        UserUuid: userId
-      }
-    });
-
-    contact.destroy();
-    res.json({
-      message: "Listing Deleted Successfully"
-    });
-  } catch (err) {
-    console.error(err);
-  }
-});
-
-// CONTACT LISTINGS
-
-router.post("/fetchContactListings", authCheck, async (req, res) => {
-  try {
-    const contact = await Contacts.findById(req.body.contactId);
-    const listings = await contact.getListings();
-    res.json(listings.map(listing => listing.dataValues));
-  } catch (err) {
-    console.error(err);
-  }
-});
-
-// router.post("/setContactListings", (req, res, next) => {
-//   Listings.findById(req.body.listingId)
-//     .then(listing => {
-//       listing.addContact(req.body.contactId);
-//     })
-//     .catch(err => {
-//       console.error(err);
-//       next(err);
-//     });
-
-//   Contacts.findById(req.body.contactId).then(contact => {
-//     contact.addListing(req.body.listingId).then(() => {
-//       contact
-//         .getListings()
-//         .then(listings => res.json(listings.map(listing => listing.dataValues)))
-//         .catch(err => {
-//           console.error(err);
-//           next(err);
-//         });
-//     });
-//   });
-// });
-
-// router.post("/deleteContactListing", (req, res, next) => {
-//   Contacts.findById(req.body.contactId)
-//     .then(contact => {
-//       contact.removeListing(req.body.listingId).then(() => {
-//         contact
-//           .getListings()
-//           .then(listings =>
-//             res.json(listings.map(listing => listing.dataValues))
-//           );
-//       });
-//     })
-//     .catch(err => {
-//       console.error(err);
-//       next(err);
-//     });
-// });
 
 // ADD NEW IMAGES
 router.post("/images", authCheck, async (req, res) => {

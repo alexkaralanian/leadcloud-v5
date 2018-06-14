@@ -1,6 +1,9 @@
 import axios from "axios";
 import { push } from "react-router-redux";
 import * as types from "../types";
+import store from "../store";
+
+const state = store.getState();
 
 export const setContacts = (contacts, limit, offset, query) => ({
   type: types.SET_CONTACTS,
@@ -79,33 +82,8 @@ export const clearError = () => ({
 
 /* ------------       DISPATCHERS     ------------------ */
 
-// FETCH CONTACTS
-export const fetchContacts = (
-  limit,
-  offset,
-  query,
-  contactsArray
-) => async dispatch => {
-  console.log("FETCHING CONTACTS");
-  // if (!offset) dispatch(isFetching(true));
-  dispatch(isLoading(true));
-
-  const newOffset = offset + limit;
-  try {
-    const res = await axios.get(
-      `/api/contacts?limit=${limit}&offset=${offset}&query=${query}`
-    );
-    dispatch(setContacts(contactsArray.concat(res.data), limit, newOffset));
-    dispatch(isFetching(false));
-    dispatch(isLoading(false));
-  } catch (err) {
-    console.error("fetchContacts ERROR", err.response);
-    dispatch(isFetching(false));
-    dispatch(setError("ERROR FETCHING CONTACTS"));
-  }
-};
-
 // SEARCH CONTACTS
+
 export const searchContacts = (
   limit,
   offset,
@@ -124,6 +102,56 @@ export const searchContacts = (
     }
   } catch (err) {
     console.error("fetchContacts ERROR", err.response);
+    dispatch(setError("ERROR FETCHING CONTACTS"));
+  }
+};
+
+export const searchListingContacts = values => {
+  const query = values.nativeEvent.target.defaultValue;
+  const listingContactsSearchResults =
+    state.contactReducer.listingContactsSearchResults;
+
+  if (query.length < 1) store.dispatch(clearListingContactsSearchResults());
+  if (query.length >= 1) {
+    store.dispatch(
+      searchContacts(
+        25,
+        0,
+        query,
+        listingContactsSearchResults,
+        "listingContacts"
+      )
+    );
+  }
+
+  if (!query) store.dispatch(clearListingContactsSearchResults());
+};
+
+export const submitListingContact = (contactId, listingId) => {
+  submitListingContact(contactId, listingId);
+  clearListingContactsSearchResults();
+};
+
+// FETCH CONTACTS
+export const fetchContacts = (
+  limit,
+  offset,
+  query,
+  contactsArray
+) => async dispatch => {
+  // if (!offset) dispatch(isFetching(true));
+  dispatch(isLoading(true));
+  const newOffset = offset + limit;
+  try {
+    const res = await axios.get(
+      `/api/contacts?limit=${limit}&offset=${offset}&query=${query}`
+    );
+    dispatch(setContacts(contactsArray.concat(res.data), limit, newOffset));
+    dispatch(isFetching(false));
+    dispatch(isLoading(false));
+  } catch (err) {
+    console.error("fetchContacts ERROR", err.response);
+    dispatch(isFetching(false));
     dispatch(setError("ERROR FETCHING CONTACTS"));
   }
 };
@@ -208,7 +236,7 @@ export const deleteContact = id => async dispatch => {
   }
 };
 
-// FETCH CONTACT LISTINGS
+// CONTACT LISTINGS
 export const fetchContactListings = contactId => async dispatch => {
   dispatch(isFetching(true));
   try {
@@ -224,6 +252,46 @@ export const fetchContactListings = contactId => async dispatch => {
     dispatch(isFetching(false));
   }
 };
+
+export const submitContactListing = (
+  listingId,
+  contactId
+) => async dispatch => {
+  dispatch(isFetching(true));
+  try {
+    const res = await axios.post("/api/contacts/setContactListings", {
+      listingId,
+      contactId
+
+    });
+    dispatch(setContactListings(res.data));
+    // dispatch(clearContactListingsSearchResults());
+    dispatch(isFetching(false));
+  } catch (err) {
+    console.error("Setting contact listings unsuccessful", err);
+    dispatch(isFetching(false));
+  }
+};
+
+export const deleteContactListing = (
+  listingId,
+  contactId
+) => async dispatch => {
+  dispatch(isFetching(true));
+  try {
+    const res = await axios.post("/api/contacts/deleteContactListing", {
+      listingId,
+      contactId
+    });
+
+    dispatch(setContactListings(res.data));
+    dispatch(isFetching(false));
+  } catch (err) {
+    console.error("Deleting listing contacts unsuccessful", err);
+    dispatch(isFetching(false));
+  }
+};
+
 
 // GROUPS
 export const fetchGroups = groups => async dispatch => {

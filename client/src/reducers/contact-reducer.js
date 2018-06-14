@@ -4,17 +4,19 @@ import * as types from "../types";
 /* ------------       REDUCERS     ------------------ */
 
 const initialState = {
-  contacts: [],
   limit: 25,
   offset: 0,
-  contact: {},
-  contactListings: [],
-  emailsByContact: [],
   pageToken: "",
   maxResults: 15,
   contactsQuery: "",
-  groups: [],
   listingContactsSearchResults: [],
+
+  contacts: [],
+  contact: {},
+  contactListings: [],
+  emailsByContact: [],
+  groups: [],
+
   error: "",
   isFetching: false,
   isLoading: false
@@ -22,18 +24,6 @@ const initialState = {
 
 const contactReducer = (state = initialState, action) => {
   switch (action.type) {
-    case types.SET_LISTING_CONTACTS_SEARCH_RESULTS:
-      return {
-        ...state,
-        listingContactsSearchResults: action.payload // array of contacts
-      };
-
-    case types.CLEAR_LISTING_CONTACTS_SEARCH_RESULTS:
-      return {
-        ...state,
-        listingContactsSearchResults: [] // array of contacts
-      };
-
     case types.SET_CONTACTS:
       return {
         ...state,
@@ -48,16 +38,29 @@ const contactReducer = (state = initialState, action) => {
         contact: action.contact
       };
 
+    case types.SET_CONTACT_LISTINGS:
+      return {
+        ...state,
+        contactListings: action.payload
+      };
+
     case types.SET_CONTACTS_QUERY:
       return {
         ...state,
         contactsQuery: action.payload
       };
 
-    case types.SET_CONTACT_LISTINGS:
+    // SEARCH
+    case types.SET_LISTING_CONTACTS_SEARCH_RESULTS:
       return {
         ...state,
-        contactListings: action.payload
+        listingContactsSearchResults: action.payload
+      };
+
+    case types.CLEAR_LISTING_CONTACTS_SEARCH_RESULTS:
+      return {
+        ...state,
+        listingContactsSearchResults: []
       };
 
     case types.SET_EMAILS_BY_CONTACT:

@@ -25,13 +25,14 @@ CampaignFormB = ({
   deleteCampaignListing,
   campaign,
   listings,
-  addCampaignListing
+  addCampaignListing,
+  nextPage
 }) => (
   <Form>
     <Grid>
       <Row>
         <Col xs={12}>
-          <h1>New Campaign 2</h1>
+          <h2>Format Template</h2>
         </Col>
         <Col xs={12}>
           <div>
@@ -43,6 +44,7 @@ CampaignFormB = ({
         <Col xs={12}>
           <div>
             <Button
+              onClick={nextPage}
               className="submitButton"
               type="submit"
               bsStyle="primary"
