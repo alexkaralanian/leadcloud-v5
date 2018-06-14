@@ -274,11 +274,11 @@ router.post("/fetchContactListings", authCheck, async (req, res) => {
   }
 });
 
-router.post("/setContactListings", authCheck, async (req, res) => {
+router.post("/setContactListing", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
-
+  console.log("HELLO FROM THE API");
   try {
-    const listing = await Listings.findByOne({
+    const listing = await Listings.findOne({
       where: {
         id: req.body.listingId,
         UserUuid: userId
@@ -307,7 +307,7 @@ router.post("/deleteContactListing", authCheck, async (req, res) => {
     const contact = await Contacts.findById(req.body.contactId);
     await contact.removeListing(req.body.listingId);
 
-    const listings = contact.getListings();
+    const listings = await contact.getListings();
     res.json(listings.map(listing => listing.dataValues));
   } catch (err) {
     console.error(err);

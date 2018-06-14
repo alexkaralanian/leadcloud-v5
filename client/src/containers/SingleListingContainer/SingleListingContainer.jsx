@@ -6,29 +6,29 @@ import PropTypes from "prop-types";
 import Navigation from "../NavContainer/NavContainer";
 import ListingNav from "../../components/SingleListing/ListingNav";
 import ListingHeader from "../../components/SingleListing/ListingHeader";
-import SearchContacts from "../../components/SingleListing/SearchContacts";
+import ListingContacts from "../../components/ListingContacts/ListingContacts";
 import ListingForm from "../../components/SingleListing/ListingForm";
 import ImageCarousel from "../../components/ImageCarousel/ImageCarousel";
 import Emails from "../../components/Emails/Emails";
 
 import {
-  submitNewListing,
-  setIsListingNew,
   fetchListing,
-  fetchListingContacts,
+  submitNewListing,
   updateListing,
   deleteListing,
+  setIsListingNew,
   clearListing,
-  submitListingContact,
   onDrop,
-  deleteListingImage,
-  deleteListingContact
+  deleteListingImage
 } from "../../actions/listing-actions";
 
 import {
   searchListingContacts,
+  fetchListingContacts,
+  submitListingContact,
+  deleteListingContact,
   clearListingContactsSearchResults
-} from "../../actions/contact-actions";
+} from "../../actions/listing-contacts-actions";
 
 class SingleListingContainer extends React.Component {
   componentDidMount() {
@@ -111,7 +111,7 @@ class SingleListingContainer extends React.Component {
           path={`/listing/${listing.id}/contacts`}
           render={routeProps => (
             <div>
-              <SearchContacts
+              <ListingContacts
                 {...routeProps}
                 listing={listing}
                 listingContacts={listingContacts}
@@ -154,17 +154,34 @@ class SingleListingContainer extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    isAuthed: state.authReducer.isAuthed,
-    listing: state.listingReducer.listing,
-    listingContacts: state.listingReducer.listingContacts,
-    images: state.listingReducer.images,
-    isFetching: state.listingReducer.isFetching,
-    listingContactsSearchResults:
-      state.contactReducer.listingContactsSearchResults
-  };
-}
+const mapStateToProps = state => ({
+  isAuthed: state.authReducer.isAuthed,
+  listing: state.listingReducer.listing,
+  listingContacts: state.listingReducer.listingContacts,
+  listingContactsSearchResults:
+    state.contactReducer.listingContactsSearchResults,
+  images: state.listingReducer.images,
+  isFetching: state.listingReducer.isFetching
+});
+
+const mapDispatchToProps = {
+  submitNewListing,
+  setIsListingNew,
+
+  fetchListing,
+  updateListing,
+  deleteListing,
+  clearListing,
+
+  searchListingContacts,
+  clearListingContactsSearchResults,
+  fetchListingContacts,
+  submitListingContact,
+  deleteListingContact,
+
+  onDrop,
+  deleteListingImage
+};
 
 SingleListingContainer.propTypes = {
   listing: PropTypes.object.isRequired,
@@ -177,18 +194,6 @@ SingleListingContainer.propTypes = {
 
 export const Unwrapped = SingleListingContainer;
 
-export default connect(mapStateToProps, {
-  submitNewListing,
-  setIsListingNew,
-  fetchListing,
-  fetchListingContacts,
-  updateListing,
-  deleteListing,
-  clearListing,
-  searchListingContacts,
-  clearListingContactsSearchResults,
-  submitListingContact,
-  deleteListingContact,
-  onDrop,
-  deleteListingImage
-})(SingleListingContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(
+  SingleListingContainer
+);

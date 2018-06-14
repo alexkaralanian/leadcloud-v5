@@ -1,7 +1,7 @@
 import axios from "axios";
 import { push } from "react-router-redux";
+import { setContactListingsSearchResults } from "./contact-listings-actions";
 import * as types from "../types";
-import store from "../store";
 
 export const setListings = (listings, limit, offset, query) => ({
   type: types.SET_LISTINGS,
@@ -16,20 +16,9 @@ export const setListing = listing => ({
   payload: listing
 });
 
-// SEARCH
-
-export const setListingContacts = contacts => ({
-  type: types.SET_LISTING_CONTACTS,
-  payload: contacts
-});
-
-export const setListingContactsSearchResults = searchResults => ({
-  type: types.SET_LISTING_SEARCH_RESULTS,
-  payload: searchResults
-});
-
-export const clearListingContactsSearchResults = () => ({
-  type: types.CLEAR_LISTING_CONTACTS_SEARCH_RESULTS
+export const setListingsQuery = query => ({
+  type: types.SET_LISTING_QUERY,
+  payload: query
 });
 
 // ADMINISTRATIVE
@@ -65,20 +54,22 @@ export const clearError = () => ({
 
 // SEARCH LISTINGS
 export const searchListings = (
+  listingsArray,
   limit,
   offset,
   query,
-  contactsArray,
   section
 ) => async dispatch => {
+  console.log("SEARCH LISTINGS CALLED");
   try {
     const res = await axios.get(
       `/api/listings/?limit=${limit}&offset=${offset}&query=${query}`
     );
+
     if (section === "contactListings") {
-      // dispatch(setListingSearchResults(res.data));
+      dispatch(setContactListingsSearchResults(res.data));
     } else {
-      dispatch(setListings(res.data, limit, limit));
+      dispatch(setListings(res.data, limit, limit, null));
     }
   } catch (err) {
     console.error("fetchContacts ERROR", err.response);
@@ -88,11 +79,19 @@ export const searchListings = (
 
 // FETCH LISTINGS
 export const fetchListings = (
+  listingsArray,
   limit,
   offset,
-  query,
-  listingsArray
+  query
 ) => async dispatch => {
+  console.log("FETCHING LISTINGS");
+  console.log({
+    listingsArray,
+    limit,
+    offset,
+    query
+  });
+
   dispatch(isFetching(true));
   const newOffset = offset + limit;
   try {
@@ -100,7 +99,10 @@ export const fetchListings = (
       `/api/listings?limit=${limit}&offset=${offset}&query=${query}`
     );
 
-    dispatch(setListings(listingsArray.concat(res.data), limit, newOffset));
+    console.log("LISTINGS ARRAY", listingsArray.concat(res.data));
+    dispatch(
+      setListings(listingsArray.concat(res.data), limit, newOffset, null)
+    );
     dispatch(isFetching(false));
   } catch (err) {
     console.log("fetchContacts ERROR", err.response);
@@ -115,7 +117,7 @@ export const fetchListing = id => async dispatch => {
     const res = await axios.get(`/api/listings/${id}`);
     if (res.status === 200) {
       dispatch(setListing(res.data));
-      dispatch(setListingContacts(res.data.listingContacts));
+      // dispatch(setListingContacts(res.data.listingContacts));
       dispatch(isFetching(false));
     }
   } catch (err) {
@@ -159,61 +161,6 @@ export const deleteListing = id => async dispatch => {
     dispatch(push("/listings"));
   } catch (err) {
     console.error("Deleting Listing Unsuccessful", err);
-  }
-};
-
-// LISTING CONTACTS
-export const fetchListingContacts = listingId => async dispatch => {
-  dispatch(isFetching(true));
-  try {
-    const res = await axios.post("/api/listings/fetchListingContacts", {
-      listingId
-    });
-    if (res.status === 200) {
-      dispatch(setListingContacts(res.data));
-    }
-    dispatch(isFetching(false));
-  } catch (err) {
-    console.error("Fetching listing contacts unsuccessful", err);
-    dispatch(isFetching(false));
-  }
-};
-
-export const submitListingContact = (
-  contactId,
-  listingId
-) => async dispatch => {
-  dispatch(isFetching(true));
-  try {
-    const res = await axios.post("/api/listings/setListingContacts", {
-      contactId,
-      listingId
-    });
-    dispatch(setListingContacts(res.data));
-    dispatch(clearListingContactsSearchResults());
-    dispatch(isFetching(false));
-  } catch (err) {
-    console.error("Setting listing contacts unsuccessful", err);
-    dispatch(isFetching(false));
-  }
-};
-
-export const deleteListingContact = (
-  contactId,
-  listingId
-) => async dispatch => {
-  dispatch(isFetching(true));
-  try {
-    const res = await axios.post("/api/listings/deleteListingContact", {
-      contactId,
-      listingId
-    });
-
-    dispatch(setListingContacts(res.data));
-    dispatch(isFetching(false));
-  } catch (err) {
-    console.error("Deleting listing contacts unsuccessful", err);
-    dispatch(isFetching(false));
   }
 };
 

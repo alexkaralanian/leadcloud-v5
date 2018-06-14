@@ -9,7 +9,7 @@ const initialState = {
   pageToken: "",
   maxResults: 15,
   contactsQuery: "",
-  listingContactsSearchResults: [],
+  contactListingsSearchResults: [],
 
   contacts: [],
   contact: {},
@@ -51,16 +51,16 @@ const contactReducer = (state = initialState, action) => {
       };
 
     // SEARCH
-    case types.SET_LISTING_CONTACTS_SEARCH_RESULTS:
+    case types.SET_CONTACT_LISTINGS_SEARCH_RESULTS:
       return {
         ...state,
-        listingContactsSearchResults: action.payload
+        contactListingsSearchResults: action.payload
       };
 
     case types.CLEAR_LISTING_CONTACTS_SEARCH_RESULTS:
       return {
         ...state,
-        listingContactsSearchResults: []
+        contactListingsSearchResults: []
       };
 
     case types.SET_EMAILS_BY_CONTACT:

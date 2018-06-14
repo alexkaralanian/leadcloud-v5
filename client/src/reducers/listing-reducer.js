@@ -1,16 +1,18 @@
 import * as types from "../types";
 
 const initialState = {
+  maxResults: 15,
   limit: 25,
   offset: 0,
+  query: "",
   pageToken: "",
-  maxResults: 15,
-  listingQuery: "",
-  contactListingsSearchResults: [],
 
   listings: [],
   listing: {},
+
   listingContacts: [],
+  listingContactsSearchResults: [],
+
   emailsByListing: [],
   groups: [],
 
@@ -26,9 +28,10 @@ const listingReducer = (state = initialState, action) => {
     case types.SET_LISTINGS:
       return {
         ...state,
-        listings: action.payload,
+        listings: action.listings,
         limit: action.limit,
-        offset: action.offset
+        offset: action.offset,
+        query: action.query
       };
 
     case types.SET_LISTING:
@@ -41,16 +44,16 @@ const listingReducer = (state = initialState, action) => {
     case types.SET_LISTING_QUERY:
       return {
         ...state,
-        listingQuery: action.payload
+        query: action.payload
       };
+
+    // LISTING CONTACTS
 
     case types.SET_LISTING_CONTACTS:
       return {
         ...state,
         listingContacts: action.payload
       };
-
-    // SEARCH
     case types.SET_LISTING_CONTACTS_SEARCH_RESULTS:
       return {
         ...state,
@@ -62,6 +65,8 @@ const listingReducer = (state = initialState, action) => {
         ...state,
         listingContactsSearchResults: []
       };
+
+    // EMAILS
 
     case types.SET_EMAILS_BY_LISTING:
       return {

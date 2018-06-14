@@ -5,8 +5,10 @@ import { Redirect } from "react-router";
 import Listings from "../../components/Listings/Listings";
 import Navigation from "../NavContainer/NavContainer";
 import {
-  setIsListingNew,
   fetchListings,
+  searchListings,
+  setListingsQuery,
+  setIsListingNew,
   clearListings,
   clearError
 } from "../../actions/listing-actions";
@@ -18,8 +20,9 @@ class ListingsContainer extends React.Component {
   }
 
   componentDidMount() {
-    const { fetchListings } = this.props;
-    fetchListings();
+    const { fetchListings, listings, limit, offset, query } = this.props;
+
+    fetchListings(listings, limit, offset, query);
   }
 
   componentWillUnmount() {
@@ -69,15 +72,20 @@ class ListingsContainer extends React.Component {
 const mapStateToProps = state => ({
   isAuthed: state.authReducer.isAuthed,
   listings: state.listingReducer.listings,
+  limit: state.listingReducer.limit,
+  offset: state.listingReducer.offset,
+  query: state.listingReducer.query,
   isFetching: state.listingReducer.isFetching,
   error: state.listingReducer.error
 });
 
 const mapDispatchToProps = {
-  clearError,
-  setIsListingNew,
   fetchListings,
-  clearListings
+  searchListings,
+  setListingsQuery,
+  clearListings,
+  clearError,
+  setIsListingNew
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ListingsContainer);

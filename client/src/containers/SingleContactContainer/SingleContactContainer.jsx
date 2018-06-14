@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import Navigation from "../NavContainer/NavContainer";
 import ContactNav from "../../components/SingleContact/ContactNav";
 import ContactHeader from "../../components/SingleContact/ContactHeader";
-import SearchListings from "../../components/SingleContact/SearchListings";
+import ContactListings from "../../components/ContactListings/ContactListings";
 import SingleContact from "../../components/SingleContact/SingleContact";
 import ImageCarousel from "../../components/ImageCarousel/ImageCarousel";
 
@@ -22,9 +22,16 @@ import {
   fetchGroups,
   onDrop,
   deleteContactImage,
-  fetchContactListings,
   clearError
 } from "../../actions/contact-actions";
+
+import {
+  searchContactListings,
+  fetchContactListings,
+  submitContactListing,
+  deleteContactListing,
+  clearContactListingsSearchResults
+} from "../../actions/contact-listings-actions";
 
 import {
   fetchEmailsByContact,
@@ -33,7 +40,7 @@ import {
 
 class SingleContactContainer extends React.Component {
   componentDidMount() {
-    const { fetchContact, fetchContactListings, match } = this.props;
+    const { match, fetchContact, fetchContactListings } = this.props;
 
     if (match.params.id !== "new") {
       fetchContact(match.params.id);
@@ -84,11 +91,13 @@ class SingleContactContainer extends React.Component {
     const {
       match,
       isAuthed,
+
       contact,
       submitNewContact,
       updateContact,
       deleteContact,
-      searchListings,
+
+      searchContactListings,
       contactListingsSearchResults,
       contactListings,
       submitContactListing,
@@ -99,7 +108,6 @@ class SingleContactContainer extends React.Component {
       onDrop,
       deleteContactImage,
       groups
-
     } = this.props;
 
     return !isAuthed ? (
@@ -145,14 +153,14 @@ class SingleContactContainer extends React.Component {
         <Route
           path={`/contact/${contact.id}/listings`}
           render={routeProps => (
-            <SearchListings
+            <ContactListings
               {...routeProps}
               contact={contact}
               contactListings={contactListings}
-              searchListings={this.searchListings}
-              // searchResults={contactListingSearchResults}
-              // submitContactListing={this.submitContactListing}
-              // deleteContactListing={deleteContactListing}
+              searchContactListings={searchContactListings}
+              contactListingsSearchResults={contactListingsSearchResults}
+              submitContactListing={submitContactListing}
+              deleteContactListing={deleteContactListing}
             />
           )}
         />
@@ -191,6 +199,8 @@ class SingleContactContainer extends React.Component {
 
 const mapStateToProps = state => ({
   contact: state.contactReducer.contact,
+  contactListingsSearchResults:
+    state.contactReducer.contactListingsSearchResults,
   googleImages: state.contactReducer.googleImages,
   emailsByContact: state.contactReducer.emailsByContact,
   maxResults: state.contactReducer.maxResults,
@@ -210,48 +220,21 @@ const mapDispatchToProps = {
   updateContact,
   deleteContact,
   fetchEmailsByContact,
+
+  searchContactListings,
+  fetchContactListings,
+  submitContactListing,
+  deleteContactListing,
+  clearContactListingsSearchResults,
+
   fetchGroups,
   clearContact,
   clearError,
   onDrop,
   deleteContactImage,
-  setEmailQuery,
-  fetchContactListings
+  setEmailQuery
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(
   SingleContactContainer
 );
-
-
-  // searchListings(values) {
-  //   const query = values.nativeEvent.target.defaultValue;
-  //   const {
-  //     clearContactListingsSearchResults,
-  //     searchListings,
-  //     contactListingsSearchResults
-  //   } = this.props;
-
-  //   if (query.length < 1) clearContactListingsSearchResults();
-  //   if (query.length >= 1) {
-  //     searchListings(
-  //       25,
-  //       0,
-  //       query,
-  //       contactListingsSearchResults,
-  //       "contactListings"
-  //     );
-  //   }
-
-  //   if (!query) clearContactListingsSearchResults();
-  // }
-
-  // submitContactListing(contactId, listingId) {
-  //   console.log("SUBMITLISTING CONTACT", { contactId, listingId });
-  //   // const {
-  //   //   submitListingContact,
-  //   //   clearListingContactsSearchResults
-  //   // } = this.props;
-  //   // submitListingContact(contactId, listingId);
-  //   // clearListingContactsSearchResults();
-  // }

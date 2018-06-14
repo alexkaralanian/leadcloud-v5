@@ -12,9 +12,9 @@ import Errors from "../../components/Error/Error";
 import {
   loadContacts,
   fetchContacts,
-  clearContacts,
   searchContacts,
   setContactsQuery,
+  clearContacts,
   clearError
 } from "../../actions/contact-actions";
 
