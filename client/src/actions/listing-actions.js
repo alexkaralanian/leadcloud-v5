@@ -1,6 +1,7 @@
 import axios from "axios";
 import { push } from "react-router-redux";
 import { setContactListingsSearchResults } from "./contact-listings-actions";
+import { setCampaignListingsSearchResults } from "./campaign-listings-actions";
 import * as types from "../types";
 
 export const setListings = (listings, limit, offset, query) => ({
@@ -60,7 +61,6 @@ export const searchListings = (
   query,
   section
 ) => async dispatch => {
-  console.log("SEARCH LISTINGS CALLED");
   try {
     const res = await axios.get(
       `/api/listings/?limit=${limit}&offset=${offset}&query=${query}`
@@ -68,6 +68,10 @@ export const searchListings = (
 
     if (section === "contactListings") {
       dispatch(setContactListingsSearchResults(res.data));
+    }
+
+    if (section === "campaignListings") {
+      dispatch(setCampaignListingsSearchResults(res.data));
     } else {
       dispatch(setListings(res.data, limit, limit, null));
     }
@@ -84,12 +88,6 @@ export const fetchListings = (
   offset,
   query
 ) => async dispatch => {
-  console.log("FETCH LISTINGS CALLED", {
-    listingsArray,
-    limit,
-    offset,
-    query
-  });
   dispatch(isFetching(true));
   const newOffset = offset + limit;
   try {
@@ -97,14 +95,12 @@ export const fetchListings = (
       `/api/listings?limit=${limit}&offset=${offset}&query=${query}`
     );
 
-    console.log("FL RES", res.data);
-
     dispatch(
       setListings(listingsArray.concat(res.data), limit, newOffset, query)
     );
     dispatch(isFetching(false));
   } catch (err) {
-    console.error("fetchContacts ERROR", err.response);
+    console.error("fetchListings ERROR", err.response);
     dispatch(isFetching(false));
     dispatch(setError("ERROR FETCHING LISTINGS"));
   }
@@ -129,11 +125,11 @@ export const submitNewListing = data => async dispatch => {
 
   try {
     const res = await axios.post("/api/listings/new", data);
-    if (res.status === 200) {
-      dispatch(setListing(res.data));
-      dispatch(setIsListingNew(false));
-      dispatch(push(`/listing/${res.data.id}`));
-    }
+
+    dispatch(setListing(res.data));
+    dispatch(setIsListingNew(false));
+    dispatch(push(`/listing/${res.data.id}`));
+
     dispatch(isFetching(false));
   } catch (err) {
     console.error("Submitting new listing unsuccessful", err);

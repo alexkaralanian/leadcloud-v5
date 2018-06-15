@@ -26,7 +26,6 @@ router.get("/", authCheck, async (req, res) => {
       order: [["updated", "DESC"]]
     });
 
-    console.log("LISTINGS", listings);
     res.json(listings);
   } catch (err) {
     console.error(err);

@@ -18,12 +18,12 @@ CampaignFormA = ({
   reset,
   submitting,
   auditClick,
-  searchListings,
-  campaignListings,
-  deleteCampaignListing,
   campaign,
-  listings,
-  addCampaignListing,
+  campaignListings,
+  searchCampaignListings,
+  campaignListingsSearchResults,
+  submitCampaignListing,
+  deleteCampaignListing,
   nextPage
 }) => (
   <Form>
@@ -47,12 +47,12 @@ CampaignFormA = ({
       <Row>
         <Col xs={12}>
           <h3>Search Listings</h3>
-          <SearchForm searchFunction={searchListings} />
+          <SearchForm searchFunction={searchCampaignListings} />
         </Col>
 
         <Col xs={12}>
           <TableRowCheckbox
-            componentName="listing"
+            componentName="campaignListings"
             rowText="address"
             collection={campaignListings}
             submitFunction={deleteCampaignListing}
@@ -64,10 +64,10 @@ CampaignFormA = ({
 
         <Col xs={12}>
           <TableRowCheckbox
-            componentName="listing"
+            componentName="campaignListings"
             rowText="address"
-            collection={listings}
-            submitFunction={addCampaignListing}
+            collection={campaignListingsSearchResults}
+            submitFunction={submitCampaignListing}
             hostComponent={campaign}
             buttonText="Add Listing"
             buttonStyle="warning"

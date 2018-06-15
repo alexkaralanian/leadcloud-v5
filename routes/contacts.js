@@ -276,7 +276,7 @@ router.post("/fetchContactListings", authCheck, async (req, res) => {
 
 router.post("/setContactListing", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
-  console.log("HELLO FROM THE API");
+
   try {
     const listing = await Listings.findOne({
       where: {

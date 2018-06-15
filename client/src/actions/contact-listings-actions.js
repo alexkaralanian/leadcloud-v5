@@ -11,9 +11,9 @@ export const setContactListings = listings => ({
   payload: listings
 });
 
-export const setContactListingsSearchResults = contactListings => ({
+export const setContactListingsSearchResults = searchResults => ({
   type: types.SET_CONTACT_LISTINGS_SEARCH_RESULTS,
-  payload: contactListings
+  payload: searchResults
 });
 
 export const clearContactListingsSearchResults = () => ({

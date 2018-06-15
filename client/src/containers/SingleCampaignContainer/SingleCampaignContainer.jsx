@@ -1,19 +1,16 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Grid, Col, Row } from "react-bootstrap";
 
 import Navigation from "../NavContainer/NavContainer";
 import CampaignFormA from "../../components/SingleCampaign/CampaignFormA";
 import CampaignFormB from "../../components/SingleCampaign/CampaignFormB";
 import CampaignFormC from "../../components/SingleCampaign/CampaignFormC";
 
-import { fetchGroups } from "../../actions/group-actions";
-import { fetchListings, searchListings } from "../../actions/listing-actions";
-
 import {
-  addCampaignListing,
+  searchCampaignListings,
+  submitCampaignListing,
   deleteCampaignListing
-} from "../../actions/campaign-actions";
+} from "../../actions/campaign-listings-actions";
 
 class SingleCampaignContainer extends React.Component {
   constructor(props) {
@@ -27,10 +24,7 @@ class SingleCampaignContainer extends React.Component {
     this.submitCampaignForm = this.submitCampaignForm.bind(this);
   }
 
-  componentDidMount() {
-    this.props.fetchGroups();
-    this.props.fetchListings();
-  }
+  componentDidMount() {}
 
   nextPage() {
     this.setState({ page: this.state.page + 1 });
@@ -40,20 +34,16 @@ class SingleCampaignContainer extends React.Component {
     this.setState({ page: this.state.page - 1 });
   }
   submitCampaignForm(values) {
-    console.log("VALUES", values);
-    console.log("LISTINGS", this.props.campaignListings);
+    // console.log("VALUES", values);
+    // console.log("LISTINGS", this.props.campaignListings);
   }
 
   render() {
     const {
-      groups,
-      listings,
       campaign,
       campaignListings,
-      addCampaignListing,
-      deleteCampaignListing,
-      searchListings,
-      searchListingsResults
+      searchCampaignListings,
+      campaignListingsSearchResults
     } = this.props;
 
     const { page } = this.state;
@@ -63,31 +53,25 @@ class SingleCampaignContainer extends React.Component {
         <div>
           {page === 1 && (
             <CampaignFormA
-              // onSubmit={values => {
-              //   this.submitCampaignForm(values);
-              // }}
-              groups={groups}
-              listings={listings}
+              // groups={groups}
+
               campaign={campaign}
+              searchCampaignListings={searchCampaignListings}
               campaignListings={campaignListings}
-              addCampaignListing={addCampaignListing}
+              campaignListingsSearchResults={campaignListingsSearchResults}
+              submitCampaignListing={submitCampaignListing}
               deleteCampaignListing={deleteCampaignListing}
-              searchListings={searchListings}
-              searchListingsResults={searchListingsResults}
               nextPage={this.nextPage}
             />
           )}
 
           {page === 2 && (
             <CampaignFormB
-              groups={groups}
-              listings={listings}
+              // groups={groups}
+              // listings={listings}
               campaign={campaign}
-              campaignListings={campaignListings}
-              addCampaignListing={addCampaignListing}
               deleteCampaignListing={deleteCampaignListing}
-              searchListings={searchListings}
-              searchListingsResults={searchListingsResults}
+              campaignListingsSearchResults={campaignListingsSearchResults}
               nextPage={this.nextPage}
               previousPage={this.previousPage}
             />
@@ -95,14 +79,13 @@ class SingleCampaignContainer extends React.Component {
 
           {page === 3 && (
             <CampaignFormC
-              groups={groups}
-              listings={listings}
+              // groups={groups}
+              // listings={listings}
               campaign={campaign}
-              campaignListings={campaignListings}
-              addCampaignListing={addCampaignListing}
-              deleteCampaignListing={deleteCampaignListing}
-              searchListings={searchListings}
-              searchListingsResults={searchListingsResults}
+              // campaignGroups={campaignGroups}
+              // campaignGroupsSearchResults={campaignGroupsSearchResults}
+              // addCampaignGroup={addCampaignGroup}
+              // deleteCampaignGroup={deleteCampaignGroup}
               nextPage={this.nextPage}
               previousPage={this.previousPage}
             />
@@ -116,15 +99,15 @@ class SingleCampaignContainer extends React.Component {
 const mapStateToProps = state => ({
   groups: state.groupReducer.groups,
   listings: state.listingReducer.listings,
-  campaignListings: state.campaignReducer.campaignListings
+  campaignListings: state.campaignReducer.campaignListings,
+  campaignGroups: state.campaignReducer.campaignGroups,
+  campaignListingsSearchResults:
+    state.campaignReducer.campaignListingsSearchResults,
+  campaignGroupsSearchResults: state.campaignReducer.campaignGroupsSearchResults
 });
 
 const mapDispatchToProps = {
-  fetchGroups,
-  fetchListings,
-  addCampaignListing,
-  deleteCampaignListing,
-  searchListings
+  searchCampaignListings
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(

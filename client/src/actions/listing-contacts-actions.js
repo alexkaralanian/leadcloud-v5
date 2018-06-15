@@ -27,7 +27,7 @@ export const fetchListingContacts = listingId => async dispatch => {
       listingId
     });
     if (res.status === 200) {
-      dispatch(setListingContactsSearchResults(res.data));
+      dispatch(setListingContacts(res.data));
     }
     dispatch(isFetching(false));
   } catch (err) {
@@ -61,6 +61,7 @@ export const submitListingContact = (
   contactId,
   listingId
 ) => async dispatch => {
+  console.log("SUBMIT LISTING CONTACT");
   dispatch(isFetching(true));
   try {
     const res = await axios.post("/api/listings/setListingContacts", {
@@ -88,6 +89,7 @@ export const deleteListingContact = (
     });
 
     dispatch(setListingContacts(res.data));
+    dispatch(clearListingContactsSearchResults());
     dispatch(isFetching(false));
   } catch (err) {
     console.error("Deleting listing contacts unsuccessful", err);

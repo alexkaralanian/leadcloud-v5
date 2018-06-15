@@ -6,8 +6,6 @@ import { Grid, Col, Row } from "react-bootstrap";
 import SearchForm from "../SearchForm/SearchForm";
 import TableRow from "../TableRow/TableRow";
 
-// import "./SingleContact.css";
-
 const ContactListings = ({
   contact,
   contactListings,
