@@ -84,14 +84,12 @@ export const fetchListings = (
   offset,
   query
 ) => async dispatch => {
-  console.log("FETCHING LISTINGS");
-  console.log({
+  console.log("FETCH LISTINGS CALLED", {
     listingsArray,
     limit,
     offset,
     query
   });
-
   dispatch(isFetching(true));
   const newOffset = offset + limit;
   try {
@@ -99,13 +97,14 @@ export const fetchListings = (
       `/api/listings?limit=${limit}&offset=${offset}&query=${query}`
     );
 
-    console.log("LISTINGS ARRAY", listingsArray.concat(res.data));
+    console.log("FL RES", res.data);
+
     dispatch(
-      setListings(listingsArray.concat(res.data), limit, newOffset, null)
+      setListings(listingsArray.concat(res.data), limit, newOffset, query)
     );
     dispatch(isFetching(false));
   } catch (err) {
-    console.log("fetchContacts ERROR", err.response);
+    console.error("fetchContacts ERROR", err.response);
     dispatch(isFetching(false));
     dispatch(setError("ERROR FETCHING LISTINGS"));
   }
@@ -115,11 +114,9 @@ export const fetchListing = id => async dispatch => {
   dispatch(isFetching(true));
   try {
     const res = await axios.get(`/api/listings/${id}`);
-    if (res.status === 200) {
-      dispatch(setListing(res.data));
-      // dispatch(setListingContacts(res.data.listingContacts));
-      dispatch(isFetching(false));
-    }
+
+    dispatch(setListing(res.data));
+    dispatch(isFetching(false));
   } catch (err) {
     console.error("Fetching listing unsuccessful", err);
     dispatch(isFetching(false));

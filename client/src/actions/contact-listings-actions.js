@@ -63,13 +63,11 @@ export const submitContactListing = (
 ) => async dispatch => {
   dispatch(isFetching(true));
   try {
-    console.log("HELLOO");
     const res = await axios.post("/api/contacts/setContactListing", {
       contactId,
       listingId
     });
 
-    console.log("SUBMIT CONTACT LISTING RES", res.data);
     dispatch(setContactListings(res.data));
     dispatch(clearContactListingsSearchResults());
     dispatch(isFetching(false));

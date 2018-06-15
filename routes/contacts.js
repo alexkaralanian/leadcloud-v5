@@ -321,7 +321,7 @@ router.post("/groups", authCheck, async (req, res) => {
   try {
     const contactTags = await ContactTags.findAll({
       where: {
-        googleId: req.body.groups,
+        googleId: req.body.contactGroups,
         UserUuid: userId
       }
     });
@@ -331,6 +331,7 @@ router.post("/groups", authCheck, async (req, res) => {
       }
       return null;
     });
+
     res.json(tagsMap);
   } catch (err) {
     console.error(err);

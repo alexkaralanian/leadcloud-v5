@@ -37,7 +37,16 @@ const formReducer = reducer.plugin({
     }
   },
 
-  searchContacts: (state, action) => {
+  searchListingContacts: (state, action) => {
+    switch (action.type) {
+      case types.FORM_SUBMIT_SUCCESS:
+        return undefined; // <--- blow away form data
+      default:
+        return state;
+    }
+  },
+
+  searchContactListings: (state, action) => {
     switch (action.type) {
       case types.FORM_SUBMIT_SUCCESS:
         return undefined; // <--- blow away form data

@@ -14,8 +14,8 @@ const initialState = {
   contacts: [],
   contact: {},
   contactListings: [],
+  contactGroups: [],
   emailsByContact: [],
-  groups: [],
 
   error: "",
   isFetching: false,
@@ -57,7 +57,7 @@ const contactReducer = (state = initialState, action) => {
         contactListingsSearchResults: action.payload
       };
 
-    case types.CLEAR_LISTING_CONTACTS_SEARCH_RESULTS:
+    case types.CLEAR_CONTACT_LISTINGS_SEARCH_RESULTS:
       return {
         ...state,
         contactListingsSearchResults: []
@@ -70,10 +70,10 @@ const contactReducer = (state = initialState, action) => {
         pageToken: action.pageToken
       };
 
-    case types.SET_GROUPS:
+    case types.SET_CONTACT_GROUPS:
       return {
         ...state,
-        groups: action.groups
+        contactGroups: action.payload
       };
 
     case types.CLEAR_CONTACT:
@@ -82,7 +82,7 @@ const contactReducer = (state = initialState, action) => {
         contact: {},
         emailsByContact: [],
         photo: "",
-        groups: [],
+        contactGroups: [],
         googleImages: null
       };
 

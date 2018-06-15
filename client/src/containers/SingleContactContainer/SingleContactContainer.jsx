@@ -19,7 +19,7 @@ import {
   updateContact,
   deleteContact,
   clearContact,
-  fetchGroups,
+  fetchContactGroups,
   onDrop,
   deleteContactImage,
   clearError
@@ -53,7 +53,7 @@ class SingleContactContainer extends React.Component {
       contact,
       setEmailQuery,
       fetchEmailsByContact,
-      fetchGroups,
+      fetchContactGroups,
       emailsByContact,
       maxResults
     } = this.props;
@@ -76,7 +76,7 @@ class SingleContactContainer extends React.Component {
           emailsByContact
         );
       }
-      fetchGroups(nextProps.contact.membership);
+      fetchContactGroups(nextProps.contact.membership);
     }
   }
 
@@ -107,7 +107,7 @@ class SingleContactContainer extends React.Component {
       isFetching,
       onDrop,
       deleteContactImage,
-      groups
+      contactGroups
     } = this.props;
 
     return !isAuthed ? (
@@ -144,7 +144,7 @@ class SingleContactContainer extends React.Component {
               submitNewContact={submitNewContact}
               updateContact={updateContact}
               deleteContact={deleteContact}
-              groups={groups}
+              contactGroups={contactGroups}
             />
           )}
         />
@@ -176,7 +176,9 @@ class SingleContactContainer extends React.Component {
         {/* CONTACT GROUPS */}
         <Route
           path={`/contact/${contact.id}/groups`}
-          render={routeProps => <GroupsRow {...routeProps} groups={groups} />}
+          render={routeProps => (
+            <GroupsRow {...routeProps} groups={contactGroups} />
+          )}
         />
 
         {/* CONTACT MEDIA */}
@@ -205,7 +207,7 @@ const mapStateToProps = state => ({
   emailsByContact: state.contactReducer.emailsByContact,
   maxResults: state.contactReducer.maxResults,
   pageToken: state.contactReducer.pageToken,
-  groups: state.contactReducer.groups,
+  contactGroups: state.contactReducer.contactGroups,
   isFetching: state.contactReducer.isFetching,
   isLoading: state.contactReducer.isLoading,
   error: state.contactReducer.error,
@@ -226,8 +228,8 @@ const mapDispatchToProps = {
   submitContactListing,
   deleteContactListing,
   clearContactListingsSearchResults,
+  fetchContactGroups,
 
-  fetchGroups,
   clearContact,
   clearError,
   onDrop,

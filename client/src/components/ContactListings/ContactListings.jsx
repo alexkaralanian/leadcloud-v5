@@ -52,6 +52,6 @@ const ContactListings = ({
 );
 
 export default reduxForm({
-  form: "searchListings", // a unique name for this form
+  form: "searchContactListings", // a unique name for this form
   enableReinitialize: true
 })(ContactListings);

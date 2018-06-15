@@ -115,7 +115,7 @@ class SingleListingContainer extends React.Component {
                 {...routeProps}
                 listing={listing}
                 listingContacts={listingContacts}
-                searchResults={listingContactsSearchResults}
+                listingContactsSearchResults={listingContactsSearchResults}
                 searchContacts={searchListingContacts}
                 submitListingContact={submitListingContact}
                 deleteListingContact={deleteListingContact}
@@ -159,7 +159,7 @@ const mapStateToProps = state => ({
   listing: state.listingReducer.listing,
   listingContacts: state.listingReducer.listingContacts,
   listingContactsSearchResults:
-    state.contactReducer.listingContactsSearchResults,
+    state.listingReducer.listingContactsSearchResults,
   images: state.listingReducer.images,
   isFetching: state.listingReducer.isFetching
 });
@@ -185,6 +185,7 @@ const mapDispatchToProps = {
 
 SingleListingContainer.propTypes = {
   listing: PropTypes.object.isRequired,
+
   submitNewListing: PropTypes.func.isRequired,
   fetchListing: PropTypes.func.isRequired,
   updateListing: PropTypes.func.isRequired,

@@ -110,7 +110,9 @@ const listingReducer = (state = initialState, action) => {
     case types.CLEAR_LISTINGS:
       return {
         ...state,
-        listings: []
+        listings: [],
+        query: "",
+        offset: 0
       };
 
     case types.CLEAR_LISTING:

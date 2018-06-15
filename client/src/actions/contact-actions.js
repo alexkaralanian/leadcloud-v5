@@ -1,10 +1,7 @@
 import axios from "axios";
 import { push } from "react-router-redux";
 import * as types from "../types";
-import store from "../store";
 import { setListingContactsSearchResults } from "./listing-contacts-actions";
-
-const state = store.getState();
 
 export const setContacts = (contacts, limit, offset, query) => ({
   type: types.SET_CONTACTS,
@@ -24,9 +21,9 @@ export const setContactsQuery = query => ({
   payload: query
 });
 
-const setGroups = groups => ({
-  type: types.SET_GROUPS,
-  groups
+const setContactGroups = contactGroups => ({
+  type: types.SET_CONTACT_GROUPS,
+  payload: contactGroups
 });
 
 export const setContactImages = images => ({
@@ -78,6 +75,13 @@ export const searchContacts = (
   query,
   section
 ) => async dispatch => {
+  console.log("SEARCH CONTACTS", {
+    contactsArray,
+    limit,
+    offset,
+    query,
+    section
+  });
   try {
     const res = await axios.get(
       `/api/contacts/?limit=${limit}&offset=${offset}&query=${query}`
@@ -92,32 +96,6 @@ export const searchContacts = (
     dispatch(setError("ERROR FETCHING CONTACTS"));
   }
 };
-
-// export const searchListingContacts = values => {
-//   const query = values.nativeEvent.target.defaultValue;
-//   const listingContactsSearchResults =
-//     state.contactReducer.listingContactsSearchResults;
-
-//   if (query.length < 1) store.dispatch(clearListingContactsSearchResults());
-//   if (query.length >= 1) {
-//     store.dispatch(
-//       searchContacts(
-//         25,
-//         0,
-//         query,
-//         listingContactsSearchResults,
-//         "listingContacts"
-//       )
-//     );
-//   }
-
-//   if (!query) store.dispatch(clearListingContactsSearchResults());
-// };
-
-// export const submitListingContact = (contactId, listingId) => {
-//   submitListingContact(contactId, listingId);
-//   clearListingContactsSearchResults();
-// };
 
 // FETCH CONTACTS
 export const fetchContacts = (
@@ -223,71 +201,17 @@ export const deleteContact = id => async dispatch => {
   }
 };
 
-// // CONTACT LISTINGS
-// export const fetchContactListings = contactId => async dispatch => {
-//   dispatch(isFetching(true));
-//   try {
-//     const res = await axios.post("/api/contacts/fetchContactListings", {
-//       contactId
-//     });
-//     if (res.status === 200) {
-//       dispatch(setContactListings(res.data));
-//     }
-//     dispatch(isFetching(false));
-//   } catch (err) {
-//     console.error("Fetching listing contacts unsuccessful", err);
-//     dispatch(isFetching(false));
-//   }
-// };
-
-// export const submitContactListing = (
-//   listingId,
-//   contactId
-// ) => async dispatch => {
-//   dispatch(isFetching(true));
-//   try {
-//     const res = await axios.post("/api/contacts/setContactListings", {
-//       listingId,
-//       contactId
-
-//     });
-//     dispatch(setContactListings(res.data));
-//     // dispatch(clearContactListingsSearchResults());
-//     dispatch(isFetching(false));
-//   } catch (err) {
-//     console.error("Setting contact listings unsuccessful", err);
-//     dispatch(isFetching(false));
-//   }
-// };
-
-// export const deleteContactListing = (
-//   listingId,
-//   contactId
-// ) => async dispatch => {
-//   dispatch(isFetching(true));
-//   try {
-//     const res = await axios.post("/api/contacts/deleteContactListing", {
-//       listingId,
-//       contactId
-//     });
-
-//     dispatch(setContactListings(res.data));
-//     dispatch(isFetching(false));
-//   } catch (err) {
-//     console.error("Deleting listing contacts unsuccessful", err);
-//     dispatch(isFetching(false));
-//   }
-// };
-
 // GROUPS
-export const fetchGroups = groups => async dispatch => {
+export const fetchContactGroups = contactGroups => async dispatch => {
   try {
+    console.log("FETCHING CONTACT GROUPS", contactGroups);
     const res = await axios.post(`/api/contacts/groups`, {
-      groups
+      contactGroups
     });
-    dispatch(setGroups(res.data));
+    console.log("FETCHING RES", res.data);
+    dispatch(setContactGroups(res.data));
   } catch (err) {
-    console.error("Fetching groups from API unsuccessful", err);
+    console.error("Fetching contact groups from API unsuccessful", err);
   }
 };
 

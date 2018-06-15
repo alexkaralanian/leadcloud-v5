@@ -6,14 +6,14 @@ import store from "../store";
 
 const state = store.getState();
 
-export const setListingContacts = contacts => ({
+export const setListingContacts = listingContacts => ({
   type: types.SET_LISTING_CONTACTS,
-  payload: contacts
+  payload: listingContacts
 });
 
-export const setListingContactsSearchResults = contacts => ({
+export const setListingContactsSearchResults = listingContacts => ({
   type: types.SET_LISTING_CONTACTS_SEARCH_RESULTS,
-  payload: contacts
+  payload: listingContacts
 });
 
 export const clearListingContactsSearchResults = () => ({
@@ -27,7 +27,7 @@ export const fetchListingContacts = listingId => async dispatch => {
       listingId
     });
     if (res.status === 200) {
-      dispatch(setListingContacts(res.data));
+      dispatch(setListingContactsSearchResults(res.data));
     }
     dispatch(isFetching(false));
   } catch (err) {
@@ -39,7 +39,7 @@ export const fetchListingContacts = listingId => async dispatch => {
 export const searchListingContacts = values => {
   const query = values.nativeEvent.target.defaultValue;
   const listingContactsSearchResults =
-    state.contactReducer.listingContactsSearchResults;
+    state.listingReducer.listingContactsSearchResults;
 
   if (query.length < 1) store.dispatch(clearListingContactsSearchResults());
   if (query.length >= 1) {
