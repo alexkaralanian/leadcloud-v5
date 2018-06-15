@@ -53,8 +53,6 @@ class SingleCampaignContainer extends React.Component {
         <div>
           {page === 1 && (
             <CampaignFormA
-              // groups={groups}
-
               campaign={campaign}
               searchCampaignListings={searchCampaignListings}
               campaignListings={campaignListings}
@@ -64,19 +62,14 @@ class SingleCampaignContainer extends React.Component {
               nextPage={this.nextPage}
             />
           )}
-
           {page === 2 && (
             <CampaignFormB
-              // groups={groups}
-              // listings={listings}
               campaign={campaign}
-              deleteCampaignListing={deleteCampaignListing}
-              campaignListingsSearchResults={campaignListingsSearchResults}
+              campaignListings={campaignListings}
               nextPage={this.nextPage}
-              previousPage={this.previousPage}
+              prevPage={this.previousPage}
             />
           )}
-
           {page === 3 && (
             <CampaignFormC
               // groups={groups}
@@ -87,7 +80,7 @@ class SingleCampaignContainer extends React.Component {
               // addCampaignGroup={addCampaignGroup}
               // deleteCampaignGroup={deleteCampaignGroup}
               nextPage={this.nextPage}
-              previousPage={this.previousPage}
+              prevPage={this.previousPage}
             />
           )}
         </div>

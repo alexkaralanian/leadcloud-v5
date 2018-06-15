@@ -20,13 +20,9 @@ CampaignFormB = ({
   reset,
   submitting,
   auditClick,
-  searchListings,
   campaignListings,
-  deleteCampaignListing,
-  campaign,
-  listings,
-  addCampaignListing,
-  nextPage
+  nextPage,
+  prevPage
 }) => (
   <Form>
     <Grid>
@@ -34,21 +30,41 @@ CampaignFormB = ({
         <Col xs={12}>
           <h2>Format Template</h2>
         </Col>
+
         <Col xs={12}>
-          <div>{/*<EmailHTML campaignListings={campaignListings} />*/}</div>
+          <div>
+            {campaignListings.map(listing => (
+              <div>
+                <h3>{listing.address}</h3>
+              </div>
+            ))}
+          </div>
         </Col>
       </Row>
       <Row>
-        <Col xs={12}>
+        <Col xs={6}>
+          <div>
+            <Button
+              onClick={prevPage}
+              className="submitButton"
+              type="button"
+              bsStyle="primary"
+              disabled={pristine || submitting}
+            >
+              <span>Previous</span>
+            </Button>
+          </div>
+        </Col>
+        <Col xs={6}>
           <div>
             <Button
               onClick={nextPage}
               className="submitButton"
-              type="submit"
+              type="button"
               bsStyle="primary"
               disabled={pristine || submitting}
             >
-              <span>Submit</span>
+              <span>Next</span>
             </Button>
           </div>
         </Col>

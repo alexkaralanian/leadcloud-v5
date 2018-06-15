@@ -81,11 +81,11 @@ CampaignFormA = ({
             <Button
               onClick={nextPage}
               className="submitButton"
-              type="submit"
+              type="button"
               bsStyle="primary"
               disabled={pristine || submitting}
             >
-              <span>Submit</span>
+              <span>Next</span>
             </Button>
           </div>
         </Col>

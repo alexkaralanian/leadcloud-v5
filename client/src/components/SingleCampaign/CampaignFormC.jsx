@@ -20,15 +20,11 @@ CampaignFormC = ({
   reset,
   submitting,
   auditClick,
-  searchListings,
-  campaignListings,
-  deleteCampaignListing,
   campaign,
-  listings,
   groups,
   addGroup,
   deleteGroup,
-  addCampaignListing
+  prevPage
 }) => (
   <Form>
     <Grid>
@@ -62,7 +58,20 @@ CampaignFormC = ({
         </Col>
       </Row>
       <Row>
-        <Col xs={12}>
+        <Col xs={6}>
+          <div>
+            <Button
+              onClick={prevPage}
+              className="submitButton"
+              type="button"
+              bsStyle="primary"
+              disabled={pristine || submitting}
+            >
+              <span>Previous</span>
+            </Button>
+          </div>
+        </Col>
+        <Col xs={6}>
           <div>
             <Button
               className="submitButton"
