@@ -6,16 +6,17 @@ import * as types from "../types";
 const initialState = {
   limit: 25,
   offset: 0,
-  pageToken: "",
-  maxResults: 15,
-  contactsQuery: "",
-  contactListingsSearchResults: [],
+  query: "",
 
   contacts: [],
   contact: {},
   contactListings: [],
+  contactListingsSearchResults: [],
   contactGroups: [],
+
   emailsByContact: [],
+  pageToken: "",
+  maxResults: 15,
 
   error: "",
   isFetching: false,
@@ -29,7 +30,8 @@ const contactReducer = (state = initialState, action) => {
         ...state,
         contacts: action.contacts,
         limit: action.limit,
-        offset: action.offset
+        offset: action.offset,
+        query: action.query
       };
 
     case types.SET_CONTACT:
@@ -47,7 +49,7 @@ const contactReducer = (state = initialState, action) => {
     case types.SET_CONTACTS_QUERY:
       return {
         ...state,
-        contactsQuery: action.payload
+        query: action.payload
       };
 
     // SEARCH
@@ -91,7 +93,8 @@ const contactReducer = (state = initialState, action) => {
         ...state,
         contacts: [],
         limit: 25,
-        offset: 0
+        offset: 0,
+        query: ""
       };
 
     case types.SET_ERROR:

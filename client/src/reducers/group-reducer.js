@@ -1,9 +1,19 @@
 import * as types from "../types";
 
 const initialState = {
+  limit: 25,
+  offset: 0,
+  query: "",
+
   groups: [],
-  groupContacts: null,
   group: {},
+
+  groupContacts: null,
+  groupContactsSearchResults: [],
+
+  maxResults: 15,
+  pageToken: "",
+
   isGroupNew: true,
   error: "",
   message: "",
@@ -15,7 +25,10 @@ const groupReducer = (state = initialState, action) => {
     case types.SET_GROUPS:
       return {
         ...state,
-        groups: action.payload
+        groups: action.groups,
+        limit: action.limit,
+        offset: action.offset,
+        query: action.query
       };
 
     case types.SET_GROUP:
@@ -37,6 +50,9 @@ const groupReducer = (state = initialState, action) => {
         ...state,
         groupContacts: null
       };
+
+    case types.CLEAR_GROUPS:
+      return { ...initialState };
 
     case types.IS_FETCHING:
       return {

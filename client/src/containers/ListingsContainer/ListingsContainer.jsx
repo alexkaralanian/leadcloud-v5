@@ -7,8 +7,6 @@ import Navigation from "../NavContainer/NavContainer";
 import {
   fetchListings,
   searchListings,
-  setListingsQuery,
-  setIsListingNew,
   clearListings,
   clearError
 } from "../../actions/listing-actions";
@@ -82,10 +80,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   fetchListings,
   searchListings,
-  setListingsQuery,
   clearListings,
-  clearError,
-  setIsListingNew
+  clearError
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ListingsContainer);

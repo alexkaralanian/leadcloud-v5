@@ -8,35 +8,39 @@ const router = express.Router();
 
 router.get("/", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
-
   try {
     const groups = await ContactTags.findAll({
+      limit: req.query.limit,
+      offset: req.query.offset,
       where: {
         UserUuid: userId
+      },
+      $and: {
+        title: {
+          $iLike: `${req.query.query}%`
+        }
       }
     });
     res.json(groups);
   } catch (err) {
-    console.error(err);
+    console.error("FETCHING GROUPS ERROR", err);
   }
 });
 
-router.get("/:googleId", authCheck, async (req, res) => {
-  const userId = req.session.user.toString();
-  console.log("GROUP ID", req.params.id);
-
-  try {
-    const group = await ContactTags.findOne({
-      where: {
-        UserUuid: userId,
-        googleId: req.params.googleId
-      }
-    });
-    res.json(group);
-  } catch (err) {
-    console.error(err);
-  }
-});
+// router.get("/:googleId", authCheck, async (req, res) => {
+//   const userId = req.session.user.toString();
+//   try {
+//     const group = await ContactTags.findOne({
+//       where: {
+//         UserUuid: userId,
+//         googleId: req.params.googleId
+//       }
+//     });
+//     res.json(group);
+//   } catch (err) {
+//     console.error("FETCHING GROUP ERROR", err.response);
+//   }
+// });
 
 router.get("/:googleId/contacts", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
@@ -52,7 +56,7 @@ router.get("/:googleId/contacts", authCheck, async (req, res) => {
 
     res.json(groupContacts);
   } catch (err) {
-    console.error(err);
+    console.error("FETCHING GROUP CONTACTS ERROR", err);
   }
 });
 

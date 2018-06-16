@@ -1,11 +1,19 @@
 import axios from "axios";
 import * as types from "../types";
+// import { setCampaignGroupsSearchResults } from "./campaign-groups-actions";
 
 /* ------------   ACTION CREATORS     ------------------ */
 
-export const setGroups = groups => ({
+export const setGroups = (groups, limit, offset, query) => ({
   type: types.SET_GROUPS,
-  payload: groups
+  groups,
+  limit,
+  offset,
+  query
+});
+
+export const clearGroups = () => ({
+  type: types.CLEAR_GROUPS
 });
 
 export const setGroup = group => ({
@@ -13,6 +21,7 @@ export const setGroup = group => ({
   payload: group
 });
 
+// Group Contacts
 export const setGroupContacts = groupContacts => ({
   type: types.SET_GROUP_CONTACTS,
   payload: groupContacts
@@ -41,13 +50,44 @@ export const clearError = () => ({
 
 /* ------------       DISPATCHERS     ------------------ */
 
-export const fetchGroups = () => async dispatch => {
-  console.log("FETCHING GROUPS");
-  dispatch(isFetching(true));
-  try {
-    const res = await axios.get("/api/groups/");
+// SEARCH GROUPS
+// export const searchGroups = (
+//   groupsArray,
+//   limit,
+//   offset,
+//   query,
+//   section
+// ) => async dispatch => {
+//   try {
+//     const res = await axios.get(
+//       `/api/groups/?limit=${limit}&offset=${offset}&query=${query}`
+//     );
+//     if (section === "campaignGroups") {
+//       dispatch(setCampaignGroupsSearchResults(res.data));
+//     } else {
+//       dispatch(setGroups(res.data, limit, limit, null));
+//     }
+//   } catch (err) {
+//     console.error("fetchContacts ERROR", err.response);
+//     dispatch(setError("ERROR FETCHING CONTACTS"));
+//   }
+// };
 
-    dispatch(setGroups(res.data));
+// FETCH GROUPS
+export const fetchGroups = (
+  groupsArray,
+  limit,
+  offset,
+  query
+) => async dispatch => {
+  dispatch(isFetching(true));
+  const newOffset = offset + limit;
+  try {
+    const res = await axios.get(
+      `/api/groups/?limit=${limit}&offset=${offset}&query=${query}`
+    );
+    dispatch(setGroups(groupsArray.concat(res.data), limit, newOffset, query));
+
     dispatch(isFetching(false));
   } catch (err) {
     console.error("Fetching groups unsuccessful", err);

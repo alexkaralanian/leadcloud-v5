@@ -21,9 +21,10 @@ CampaignFormC = ({
   submitting,
   auditClick,
   campaign,
+  campaignGroups,
   groups,
-  addGroup,
-  deleteGroup,
+  submitCampaignGroup,
+  deleteCampaignGroup,
   prevPage
 }) => (
   <Form>
@@ -35,10 +36,10 @@ CampaignFormC = ({
         </Col>
         <Col xs={12}>
           <TableRowCheckbox
-            componentName="group"
+            componentName="groups"
             rowText="title"
-            collection={groups}
-            submitFunction={deleteGroup}
+            collection={campaignGroups}
+            submitFunction={deleteCampaignGroup}
             hostComponent={campaign}
             buttonText="Delete Group"
             buttonStyle="danger"
@@ -47,10 +48,10 @@ CampaignFormC = ({
 
         <Col xs={12}>
           <TableRowCheckbox
-            componentName="group"
+            componentName="groups"
             rowText="title"
             collection={groups}
-            submitFunction={addGroup}
+            submitFunction={submitCampaignGroup}
             hostComponent={campaign}
             buttonText="Add Group"
             buttonStyle="warning"

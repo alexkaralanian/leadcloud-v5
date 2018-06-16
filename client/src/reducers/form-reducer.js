@@ -53,6 +53,15 @@ const formReducer = reducer.plugin({
       default:
         return state;
     }
+  },
+
+  searchForm: (state, action) => {
+    switch (action.type) {
+      case types.FORM_SUBMIT_SUCCESS:
+        return undefined; // <--- blow away form data
+      default:
+        return state;
+    }
   }
 });
 

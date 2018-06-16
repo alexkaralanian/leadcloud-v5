@@ -20,6 +20,10 @@ export const clearContactListingsSearchResults = () => ({
   type: types.CLEAR_CONTACT_LISTINGS_SEARCH_RESULTS
 });
 
+export const submitSuccess = () => ({
+  type: types.FORM_SUBMIT_SUCCESS
+});
+
 export const searchContactListings = values => {
   const query = values.nativeEvent.target.defaultValue;
   const contactListingsSearchResults =
@@ -70,6 +74,7 @@ export const submitContactListing = (
 
     dispatch(setContactListings(res.data));
     dispatch(clearContactListingsSearchResults());
+    dispatch(submitSuccess());
     dispatch(isFetching(false));
   } catch (err) {
     console.error("Setting listing contacts unsuccessful", err);

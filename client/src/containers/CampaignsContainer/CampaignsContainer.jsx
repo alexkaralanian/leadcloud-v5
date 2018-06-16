@@ -30,4 +30,6 @@ const mapStateToProps = state => ({
   isAuthed: state.authReducer.isAuthed
 });
 
+const mapDispatchToProps = {};
+
 export default connect(mapStateToProps, null)(CampaignsContainer);

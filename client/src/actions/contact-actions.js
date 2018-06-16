@@ -69,27 +69,21 @@ export const clearError = () => ({
 // SEARCH CONTACTS
 
 export const searchContacts = (
-  contactsArray,
+  contacts,
   limit,
   offset,
   query,
   section
 ) => async dispatch => {
-  console.log("SEARCH CONTACTS", {
-    contactsArray,
-    limit,
-    offset,
-    query,
-    section
-  });
   try {
     const res = await axios.get(
       `/api/contacts/?limit=${limit}&offset=${offset}&query=${query}`
     );
+
     if (section === "listingContacts") {
       dispatch(setListingContactsSearchResults(res.data));
     } else {
-      dispatch(setContacts(res.data, limit, limit));
+      dispatch(setContacts(res.data, limit, limit, ""));
     }
   } catch (err) {
     console.error("fetchContacts ERROR", err.response);
@@ -99,19 +93,20 @@ export const searchContacts = (
 
 // FETCH CONTACTS
 export const fetchContacts = (
+  contacts,
   limit,
   offset,
-  query,
-  contactsArray
+  query
 ) => async dispatch => {
   // if (!offset) dispatch(isFetching(true));
+
   dispatch(isLoading(true));
   const newOffset = offset + limit;
   try {
     const res = await axios.get(
-      `/api/contacts?limit=${limit}&offset=${offset}&query=${query}`
+      `/api/contacts/?limit=${limit}&offset=${offset}&query=${query}`
     );
-    dispatch(setContacts(contactsArray.concat(res.data), limit, newOffset));
+    dispatch(setContacts(contacts.concat(res.data), limit, newOffset, query));
     dispatch(isFetching(false));
     dispatch(isLoading(false));
   } catch (err) {
@@ -121,8 +116,8 @@ export const fetchContacts = (
   }
 };
 
-// LOAD GOOGLE CONTACTS
-export const loadContacts = (limit, offset, query) => async dispatch => {
+// SYNC GOOGLE CONTACTS
+export const syncContacts = (limit, offset, query) => async dispatch => {
   dispatch(isFetching(true));
   try {
     const res = await axios.get("/api/contacts/loadcontacts");

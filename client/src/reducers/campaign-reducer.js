@@ -1,10 +1,12 @@
 import * as types from "../types";
 
 const initialState = {
-  campaignGroups: [],
   campaignListings: [],
   campaignListingsSearchResults: [],
   campaignGroupsSearchResults: [],
+
+  campaignGroups: [],
+
   isFetching: false,
   error: "",
   message: ""
@@ -12,6 +14,7 @@ const initialState = {
 
 const campaignReducer = (state = initialState, action) => {
   switch (action.type) {
+    // CAMPAIGN LISTINGS
     case types.SET_CAMPAIGN_LISTINGS:
       return {
         ...state,
@@ -29,16 +32,17 @@ const campaignReducer = (state = initialState, action) => {
         campaignListingsSearchResults: []
       };
 
+    // CAMPAIGN GROUPS
     case types.SET_CAMPAIGN_GROUPS:
       return {
         ...state,
         campaignGroups: action.payload
       };
-    case types.SET_CAMPAIGN_GROUPS_SEARCH_RESULTS:
-      return {
-        ...state,
-        campaignGroupsSearchResults: action.payload
-      };
+    // case types.SET_CAMPAIGN_GROUPS_SEARCH_RESULTS:
+    //   return {
+    //     ...state,
+    //     campaignGroupsSearchResults: action.payload
+    //   };
 
     // ADMINISTRATIVE
     case types.IS_FETCHING:

@@ -22,7 +22,7 @@ const Groups = ({ groups, isFetching }) =>
         {groups &&
           groups.map(group => (
             <tr key={group.id}>
-              {/*<td>
+              <td>
                 {group && group.images ? (
                   <div className="tableImg">
                     <img alt="contact" src={group.images[0]} />
@@ -36,7 +36,7 @@ const Groups = ({ groups, isFetching }) =>
                     </span>
                   </div>
                 )}
-              </td>*/}
+              </td>
               <td className="nameDisplay">
                 <Link to={`/group/${group.googleId}`}>
                   <span>{group.title}</span>

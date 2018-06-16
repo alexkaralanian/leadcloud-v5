@@ -92,7 +92,7 @@ export const fetchListings = (
   const newOffset = offset + limit;
   try {
     const res = await axios.get(
-      `/api/listings?limit=${limit}&offset=${offset}&query=${query}`
+      `/api/listings/?limit=${limit}&offset=${offset}&query=${query}`
     );
 
     dispatch(
@@ -100,7 +100,7 @@ export const fetchListings = (
     );
     dispatch(isFetching(false));
   } catch (err) {
-    console.error("fetchListings ERROR", err.response);
+    console.error("fetchListings unsusccessful", err.response);
     dispatch(isFetching(false));
     dispatch(setError("ERROR FETCHING LISTINGS"));
   }

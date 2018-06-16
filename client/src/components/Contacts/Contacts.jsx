@@ -11,10 +11,7 @@ const Contacts = ({ contacts, groups, isFetching }) =>
   ) : (
     <Grid>
       <Row>
-        <Col xs={3}>
-          <Groups groups={groups} />
-        </Col>
-        <Col xs={9}>
+        <Col xs={12}>
           <ContactTable component={contacts} />
         </Col>
       </Row>
