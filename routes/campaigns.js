@@ -1,36 +1,48 @@
 const express = require("express");
-
-// const Contacts = require("../db/models").contacts;
-// const ContactTags = require("../db/models").contactTags;
+const Campaigns = require("../db/models").campaigns;
+const Contacts = require("../db/models").contacts;
+const Groups = require("../db/models").groups;
 const authCheck = require("../middlewares/authChecker");
 
 const router = express.Router();
 
 router.post("/create", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
-
-  // find all contacts associated to groups
-  // associate listings to campaigns
-  // associate contacts to campaigns
-  // associate groups to campaigns
-  // check for duplicates.
-
   try {
-    // const groups = await ContactTags.findAll({
-    //   limit: req.query.limit,
-    //   offset: req.query.offset,
-    //   where: {
-    //     UserUuid: userId
-    //   },
-    //   $and: {
-    //     title: {
-    //       $iLike: `${req.query.query}%`
-    //     }
-    //   }
-    // });
-    // res.json(groups);
-    res.json("HELLO FROM CAMPAIGNS");
-    console.log("CREATE CAMAPAIGN", req.body);
+    const campaign = await Campaigns.create({
+      UserUuid: userId,
+      title: req.body.values.title,
+      listings: req.body.campaignListings,
+      groups: req.body.campaignGroups
+    });
+
+    // const listings = req.body.campaignListings.map(listing => listing.id);
+
+    await req.body.campaignGroups.map(async group => {
+      const groupContacts = await Contacts.findAll({
+        attributes: ["email"],
+        where: {
+          UserUuid: userId
+        },
+        include: [
+          {
+            model: Groups,
+            where: {
+              id: group.id
+            }
+          }
+        ]
+      });
+
+      console.log(
+        "GROUP CONTACTS",
+        groupContacts.map(
+          group => group.dataValues.email && group.dataValues.email[0].value
+        )
+      );
+    });
+
+    res.json(campaign);
   } catch (err) {
     console.error("FETCHING CAMPAIGNS ERROR", err);
   }

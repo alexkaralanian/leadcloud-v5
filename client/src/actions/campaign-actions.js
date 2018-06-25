@@ -1,4 +1,5 @@
 import axios from "axios";
+import { push } from "react-router-redux";
 import * as types from "../types";
 import store from "../store";
 
@@ -17,6 +18,11 @@ export const submitCampaign = (
   campaignListings,
   campaignGroups
 ) => async dispatch => {
+  // const listings = campaignListings.map(listing => listing.id);
+  // const groups = campaignGroups.map(group => group.id);
+
+  // console.log("THE STUFF", { values, listings, groups });
+
   try {
     const res = await axios.post(`/api/campaigns/create`, {
       values,
@@ -24,6 +30,7 @@ export const submitCampaign = (
       campaignGroups
     });
     console.log("CAMPAIGNS RES", res.data);
+
     // dispatch(setCampaign(res.data));
     // dispatch(isFetching(false));
   } catch (err) {

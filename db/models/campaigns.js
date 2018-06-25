@@ -8,6 +8,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     {}
   );
-  campaigns.associate = models => {};
+  campaigns.associate = models => {
+    campaigns.belongsTo(models.users, { as: "User" });
+  };
   return campaigns;
 };

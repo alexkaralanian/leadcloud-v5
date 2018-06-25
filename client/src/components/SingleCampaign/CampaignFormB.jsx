@@ -10,6 +10,7 @@ import TableRowCheckbox from "../../components/TableRow/TableRow_Checkbox";
 // import EmailHTML from "../../components/EmailTemplate/EmailTemplate";
 import SearchForm from "../../components/SearchForm/SearchForm";
 import inputField from "../InputField/InputField";
+import "./SingleCampaign.css";
 
 let CampaignFormB;
 
@@ -36,6 +37,10 @@ CampaignFormB = ({
             {campaignListings.map(listing => (
               <div>
                 <h3>{listing.address}</h3>
+                <img
+                  className="CampaignListingImage"
+                  src={(listing.images && listing.images[0]) || null}
+                />
               </div>
             ))}
           </div>
