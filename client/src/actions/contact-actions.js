@@ -135,7 +135,8 @@ export const syncContacts = (limit, offset, query) => async dispatch => {
 export const fetchContact = id => async dispatch => {
   try {
     const res = await axios.get(`/api/contacts/${id}`);
-    dispatch(setContact(res.data));
+    dispatch(setContact(res.data.contact));
+    dispatch(setContactGroups(res.data.contactGroups));
     dispatch(isFetching(false));
   } catch (err) {
     console.error("Fetching contact unsuccessful", err);
@@ -197,11 +198,11 @@ export const deleteContact = id => async dispatch => {
 };
 
 // GROUPS
-export const fetchContactGroups = contactGroups => async dispatch => {
+export const fetchContactGroups = contactId => async dispatch => {
   try {
-    console.log("FETCHING CONTACT GROUPS", contactGroups);
+    console.log("FETCHING CONTACT GROUPS", contactId);
     const res = await axios.post(`/api/contacts/groups`, {
-      contactGroups
+      contactId
     });
     console.log("FETCHING RES", res.data);
     dispatch(setContactGroups(res.data));

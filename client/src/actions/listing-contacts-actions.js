@@ -4,8 +4,6 @@ import { isFetching } from "./listing-actions";
 import * as types from "../types";
 import store from "../store";
 
-const state = store.getState();
-
 export const setListingContacts = listingContacts => ({
   type: types.SET_LISTING_CONTACTS,
   payload: listingContacts
@@ -41,6 +39,7 @@ export const fetchListingContacts = listingId => async dispatch => {
 };
 
 export const searchListingContacts = values => {
+  const state = store.getState();
   const query = values.nativeEvent.target.defaultValue;
   const listingContactsSearchResults =
     state.listingReducer.listingContactsSearchResults;

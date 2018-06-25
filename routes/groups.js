@@ -1,7 +1,7 @@
 const express = require("express");
 
 const Contacts = require("../db/models").contacts;
-const ContactTags = require("../db/models").contactTags;
+const Groups = require("../db/models").groups;
 const authCheck = require("../middlewares/authChecker");
 
 const router = express.Router();
@@ -9,7 +9,7 @@ const router = express.Router();
 router.get("/", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
   try {
-    const groups = await ContactTags.findAll({
+    const groups = await Groups.findAll({
       limit: req.query.limit,
       offset: req.query.offset,
       where: {
@@ -27,37 +27,63 @@ router.get("/", authCheck, async (req, res) => {
   }
 });
 
-// router.get("/:googleId", authCheck, async (req, res) => {
-//   const userId = req.session.user.toString();
-//   try {
-//     const group = await ContactTags.findOne({
-//       where: {
-//         UserUuid: userId,
-//         googleId: req.params.googleId
-//       }
-//     });
-//     res.json(group);
-//   } catch (err) {
-//     console.error("FETCHING GROUP ERROR", err.response);
-//   }
-// });
-
-router.get("/:googleId/contacts", authCheck, async (req, res) => {
+router.get("/:id", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
   try {
-    const groupContacts = await Contacts.findAll({
+    const group = await Groups.findOne({
       where: {
         UserUuid: userId,
-        membership: {
-          $contains: [req.params.googleId]
-        }
+        id: req.params.id
       }
     });
 
+    res.json(group);
+  } catch (err) {
+    console.error("FETCHING GROUP ERROR", err.response);
+  }
+});
+
+router.get("/:id/contacts", authCheck, async (req, res) => {
+  const userId = req.session.user.toString();
+  try {
+    const groupContacts = await Contacts.findAll({
+      limit: req.query.limit,
+      offset: req.query.offset,
+      where: {
+        UserUuid: userId
+      },
+      include: [
+        {
+          model: Groups,
+          where: {
+            id: req.params.id
+          }
+        }
+      ]
+    });
     res.json(groupContacts);
   } catch (err) {
     console.error("FETCHING GROUP CONTACTS ERROR", err);
   }
 });
+
+// router.get("/:id/contacts", authCheck, async (req, res) => {
+//   const userId = req.session.user.toString();
+//   try {
+//     const group = await Groups.findOne({
+//       where: {
+//         id: req.params.id,
+//         UserUuid: userId
+//       }
+//     });
+
+//     const groupContacts = await group.getContacts();
+//     console.log("GROUP CONTACTS", groupContacts);
+
+//     res.json(groupContacts);
+//   } catch (err) {
+//     console.error("FETCHING GROUP CONTACTS ERROR", err);
+//   }
+// });
 
 module.exports = router;

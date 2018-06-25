@@ -8,7 +8,10 @@ const initialState = {
   groups: [],
   group: {},
 
-  groupContacts: null,
+  groupContacts: [],
+  groupContactsLimit: 25,
+  groupContactsOffset: 0,
+  groupContactsQuery: "",
   groupContactsSearchResults: [],
 
   maxResults: 15,
@@ -17,7 +20,8 @@ const initialState = {
   isGroupNew: true,
   error: "",
   message: "",
-  isFetching: false
+  isFetching: false,
+  isLoading: false
 };
 
 const groupReducer = (state = initialState, action) => {
@@ -40,16 +44,16 @@ const groupReducer = (state = initialState, action) => {
     case types.SET_GROUP_CONTACTS:
       return {
         ...state,
-        groupContacts: action.payload
+        groupContacts: action.groupContacts,
+        groupContactsLimit: action.groupContactsLimit,
+        groupContactsOffset: action.groupContactsOffset,
+        groupContactsQuery: action.groupContactsQuery
       };
 
     // ADMINISTRATIVE
 
     case types.CLEAR_GROUP_CONTACTS:
-      return {
-        ...state,
-        groupContacts: null
-      };
+      return { ...initialState };
 
     case types.CLEAR_GROUPS:
       return { ...initialState };

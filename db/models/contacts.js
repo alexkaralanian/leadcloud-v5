@@ -62,8 +62,9 @@ module.exports = (sequelize, DataTypes) => {
     {}
   );
   contacts.associate = models => {
-    contacts.belongsTo(models.users, { as: "User" });
+    contacts.belongsToMany(models.groups, { through: "ContactGroups" });
     contacts.belongsToMany(models.listings, { through: "ListingContact" });
+    contacts.belongsTo(models.users, { as: "User" });
   };
   return contacts;
 };

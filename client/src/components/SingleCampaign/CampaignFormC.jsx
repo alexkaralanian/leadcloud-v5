@@ -25,9 +25,10 @@ CampaignFormC = ({
   groups,
   submitCampaignGroup,
   deleteCampaignGroup,
+  onSubmit,
   prevPage
 }) => (
-  <Form>
+  <Form onSubmit={handleSubmit}>
     <Grid>
       <Row>
         <Col xs={12}>

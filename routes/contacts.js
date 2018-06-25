@@ -8,34 +8,38 @@ const findUserById = require("../middlewares/findUserById");
 const authCheck = require("../middlewares/authChecker");
 const Contacts = require("../db/models").contacts;
 const Listings = require("../db/models").listings;
-const ContactTags = require("../db/models").contactTags;
+const Groups = require("../db/models").groups;
 
 const router = express.Router();
 const people = google.people("v1");
 
 // FETCH, MAP, AND LOAD USER'S GROUPS AND CONTACTS TO DB
 router.get("/loadcontacts", authCheck, findUserById, async (req, res) => {
-  try {
-    const userId = req.session.user.toString();
+  console.log("LOAD CONTACTS");
 
-    // FETCH, MAP, & LOAD USER'S GROUPS
-    const groups = await new Promise((resolve, reject) => {
-      people.contactGroups.list(
-        {
-          auth: oAuth2Client
-        },
-        (err, response) => {
-          if (response) {
-            resolve(response.data);
-          } else {
-            reject(err);
-          }
+  const userId = req.session.user.toString();
+
+  // FETCH, MAP, & LOAD USER'S GROUPS
+  const groups = await new Promise((resolve, reject) => {
+    people.contactGroups.list(
+      {
+        auth: oAuth2Client
+      },
+      (err, response) => {
+        if (response) {
+          resolve(response.data);
+        } else {
+          reject(err);
         }
-      );
-    });
+      }
+    );
+  }).catch(err => {
+    console.error(err);
+  });
 
-    groups.contactGroups.map(async group => {
-      await ContactTags.findOrCreate({
+  await groups.contactGroups.map(async group => {
+    try {
+      await Groups.findOrCreate({
         where: {
           UserUuid: userId,
           googleId: group.resourceName.slice(
@@ -46,83 +50,89 @@ router.get("/loadcontacts", authCheck, findUserById, async (req, res) => {
           title: group.name
         }
       });
-    });
+    } catch (err) {
+      console.error(err);
+    }
+  });
 
-    // FETCH USER'S GOOGLE CONTACTS
-    const contacts = await new Promise((resolve, reject) => {
-      let contactsArray = [];
-      const getContacts = pageToken => {
-        people.people.connections.list(
-          {
-            resourceName: "people/me",
-            personFields:
-              "metadata,names,addresses,emailAddresses,phoneNumbers,memberships,occupations,organizations,photos,birthdays",
-            auth: oAuth2Client,
-            pageSize: 2000,
-            pageToken
-          },
-          (err, response) => {
-            if (response) {
-              contactsArray = contactsArray.concat(response.data.connections);
-              if (response.data.nextPageToken) {
-                getContacts(response.data.nextPageToken);
-              } else {
-                resolve(contactsArray);
-              }
-            } else {
-              reject(err);
-            }
-          }
-        );
-      };
-      getContacts();
-    });
-
-    // MAP & LOAD USER CONTACTS TO DB
-    contacts.map(async contact => {
-      const imageArray =
-        contact.photos && contact.photos.map(photo => photo.url);
-
-      const membershipArray =
-        contact.memberships &&
-        contact.memberships.map(
-          group => group.contactGroupMembership.contactGroupId
-        );
-
-      const defaults = {
-        firstName:
-          contact.names &&
-          contact.names[0].givenName &&
-          contact.names[0].givenName,
-        lastName:
-          contact.names &&
-          contact.names[0].familyName &&
-          contact.names[0].familyName,
-        fullName:
-          contact.names &&
-          contact.names[0].displayName &&
-          contact.names[0].displayName,
-        email: contact.emailAddresses && contact.emailAddresses,
-        phone: contact.phoneNumbers && contact.phoneNumbers,
-        address: contact.addresses && contact.addresses,
-        membership: membershipArray,
-        updated: moment(contact.metadata.sources[0].updateTime).format(),
-        images: imageArray
-      };
-
-      const createdContact = await Contacts.findOrCreate({
-        where: {
-          googleId: contact.metadata.sources[0].id,
-          UserUuid: userId
+  // FETCH USER'S GOOGLE CONTACTS
+  const contacts = await new Promise((resolve, reject) => {
+    let contactsArray = [];
+    const getContacts = pageToken => {
+      people.people.connections.list(
+        {
+          resourceName: "people/me",
+          personFields:
+            "metadata,names,addresses,emailAddresses,phoneNumbers,memberships,occupations,organizations,photos,birthdays",
+          auth: oAuth2Client,
+          pageSize: 2000,
+          pageToken
         },
-        defaults
-      });
-      await createdContact[0].setUser(userId);
+        (err, response) => {
+          if (response) {
+            contactsArray = contactsArray.concat(response.data.connections);
+            if (response.data.nextPageToken) {
+              getContacts(response.data.nextPageToken);
+            } else {
+              resolve(contactsArray);
+            }
+          } else {
+            reject(err);
+          }
+        }
+      );
+    };
+    getContacts();
+  });
+
+  // MAP & LOAD USER CONTACTS TO DB
+  await contacts.map(async contact => {
+    const imageArray = contact.photos && contact.photos.map(photo => photo.url);
+
+    const membershipArray =
+      contact.memberships &&
+      contact.memberships.map(
+        group => group.contactGroupMembership.contactGroupId
+      );
+
+    const defaults = {
+      firstName:
+        contact.names &&
+        contact.names[0].givenName &&
+        contact.names[0].givenName,
+      lastName:
+        contact.names &&
+        contact.names[0].familyName &&
+        contact.names[0].familyName,
+      fullName:
+        contact.names &&
+        contact.names[0].displayName &&
+        contact.names[0].displayName,
+      email: contact.emailAddresses && contact.emailAddresses,
+      phone: contact.phoneNumbers && contact.phoneNumbers,
+      address: contact.addresses && contact.addresses,
+      membership: membershipArray,
+      updated: moment(contact.metadata.sources[0].updateTime).format(),
+      images: imageArray
+    };
+
+    const createdContact = await Contacts.findOrCreate({
+      where: {
+        googleId: contact.metadata.sources[0].id,
+        UserUuid: userId
+      },
+      defaults
     });
-    res.sendStatus(200);
-  } catch (err) {
-    console.error(err);
-  }
+
+    contact.memberships &&
+      contact.memberships.map(async group => {
+        const contactGroup = await Groups.findOne({
+          where: { googleId: group.contactGroupMembership.contactGroupId }
+        });
+        await contactGroup.addContact(createdContact[0].id.toString());
+      });
+  });
+  res.sendStatus(200);
 });
 
 // GET ALL CONTACTS FROM DB
@@ -211,7 +221,15 @@ router.get("/:id", authCheck, async (req, res) => {
         UserUuid: userId
       }
     });
-    res.json(contact);
+    const groups = await contact.getGroups();
+    const contactGroups = groups.map(group => {
+      if (group !== null) {
+        return group.dataValues;
+      }
+      return null;
+    });
+
+    res.json({ contact, contactGroups });
   } catch (err) {
     console.error(err);
   }
@@ -315,28 +333,53 @@ router.post("/deleteContactListing", authCheck, async (req, res) => {
 });
 
 // GET CONTACT GROUPS
-router.post("/groups", authCheck, async (req, res) => {
-  const userId = req.session.user.toString();
+// router.post("/groups", authCheck, async (req, res) => {
+//   const userId = req.session.user.toString();
 
-  try {
-    const contactTags = await ContactTags.findAll({
-      where: {
-        googleId: req.body.contactGroups,
-        UserUuid: userId
-      }
-    });
-    const tagsMap = contactTags.map(group => {
-      if (group !== null) {
-        return group;
-      }
-      return null;
-    });
+//   try {
+//     console.log("REA.BODY", req.body);
+//     const groups = await Groups.findAll({
+//       where: {
+//         googleId: req.body.contactId, // array of group ids
+//         UserUuid: userId
+//       }
+//     });
 
-    res.json(tagsMap);
-  } catch (err) {
-    console.error(err);
-  }
-});
+//     console.log("GROUPS", groups);
+//     const groupsMap = groups.map(group => {
+//       if (group !== null) {
+//         return group;
+//       }
+//       return null;
+//     });
+
+//     res.json(groupsMap);
+//   } catch (err) {
+//     console.error(err);
+//   }
+// });
+
+// router.post("/groups", authCheck, async (req, res) => {
+//   const userId = req.session.user.toString();
+
+//   try {
+//     const contact = Contacts.findOne({
+//       where: {}
+//     });
+
+//     // console.log("GROUPS", groups);
+//     const groupsMap = groups.map(group => {
+//       if (group !== null) {
+//         return group;
+//       }
+//       return null;
+//     });
+
+//     res.json(groupsMap);
+//   } catch (err) {
+//     console.error(err);
+//   }
+// });
 
 router.post("/new/openhouse", authCheck, async (req, res) => {
   const userId = req.session.user.toString();

@@ -42,8 +42,8 @@ db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
 sequelize
-  .sync({ force: false })
-  // .authenticate()
+  // .sync({ force: true })
+  .authenticate()
   .then(() => {
     console.log("Sequelize is ready.");
   })

@@ -14,6 +14,8 @@ import {
 
 import { fetchGroups } from "../../actions/group-actions";
 
+import { submitCampaign } from "../../actions/campaign-actions";
+
 import {
   // searchCampaignGroups,
   submitCampaignGroup,
@@ -28,6 +30,7 @@ class SingleCampaignContainer extends React.Component {
     };
     this.nextPage = this.nextPage.bind(this);
     this.previousPage = this.previousPage.bind(this);
+    // this.submitCampaignForm = this.submitCampaignForm.bind(this);
   }
 
   componentDidMount() {
@@ -43,6 +46,14 @@ class SingleCampaignContainer extends React.Component {
     this.setState({ page: this.state.page - 1 });
   }
 
+  // submitCampaignForm(values) {
+  //   this.props.submitCampaign(
+  //     values,
+  //     this.props.campaignListings,
+  //     this.props.campaignGroups
+  //   );
+  // }
+
   render() {
     const {
       campaign,
@@ -53,7 +64,8 @@ class SingleCampaignContainer extends React.Component {
       groups,
       campaignGroups,
       // searchCampaignGroups,
-      campaignGroupsSearchResults
+      campaignGroupsSearchResults,
+      submitCampaign
     } = this.props;
 
     const { page } = this.state;
@@ -92,6 +104,12 @@ class SingleCampaignContainer extends React.Component {
               deleteCampaignGroup={deleteCampaignGroup}
               nextPage={this.nextPage}
               prevPage={this.previousPage}
+              // onSubmit={values => {
+              //   this.submitCampaignForm(values);
+              // }}
+              onSubmit={values => {
+                submitCampaign(values, campaignListings, campaignGroups);
+              }}
             />
           )}
         </div>
@@ -107,16 +125,16 @@ const mapStateToProps = state => ({
   query: state.groupReducer.query,
 
   campaignListings: state.campaignReducer.campaignListings,
+  campaignGroups: state.campaignReducer.campaignGroups,
   campaignListingsSearchResults:
-    state.campaignReducer.campaignListingsSearchResults,
-
-  campaignGroups: state.campaignReducer.campaignGroups
+    state.campaignReducer.campaignListingsSearchResults
   // campaignGroupsSearchResults: state.campaignReducer.campaignGroupsSearchResults
 });
 
 const mapDispatchToProps = {
   fetchGroups,
-  searchCampaignListings
+  searchCampaignListings,
+  submitCampaign
   // searchCampaignGroups
 };
 

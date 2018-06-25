@@ -13,7 +13,7 @@ const GroupsRow = ({ groups }) => {
             <ul className="groupStyle">
               {groups &&
                 groups.map(group => (
-                  <Link key={group} to={`/group/${group.googleId}`}>
+                  <Link key={group} to={`/group/${group.id}`}>
                     <li>{group.title}</li>
                   </Link>
                 ))}

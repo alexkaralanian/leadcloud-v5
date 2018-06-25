@@ -19,7 +19,7 @@ import {
   updateContact,
   deleteContact,
   clearContact,
-  fetchContactGroups,
+  // fetchContactGroups,
   onDrop,
   deleteContactImage,
   clearError
@@ -52,10 +52,10 @@ class SingleContactContainer extends React.Component {
     const {
       contact,
       setEmailQuery,
+      maxResults,
       fetchEmailsByContact,
-      fetchContactGroups,
-      emailsByContact,
-      maxResults
+      emailsByContact
+      // fetchContactGroups,
     } = this.props;
 
     if (contact !== nextProps.contact) {
@@ -76,7 +76,7 @@ class SingleContactContainer extends React.Component {
           emailsByContact
         );
       }
-      fetchContactGroups(nextProps.contact.membership);
+      // fetchContactGroups(nextProps.contact.membership);
     }
   }
 
@@ -228,7 +228,7 @@ const mapDispatchToProps = {
   submitContactListing,
   deleteContactListing,
   clearContactListingsSearchResults,
-  fetchContactGroups,
+  // fetchContactGroups,
 
   clearContact,
   clearError,

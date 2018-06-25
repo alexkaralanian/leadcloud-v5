@@ -11,17 +11,65 @@ import {
 } from "../../actions/group-actions";
 
 class SingleGroupContainer extends React.Component {
+  constructor() {
+    super();
+    this.onScroll = this.onScroll.bind(this);
+  }
+
   componentDidMount() {
-    const { fetchGroup, fetchGroupContacts, match } = this.props;
+    window.addEventListener("scroll", this.onScroll, false);
+    const {
+      fetchGroup,
+      fetchGroupContacts,
+      groupContacts,
+      groupContactsLimit,
+      groupContactsOffset,
+      groupContactsQuery,
+      match
+    } = this.props;
 
     if (match.params.id !== "new") {
       fetchGroup(match.params.id);
-      fetchGroupContacts(match.params.id);
+
+      fetchGroupContacts(
+        match.params.id,
+        groupContacts,
+        groupContactsLimit,
+        groupContactsOffset,
+        groupContactsQuery
+      );
     }
   }
 
   componentWillUnmount() {
+    window.removeEventListener("scroll", this.onScroll, false);
     const { clearGroupContacts } = this.props;
+    clearGroupContacts();
+  }
+
+  onScroll() {
+    const {
+      match,
+      isLoading,
+      groupContacts,
+      groupContactsLimit,
+      groupContactsOffset,
+      groupContactsQuery
+    } = this.props;
+
+    if (
+      window.innerHeight + window.scrollY >= document.body.offsetHeight - 500 &&
+      groupContacts.length &&
+      !isLoading
+    ) {
+      this.props.fetchGroupContacts(
+        match.params.id,
+        groupContacts,
+        groupContactsLimit,
+        groupContactsOffset,
+        groupContactsQuery
+      );
+    }
   }
 
   render() {
@@ -44,9 +92,13 @@ class SingleGroupContainer extends React.Component {
 
 const mapStateToProps = state => ({
   isFetching: state.groupReducer.isFetching,
+  isLoading: state.groupReducer.isLoading,
   isAuthed: state.authReducer.isAuthed,
   group: state.groupReducer.group,
-  groupContacts: state.groupReducer.groupContacts
+  groupContacts: state.groupReducer.groupContacts,
+  groupContactsLimit: state.groupReducer.groupContactsLimit,
+  groupContactsOffset: state.groupReducer.groupContactsOffset,
+  groupContactsQuery: state.groupReducer.groupContactsQuery
 });
 
 const mapDispatchToProps = {

@@ -4,8 +4,6 @@ import { isFetching } from "./contact-actions";
 import * as types from "../types";
 import store from "../store";
 
-const state = store.getState();
-
 export const setContactListings = listings => ({
   type: types.SET_CONTACT_LISTINGS,
   payload: listings
@@ -25,6 +23,7 @@ export const submitSuccess = () => ({
 });
 
 export const searchContactListings = values => {
+  const state = store.getState();
   const query = values.nativeEvent.target.defaultValue;
   const contactListingsSearchResults =
     state.contactReducer.contactListingsSearchResults;
