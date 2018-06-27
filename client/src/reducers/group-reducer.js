@@ -53,7 +53,13 @@ const groupReducer = (state = initialState, action) => {
     // ADMINISTRATIVE
 
     case types.CLEAR_GROUP_CONTACTS:
-      return { ...initialState };
+      return {
+        ...state,
+        limit: 25,
+        offset: 0,
+        query: "",
+        groupContacts: []
+      };
 
     case types.CLEAR_GROUPS:
       return { ...initialState };

@@ -67,23 +67,54 @@ router.get("/:id/contacts", authCheck, async (req, res) => {
   }
 });
 
-// router.get("/:id/contacts", authCheck, async (req, res) => {
-//   const userId = req.session.user.toString();
-//   try {
-//     const group = await Groups.findOne({
-//       where: {
-//         id: req.params.id,
-//         UserUuid: userId
-//       }
-//     });
+router.post("/new", authCheck, async (req, res) => {
+  const userId = req.session.user.toString();
+  try {
+    const group = await Groups.create({
+      UserUuid: userId,
+      title: req.body.values.title
+    });
+    res.json(group);
+  } catch (err) {
+    console.error("CREATING GROUP CONTACTS ERROR", err);
+  }
+});
 
-//     const groupContacts = await group.getContacts();
-//     console.log("GROUP CONTACTS", groupContacts);
+router.patch("/:id/update", authCheck, async (req, res) => {
+  const userId = req.session.user.toString();
+  try {
+    const group = await Groups.findOne({
+      where: {
+        id: req.params.id,
+        UserUuid: userId
+      }
+    });
 
-//     res.json(groupContacts);
-//   } catch (err) {
-//     console.error("FETCHING GROUP CONTACTS ERROR", err);
-//   }
-// });
+    const updatedGroup = await group.update(req.body);
+    res.json(updatedGroup);
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+router.delete("/:id/delete", authCheck, async (req, res) => {
+  const userId = req.session.user.toString();
+
+  try {
+    const group = await Contacts.findOne({
+      where: {
+        id: req.params.id,
+        UserUuid: userId
+      }
+    });
+
+    group.destroy();
+    res.json({
+      message: "Group Deleted Successfully"
+    });
+  } catch (err) {
+    console.error(err);
+  }
+});
 
 module.exports = router;

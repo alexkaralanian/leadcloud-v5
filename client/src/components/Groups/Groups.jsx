@@ -13,9 +13,7 @@ const Groups = ({ groups, isFetching }) =>
     <Table striped>
       <thead>
         <tr>
-          {/*<th />*/}
           <th>Groups</th>
-          {/*<th>Checkbox</th>*/}
         </tr>
       </thead>
       <tbody>
@@ -38,13 +36,10 @@ const Groups = ({ groups, isFetching }) =>
                 )}
               </td>
               <td className="nameDisplay">
-                <Link to={`/group/${group.googleId}`}>
+                <Link to={`/group/${group.id}/contacts`}>
                   <span>{group.title}</span>
                 </Link>
               </td>
-              {/*<td className="tableCheckbox">
-                      <input type="checkbox" />
-                    </td>*/}
             </tr>
           ))}
       </tbody>

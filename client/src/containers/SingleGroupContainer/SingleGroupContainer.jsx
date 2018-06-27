@@ -1,89 +1,60 @@
 import React from "react";
+import { push } from "react-router-redux";
 import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
+import { Grid, Row, Col, Button } from "react-bootstrap";
 import Navigation from "../NavContainer/NavContainer";
-import GroupContacts from "../../components/SingleGroup/GroupContacts";
 
-import {
-  fetchGroup,
-  fetchGroupContacts,
-  clearGroupContacts
-} from "../../actions/group-actions";
+import GroupHeader from "../../components/SingleGroup/GroupHeader";
+import GroupForm from "../../components/SingleGroup/GroupForm";
+import GroupContactsContainer from "../GroupContactsContainer/GroupContactsContainer";
+import GroupNav from "../../components/SingleGroup/GroupNav";
+
+import { fetchGroup } from "../../actions/group-actions";
 
 class SingleGroupContainer extends React.Component {
-  constructor() {
-    super();
-    this.onScroll = this.onScroll.bind(this);
-  }
-
   componentDidMount() {
-    window.addEventListener("scroll", this.onScroll, false);
-    const {
-      fetchGroup,
-      fetchGroupContacts,
-      groupContacts,
-      groupContactsLimit,
-      groupContactsOffset,
-      groupContactsQuery,
-      match
-    } = this.props;
+    const { match, fetchGroup } = this.props;
 
     if (match.params.id !== "new") {
       fetchGroup(match.params.id);
-
-      fetchGroupContacts(
-        match.params.id,
-        groupContacts,
-        groupContactsLimit,
-        groupContactsOffset,
-        groupContactsQuery
-      );
-    }
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener("scroll", this.onScroll, false);
-    const { clearGroupContacts } = this.props;
-    clearGroupContacts();
-  }
-
-  onScroll() {
-    const {
-      match,
-      isLoading,
-      groupContacts,
-      groupContactsLimit,
-      groupContactsOffset,
-      groupContactsQuery
-    } = this.props;
-
-    if (
-      window.innerHeight + window.scrollY >= document.body.offsetHeight - 500 &&
-      groupContacts.length &&
-      !isLoading
-    ) {
-      this.props.fetchGroupContacts(
-        match.params.id,
-        groupContacts,
-        groupContactsLimit,
-        groupContactsOffset,
-        groupContactsQuery
-      );
+      // fetchGroupContacts(match.params.id);
     }
   }
 
   render() {
-    const { isAuthed, groupContacts, group, isFetching } = this.props;
-
-    return !isAuthed ? (
-      <Redirect to="/" />
-    ) : (
+    const { isAuthed, group, match, push } = this.props;
+    return (
       <div>
         <Navigation />
-        <GroupContacts
-          group={group}
-          groupContacts={groupContacts}
-          isFetching={isFetching}
+        <GroupHeader isGroupNew={match.params.id === "new"} group={group} />
+        {match.params.id === "new" ? null : (
+          <GroupNav
+            groupId={match.params.id}
+            isGroupNew={match.params.id === "new"}
+            push={push}
+          />
+        )}
+
+        <Route
+          exact
+          path={match.params.id === "new" ? `/group/new` : `/group/${group.id}`}
+          render={routeProps => (
+            <GroupForm
+              {...routeProps}
+              group={group}
+              updateGroup={() => console.log("UPDATE GROUP")}
+              deleteGroup={() => console.log("DELETE GROUP")}
+            />
+          )}
+        />
+
+        <Route
+          exact
+          path={`/group/${group.id}/contacts`}
+          render={routeProps => (
+            <GroupContactsContainer {...routeProps} groupId={group.id} />
+          )}
         />
       </div>
     );
@@ -91,20 +62,13 @@ class SingleGroupContainer extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  isFetching: state.groupReducer.isFetching,
-  isLoading: state.groupReducer.isLoading,
-  isAuthed: state.authReducer.isAuthed,
   group: state.groupReducer.group,
-  groupContacts: state.groupReducer.groupContacts,
-  groupContactsLimit: state.groupReducer.groupContactsLimit,
-  groupContactsOffset: state.groupReducer.groupContactsOffset,
-  groupContactsQuery: state.groupReducer.groupContactsQuery
+  isAuthed: state.authReducer.isAuthed
 });
 
 const mapDispatchToProps = {
   fetchGroup,
-  fetchGroupContacts,
-  clearGroupContacts
+  push
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(

@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import { push } from "react-router-redux";
 import { Route, Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
 
@@ -48,6 +49,7 @@ class SingleListingContainer extends React.Component {
   render() {
     const {
       match,
+      push,
       isAuthed,
       listing,
       submitNewListing,
@@ -80,7 +82,7 @@ class SingleListingContainer extends React.Component {
         />
 
         {match.params.id === "new" ? null : (
-          <ListingNav listingId={listing.id} />
+          <ListingNav listingId={listing.id} push={push} />
         )}
 
         {/* LISTING FORM (INFO) */}
@@ -180,12 +182,12 @@ const mapDispatchToProps = {
   deleteListingContact,
 
   onDrop,
-  deleteListingImage
+  deleteListingImage,
+  push
 };
 
 SingleListingContainer.propTypes = {
   listing: PropTypes.object.isRequired,
-
   submitNewListing: PropTypes.func.isRequired,
   fetchListing: PropTypes.func.isRequired,
   updateListing: PropTypes.func.isRequired,

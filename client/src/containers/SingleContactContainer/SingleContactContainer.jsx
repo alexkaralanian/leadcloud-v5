@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import { push } from "react-router-redux";
 import { Route, Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
 
@@ -91,6 +92,7 @@ class SingleContactContainer extends React.Component {
     const {
       match,
       isAuthed,
+      push,
 
       contact,
       submitNewContact,
@@ -115,8 +117,6 @@ class SingleContactContainer extends React.Component {
     ) : (
       <div>
         <Navigation />
-
-        {/* CONTACT HEADER */}
         <ContactHeader
           contact={contact}
           isContactNew={match.params.id === "new"}
@@ -125,7 +125,7 @@ class SingleContactContainer extends React.Component {
 
         {/* CONTACT NESTED NAV */}
         {match.params.id === "new" ? null : (
-          <ContactNav contactId={contact.id} />
+          <ContactNav contactId={contact.id} push={push} />
         )}
 
         {/* CONTACT FORM */}
@@ -203,7 +203,6 @@ const mapStateToProps = state => ({
   contact: state.contactReducer.contact,
   contactListingsSearchResults:
     state.contactReducer.contactListingsSearchResults,
-  googleImages: state.contactReducer.googleImages,
   emailsByContact: state.contactReducer.emailsByContact,
   maxResults: state.contactReducer.maxResults,
   pageToken: state.contactReducer.pageToken,
@@ -234,7 +233,8 @@ const mapDispatchToProps = {
   clearError,
   onDrop,
   deleteContactImage,
-  setEmailQuery
+  setEmailQuery,
+  push
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(

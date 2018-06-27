@@ -82,6 +82,12 @@ const SingleGroup = Loadable({
   loading: Loading
 });
 
+const GroupContacts = Loadable({
+  loader: () =>
+    import("./containers/GroupContactsContainer/GroupContactsContainer"),
+  loading: Loading
+});
+
 const Campaigns = Loadable({
   loader: () => import("./containers/CampaignsContainer/CampaignsContainer"),
   loading: Loading
@@ -117,6 +123,8 @@ class App extends React.Component {
             <Route path="/openhouse/:listingId" component={OpenHouse} />
             <Route path="/groups" component={Groups} />
             <Route path="/group/:id" component={SingleGroup} />
+            {/*<Route exact path="/group/:id/contacts" component={GroupContacts} />*/}
+            <Route exact path="/group/new" component={SingleGroup} />
             <Route path="/campaigns" component={Campaigns} />
             <Route path="/campaign/new" component={SingleCampaign} />
             <Route

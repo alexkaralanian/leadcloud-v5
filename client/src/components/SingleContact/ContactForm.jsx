@@ -71,7 +71,7 @@ ContactForm = ({
         contact.email &&
         contact.email.map(address => {
           return (
-            <Col xs={12} sm={6}>
+            <Col xs={12} sm={6} key={address.value}>
               <FormGroup className="formGroup">
                 <Field
                   type="email"
@@ -103,7 +103,7 @@ ContactForm = ({
         contact.phone &&
         contact.phone.map(number => {
           return (
-            <Col xs={12} sm={6}>
+            <Col xs={12} sm={6} key={number.value}>
               <FormGroup className="formGroup">
                 <Field
                   type="tel"

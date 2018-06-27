@@ -6,7 +6,6 @@ import { FormGroup } from "react-bootstrap";
 import inputField from "../InputField/InputField";
 
 const SearchForm = ({ load, pristine, reset, onChange, searchFunction }) => {
-  console.log("SEARCH FUNCTION", searchFunction);
   return (
     <FormGroup>
       <Field
