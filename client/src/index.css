@@ -108,3 +108,8 @@ iframe {
   width: 100%;
   height: calc(100vh - 195px);
 }
+
+.NavWrapper {
+  margin: 15px 0;
+}
+

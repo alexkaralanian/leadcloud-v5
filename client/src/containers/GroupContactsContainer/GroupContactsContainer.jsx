@@ -1,7 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
-import Navigation from "../NavContainer/NavContainer";
 import GroupContacts from "../../components/SingleGroup/GroupContacts";
 
 import {
@@ -41,13 +40,11 @@ class GroupContactsContainer extends React.Component {
 
   componentWillUnmount() {
     window.removeEventListener("scroll", this.onScroll, false);
-    const { clearGroupContacts } = this.props;
-    clearGroupContacts();
+    this.props.clearGroupContacts();
   }
 
   onScroll() {
     const {
-      // match,
       isLoading,
       groupContacts,
       groupContactsLimit,

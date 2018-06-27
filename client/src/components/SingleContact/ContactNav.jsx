@@ -8,7 +8,7 @@ const ContactNav = ({ contactId, isContactNew, push }) => (
     <Grid>
       <Row>
         <Col xs={12}>
-          <Nav bsStyle="tabs" activeKey={1}>
+          <Nav bsStyle="pills" activeKey={1}>
             <NavItem
               eventKey={1}
               onSelect={() => push(`/contact/${contactId}`)}

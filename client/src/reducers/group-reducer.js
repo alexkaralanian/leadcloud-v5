@@ -55,10 +55,11 @@ const groupReducer = (state = initialState, action) => {
     case types.CLEAR_GROUP_CONTACTS:
       return {
         ...state,
-        limit: 25,
-        offset: 0,
-        query: "",
-        groupContacts: []
+        groupContacts: [],
+        groupContactsLimit: 25,
+        groupContactsOffset: 0,
+        groupContactsQuery: "",
+        groupContactsSearchResults: []
       };
 
     case types.CLEAR_GROUPS:

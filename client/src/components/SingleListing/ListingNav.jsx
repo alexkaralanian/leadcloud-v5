@@ -3,11 +3,11 @@ import { Grid, Col, Row, Nav, NavItem } from "react-bootstrap";
 import "./SingleListing.css";
 
 const ListingNav = ({ listingId, push }) => (
-  <div className="NavBar">
+  <div className="NavWrapper">
     <Grid>
       <Row>
         <Col xs={12}>
-          <Nav bsStyle="tabs" activeKey={1}>
+          <Nav bsStyle="pills" activeKey={1}>
             <NavItem
               eventKey={1}
               onSelect={() => push(`/listing/${listingId}`)}
