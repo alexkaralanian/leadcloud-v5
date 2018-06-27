@@ -1,6 +1,5 @@
 import React from "react";
 import { Grid, Col, Row, Nav, NavItem } from "react-bootstrap";
-import "./SingleListing.css";
 
 const ListingNav = ({ listingId, push }) => (
   <div className="NavWrapper">

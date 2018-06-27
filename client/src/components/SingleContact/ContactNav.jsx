@@ -1,7 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { Grid, Col, Row, Nav, NavItem } from "react-bootstrap";
-import "./SingleContact.css";
 
 const ContactNav = ({ contactId, isContactNew, push }) => (
   <div className="NavWrapper">
