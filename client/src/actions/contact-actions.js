@@ -2,6 +2,7 @@ import axios from "axios";
 import { push } from "react-router-redux";
 import * as types from "../types";
 import { setListingContactsSearchResults } from "./listing-contacts-actions";
+import { setGroupContactsSearchResults } from "./group-contacts-actions";
 
 export const setContacts = (contacts, limit, offset, query) => ({
   type: types.SET_CONTACTS,
@@ -82,6 +83,8 @@ export const searchContacts = (
 
     if (section === "listingContacts") {
       dispatch(setListingContactsSearchResults(res.data));
+    } else if (section === "groupContacts") {
+      dispatch(setGroupContactsSearchResults(res.data));
     } else {
       dispatch(setContacts(res.data, limit, limit, ""));
     }

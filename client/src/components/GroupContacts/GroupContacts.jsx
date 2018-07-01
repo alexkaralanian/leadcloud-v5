@@ -5,12 +5,26 @@ import SearchForm from "../SearchForm/SearchForm";
 import Loading from "../Loading/Loading";
 import ContactTable from "../ContactTable/ContactTable";
 
-const GroupContacts = ({ group, groupContacts, isFetching }) => {
+const GroupContacts = ({
+  group,
+  groupContacts,
+  isFetching,
+  searchGroupContacts,
+  groupContactsSearchResults
+}) => {
+  console.log("GROUP CONTACTS", groupContactsSearchResults);
   return isFetching ? (
     <Loading />
   ) : (
     <Grid>
-      <SearchForm searchFunction={() => console.log("I'M SEARCHING")} />
+      <SearchForm searchFunction={searchGroupContacts} />
+      {groupContactsSearchResults.length > 0 && (
+        <Row>
+          <Col xs={12}>
+            <ContactTable component={groupContactsSearchResults} />
+          </Col>
+        </Row>
+      )}
       <Row>
         <Col xs={12}>
           <ContactTable component={groupContacts} />

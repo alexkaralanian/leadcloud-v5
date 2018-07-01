@@ -33,8 +33,8 @@ class GroupsDashboardContainer extends React.Component {
               </Button>
             </Col>
           </Row>
-          <GroupsContainer />
         </Grid>
+        <GroupsContainer />
       </div>
     );
   }

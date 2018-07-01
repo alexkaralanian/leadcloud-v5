@@ -52,18 +52,29 @@ const groupReducer = (state = initialState, action) => {
 
     // ADMINISTRATIVE
 
+    case types.CLEAR_GROUPS:
+      return { ...initialState };
+
     case types.CLEAR_GROUP_CONTACTS:
       return {
         ...state,
         groupContacts: [],
         groupContactsLimit: 25,
         groupContactsOffset: 0,
-        groupContactsQuery: "",
-        groupContactsSearchResults: []
+        groupContactsQuery: ""
       };
 
-    case types.CLEAR_GROUPS:
-      return { ...initialState };
+    case types.SET_GROUP_CONTACTS_SEARCH_RESULTS:
+      return {
+        ...state,
+        groupContactsSearchResults: action.payload
+      };
+
+    case types.CLEAR_GROUP_CONTACTS_SEARCH_RESULTS:
+      return {
+        ...state,
+        groupContactsSearchResults: []
+      };
 
     case types.IS_FETCHING:
       return {

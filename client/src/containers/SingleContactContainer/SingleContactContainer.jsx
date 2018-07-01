@@ -12,7 +12,8 @@ import SingleContact from "../../components/SingleContact/SingleContact";
 import ImageCarousel from "../../components/ImageCarousel/ImageCarousel";
 
 import SingleContactEmailsContainer from "./SingleContactEmailsContainer";
-import GroupsRow from "../../components/GroupsRow/GroupsRow";
+import ContactGroups from "../../components/ContactGroups/ContactGroups";
+import GroupsContainer from "../GroupsContainer/GroupsContainer";
 
 import {
   fetchContact,
@@ -38,6 +39,11 @@ import {
   fetchEmailsByContact,
   setEmailQuery
 } from "../../actions/email-actions";
+
+import {
+  submitContactGroup,
+  deleteContactGroup
+} from "../../actions/contact-group-actions";
 
 class SingleContactContainer extends React.Component {
   componentDidMount() {
@@ -109,7 +115,11 @@ class SingleContactContainer extends React.Component {
       isFetching,
       onDrop,
       deleteContactImage,
-      contactGroups
+
+      contactGroups,
+      submitContactGroup,
+      deleteContactGroup,
+      deleteGroupContact
     } = this.props;
 
     return !isAuthed ? (
@@ -177,7 +187,20 @@ class SingleContactContainer extends React.Component {
         <Route
           path={`/contact/${contact.id}/groups`}
           render={routeProps => (
-            <GroupsRow {...routeProps} groups={contactGroups} />
+            <React.Fragment>
+              <ContactGroups
+                {...routeProps}
+                hostId={contact.id}
+                contactGroups={contactGroups}
+                submitContactGroup={submitContactGroup}
+                deleteContactGroup={deleteContactGroup}
+              />
+              <GroupsContainer
+                hostId={contact.id}
+                component="ContactGroups"
+                submitFunction={submitContactGroup}
+              />
+            </React.Fragment>
           )}
         />
 
@@ -200,41 +223,45 @@ class SingleContactContainer extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  contact: state.contactReducer.contact,
-  contactListingsSearchResults:
-    state.contactReducer.contactListingsSearchResults,
-  emailsByContact: state.contactReducer.emailsByContact,
-  maxResults: state.contactReducer.maxResults,
-  pageToken: state.contactReducer.pageToken,
-  contactGroups: state.contactReducer.contactGroups,
+  isAuthed: state.authReducer.isAuthed,
   isFetching: state.contactReducer.isFetching,
   isLoading: state.contactReducer.isLoading,
   error: state.contactReducer.error,
+  contact: state.contactReducer.contact,
+  contactListingsSearchResults:
+    state.contactReducer.contactListingsSearchResults,
+  contactGroups: state.contactReducer.contactGroups,
   contactListings: state.contactReducer.contactListings,
-  isAuthed: state.authReducer.isAuthed,
-  emailQuery: state.emailReducer.emailQuery
+  emailsByContact: state.contactReducer.emailsByContact,
+  emailQuery: state.emailReducer.emailQuery,
+  maxResults: state.contactReducer.maxResults,
+  pageToken: state.contactReducer.pageToken
 });
 
 const mapDispatchToProps = {
+  push,
+
   fetchContact,
   submitNewContact,
   updateContact,
   deleteContact,
+  deleteContactImage,
+  onDrop,
+
   fetchEmailsByContact,
+  setEmailQuery,
 
   searchContactListings,
   fetchContactListings,
   submitContactListing,
   deleteContactListing,
   clearContactListingsSearchResults,
-  // fetchContactGroups,
+
+  submitContactGroup,
+  deleteContactGroup,
 
   clearContact,
-  clearError,
-  onDrop,
-  deleteContactImage,
-  setEmailQuery,
-  push
+  clearError
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(

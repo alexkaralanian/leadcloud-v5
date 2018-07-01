@@ -69,7 +69,7 @@ router.post("/new", authCheck, async (req, res) => {
       res.json(groups[0].dataValues);
     }
   } catch (err) {
-    console.error("ERROR CRETING GROUP", err);
+    console.error("ERROR CREATING GROUP", err);
   }
 });
 
@@ -140,29 +140,45 @@ router.post("/:id/contacts/add", authCheck, async (req, res) => {
     const group = await Groups.findOne({
       where: {
         UserUuid: userId,
-        id: req.body.id
+        id: req.body.contactGroupId
       }
     });
     await group.addContact(req.body.contactId);
-    res.json(group);
+
+    const contact = await Contacts.findOne({
+      where: {
+        UserUuid: userId,
+        id: req.body.contactId
+      }
+    });
+    const contactGroups = await contact.getGroups();
+    res.json(contactGroups);
   } catch (err) {
     console.error("ERROR ADDING CONTACT TO GROUP");
   }
 });
 
 // REMOVE CONTACT FROM GROUP
-router.delete("/:id/contacts/delete", authCheck, async (req, res) => {
+router.post("/:id/contacts/delete", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
 
   try {
     const group = await Groups.findOne({
       where: {
         UserUuid: userId,
-        id: req.body.id
+        id: req.body.contactGroupId
       }
     });
     await group.removeContact(req.body.contactId);
-    res.json(group);
+
+    const contact = await Contacts.findOne({
+      where: {
+        UserUuid: userId,
+        id: req.body.contactId
+      }
+    });
+    const contactGroups = await contact.getGroups();
+    res.json(contactGroups);
   } catch (err) {
     console.error("ERROR REMOVING CONTACT FROM GROUP");
   }

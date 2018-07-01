@@ -1,14 +1,15 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
-import GroupContacts from "../../components/SingleGroup/GroupContacts";
+import GroupContacts from "../../components/GroupContacts/GroupContacts";
 
 import { fetchGroup } from "../../actions/group-actions";
 
 import {
   fetchGroupContacts,
-  clearGroupContacts
-} from "../../actions/group-contact-actions";
+  clearGroupContacts,
+  searchGroupContacts
+} from "../../actions/group-contacts-actions";
 
 class GroupContactsContainer extends React.Component {
   constructor(props) {
@@ -69,16 +70,24 @@ class GroupContactsContainer extends React.Component {
   }
 
   render() {
-    const { isAuthed, groupContacts, group, isFetching } = this.props;
+    const {
+      isAuthed,
+      groupContacts,
+      group,
+      isFetching,
+      groupContactsSearchResults
+    } = this.props;
 
     return !isAuthed ? (
       <Redirect to="/" />
     ) : (
       <div>
         <GroupContacts
+          searchGroupContacts={searchGroupContacts}
           isFetching={isFetching}
           group={group}
           groupContacts={groupContacts}
+          groupContactsSearchResults={groupContactsSearchResults}
         />
       </div>
     );
@@ -93,13 +102,15 @@ const mapStateToProps = state => ({
   groupContacts: state.groupReducer.groupContacts,
   groupContactsLimit: state.groupReducer.groupContactsLimit,
   groupContactsOffset: state.groupReducer.groupContactsOffset,
-  groupContactsQuery: state.groupReducer.groupContactsQuery
+  groupContactsQuery: state.groupReducer.groupContactsQuery,
+  groupContactsSearchResults: state.groupReducer.groupContactsSearchResults
 });
 
 const mapDispatchToProps = {
   fetchGroup,
   fetchGroupContacts,
-  clearGroupContacts
+  clearGroupContacts,
+  searchGroupContacts
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(

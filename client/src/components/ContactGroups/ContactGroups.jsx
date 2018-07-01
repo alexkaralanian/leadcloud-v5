@@ -1,12 +1,10 @@
 import React from "react";
 import { Grid, Row, Col, Button } from "react-bootstrap";
-
 import { Link } from "react-router-dom";
 
-import SearchForm from "../SearchForm/SearchForm";
-import "./GroupsRow.css";
+import "./ContactGroups.css";
 
-const GroupsRow = ({ groups }) => {
+const ContactGroups = ({ contactGroups, deleteContactGroup, hostId }) => {
   return (
     <Grid>
       <Row>
@@ -14,8 +12,8 @@ const GroupsRow = ({ groups }) => {
           <h4>CONTACT GROUPS:</h4>
           <div>
             <ul className="groupStyle">
-              {groups &&
-                groups.map(group => (
+              {contactGroups &&
+                contactGroups.map(group => (
                   <div>
                     <li>
                       <div
@@ -23,13 +21,12 @@ const GroupsRow = ({ groups }) => {
                         className="groupDelete"
                         onClick={event => {
                           event.stopPropagation();
-                          console.log("HI");
-                          // deleteGroup();
+                          deleteContactGroup(group.id, hostId);
                         }}
                       >
                         <span>x</span>
                       </div>
-                      <Link key={group.id} to={`/group/${group.id}`}>
+                      <Link key={group.id} to={`/group/${group.id}/contacts`}>
                         <div className="groupLink">{group.title}</div>
                       </Link>
                     </li>
@@ -37,20 +34,13 @@ const GroupsRow = ({ groups }) => {
                 ))}
             </ul>
           </div>
-
-          <h3 className="headerText">Add Groups</h3>
-
-          <SearchForm
-            searchFunction={() => console.log("HI")}
-            fieldText="Search for listings"
-          />
         </Col>
       </Row>
     </Grid>
   );
 };
 
-export default GroupsRow;
+export default ContactGroups;
 
 // onClick = renderGroups
 // clickOnContactGroup = remove from group
