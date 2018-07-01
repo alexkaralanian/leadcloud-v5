@@ -71,6 +71,12 @@ const groupReducer = (state = initialState, action) => {
         isFetching: action.payload
       };
 
+    case types.IS_LOADING:
+      return {
+        ...state,
+        isLoading: action.payload
+      };
+
     case types.SET_ERROR:
       return {
         ...state,

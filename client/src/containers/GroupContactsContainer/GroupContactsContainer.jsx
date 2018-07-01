@@ -3,11 +3,12 @@ import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import GroupContacts from "../../components/SingleGroup/GroupContacts";
 
+import { fetchGroup } from "../../actions/group-actions";
+
 import {
-  fetchGroup,
   fetchGroupContacts,
   clearGroupContacts
-} from "../../actions/group-actions";
+} from "../../actions/group-contact-actions";
 
 class GroupContactsContainer extends React.Component {
   constructor(props) {
@@ -75,9 +76,9 @@ class GroupContactsContainer extends React.Component {
     ) : (
       <div>
         <GroupContacts
+          isFetching={isFetching}
           group={group}
           groupContacts={groupContacts}
-          isFetching={isFetching}
         />
       </div>
     );

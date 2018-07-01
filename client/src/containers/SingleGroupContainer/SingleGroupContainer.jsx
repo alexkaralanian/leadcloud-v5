@@ -10,7 +10,12 @@ import GroupForm from "../../components/SingleGroup/GroupForm";
 import GroupContactsContainer from "../GroupContactsContainer/GroupContactsContainer";
 import GroupNav from "../../components/SingleGroup/GroupNav";
 
-import { fetchGroup } from "../../actions/group-actions";
+import {
+  fetchGroup,
+  submitNewGroup,
+  updateGroup,
+  deleteGroup
+} from "../../actions/group-actions";
 
 class SingleGroupContainer extends React.Component {
   componentDidMount() {
@@ -23,7 +28,15 @@ class SingleGroupContainer extends React.Component {
   }
 
   render() {
-    const { isAuthed, group, match, push } = this.props;
+    const {
+      isAuthed,
+      match,
+      push,
+      group,
+      submitNewGroup,
+      updateGroup,
+      deleteGroup
+    } = this.props;
     return (
       <div>
         <Navigation />
@@ -43,8 +56,13 @@ class SingleGroupContainer extends React.Component {
             <GroupForm
               {...routeProps}
               group={group}
-              updateGroup={() => console.log("UPDATE GROUP")}
-              deleteGroup={() => console.log("DELETE GROUP")}
+              isGroupNew={match.params.id === "new"}
+              deleteGroup={deleteGroup}
+              onSubmit={values => {
+                match.params.id === "new"
+                  ? submitNewGroup(values)
+                  : updateGroup(values, group.id);
+              }}
             />
           )}
         />
@@ -68,6 +86,9 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   fetchGroup,
+  submitNewGroup,
+  updateGroup,
+  deleteGroup,
   push
 };
 

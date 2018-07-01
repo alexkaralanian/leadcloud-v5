@@ -28,6 +28,15 @@ const formReducer = reducer.plugin({
     }
   },
 
+  groupForm: (state, action) => {
+    switch (action.type) {
+      case types.FORM_SUBMIT_SUCCESS:
+        return undefined; // <--- blow away form data
+      default:
+        return state;
+    }
+  },
+
   openHouseForm: (state, action) => {
     switch (action.type) {
       case types.FORM_SUBMIT_SUCCESS:

@@ -10,7 +10,7 @@ const GroupContacts = ({ group, groupContacts, isFetching }) => {
     <Loading />
   ) : (
     <Grid>
-      <SearchForm searchFunction={() => console.log("IM SEARCHING")} />
+      <SearchForm searchFunction={() => console.log("I'M SEARCHING")} />
       <Row>
         <Col xs={12}>
           <ContactTable component={groupContacts} />

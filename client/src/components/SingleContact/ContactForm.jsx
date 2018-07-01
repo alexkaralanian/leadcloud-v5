@@ -23,11 +23,11 @@ ContactForm = ({
   reset,
   submitting,
   auditClick,
+
   isContactNew,
   contact,
-  deleteContact,
-  groups,
-  fetchContact
+  fetchContact,
+  deleteContact
 }) => (
   <Form onSubmit={handleSubmit}>
     {/* *** NAMES *** */}

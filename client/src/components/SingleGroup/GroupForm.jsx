@@ -8,6 +8,7 @@ import { contactValidate } from "../../helpers/redux-form/validate";
 import { fetchGroup } from "../../actions/group-actions";
 
 import inputField from "../InputField/InputField";
+import textAreaField from "../InputField/TextAreaField";
 
 const capitalize = word => {
   if (word) word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
@@ -89,7 +90,7 @@ GroupForm = reduxForm({
 
 GroupForm = connect(
   state => ({
-    initialValues: state.groupReducer.contact // pull initial values from GROUP reducer
+    initialValues: state.groupReducer.group // pull initial values from GROUP reducer
   }),
   { load: fetchGroup } // bind fetchContact action creator
 )(GroupForm);

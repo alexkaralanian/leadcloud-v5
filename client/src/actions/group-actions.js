@@ -1,5 +1,6 @@
 import axios from "axios";
 import * as types from "../types";
+import { push } from "react-router-redux";
 // import { setCampaignGroupsSearchResults } from "./campaign-groups-actions";
 
 /* ------------   ACTION CREATORS     ------------------ */
@@ -19,25 +20,6 @@ export const clearGroups = () => ({
 export const setGroup = group => ({
   type: types.SET_GROUP,
   payload: group
-});
-
-// Group Contacts
-export const setGroupContacts = (
-  groupContacts,
-  groupContactsLimit,
-  groupContactsOffset,
-  groupContactsQuery
-) => ({
-  type: types.SET_GROUP_CONTACTS,
-  groupContacts,
-  groupContactsLimit,
-  groupContactsOffset,
-  groupContactsQuery
-});
-
-export const clearGroupContacts = () => ({
-  type: types.CLEAR_GROUP_CONTACTS,
-  payload: clearGroupContacts
 });
 
 // ADMINISTRATIVE...
@@ -87,24 +69,20 @@ export const clearError = () => ({
 // };
 
 // FETCH GROUPS
-export const fetchGroups = (
-  groupsArray,
-  limit,
-  offset,
-  query
-) => async dispatch => {
-  dispatch(isFetching(true));
+export const fetchGroups = (groups, limit, offset, query) => async dispatch => {
+  dispatch(isLoading(true));
+  // dispatch(isFetching(true));
   const newOffset = offset + limit;
   try {
     const res = await axios.get(
       `/api/groups/?limit=${limit}&offset=${offset}&query=${query}`
     );
-    dispatch(setGroups(groupsArray.concat(res.data), limit, newOffset, query));
+    dispatch(setGroups(groups.concat(res.data), limit, newOffset, query));
 
-    dispatch(isFetching(false));
+    dispatch(isLoading(false));
   } catch (err) {
     console.error("Fetching groups unsuccessful", err);
-    dispatch(isFetching(false));
+    dispatch(isLoading(false));
   }
 };
 
@@ -120,34 +98,39 @@ export const fetchGroup = id => async dispatch => {
   }
 };
 
-export const fetchGroupContacts = (
-  id,
-  groupContacts,
-  groupContactsLimit,
-  groupContactsOffset,
-  groupContactsQuery
-) => async dispatch => {
-  dispatch(isLoading(true));
-  // dispatch(isFetching(true));
-  const newOffset = groupContactsOffset + groupContactsLimit;
+// CREATE NEW GROUP
+export const submitNewGroup = data => async dispatch => {
+  console.log("SUBMIT NEW GROUP", data);
+  dispatch(isFetching(true));
   try {
-    const res = await axios.get(
-      `/api/groups/${id}/contacts/?limit=${groupContactsLimit}&offset=${groupContactsOffset}&query=${groupContactsQuery}`
-    );
-    // dispatch(setGroupContacts(res.data));
-    dispatch(
-      setGroupContacts(
-        groupContacts.concat(res.data),
-        groupContactsLimit,
-        newOffset,
-        groupContactsQuery
-      )
-    );
-
-    dispatch(isLoading(false));
-    // dispatch(isFetching(false));
-  } catch (err) {
-    console.error("Fetching groups unsuccessful", err);
+    const res = await axios.post("/api/groups/new", data);
+    dispatch(setGroup(res.data));
+    dispatch(push(`/group/${res.data.id}`));
     dispatch(isFetching(false));
+  } catch (err) {
+    console.error("Submitting new group unsuccessful", err);
+    dispatch(isFetching(false));
+    dispatch(setError("ERROR SUBMITTING NEW GROUP"));
+  }
+};
+
+// UPDATE GROUP
+export const updateGroup = (values, id) => async dispatch => {
+  try {
+    const res = await axios.patch(`/api/groups/${id}/update`, values);
+    dispatch(setGroup(res.data));
+  } catch (err) {
+    console.error("Updating Group Unsuccessful", err);
+  }
+};
+
+// DELETE GROUP
+export const deleteGroup = id => async dispatch => {
+  try {
+    const res = await axios.delete(`/api/groups/${id}/delete`);
+    dispatch(setGroup(res.data));
+    dispatch(push("/groups"));
+  } catch (err) {
+    console.error("Deleting Group Unsuccessful", err);
   }
 };

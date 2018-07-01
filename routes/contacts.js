@@ -138,7 +138,6 @@ router.get("/loadcontacts", authCheck, findUserById, async (req, res) => {
 // GET ALL CONTACTS FROM DB
 router.get("/", async (req, res) => {
   const userId = req.session.user.toString();
-
   try {
     const contacts = await Contacts.findAll({
       limit: req.query.limit,
@@ -153,10 +152,32 @@ router.get("/", async (req, res) => {
       },
       order: [["updated", "DESC"]]
     });
-
     res.json(contacts);
   } catch (err) {
-    console.error(err);
+    console.error("FETCHING CONTACTS ERROR", err);
+  }
+});
+
+// GET SINGLE CONTACT
+router.get("/:id", authCheck, async (req, res) => {
+  const userId = req.session.user.toString();
+  try {
+    const contact = await Contacts.findOne({
+      where: {
+        id: req.params.id,
+        UserUuid: userId
+      }
+    });
+    const groups = await contact.getGroups();
+    const contactGroups = groups.map(group => {
+      if (group !== null) {
+        return group.dataValues;
+      }
+      return null;
+    });
+    res.json({ contact, contactGroups });
+  } catch (err) {
+    console.error("FETCHING CONTACT ERROR", err);
   }
 });
 
@@ -205,31 +226,6 @@ router.post("/new", authCheck, async (req, res) => {
     } else {
       res.json(contacts[0].dataValues);
     }
-  } catch (err) {
-    console.error(err);
-  }
-});
-
-// GET SINGLE CONTACT
-router.get("/:id", authCheck, async (req, res) => {
-  const userId = req.session.user.toString();
-
-  try {
-    const contact = await Contacts.findOne({
-      where: {
-        id: req.params.id,
-        UserUuid: userId
-      }
-    });
-    const groups = await contact.getGroups();
-    const contactGroups = groups.map(group => {
-      if (group !== null) {
-        return group.dataValues;
-      }
-      return null;
-    });
-
-    res.json({ contact, contactGroups });
   } catch (err) {
     console.error(err);
   }
