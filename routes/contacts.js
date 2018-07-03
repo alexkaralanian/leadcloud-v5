@@ -328,55 +328,6 @@ router.post("/deleteContactListing", authCheck, async (req, res) => {
   }
 });
 
-// GET CONTACT GROUPS
-// router.post("/groups", authCheck, async (req, res) => {
-//   const userId = req.session.user.toString();
-
-//   try {
-//     console.log("REA.BODY", req.body);
-//     const groups = await Groups.findAll({
-//       where: {
-//         googleId: req.body.contactId, // array of group ids
-//         UserUuid: userId
-//       }
-//     });
-
-//     console.log("GROUPS", groups);
-//     const groupsMap = groups.map(group => {
-//       if (group !== null) {
-//         return group;
-//       }
-//       return null;
-//     });
-
-//     res.json(groupsMap);
-//   } catch (err) {
-//     console.error(err);
-//   }
-// });
-
-// router.post("/groups", authCheck, async (req, res) => {
-//   const userId = req.session.user.toString();
-
-//   try {
-//     const contact = Contacts.findOne({
-//       where: {}
-//     });
-
-//     // console.log("GROUPS", groups);
-//     const groupsMap = groups.map(group => {
-//       if (group !== null) {
-//         return group;
-//       }
-//       return null;
-//     });
-
-//     res.json(groupsMap);
-//   } catch (err) {
-//     console.error(err);
-//   }
-// });
-
 router.post("/new/openhouse", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
 

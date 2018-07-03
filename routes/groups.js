@@ -134,7 +134,7 @@ router.get("/:id/contacts", authCheck, async (req, res) => {
 });
 
 // ADD CONTACT TO GROUP
-router.post("/:id/contacts/add", authCheck, async (req, res) => {
+router.post("/:id/contact-groups/add", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
   try {
     const group = await Groups.findOne({
@@ -158,8 +158,8 @@ router.post("/:id/contacts/add", authCheck, async (req, res) => {
   }
 });
 
-// REMOVE CONTACT FROM GROUP
-router.post("/:id/contacts/delete", authCheck, async (req, res) => {
+// REMOVE CONTACT FROM CONTACT GROUP
+router.post("/:id/contact-groups/delete", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
 
   try {
@@ -179,6 +179,74 @@ router.post("/:id/contacts/delete", authCheck, async (req, res) => {
     });
     const contactGroups = await contact.getGroups();
     res.json(contactGroups);
+  } catch (err) {
+    console.error("ERROR REMOVING CONTACT FROM GROUP");
+  }
+});
+
+// ADD CONTACT TO GROUP CONTACTS
+router.post("/:id/group-contacts/add", authCheck, async (req, res) => {
+  const userId = req.session.user.toString();
+
+  try {
+    const group = await Groups.findOne({
+      where: {
+        UserUuid: userId,
+        id: req.body.groupId
+      }
+    });
+    await group.addContact(req.body.groupContactId);
+
+    const groupContacts = await Contacts.findAll({
+      limit: 25,
+      offset: 0,
+      where: {
+        UserUuid: userId
+      },
+      include: [
+        {
+          model: Groups,
+          where: {
+            id: req.body.groupId
+          }
+        }
+      ]
+    });
+    res.json(groupContacts);
+  } catch (err) {
+    console.error("ERROR ADDING CONTACT TO GROUP");
+  }
+});
+
+// REMOVE CONTACT FROM GROUP CONTACTS
+router.post("/:id/group-contacts/delete", authCheck, async (req, res) => {
+  const userId = req.session.user.toString();
+
+  try {
+    const group = await Groups.findOne({
+      where: {
+        UserUuid: userId,
+        id: req.body.groupId
+      }
+    });
+    await group.removeContact(req.body.groupContactId);
+
+    const groupContacts = await Contacts.findAll({
+      limit: 25,
+      offset: 0,
+      where: {
+        UserUuid: userId
+      },
+      include: [
+        {
+          model: Groups,
+          where: {
+            id: req.body.groupId
+          }
+        }
+      ]
+    });
+    res.json(groupContacts);
   } catch (err) {
     console.error("ERROR REMOVING CONTACT FROM GROUP");
   }

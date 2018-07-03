@@ -4,30 +4,43 @@ import { Grid, Row, Col } from "react-bootstrap";
 import SearchForm from "../SearchForm/SearchForm";
 import Loading from "../Loading/Loading";
 import ContactTable from "../ContactTable/ContactTable";
+import TableRow from "../TableRow/TableRow";
 
 const GroupContacts = ({
   group,
   groupContacts,
   isFetching,
   searchGroupContacts,
-  groupContactsSearchResults
+  groupContactsSearchResults,
+  submitGroupContact,
+  deleteGroupContact
 }) => {
-  console.log("GROUP CONTACTS", groupContactsSearchResults);
   return isFetching ? (
     <Loading />
   ) : (
     <Grid>
       <SearchForm searchFunction={searchGroupContacts} />
-      {groupContactsSearchResults.length > 0 && (
-        <Row>
-          <Col xs={12}>
-            <ContactTable component={groupContactsSearchResults} />
-          </Col>
-        </Row>
-      )}
       <Row>
         <Col xs={12}>
-          <ContactTable component={groupContacts} />
+          <TableRow
+            componentName="contact"
+            rowText="fullName"
+            collection={groupContactsSearchResults}
+            submitFunction={submitGroupContact}
+            hostComponent={group}
+            buttonText="Add Contact"
+            buttonStyle="warning"
+          />
+          <hr />
+          <TableRow
+            componentName="contact"
+            rowText="fullName"
+            collection={groupContacts}
+            submitFunction={deleteGroupContact}
+            hostComponent={group}
+            buttonText="Delete"
+            buttonStyle="danger"
+          />
         </Col>
       </Row>
     </Grid>

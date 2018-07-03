@@ -43,7 +43,7 @@ import {
 import {
   submitContactGroup,
   deleteContactGroup
-} from "../../actions/contact-group-actions";
+} from "../../actions/contact-groups-actions";
 
 class SingleContactContainer extends React.Component {
   componentDidMount() {

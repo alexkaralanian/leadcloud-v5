@@ -8,7 +8,9 @@ import { fetchGroup } from "../../actions/group-actions";
 import {
   fetchGroupContacts,
   clearGroupContacts,
-  searchGroupContacts
+  searchGroupContacts,
+  submitGroupContact,
+  deleteGroupContact
 } from "../../actions/group-contacts-actions";
 
 class GroupContactsContainer extends React.Component {
@@ -75,7 +77,9 @@ class GroupContactsContainer extends React.Component {
       groupContacts,
       group,
       isFetching,
-      groupContactsSearchResults
+      groupContactsSearchResults,
+      submitGroupContact,
+      deleteGroupContact
     } = this.props;
 
     return !isAuthed ? (
@@ -88,6 +92,8 @@ class GroupContactsContainer extends React.Component {
           group={group}
           groupContacts={groupContacts}
           groupContactsSearchResults={groupContactsSearchResults}
+          submitGroupContact={submitGroupContact}
+          deleteGroupContact={deleteGroupContact}
         />
       </div>
     );
@@ -110,7 +116,9 @@ const mapDispatchToProps = {
   fetchGroup,
   fetchGroupContacts,
   clearGroupContacts,
-  searchGroupContacts
+  searchGroupContacts,
+  submitGroupContact,
+  deleteGroupContact
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(

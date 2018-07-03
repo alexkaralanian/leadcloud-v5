@@ -16,7 +16,6 @@ const ListingContacts = ({
   submitListingContact,
   deleteListingContact
 }) => {
-  console.log("LISTING CONATCTS SEARC RESULTS", listingContactsSearchResults);
   return (
     <Grid>
       <Row>

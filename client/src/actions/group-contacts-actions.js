@@ -20,12 +20,15 @@ export const setGroupContacts = (
 });
 
 export const clearGroupContacts = () => ({
-  type: types.CLEAR_GROUP_CONTACTS,
-  payload: clearGroupContacts
+  type: types.CLEAR_GROUP_CONTACTS
 });
 
 export const clearGroupContactsSearchResults = () => ({
   type: types.CLEAR_GROUP_CONTACTS_SEARCH_RESULTS
+});
+
+export const clearForm = () => ({
+  type: types.FORM_SUBMIT_SUCCESS
 });
 
 export const setGroupContactsSearchResults = groupContacts => ({
@@ -76,4 +79,57 @@ export const searchGroupContacts = values => {
   }
 
   if (!query) store.dispatch(clearGroupContactsSearchResults());
+};
+
+export const submitGroupContact = (
+  groupContactId,
+  groupId
+) => async dispatch => {
+  const state = store.getState();
+  dispatch(clearGroupContactsSearchResults());
+  dispatch(clearForm());
+  try {
+    const res = await axios.post(`/api/groups/${groupId}/group-contacts/add`, {
+      groupContactId,
+      groupId
+    });
+
+    dispatch(
+      setGroupContacts(
+        res.data,
+        state.groupReducer.groupContactsLimit,
+        state.groupReducer.groupContactsLimit,
+        null
+      )
+    );
+  } catch (err) {
+    console.error("Submitting Group Contact Unsuccessful", err);
+  }
+};
+
+export const deleteGroupContact = (
+  groupContactId,
+  groupId
+) => async dispatch => {
+  const state = store.getState();
+  try {
+    const res = await axios.post(
+      `/api/groups/${groupId}/group-contacts/delete`,
+      {
+        groupContactId,
+        groupId
+      }
+    );
+
+    dispatch(
+      setGroupContacts(
+        res.data,
+        state.groupReducer.groupContactsLimit,
+        state.groupReducer.groupContactsLimit,
+        null
+      )
+    );
+  } catch (err) {
+    console.error("Submitting Group Contact Unsuccessful", err);
+  }
 };

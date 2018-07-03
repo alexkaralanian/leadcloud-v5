@@ -15,10 +15,13 @@ export const submitContactGroup = (
   console.log("GROUP ID", contactGroupId, contactId);
 
   try {
-    const res = await axios.post(`/api/groups/${contactGroupId}/contacts/add`, {
-      contactGroupId,
-      contactId
-    });
+    const res = await axios.post(
+      `/api/groups/${contactGroupId}/contact-groups/add`,
+      {
+        contactGroupId,
+        contactId
+      }
+    );
 
     dispatch(setContactGroups(res.data));
   } catch (err) {
@@ -34,7 +37,7 @@ export const deleteContactGroup = (
 
   try {
     const res = await axios.post(
-      `/api/groups/${contactGroupId}/contacts/delete`,
+      `/api/groups/${contactGroupId}/contact-groups/delete`,
       {
         contactGroupId,
         contactId
