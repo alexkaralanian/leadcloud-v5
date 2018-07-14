@@ -68,16 +68,16 @@ class SingleContactContainer extends React.Component {
     if (contact !== nextProps.contact) {
       if (nextProps.contact.email) {
         // Map over all contacts email addresses + create query string to fetch ALL emails from ALL addresses.
-        let request = "";
+        let query = "";
         nextProps.contact.email.forEach(email => {
-          request += `from: ${email.value.trim()} OR `;
+          query += `from: ${email.value.trim()} OR `;
         });
-        request = request.slice(0, request.length - 4);
+        query = query.slice(0, query.length - 4);
 
-        setEmailQuery(request);
+        setEmailQuery(query);
         fetchEmailsByContact(
           // args: query, maxResults, pageToken, emailsArray
-          request,
+          query,
           maxResults,
           0, // reset page token on new contact
           emailsByContact

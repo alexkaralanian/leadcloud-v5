@@ -41,6 +41,14 @@ CampaignFormA = ({
               label="Title"
             />
           </FormGroup>
+          <FormGroup className="formGroup">
+            <Field
+              type="text"
+              name="subject"
+              component={inputField}
+              label="Subject"
+            />
+          </FormGroup>
         </Col>
       </Row>
 
@@ -52,7 +60,7 @@ CampaignFormA = ({
 
         <Col xs={12}>
           <TableRowCheckbox
-            componentName="campaignListings"
+            componentName="listings"
             rowText="address"
             collection={campaignListings}
             submitFunction={deleteCampaignListing}
@@ -64,7 +72,7 @@ CampaignFormA = ({
 
         <Col xs={12}>
           <TableRowCheckbox
-            componentName="campaignListings"
+            componentName="listings"
             rowText="address"
             collection={campaignListingsSearchResults}
             submitFunction={submitCampaignListing}

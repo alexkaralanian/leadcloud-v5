@@ -9,6 +9,7 @@ const router = express.Router();
 // GET ALL GROUPS FROM DB
 router.get("/", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
+
   try {
     const groups = await Groups.findAll({
       limit: req.query.limit,
@@ -31,6 +32,7 @@ router.get("/", authCheck, async (req, res) => {
 // GET SINGLE GROUP
 router.get("/:id", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
+
   try {
     const group = await Groups.findOne({
       where: {
@@ -48,7 +50,6 @@ router.get("/:id", authCheck, async (req, res) => {
 router.post("/new", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
 
-  console.log("NEW BODY", req.body);
   try {
     const groups = await Groups.findAll({
       where: {
@@ -58,7 +59,6 @@ router.post("/new", authCheck, async (req, res) => {
         }
       }
     });
-
     if (isEmpty(groups)) {
       const createdGroup = await Groups.create({
         UserUuid: userId,
@@ -76,6 +76,7 @@ router.post("/new", authCheck, async (req, res) => {
 // UPDATE GROUP
 router.patch("/:id/update", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
+
   try {
     const group = await Groups.findOne({
       where: {
@@ -92,6 +93,7 @@ router.patch("/:id/update", authCheck, async (req, res) => {
 
 router.delete("/:id/delete", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
+
   try {
     const group = await Groups.findOne({
       where: {
@@ -111,6 +113,7 @@ router.delete("/:id/delete", authCheck, async (req, res) => {
 // GET GROUP CONTACTS
 router.get("/:id/contacts", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
+
   try {
     const groupContacts = await Contacts.findAll({
       limit: req.query.limit,
@@ -136,6 +139,7 @@ router.get("/:id/contacts", authCheck, async (req, res) => {
 // ADD CONTACT TO GROUP
 router.post("/:id/contact-groups/add", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
+
   try {
     const group = await Groups.findOne({
       where: {
