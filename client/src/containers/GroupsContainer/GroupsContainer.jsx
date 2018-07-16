@@ -102,3 +102,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = { fetchGroups, clearGroups };
 
 export default connect(mapStateToProps, mapDispatchToProps)(GroupsContainer);
+
+// GROUPS = all existing user groups
+// HOST ID =
+// COMPONENT =
+// SUBMIT FUNCTION =

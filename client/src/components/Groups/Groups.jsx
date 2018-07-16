@@ -42,11 +42,23 @@ const Groups = ({ groups, isFetching, component, hostId, submitFunction }) =>
                   <span>{group.title}</span>
                 </Link>
               </td>
+
               {component === "ContactGroups" && (
                 <td>
                   <Button
                     bsStyle="warning"
                     onClick={() => submitFunction(group.id, hostId)}
+                  >
+                    Add Group
+                  </Button>
+                </td>
+              )}
+
+              {component === "CampaignGroups" && (
+                <td>
+                  <Button
+                    bsStyle="warning"
+                    onClick={() => submitFunction(group)}
                   >
                     Add Group
                   </Button>

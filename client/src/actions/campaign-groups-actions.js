@@ -59,35 +59,21 @@ export const isFetching = bool => ({
 
 export const submitCampaignGroup = group => {
   const state = store.getState();
-  store.dispatch(isFetching(true));
-
   const campaignGroups = state.campaignReducer.campaignGroups.slice();
 
-  try {
-    if (!campaignGroups.includes(group)) {
-      campaignGroups.push(group);
-    }
-
-    store.dispatch(setCampaignGroups(campaignGroups));
-
-    // store.dispatch(clearCampaignGroupsSearchResults());
-    store.dispatch(isFetching(false));
-  } catch (err) {
-    console.error("Setting campaign group unsuccessful", err);
-    store.dispatch(isFetching(false));
+  if (!campaignGroups.includes(group)) {
+    campaignGroups.push(group);
   }
+
+  store.dispatch(setCampaignGroups(campaignGroups));
 };
 
-export const deleteCampaignGroup = group => {
+export const deleteCampaignGroup = groupId => {
   const state = store.getState();
-  const campaignGroups = state.campaignReducer.campaignGroups.slice();
 
-  try {
-    campaignGroups.splice(campaignGroups.indexOf(group), 1);
-    store.dispatch(setCampaignGroups(campaignGroups));
-    store.dispatch(isFetching(false));
-  } catch (err) {
-    console.error("Deleting campiagn group unsuccessful", err);
-    store.dispatch(isFetching(false));
-  }
+  const campaignGroups = state.campaignReducer.campaignGroups.slice();
+  const campaignGroupsIdMap = campaignGroups.map(group => group.id);
+
+  campaignGroups.splice(campaignGroupsIdMap.indexOf(groupId), 1);
+  store.dispatch(setCampaignGroups(campaignGroups));
 };

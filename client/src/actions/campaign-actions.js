@@ -29,6 +29,7 @@ export const submitCampaign = (
       campaignListings,
       campaignGroups
     });
+
     console.log("CAMPAIGNS RES", res.data);
 
     // dispatch(setCampaign(res.data));

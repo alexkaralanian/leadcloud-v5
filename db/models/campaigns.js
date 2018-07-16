@@ -3,7 +3,9 @@ module.exports = (sequelize, DataTypes) => {
     "campaigns",
     {
       title: DataTypes.STRING,
+      subject: DataTypes.STRING,
       listings: DataTypes.JSONB,
+      recipients: DataTypes.JSONB,
       groups: DataTypes.JSONB
     },
     {}

@@ -192,7 +192,6 @@ class SingleContactContainer extends React.Component {
                 {...routeProps}
                 hostId={contact.id}
                 contactGroups={contactGroups}
-                submitContactGroup={submitContactGroup}
                 deleteContactGroup={deleteContactGroup}
               />
               <GroupsContainer

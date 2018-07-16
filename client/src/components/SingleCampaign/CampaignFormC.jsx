@@ -8,8 +8,10 @@ import { contactValidate } from "../../helpers/redux-form/validate";
 
 import TableRowCheckbox from "../../components/TableRow/TableRow_Checkbox";
 // import EmailHTML from "../../components/EmailTemplate/EmailTemplate";
-import SearchForm from "../../components/SearchForm/SearchForm";
+// import SearchForm from "../../components/SearchForm/SearchForm";
 import inputField from "../InputField/InputField";
+import GroupsContainer from "../../containers/GroupsContainer/GroupsContainer";
+import ContactGroups from "../../components/ContactGroups/ContactGroups";
 
 let CampaignFormC;
 
@@ -33,9 +35,22 @@ CampaignFormC = ({
       <Row>
         <Col xs={12}>
           <h3>Select Groups</h3>
-          {/*<SearchForm searchFunction={searchListings} />*/}
         </Col>
-        <Col xs={12}>
+      </Row>
+    </Grid>
+
+    <ContactGroups
+      hostId={null}
+      contactGroups={campaignGroups}
+      deleteContactGroup={deleteCampaignGroup}
+    />
+    <GroupsContainer
+      hostId={null}
+      component="CampaignGroups"
+      submitFunction={submitCampaignGroup}
+    />
+
+    {/*<Col xs={12}>
           <TableRowCheckbox
             componentName="groups"
             rowText="title"
@@ -57,8 +72,8 @@ CampaignFormC = ({
             buttonText="Add Group"
             buttonStyle="warning"
           />
-        </Col>
-      </Row>
+        </Col>*/}
+    <Grid>
       <Row>
         <Col xs={6}>
           <div>
