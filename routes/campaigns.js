@@ -19,18 +19,31 @@ const cleanString = str =>
     .trim();
 
 const cleanContacts = contactsArray => {
-  const contacts = [];
+  const emails = [];
+  const names = [];
+
+  // each contact may have multiple email addresses, so we iterate over each email
+  // if email already is in array, we ignore
+  // we map names and email addresses to separate array since includes will not check object keys in array,
+
   contactsArray.forEach(contact => {
     const name = contact.dataValues.firstName || null;
     if (contact.dataValues.email) {
       contact.dataValues.email.forEach(email => {
-        if (!contacts.includes(email[email.value])) {
-          contacts.push(new helper.Email(email.value.trim(), name.trim()));
+        if (!emails.includes(email.value)) {
+          emails.push(email.value);
+          names.push(name);
         }
       });
     }
   });
-  return contacts;
+
+  // we map over the final namee and emails arrays and into one signle array cleanedContacts array ready for SendGrid.
+  const cleanedContacts = [];
+  for (let i = 0; i < emails.length; i++) {
+    cleanedContacts.push(new helper.Email(emails[i], names[i]));
+  }
+  return cleanedContacts;
 };
 
 router.post("/create", authCheck, async (req, res) => {
@@ -56,11 +69,11 @@ router.post("/create", authCheck, async (req, res) => {
     );
     const contacts = await Promise.all(emailPromises);
 
+    // concat all group contacts arrays into 1 array
+    // pass that single array the cleanContacts
     const cleanedContacts = cleanContacts(
       contacts.reduce((sum, contactArray) => sum.concat(contactArray[0]))
     );
-
-    console.log("CLEANED CONTACTS", cleanedContacts);
 
     const campaign = await Campaigns.findOrCreate({
       where: {
@@ -76,10 +89,16 @@ router.post("/create", authCheck, async (req, res) => {
     });
 
     // CAMPAIGN MAILER
-    // const mailer = new Mailer(campaign, campaignTemplate(campaign));
-    // mailer.send();
+    const mailer = new Mailer(
+      {
+        subject: campaign[0].dataValues.subject,
+        recipients: campaign[0].dataValues.recipients
+      },
+      campaignTemplate(campaign[0].dataValues)
+    );
+    mailer.send();
 
-    // res.json(campaign);
+    res.json(campaign);
   } catch (err) {
     console.error("FETCHING CAMPAIGNS ERROR", err);
   }
