@@ -1,12 +1,12 @@
 import * as types from "../types";
 
 const initialState = {
+  campaign: {},
+  campaigns: [],
   campaignListings: [],
   campaignListingsSearchResults: [],
   campaignGroupsSearchResults: [],
-
   campaignGroups: [],
-
   isFetching: false,
   error: "",
   message: ""
@@ -15,6 +15,12 @@ const initialState = {
 const campaignReducer = (state = initialState, action) => {
   switch (action.type) {
     // CAMPAIGN LISTINGS
+
+    case types.SET_CAMPAIGN:
+      return {
+        ...state,
+        campaign: action.payload
+      };
 
     case types.SET_CAMPAIGNS:
       return {

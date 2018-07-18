@@ -4,38 +4,50 @@ import * as types from "../types";
 import store from "../store";
 
 export const setCampaign = campaign => ({
-  types: types.SET_CAMPAIGN,
+  type: types.SET_CAMPAIGN,
   payload: campaign
 });
 
 export const setCampaigns = campaigns => ({
-  types: types.SET_CAMPAIGNS,
+  type: types.SET_CAMPAIGNS,
   payload: campaigns
 });
+
+export const fetchCampaign = id => async dispatch => {
+  try {
+    const res = await axios.get(`/api/campaigns/${id}`);
+    dispatch(setCampaign(res.data));
+  } catch (err) {
+    console.error("Fetching Campaign unsuccessful", err);
+  }
+};
+
+export const fetchCampaigns = () => async dispatch => {
+  try {
+    const res = await axios.get("/api/campaigns");
+    console.log("CAMPAIGNS", res.data);
+    dispatch(setCampaigns(res.data));
+  } catch (err) {
+    console.error("Fetching Campaigns unsuccessful", err);
+  }
+};
 
 export const submitCampaign = (
   values,
   campaignListings,
   campaignGroups
 ) => async dispatch => {
-  // const listings = campaignListings.map(listing => listing.id);
-  // const groups = campaignGroups.map(group => group.id);
-
-  // console.log("THE STUFF", { values, listings, groups });
-
   try {
-    const res = await axios.post(`/api/campaigns/create`, {
+    const res = await axios.post("/api/campaigns/create", {
       values,
       campaignListings,
       campaignGroups
     });
 
-    console.log("CAMPAIGNS RES", res.data);
-
-    // dispatch(setCampaign(res.data));
+    dispatch(setCampaign(res.data));
     // dispatch(isFetching(false));
   } catch (err) {
-    console.error("Fetching single email unsuccessful", err);
+    console.error("Submitting campaign unsuccessful", err);
     // dispatch(isFetching(false));
   }
 };

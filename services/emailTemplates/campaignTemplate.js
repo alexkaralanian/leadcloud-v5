@@ -2,6 +2,7 @@ module.exports = campaign => {
   return `
     <html>
       <body>
+      <div style="text-align: center;"">
         <h1>${campaign.title}</h1>
         <br />
         ${campaign.listings &&
@@ -12,6 +13,7 @@ module.exports = campaign => {
           <img src=${listing.images[0]}>
         </div>`
           )}
+        </div>
       </body>
     </html>
   `;

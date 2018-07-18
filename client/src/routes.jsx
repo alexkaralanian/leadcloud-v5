@@ -94,6 +94,12 @@ const Campaigns = Loadable({
   loading: Loading
 });
 
+const CreateCampaign = Loadable({
+  loader: () =>
+    import("./containers/CreateCampaignContainer/CreateCampaignContainer"),
+  loading: Loading
+});
+
 const SingleCampaign = Loadable({
   loader: () =>
     import("./containers/SingleCampaignContainer/SingleCampaignContainer"),
@@ -127,7 +133,9 @@ class App extends React.Component {
             {/*<Route exact path="/group/:id/contacts" component={GroupContacts} />*/}
             <Route exact path="/group/new" component={SingleGroup} />
             <Route path="/campaigns" component={Campaigns} />
-            <Route path="/campaign/new" component={SingleCampaign} />
+            {/*<Route path="/campaign/:id" component={SingleCampaign} />*/}
+            <Route path="/campaign/new" component={CreateCampaign} />
+            <Route path="/campaign/:id" component={SingleCampaign} />
             <Route
               render={() => (
                 <div>

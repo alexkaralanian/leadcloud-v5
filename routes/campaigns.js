@@ -22,10 +22,6 @@ const cleanContacts = contactsArray => {
   const emails = [];
   const names = [];
 
-  // each contact may have multiple email addresses, so we iterate over each email
-  // if email already is in array, we ignore
-  // we map names and email addresses to separate array since includes will not check object keys in array,
-
   contactsArray.forEach(contact => {
     const name = contact.dataValues.firstName || null;
     if (contact.dataValues.email) {
@@ -100,7 +96,37 @@ router.post("/create", authCheck, async (req, res) => {
 
     res.json(campaign);
   } catch (err) {
+    console.error("CREATING CAMPAIGNS ERROR", err);
+  }
+});
+
+router.get("/", async (req, res) => {
+  const userId = req.session.user.toString();
+  try {
+    const campaigns = await Campaigns.findAll({
+      where: {
+        UserUuid: userId
+      }
+    });
+    res.json(campaigns);
+  } catch (err) {
     console.error("FETCHING CAMPAIGNS ERROR", err);
   }
 });
+
+router.get("/:id", async (req, res) => {
+  const userId = req.session.user.toString();
+  try {
+    const campaign = await Campaigns.findOne({
+      where: {
+        UserUuid: userId,
+        id: req.params.id
+      }
+    });
+    res.json(campaign);
+  } catch (err) {
+    console.error("FETCHING CAMPAIGN ERROR", err);
+  }
+});
+
 module.exports = router;
