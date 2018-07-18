@@ -80,16 +80,16 @@ body {
 /*** TABLES ***/
 
 .tableImg img {
-  width: 45px;
-  height: 45px;
-  border-radius: 5%;
-  border: 1px solid lightgrey;
+  width: 42px;
+  height: 42px;
+  border-radius: 2px;
+  /*border: 1px solid lightgrey;*/
 }
 
 .tableImgNull {
-  width: 45px;
-  height: 45px;
-  border-radius: 5%;
+  width: 42px;
+  height: 42px;
+  border-radius: 2px;
   border: 1px solid lightgrey;
   display: flex;
   justify-content: center;
