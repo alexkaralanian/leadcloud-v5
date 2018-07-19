@@ -5,7 +5,15 @@ import { FormGroup } from "react-bootstrap";
 
 import inputField from "../InputField/InputField";
 
-const SearchForm = ({ load, pristine, reset, onChange, searchFunction }) => {
+const SearchForm = ({
+  load,
+  pristine,
+  reset,
+  onChange,
+  searchFunction,
+  values,
+  reducer
+}) => {
   return (
     <FormGroup>
       <Field

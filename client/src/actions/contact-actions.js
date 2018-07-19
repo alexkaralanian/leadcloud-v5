@@ -1,25 +1,21 @@
 import axios from "axios";
 import { push } from "react-router-redux";
 import * as types from "../types";
+import store from "../store";
+
 import { setListingContactsSearchResults } from "./listing-contacts-actions";
 import { setGroupContactsSearchResults } from "./group-contacts-actions";
 
-export const setContacts = (contacts, limit, offset, query) => ({
+import { search, fetchComponent, setQuery, resetOffset } from "./query-actions";
+
+export const setContacts = contacts => ({
   type: types.SET_CONTACTS,
-  contacts,
-  limit,
-  offset,
-  query
+  payload: contacts
 });
 
 export const setContact = contact => ({
   type: types.SET_CONTACT,
   contact
-});
-
-export const setContactsQuery = query => ({
-  type: types.SET_CONTACTS_QUERY,
-  payload: query
 });
 
 const setContactGroups = contactGroups => ({
@@ -43,11 +39,6 @@ export const isFetching = bool => ({
   isFetching: bool
 });
 
-export const isLoading = bool => ({
-  type: types.IS_LOADING,
-  isLoading: bool
-});
-
 export const clearContact = () => ({
   type: types.CLEAR_CONTACT
 });
@@ -67,56 +58,10 @@ export const clearError = () => ({
 
 /* ------------       DISPATCHERS     ------------------ */
 
-// SEARCH CONTACTS
-
-export const searchContacts = (
-  contacts,
-  limit,
-  offset,
-  query,
-  section
-) => async dispatch => {
-  try {
-    const res = await axios.get(
-      `/api/contacts/?limit=${limit}&offset=${offset}&query=${query}`
-    );
-
-    if (section === "listingContacts") {
-      dispatch(setListingContactsSearchResults(res.data));
-    } else if (section === "groupContacts") {
-      dispatch(setGroupContactsSearchResults(res.data));
-    } else {
-      dispatch(setContacts(res.data, limit, limit, ""));
-    }
-  } catch (err) {
-    console.error("fetchContacts ERROR", err.response);
-    dispatch(setError("ERROR FETCHING CONTACTS"));
-  }
-};
-
-// FETCH CONTACTS
-export const fetchContacts = (
-  contacts,
-  limit,
-  offset,
-  query
-) => async dispatch => {
-  // if (!offset) dispatch(isFetching(true));
-
-  dispatch(isLoading(true));
-  const newOffset = offset + limit;
-  try {
-    const res = await axios.get(
-      `/api/contacts/?limit=${limit}&offset=${offset}&query=${query}`
-    );
-    dispatch(setContacts(contacts.concat(res.data), limit, newOffset, query));
-    dispatch(isFetching(false));
-    dispatch(isLoading(false));
-  } catch (err) {
-    console.error("fetchContacts ERROR", err.response);
-    dispatch(isFetching(false));
-    dispatch(setError("ERROR FETCHING CONTACTS"));
-  }
+export const searchContacts = values => {
+  const query = values.nativeEvent.target.defaultValue;
+  store.dispatch(setQuery(query));
+  store.dispatch(fetchComponent("contacts", [], setContacts));
 };
 
 // SYNC GOOGLE CONTACTS
@@ -125,7 +70,7 @@ export const syncContacts = (limit, offset, query) => async dispatch => {
   try {
     const res = await axios.get("/api/contacts/loadcontacts");
     if (res.status === 200) {
-      dispatch(fetchContacts(limit, offset));
+      // dispatch(fetchContacts(limit, offset));
     }
   } catch (err) {
     console.error("Loading contacts from DB unsuccessful", err);
@@ -200,7 +145,7 @@ export const deleteContact = id => async dispatch => {
   }
 };
 
-// GROUPS
+// CONTACT GROUPS
 export const fetchContactGroups = contactId => async dispatch => {
   try {
     console.log("FETCHING CONTACT GROUPS", contactId);

@@ -106,7 +106,8 @@ router.get("/", async (req, res) => {
     const campaigns = await Campaigns.findAll({
       where: {
         UserUuid: userId
-      }
+      },
+      order: [["createdAt", "DESC"]]
     });
     res.json(campaigns);
   } catch (err) {

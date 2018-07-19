@@ -4,9 +4,11 @@ import * as types from "../types";
 /* ------------       REDUCERS     ------------------ */
 
 const initialState = {
-  contacts: [],
-  contactsSearchResults: [],
+  limit: 25,
+  offset: 0,
+  query: "",
 
+  contacts: [],
   contact: {},
   contactListings: [],
   contactListingsSearchResults: [],
@@ -26,7 +28,10 @@ const contactReducer = (state = initialState, action) => {
     case types.SET_CONTACTS:
       return {
         ...state,
-        contacts: action.payload
+        contacts: action.contacts,
+        limit: action.limit,
+        offset: action.offset,
+        query: action.query
       };
 
     case types.SET_CONTACT:
@@ -35,24 +40,19 @@ const contactReducer = (state = initialState, action) => {
         contact: action.contact
       };
 
-    // case types.SET_CONTACTS_SEARCH_RESULTS:
-    //   return {
-    //     ...state,
-    //     contactsSearchResults: action.payload
-    //   };
-
-    // case types.CLEAR_CONTACTS_SEARCH_RESULTS:
-    //   return {
-    //     ...state,
-    //     contactsSearchResults: []
-    //   };
-
     case types.SET_CONTACT_LISTINGS:
       return {
         ...state,
         contactListings: action.payload
       };
 
+    case types.SET_CONTACTS_QUERY:
+      return {
+        ...state,
+        query: action.payload
+      };
+
+    // SEARCH
     case types.SET_CONTACT_LISTINGS_SEARCH_RESULTS:
       return {
         ...state,
@@ -91,7 +91,10 @@ const contactReducer = (state = initialState, action) => {
     case types.CLEAR_CONTACTS:
       return {
         ...state,
-        contacts: []
+        contacts: [],
+        limit: 25,
+        offset: 0,
+        query: ""
       };
 
     case types.SET_ERROR:

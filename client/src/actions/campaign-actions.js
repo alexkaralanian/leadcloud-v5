@@ -45,6 +45,7 @@ export const submitCampaign = (
     });
 
     dispatch(setCampaign(res.data));
+    dispatch(push("/campaigns"));
     // dispatch(isFetching(false));
   } catch (err) {
     console.error("Submitting campaign unsuccessful", err);

@@ -1,7 +1,7 @@
 import React from "react";
-import { Grid, Col, Row, Button } from "react-bootstrap";
+import Moment from "moment";
+import { Grid, Col, Row, Button, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { Table } from "react-bootstrap";
 import "./Campaigns.css";
 
 const Campaigns = ({ createNewCampaign, campaigns }) => {
@@ -20,7 +20,8 @@ const Campaigns = ({ createNewCampaign, campaigns }) => {
             <thead>
               <tr>
                 <th>Title</th>
-                <th>Created</th>
+                <th>Subject</th>
+                <th>Created At</th>
               </tr>
             </thead>
             <tbody>
@@ -32,7 +33,10 @@ const Campaigns = ({ createNewCampaign, campaigns }) => {
                         <span>{campaign.title}</span>
                       </Link>
                     </td>
-                    <td>{campaign.createdAt}</td>
+                    <td>{campaign.subject}</td>
+                    <td>
+                      {Moment(campaign.createdAt).format("ddd, M/D/YY h:mma")}
+                    </td>
                   </tr>
                 ))}
             </tbody>

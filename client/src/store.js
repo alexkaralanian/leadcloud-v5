@@ -15,6 +15,7 @@ import listingReducer from "./reducers/listing-reducer";
 import groupReducer from "./reducers/group-reducer";
 import campaignReducer from "./reducers/campaign-reducer";
 import formReducer from "./reducers/form-reducer";
+import queryReducer from "./reducers/query-reducer";
 
 // ROUTER HISTORY
 export const history = createHistory();
@@ -27,6 +28,7 @@ const rootReducer = combineReducers({
   listingReducer,
   groupReducer,
   campaignReducer,
+  queryReducer,
   router: routerReducer,
   form: formReducer
 });

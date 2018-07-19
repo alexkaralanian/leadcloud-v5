@@ -138,10 +138,12 @@ router.get("/loadcontacts", authCheck, findUserById, async (req, res) => {
 // GET ALL CONTACTS FROM DB
 router.get("/", async (req, res) => {
   const userId = req.session.user.toString();
+  console.log("REQ.QUERY", req.query);
   try {
     const contacts = await Contacts.findAll({
       limit: req.query.limit,
       offset: req.query.offset,
+      order: [["updatedAt", "DESC"]],
       where: {
         UserUuid: userId,
         $and: {
@@ -149,9 +151,9 @@ router.get("/", async (req, res) => {
             $iLike: `${req.query.query}%`
           }
         }
-      },
-      order: [["updated", "DESC"]]
+      }
     });
+
     res.json(contacts);
   } catch (err) {
     console.error("FETCHING CONTACTS ERROR", err);

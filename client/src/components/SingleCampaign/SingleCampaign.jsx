@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Grid, Row, Col, Button } from "react-bootstrap";
 
 const SingleCampaign = ({ campaign }) => (
@@ -12,7 +13,11 @@ const SingleCampaign = ({ campaign }) => (
           {campaign.listings && (
             <div>
               <div>LISTINGS:</div>
-              {campaign.listings.map(listing => <div>{listing.address}</div>)}
+              {campaign.listings.map(listing => (
+                <div>
+                  <Link to={`/listing/${listing.id}`}>{listing.address}</Link>
+                </div>
+              ))}
             </div>
           )}
         </div>
