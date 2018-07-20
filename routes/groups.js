@@ -113,13 +113,17 @@ router.delete("/:id/delete", authCheck, async (req, res) => {
 // GET GROUP CONTACTS
 router.get("/:id/contacts", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
-
   try {
     const groupContacts = await Contacts.findAll({
       limit: req.query.limit,
       offset: req.query.offset,
       where: {
-        UserUuid: userId
+        UserUuid: userId,
+        $and: {
+          fullName: {
+            $iLike: `${req.query.query}%`
+          }
+        }
       },
       include: [
         {

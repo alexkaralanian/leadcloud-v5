@@ -4,9 +4,10 @@ import { Redirect } from "react-router-dom";
 import GroupContacts from "../../components/GroupContacts/GroupContacts";
 
 import { fetchGroup } from "../../actions/group-actions";
+import { fetchComponent, resetQuery } from "../../actions/query-actions";
 
 import {
-  fetchGroupContacts,
+  setGroupContacts,
   clearGroupContacts,
   searchGroupContacts,
   submitGroupContact,
@@ -14,64 +15,40 @@ import {
 } from "../../actions/group-contacts-actions";
 
 class GroupContactsContainer extends React.Component {
-  constructor(props) {
-    super(props);
-    this.onScroll = this.onScroll.bind(this);
-  }
-
-  componentDidMount() {
+  componentDidMount = () => {
     window.addEventListener("scroll", this.onScroll, false);
-    const {
-      fetchGroup,
-      fetchGroupContacts,
-      groupContacts,
-      groupContactsLimit,
-      groupContactsOffset,
-      groupContactsQuery,
-      match
-    } = this.props;
-
+    const { match, fetchComponent, groupContacts, group } = this.props;
     if (match.params.id !== "new") {
-      fetchGroupContacts(
-        this.props.groupId,
-        groupContacts,
-        groupContactsLimit,
-        groupContactsOffset,
-        groupContactsQuery
-      );
+      fetchComponent("groups", [], setGroupContacts, group.id, "contacts");
     }
-  }
+  };
 
-  componentWillUnmount() {
+  componentWillUnmount = () => {
+    const { resetQuery, clearGroupContacts } = this.props;
     window.removeEventListener("scroll", this.onScroll, false);
-    this.props.clearGroupContacts();
-  }
+    clearGroupContacts();
+    resetQuery();
+  };
 
-  onScroll() {
-    const {
-      isLoading,
-      groupContacts,
-      groupContactsLimit,
-      groupContactsOffset,
-      groupContactsQuery
-    } = this.props;
+  onScroll = () => {
+    const { isLoading, fetchComponent, groupContacts, groupId } = this.props;
 
     if (
       window.innerHeight + window.scrollY >= document.body.offsetHeight - 500 &&
       groupContacts.length &&
       !isLoading
     ) {
-      this.props.fetchGroupContacts(
-        this.props.groupId,
+      fetchComponent(
+        "groups",
         groupContacts,
-        groupContactsLimit,
-        groupContactsOffset,
-        groupContactsQuery
+        setGroupContacts,
+        groupId,
+        "contacts"
       );
     }
-  }
+  };
 
-  render() {
+  render = () => {
     const {
       isAuthed,
       groupContacts,
@@ -97,26 +74,23 @@ class GroupContactsContainer extends React.Component {
         />
       </div>
     );
-  }
+  };
 }
 
 const mapStateToProps = state => ({
-  isFetching: state.groupReducer.isFetching,
-  isLoading: state.groupReducer.isLoading,
   isAuthed: state.authReducer.isAuthed,
+  isFetching: state.commonReducer.isFetching,
+  isLoading: state.queryReducer.isLoading,
   group: state.groupReducer.group,
-  groupContacts: state.groupReducer.groupContacts,
-  groupContactsLimit: state.groupReducer.groupContactsLimit,
-  groupContactsOffset: state.groupReducer.groupContactsOffset,
-  groupContactsQuery: state.groupReducer.groupContactsQuery,
-  groupContactsSearchResults: state.groupReducer.groupContactsSearchResults
+  groupContacts: state.groupContactsReducer.groupContacts
+  // groupContactsSearchResults: state.groupReducer.groupContactsSearchResults
 });
 
 const mapDispatchToProps = {
   fetchGroup,
-  fetchGroupContacts,
+  fetchComponent,
+  resetQuery,
   clearGroupContacts,
-  searchGroupContacts,
   submitGroupContact,
   deleteGroupContact
 };

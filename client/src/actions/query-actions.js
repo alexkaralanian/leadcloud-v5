@@ -22,9 +22,11 @@ export const isLoading = bool => ({
 });
 
 export const fetchComponent = (
-  componentName, // contacts - string
-  componentArray, // contacts - array
-  setFunction // setContacts, function,
+  componentName, // array, ie contacts
+  componentArray, // array, ie contacts
+  setFunction, // function, ie setContacts
+  id, // number
+  subComponent // string, ie groups
 ) => async dispatch => {
   const state = store.getState();
 
@@ -35,13 +37,17 @@ export const fetchComponent = (
 
   try {
     dispatch(isLoading(true));
-    const res = await axios.get(
-      `/api/${componentName}/?limit=${limit}&offset=${offset}&query=${query}`
-    );
 
-    dispatch(setOffset(newOffset));
+    const res = id
+      ? await axios.get(
+          `/api/${componentName}/${id}/${subComponent}/?limit=${limit}&offset=${offset}&query=${query}`
+        )
+      : await axios.get(
+          `/api/${componentName}/?limit=${limit}&offset=${offset}&query=${query}`
+        );
+
     dispatch(setFunction(componentArray.concat(res.data)));
-
+    dispatch(setOffset(newOffset));
     dispatch(isLoading(false));
   } catch (err) {
     dispatch(isLoading(false));

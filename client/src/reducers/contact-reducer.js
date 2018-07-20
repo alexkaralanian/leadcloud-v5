@@ -14,11 +14,7 @@ const initialState = {
 
   emailsByContact: [],
   pageToken: "",
-  maxResults: 15,
-
-  error: "",
-  isFetching: false,
-  isLoading: false
+  maxResults: 15
 };
 
 const contactReducer = (state = initialState, action) => {
@@ -34,18 +30,6 @@ const contactReducer = (state = initialState, action) => {
         ...state,
         contact: action.contact
       };
-
-    // case types.SET_CONTACTS_SEARCH_RESULTS:
-    //   return {
-    //     ...state,
-    //     contactsSearchResults: action.payload
-    //   };
-
-    // case types.CLEAR_CONTACTS_SEARCH_RESULTS:
-    //   return {
-    //     ...state,
-    //     contactsSearchResults: []
-    //   };
 
     case types.SET_CONTACT_LISTINGS:
       return {
@@ -92,30 +76,6 @@ const contactReducer = (state = initialState, action) => {
       return {
         ...state,
         contacts: []
-      };
-
-    case types.SET_ERROR:
-      return {
-        ...state,
-        error: action.error
-      };
-
-    case types.CLEAR_ERROR:
-      return {
-        ...state,
-        error: ""
-      };
-
-    case types.IS_FETCHING:
-      return {
-        ...state,
-        isFetching: action.isFetching
-      };
-
-    case types.IS_LOADING:
-      return {
-        ...state,
-        isLoading: action.isLoading
       };
 
     // case types.CLEAR_EMAILS_BY_CONTACT:

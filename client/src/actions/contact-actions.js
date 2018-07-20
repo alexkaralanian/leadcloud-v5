@@ -6,7 +6,14 @@ import store from "../store";
 import { setListingContactsSearchResults } from "./listing-contacts-actions";
 import { setGroupContactsSearchResults } from "./group-contacts-actions";
 
-import { search, fetchComponent, setQuery, resetOffset } from "./query-actions";
+import { fetchComponent, setQuery } from "./query-actions";
+
+import {
+  setError,
+  clearError,
+  isFetching,
+  clearFormData
+} from "./common-actions";
 
 export const setContacts = contacts => ({
   type: types.SET_CONTACTS,
@@ -28,16 +35,7 @@ export const setContactImages = images => ({
   payload: images
 });
 
-export const submitSuccess = () => ({
-  type: types.FORM_SUBMIT_SUCCESS
-});
-
 // ADMINISTRATIVE ACTIONS
-
-export const isFetching = bool => ({
-  type: types.IS_FETCHING,
-  isFetching: bool
-});
 
 export const clearContact = () => ({
   type: types.CLEAR_CONTACT
@@ -45,15 +43,6 @@ export const clearContact = () => ({
 
 export const clearContacts = () => ({
   type: types.CLEAR_CONTACTS
-});
-
-export const setError = error => ({
-  type: types.SET_ERROR,
-  error
-});
-
-export const clearError = () => ({
-  type: types.CLEAR_ERROR
 });
 
 /* ------------       DISPATCHERS     ------------------ */
@@ -65,12 +54,11 @@ export const searchContacts = values => {
 };
 
 // SYNC GOOGLE CONTACTS
-export const syncContacts = (limit, offset, query) => async dispatch => {
-  dispatch(isFetching(true));
+export const syncContacts = () => async dispatch => {
+  // dispatch(isFetching(true));
   try {
     const res = await axios.get("/api/contacts/loadcontacts");
     if (res.status === 200) {
-      // dispatch(fetchContacts(limit, offset));
     }
   } catch (err) {
     console.error("Loading contacts from DB unsuccessful", err);
@@ -116,7 +104,7 @@ export const submitNewOpenHouseContact = data => async dispatch => {
   try {
     const res = await axios.post("/api/contacts/new/openhouse", data);
     if (res.status === 200) {
-      dispatch(submitSuccess());
+      dispatch(clearFormData());
       console.log("SUCCESSFULLY SUBMITTED", res.data);
     }
   } catch (err) {

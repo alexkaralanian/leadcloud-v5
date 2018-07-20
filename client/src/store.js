@@ -13,9 +13,11 @@ import emailReducer from "./reducers/email-reducer";
 import contactReducer from "./reducers/contact-reducer";
 import listingReducer from "./reducers/listing-reducer";
 import groupReducer from "./reducers/group-reducer";
+import groupContactsReducer from "./reducers/group-contacts-reducer";
 import campaignReducer from "./reducers/campaign-reducer";
 import formReducer from "./reducers/form-reducer";
 import queryReducer from "./reducers/query-reducer";
+import commonReducer from "./reducers/common-reducer";
 
 // ROUTER HISTORY
 export const history = createHistory();
@@ -27,8 +29,10 @@ const rootReducer = combineReducers({
   contactReducer,
   listingReducer,
   groupReducer,
+  groupContactsReducer,
   campaignReducer,
   queryReducer,
+  commonReducer,
   router: routerReducer,
   form: formReducer
 });

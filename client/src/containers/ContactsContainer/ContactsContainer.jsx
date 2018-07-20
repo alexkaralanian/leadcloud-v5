@@ -9,70 +9,43 @@ import Navigation from "../NavContainer/NavContainer";
 import Errors from "../../components/Error/Error";
 
 import { fetchComponent, resetQuery } from "../../actions/query-actions";
-
+import { setError, clearError } from "../../actions/common-actions";
 import {
   syncContacts,
   setContacts,
   searchContacts,
-  clearContacts,
-  clearError
+  clearContacts
 } from "../../actions/contact-actions";
 
-// import { fetchGroups } from "../../actions/group-actions";
-
-// import { clearError } from "../../actions/common-actions";
-// import "../../components/Contacts/Contacts.css";
-
 class ContactsContainer extends React.Component {
-  constructor(props) {
-    super(props);
-    this.createNewContact = this.createNewContact.bind(this);
-    this.onScroll = this.onScroll.bind(this);
-  }
-
-  componentDidMount() {
-    const {
-      fetchComponent,
-      searchConacts,
-      contacts
-
-      // fetchGroups,
-      // groups,
-      // groupsLimit,
-      // groupsOffset,
-      // groupsQuery
-    } = this.props;
-
-    fetchComponent("contacts", contacts, setContacts);
-    // fetchGroups(groups, groupsLimit, groupsOffset, groupsQuery);
-
+  componentDidMount = () => {
+    const { fetchComponent, contacts } = this.props;
+    fetchComponent("contacts", contacts, setContacts, null, null);
     window.addEventListener("scroll", this.onScroll, false);
-  }
+  };
 
-  componentWillUnmount() {
+  componentWillUnmount = () => {
     const { clearError, clearContacts, resetQuery } = this.props;
-
     window.removeEventListener("scroll", this.onScroll, false);
     clearError();
     clearContacts();
     resetQuery();
-  }
+  };
 
-  onScroll() {
+  onScroll = () => {
     const { isLoading, contacts, fetchComponent } = this.props;
-
     if (
       window.innerHeight + window.scrollY >= document.body.offsetHeight - 500 &&
       contacts.length &&
       !isLoading
     ) {
-      fetchComponent("contacts", contacts, setContacts);
+      fetchComponent("contacts", contacts, setContacts, null, null);
     }
-  }
+  };
 
-  createNewContact() {
+  createNewContact = () => {
     this.props.history.push("/contact/new");
-  }
+  };
 
   render() {
     const {
@@ -80,11 +53,7 @@ class ContactsContainer extends React.Component {
       isAuthed,
       isFetching,
       syncContacts,
-
-      contacts,
-      limit,
-      offset,
-      groups
+      contacts
     } = this.props;
 
     return !isAuthed ? (
@@ -107,7 +76,7 @@ class ContactsContainer extends React.Component {
               <Button
                 className="submitButton"
                 bsStyle="primary"
-                onClick={() => syncContacts(limit, offset, contacts)}
+                onClick={() => syncContacts()}
               >
                 <span>Sync Contacts</span>
               </Button>
@@ -124,16 +93,10 @@ class ContactsContainer extends React.Component {
 
 const mapStateToProps = state => ({
   contacts: state.contactReducer.contacts,
-
-  groups: state.groupReducer.groups,
-  groupsLimit: state.groupReducer.limit,
-  groupsOffset: state.groupReducer.offset,
-  groupsQuery: state.groupReducer.query,
-
   isAuthed: state.authReducer.isAuthed,
-  isFetching: state.contactReducer.isFetching,
   isLoading: state.queryReducer.isLoading,
-  error: state.contactReducer.error
+  isFetching: state.commonReducer.isFetching,
+  error: state.commonReducer.error
 });
 
 const mapDispatchToProps = {

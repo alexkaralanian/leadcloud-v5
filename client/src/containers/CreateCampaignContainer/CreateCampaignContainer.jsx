@@ -7,16 +7,16 @@ import CampaignFormB from "../../components/SingleCampaign/CampaignFormB";
 import CampaignFormC from "../../components/SingleCampaign/CampaignFormC";
 import SingleCampaign from "../../components/SingleCampaign/SingleCampaign";
 
+import { fetchComponent } from "../../actions/query-actions";
+
+import { setGroups, clearGroups } from "../../actions/group-actions";
+
 import {
   searchCampaignListings,
   submitCampaignListing,
   deleteCampaignListing
 } from "../../actions/campaign-listings-actions";
-
-import { fetchGroups } from "../../actions/group-actions";
-
 import { submitCampaign } from "../../actions/campaign-actions";
-
 import {
   // searchCampaignGroups,
   submitCampaignGroup,
@@ -35,8 +35,8 @@ class CreateCampaignContainer extends React.Component {
   }
 
   componentDidMount() {
-    const { fetchGroups, groups, limit, offset, query } = this.props;
-    fetchGroups(groups, limit, offset, query);
+    const { fetchComponent, groups } = this.props;
+    fetchComponent("groups", groups, setGroups);
   }
 
   nextPage() {
@@ -122,9 +122,6 @@ class CreateCampaignContainer extends React.Component {
 
 const mapStateToProps = state => ({
   groups: state.groupReducer.groups,
-  limit: state.groupReducer.limit,
-  offset: state.groupReducer.offset,
-  query: state.groupReducer.query,
 
   campaignListings: state.campaignReducer.campaignListings,
   campaignGroups: state.campaignReducer.campaignGroups,
@@ -134,7 +131,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  fetchGroups,
   searchCampaignListings,
   submitCampaign
   // searchCampaignGroups

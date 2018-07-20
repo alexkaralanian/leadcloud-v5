@@ -1,80 +1,43 @@
 import React from "react";
 import { connect } from "react-redux";
-
 import { Grid, Row, Col, Button } from "react-bootstrap";
 
 import SearchForm from "../../components/SearchForm/SearchForm";
 import Groups from "../../components/Groups/Groups";
-import { fetchGroups, clearGroups } from "../../actions/group-actions";
+import { setGroups, clearGroups } from "../../actions/group-actions";
+
+import { fetchComponent, resetQuery } from "../../actions/query-actions";
 
 class GroupsContainer extends React.Component {
-  constructor() {
-    super();
-    this.onScroll = this.onScroll.bind(this);
-    this.searchGroups = this.searchGroups.bind(this);
-    this.createNewGroup = this.createNewGroup.bind(this);
-  }
-
-  componentDidMount() {
-    const {
-      fetchGroups,
-      groups,
-      groupsLimit,
-      groupsOffset,
-      groupsQuery
-    } = this.props;
-
+  componentDidMount = () => {
     window.addEventListener("scroll", this.onScroll, false);
+    const { fetchComponent, groups } = this.props;
+    fetchComponent("groups", [], setGroups, null, null);
+  };
 
-    fetchGroups(groups, groupsLimit, groupsOffset, groupsQuery);
-  }
-
-  componentWillUnmount() {
-    const { clearGroups } = this.props;
+  componentWillUnmount = () => {
     window.removeEventListener("scroll", this.onScroll, false);
+    const { clearGroups, resetQuery } = this.props;
     clearGroups();
-  }
+    resetQuery();
+  };
 
-  onScroll() {
-    const {
-      isLoading,
-      groups,
-      groupsLimit,
-      groupsOffset,
-      groupsQuery
-    } = this.props;
+  onScroll = () => {
+    const { isLoading, fetchComponent, groups } = this.props;
     if (
       window.innerHeight + window.scrollY >= document.body.offsetHeight - 500 &&
       groups.length &&
       !isLoading
     ) {
-      this.props.fetchGroups(groups, groupsLimit, groupsOffset, groupsQuery);
+      fetchComponent("groups", groups, setGroups);
     }
-  }
+  };
 
-  searchGroups(values) {
-    // const query = values.nativeEvent.target.defaultValue;
-    // const {
-    //   setContactsQuery,
-    //   clearContacts,
-    //   searchContacts,
-    //   contactsLimit,
-    //   contacts,
-    //   fetchContacts
-    // } = this.props;
-    // setContactsQuery(query);
-    // if (query.length < 1) clearContacts();
-    // if (query.length >= 1) {
-    //   searchContacts(contacts, contactsLimit, 0, query);
-    // }
-    // if (!query) fetchContacts([], contactsLimit, 0, "");
-  }
-
-  createNewGroup() {
+  createNewGroup = () => {
     this.props.history.push("/group/new");
-  }
+  };
 
-  render() {
+  render = () => {
     const { isFetching, history, groups, component } = this.props;
 
     return (
@@ -88,22 +51,19 @@ class GroupsContainer extends React.Component {
         />
       </Grid>
     );
-  }
+  };
 }
 
 const mapStateToProps = state => ({
   groups: state.groupReducer.groups,
-  groupsLimit: state.groupReducer.limit,
-  groupsOffset: state.groupReducer.offset,
-  groupsQuery: state.groupReducer.query,
-  isLoading: state.groupReducer.isLoading
+  isLoading: state.queryReducer.isLoading
 });
 
-const mapDispatchToProps = { fetchGroups, clearGroups };
+const mapDispatchToProps = {
+  fetchComponent,
+  setGroups,
+  resetQuery,
+  clearGroups
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(GroupsContainer);
-
-// GROUPS = all existing user groups
-// HOST ID =
-// COMPONENT =
-// SUBMIT FUNCTION =

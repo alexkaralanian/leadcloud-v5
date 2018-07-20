@@ -23,9 +23,10 @@ import {
   clearContact,
   // fetchContactGroups,
   onDrop,
-  deleteContactImage,
-  clearError
+  deleteContactImage
 } from "../../actions/contact-actions";
+
+import { clearError } from "../../actions/common-actions";
 
 import {
   searchContactListings,
@@ -89,7 +90,6 @@ class SingleContactContainer extends React.Component {
 
   componentWillUnmount() {
     const { clearContact, clearError } = this.props;
-
     clearContact();
     clearError();
   }

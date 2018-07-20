@@ -1,6 +1,7 @@
 import axios from "axios";
 import { searchContacts } from "./contact-actions";
 import { isFetching } from "./listing-actions";
+import { clearFormData } from "./common-actions";
 import * as types from "../types";
 import store from "../store";
 
@@ -16,10 +17,6 @@ export const setListingContactsSearchResults = listingContacts => ({
 
 export const clearListingContactsSearchResults = () => ({
   type: types.CLEAR_LISTING_CONTACTS_SEARCH_RESULTS
-});
-
-export const submitSuccess = () => ({
-  type: types.FORM_SUBMIT_SUCCESS
 });
 
 export const fetchListingContacts = listingId => async dispatch => {
@@ -73,7 +70,7 @@ export const submitListingContact = (
     });
     dispatch(setListingContacts(res.data));
     dispatch(clearListingContactsSearchResults());
-    dispatch(submitSuccess());
+    dispatch(clearFormData());
     dispatch(isFetching(false));
   } catch (err) {
     console.error("Setting listing contacts unsuccessful", err);

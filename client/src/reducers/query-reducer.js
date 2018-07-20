@@ -32,7 +32,7 @@ const queryReducer = (state = initialState, action) => {
     case types.IS_LOADING:
       return {
         ...state,
-        isLoading: action.isLoading
+        isLoading: action.payload
       };
 
     default:
