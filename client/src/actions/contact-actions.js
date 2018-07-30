@@ -53,6 +53,16 @@ export const searchContacts = values => {
   store.dispatch(fetchComponent("contacts", [], setContacts));
 };
 
+export const searchContacts2 = values => {
+  const query = values.nativeEvent.target.defaultValue;
+  if (query.length <= 1) {
+    store.dispatch(clearContacts());
+  } else {
+    store.dispatch(setQuery(query));
+    store.dispatch(fetchComponent("contacts", [], setContacts));
+  }
+};
+
 // SYNC GOOGLE CONTACTS
 export const syncContacts = () => async dispatch => {
   // dispatch(isFetching(true));

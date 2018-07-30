@@ -53,9 +53,22 @@ body {
   border-radius: 1px;
 }
 
-/*** TEXT***/
+/*** HEADER ***/
 
-.headerText {
+.header_container {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 2px;
+}
+
+h1.header_text {
+  margin-top: 0px;
+}
+
+.header_text {
   font-weight: 200;
   margin-bottom: 10px;
   word-wrap: break-word;
@@ -79,11 +92,62 @@ body {
 
 /*** TABLES ***/
 
-.tableImg img {
-  width: 42px;
-  height: 42px;
+.table_img-sm img {
+  width: 3.5rem;
+  height: 3.5rem;
   border-radius: 2px;
-  /*border: 1px solid lightgrey;*/
+}
+
+.table_img-null-sm {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 2px;
+  border: 1px solid lightgrey;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.table_img-null-sm span {
+  font-weight: 100;
+  font-size: 1.5rem;
+}
+
+tbody {
+  text-align: left;
+}
+
+/***********/
+
+.table_img img {
+  width: 4.2rem;
+  height: 4.2rem;
+  border-radius: 2px;
+}
+
+.table_img-null {
+  width: 4.2rem;
+  height: 4.2rem;
+  border-radius: 2px;
+  border: 1px solid lightgrey;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.table_img-null span {
+  font-weight: 100;
+  font-size: 2rem;
+}
+
+/***********/
+
+.tableImg img {
+  width: 4.2rem;
+  height: 4.2rem;
+  border-radius: 2px;
 }
 
 .tableImgNull {
@@ -109,7 +173,48 @@ iframe {
   height: calc(100vh - 195px);
 }
 
+/*** NAVIGATION ***/
+
 .NavWrapper {
   margin: 15px 0;
 }
 
+/*** HEADER ***/
+
+.header_button-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /*border-left: 1px solid lightgrey;*/
+  padding-left: 1.5rem;
+}
+
+.header_button-lg {
+  height: 5rem;
+  width: 5rem;
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.header_button-sm {
+  height: 2.5rem;
+  width: 2.5rem;
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header_button-sm span {
+  margin-top: -1px;
+  margin-left: -1px;
+}
+
+.header_button-lg span {
+  margin-left: 1px;
+}
+/**/

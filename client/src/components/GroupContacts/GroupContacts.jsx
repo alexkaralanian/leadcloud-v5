@@ -7,43 +7,28 @@ import ContactTable from "../ContactTable/ContactTable";
 import TableRow from "../TableRow/TableRow";
 
 const GroupContacts = ({
-  group,
-  groupContacts,
   isFetching,
-  searchGroupContacts,
-  groupContactsSearchResults,
+  collection,
   submitGroupContact,
-  deleteGroupContact
+  deleteGroupContact,
+  group
 }) => {
   return isFetching ? (
     <Loading />
   ) : (
-    <Grid>
-      <SearchForm searchFunction={searchGroupContacts} />
-      <Row>
-        <Col xs={12}>
-          <TableRow
-            componentName="contact"
-            rowText="fullName"
-            collection={groupContactsSearchResults}
-            submitFunction={submitGroupContact}
-            hostComponent={group}
-            buttonText="Add Contact"
-            buttonStyle="warning"
-          />
-          <hr />
-          <TableRow
-            componentName="contact"
-            rowText="fullName"
-            collection={groupContacts}
-            submitFunction={deleteGroupContact}
-            hostComponent={group}
-            buttonText="Delete"
-            buttonStyle="danger"
-          />
-        </Col>
-      </Row>
-    </Grid>
+    <Row>
+      <Col xs={12}>
+        <TableRow
+          componentName="contact"
+          rowText="fullName"
+          collection={collection}
+          submitFunction={deleteGroupContact}
+          buttonText={"Remove"}
+          buttonStyle={"danger"}
+          hostComponent={group}
+        />
+      </Col>
+    </Row>
   );
 };
 

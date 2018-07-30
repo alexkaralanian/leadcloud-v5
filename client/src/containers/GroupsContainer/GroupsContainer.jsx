@@ -39,7 +39,6 @@ class GroupsContainer extends React.Component {
 
   render = () => {
     const { isFetching, history, groups, component } = this.props;
-
     return (
       <Grid>
         <SearchForm searchFunction={() => console.log("SEARCH  GROUPS")} />

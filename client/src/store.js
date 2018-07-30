@@ -17,6 +17,7 @@ import groupContactsReducer from "./reducers/group-contacts-reducer";
 import campaignReducer from "./reducers/campaign-reducer";
 import formReducer from "./reducers/form-reducer";
 import queryReducer from "./reducers/query-reducer";
+import modalReducer from "./reducers/modal-reducer";
 import commonReducer from "./reducers/common-reducer";
 
 // ROUTER HISTORY
@@ -32,6 +33,7 @@ const rootReducer = combineReducers({
   groupContactsReducer,
   campaignReducer,
   queryReducer,
+  modalReducer,
   commonReducer,
   router: routerReducer,
   form: formReducer

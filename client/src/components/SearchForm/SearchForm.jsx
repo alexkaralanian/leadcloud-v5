@@ -1,6 +1,6 @@
 import React from "react";
 import debounce from "lodash.debounce";
-import { Field, reduxForm } from "redux-form";
+import { Grid, Row, Col, Field, reduxForm } from "redux-form";
 import { FormGroup } from "react-bootstrap";
 
 import inputField from "../InputField/InputField";
@@ -12,7 +12,8 @@ const SearchForm = ({
   onChange,
   searchFunction,
   values,
-  reducer
+  reducer,
+  searchText
 }) => {
   return (
     <FormGroup>
@@ -20,7 +21,7 @@ const SearchForm = ({
         type="text"
         name="contactSearch"
         component={inputField}
-        placeholder="Search..."
+        placeholder={searchText || "Search..."}
         onChange={debounce(searchFunction, 500)}
       />
     </FormGroup>

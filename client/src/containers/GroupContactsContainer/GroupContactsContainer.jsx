@@ -1,13 +1,23 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
+import { Grid, Row, Col } from "react-bootstrap";
 import GroupContacts from "../../components/GroupContacts/GroupContacts";
+import SearchForm from "../../components/SearchForm/SearchForm";
+import SearchToggle from "../../components/SearchToggle/SearchToggle";
 
 import { fetchGroup } from "../../actions/group-actions";
 import { fetchComponent, resetQuery } from "../../actions/query-actions";
 
 import {
+  searchContacts,
+  setContacts,
+  clearContacts
+} from "../../actions/contact-actions";
+
+import {
   setGroupContacts,
+  setGroupContactsComponent,
   clearGroupContacts,
   searchGroupContacts,
   submitGroupContact,
@@ -15,24 +25,30 @@ import {
 } from "../../actions/group-contacts-actions";
 
 class GroupContactsContainer extends React.Component {
-  componentDidMount = () => {
+  componentDidMount() {
     window.addEventListener("scroll", this.onScroll, false);
     const { match, fetchComponent, groupContacts, group } = this.props;
     if (match.params.id !== "new") {
       fetchComponent("groups", [], setGroupContacts, group.id, "contacts");
     }
-  };
+  }
 
-  componentWillUnmount = () => {
-    const { resetQuery, clearGroupContacts } = this.props;
+  componentWillUnmount() {
     window.removeEventListener("scroll", this.onScroll, false);
+    const { resetQuery, clearGroupContacts } = this.props;
     clearGroupContacts();
     resetQuery();
-  };
+  }
 
   onScroll = () => {
-    const { isLoading, fetchComponent, groupContacts, groupId } = this.props;
-
+    const groups = this.props.groupContactsComponent === "groups";
+    const {
+      isLoading,
+      fetchComponent,
+      groupContacts,
+      group,
+      query
+    } = this.props;
     if (
       window.innerHeight + window.scrollY >= document.body.offsetHeight - 500 &&
       groupContacts.length &&
@@ -42,13 +58,13 @@ class GroupContactsContainer extends React.Component {
         "groups",
         groupContacts,
         setGroupContacts,
-        groupId,
+        group.id,
         "contacts"
       );
     }
   };
 
-  render = () => {
+  render() {
     const {
       isAuthed,
       groupContacts,
@@ -62,19 +78,18 @@ class GroupContactsContainer extends React.Component {
     return !isAuthed ? (
       <Redirect to="/" />
     ) : (
-      <div>
+      <Grid>
+        <SearchForm searchFunction={searchGroupContacts} />
         <GroupContacts
-          searchGroupContacts={searchGroupContacts}
           isFetching={isFetching}
-          group={group}
-          groupContacts={groupContacts}
-          groupContactsSearchResults={groupContactsSearchResults}
+          collection={groupContacts}
           submitGroupContact={submitGroupContact}
           deleteGroupContact={deleteGroupContact}
+          group={group}
         />
-      </div>
+      </Grid>
     );
-  };
+  }
 }
 
 const mapStateToProps = state => ({
@@ -83,7 +98,6 @@ const mapStateToProps = state => ({
   isLoading: state.queryReducer.isLoading,
   group: state.groupReducer.group,
   groupContacts: state.groupContactsReducer.groupContacts
-  // groupContactsSearchResults: state.groupReducer.groupContactsSearchResults
 });
 
 const mapDispatchToProps = {

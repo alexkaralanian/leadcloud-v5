@@ -6,7 +6,6 @@ import { Route, Switch } from "react-router-dom";
 import { ConnectedRouter } from "react-router-redux";
 import { fetchUser } from "./actions/auth-actions";
 import { history } from "./store";
-import "./index.css";
 
 // import iFrameContainer from "./containers/SingleEmailContainer/iFrameContainer";
 

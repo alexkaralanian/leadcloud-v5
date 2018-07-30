@@ -22,11 +22,11 @@ export const isLoading = bool => ({
 });
 
 export const fetchComponent = (
-  componentName, // array, ie contacts
-  componentArray, // array, ie contacts
-  setFunction, // function, ie setContacts
-  id, // number
-  subComponent // string, ie groups
+  componentName, // string, ie "contacts"
+  componentArray, // array, ie []
+  setFunction, // function, ie setContacts()
+  id, // number || null
+  subComponent // string, ie "groups" || null
 ) => async dispatch => {
   const state = store.getState();
 
@@ -51,6 +51,11 @@ export const fetchComponent = (
     dispatch(isLoading(false));
   } catch (err) {
     dispatch(isLoading(false));
-    console.error(`Fetching ${componentName} unsuccessful`, err);
+    console.error(
+      id
+        ? `Fetching ${componentName} ${subComponent} unsuccessful`
+        : `Fetching ${componentName} unsuccessfsul`,
+      err
+    );
   }
 };

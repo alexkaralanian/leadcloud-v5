@@ -2,6 +2,7 @@ const express = require("express");
 const isEmpty = require("lodash.isempty");
 const Contacts = require("../db/models").contacts;
 const Groups = require("../db/models").groups;
+const ContactGroups = require("../db/models").ContactGroups;
 const authCheck = require("../middlewares/authChecker");
 
 const router = express.Router();
@@ -203,7 +204,7 @@ router.post("/:id/group-contacts/add", authCheck, async (req, res) => {
         id: req.body.groupId
       }
     });
-    await group.addContact(req.body.groupContactId);
+    await group.addContacts(req.body.groupContactId);
 
     const groupContacts = await Contacts.findAll({
       limit: 25,
@@ -223,6 +224,36 @@ router.post("/:id/group-contacts/add", authCheck, async (req, res) => {
     res.json(groupContacts);
   } catch (err) {
     console.error("ERROR ADDING CONTACT TO GROUP");
+  }
+});
+
+router.post("/:id/group-contacts/bulk-add", authCheck, async (req, res) => {
+  const userId = req.session.user.toString();
+  console.log("REQ", req.body);
+  try {
+    ContactGroups.bulkCreate(req.body.groupContacts)
+      .then(() => {
+        return Contacts.findAll({
+          limit: 25,
+          offset: 0,
+          where: {
+            UserUuid: userId
+          },
+          include: [
+            {
+              model: Groups,
+              where: {
+                id: req.body.groupId
+              }
+            }
+          ]
+        });
+      })
+      .then(groupContacts => {
+        res.json(groupContacts);
+      });
+  } catch (err) {
+    console.error("ERROR ADDING CONTACTS TO GROUP", err);
   }
 });
 

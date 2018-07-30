@@ -20,7 +20,7 @@ import {
 class ContactsContainer extends React.Component {
   componentDidMount = () => {
     const { fetchComponent, contacts } = this.props;
-    fetchComponent("contacts", contacts, setContacts, null, null);
+    fetchComponent("contacts", [], setContacts, null, null);
     window.addEventListener("scroll", this.onScroll, false);
   };
 
