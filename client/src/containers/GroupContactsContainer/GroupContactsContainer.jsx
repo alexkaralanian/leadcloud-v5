@@ -46,7 +46,6 @@ class GroupContactsContainer extends React.Component {
   }
 
   onScroll = () => {
-    const groups = this.props.groupContactsComponent === "groups";
     const {
       isLoading,
       count,
@@ -55,6 +54,7 @@ class GroupContactsContainer extends React.Component {
       groupContacts,
       group
     } = this.props;
+
     if (
       window.innerHeight + window.scrollY >= document.body.offsetHeight - 500 &&
       count > offset &&

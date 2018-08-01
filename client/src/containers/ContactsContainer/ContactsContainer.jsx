@@ -23,20 +23,20 @@ import {
 } from "../../actions/contact-actions";
 
 class ContactsContainer extends React.Component {
-  componentDidMount = () => {
+  componentDidMount() {
     const { fetchComponent, contacts } = this.props;
     fetchComponent("contacts", [], setContacts, null, null);
     window.addEventListener("scroll", this.onScroll, false);
-  };
+  }
 
-  componentWillUnmount = () => {
+  componentWillUnmount() {
     const { clearError, clearContacts, setQuery, setOffset } = this.props;
     window.removeEventListener("scroll", this.onScroll, false);
     // clearError();
     clearContacts();
     setQuery("");
     setOffset(0);
-  };
+  }
 
   onScroll = () => {
     const { isLoading, offset, count, contacts, fetchComponent } = this.props;

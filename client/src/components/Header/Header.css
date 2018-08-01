@@ -1,0 +1,18 @@
+.header_container {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 2px;
+}
+
+h1.header_text {
+  margin-top: 0px;
+}
+
+.header_text {
+  font-weight: 200;
+  margin-bottom: 10px;
+  word-wrap: break-word;
+}

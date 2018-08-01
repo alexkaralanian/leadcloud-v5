@@ -5,7 +5,7 @@ import { Route, Redirect } from "react-router-dom";
 import { Grid, Row, Col, Button, Glyphicon } from "react-bootstrap";
 import Navigation from "../NavContainer/NavContainer";
 
-import GroupHeader from "../../components/SingleGroup/GroupHeader";
+import Header from "../../components/Header/Header";
 import GroupForm from "../../components/SingleGroup/GroupForm";
 import GroupContactsContainer from "../GroupContactsContainer/GroupContactsContainer";
 import GroupNav from "../../components/SingleGroup/GroupNav";
@@ -70,10 +70,11 @@ class SingleGroupContainer extends React.Component {
       <React.Fragment>
         <Navigation />
         {isModalVisible && <Modal displayModal={setModalVisibility} />}
-        <GroupHeader
-          isGroupNew={match.params.id === "new"}
-          group={group}
-          displayModal={setModalVisibility}
+        <Header
+          componentName="Group"
+          headerTitle={group.title}
+          isNew={match.params.id === "new"}
+          primaryFunc={() => setModalVisibility(true)}
         />
         {match.params.id === "new" ? null : (
           <GroupNav

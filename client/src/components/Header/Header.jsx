@@ -1,21 +1,27 @@
 import React from "react";
 import { Grid, Row, Col, Button, Glyphicon } from "react-bootstrap";
-import "./SingleGroup.css";
+import "./Header.css";
 
-const GroupHeader = ({ group, images, isGroupNew, displayModal }) => (
+const Header = ({
+  images,
+  componentName,
+  headerTitle,
+  isNew,
+  primaryFunc
+}) => (
   <Grid>
     <Row>
       <Col xs={12}>
         <div className="header_container">
           <h1 className="header_text">
-            {isGroupNew ? "New Group" : group.title}
+            {isNew ? `New ${componentName}` : headerTitle}
           </h1>
           {/*<div className="header_button-container">*/}
           <Button
+            className="header_button-lg"
             bsStyle="primary"
             bsSize="large"
-            className="header_button-lg"
-            onClick={() => displayModal(true)}
+            onClick={primaryFunc}
           >
             <Glyphicon glyph="plus" />
           </Button>
@@ -27,4 +33,4 @@ const GroupHeader = ({ group, images, isGroupNew, displayModal }) => (
   </Grid>
 );
 
-export default GroupHeader;
+export default Header;

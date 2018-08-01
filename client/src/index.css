@@ -55,7 +55,7 @@ body {
 
 /*** HEADER ***/
 
-.header_container {
+/*.header_container {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
@@ -72,7 +72,7 @@ h1.header_text {
   font-weight: 200;
   margin-bottom: 10px;
   word-wrap: break-word;
-}
+}*/
 
 /*** FORMATTING ***/
 
