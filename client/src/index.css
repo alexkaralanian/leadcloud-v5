@@ -211,7 +211,7 @@ iframe {
 
 .header_button-sm span {
   margin-top: -1px;
-  margin-left: -1px;
+  margin-left: 0px;
 }
 
 .header_button-lg span {

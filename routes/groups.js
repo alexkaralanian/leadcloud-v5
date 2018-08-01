@@ -12,7 +12,7 @@ router.get("/", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
 
   try {
-    const groups = await Groups.findAll({
+    const groups = await Groups.findAndCountAll({
       limit: req.query.limit,
       offset: req.query.offset,
       where: {
@@ -92,6 +92,7 @@ router.patch("/:id/update", authCheck, async (req, res) => {
   }
 });
 
+// DELETE GROUP
 router.delete("/:id/delete", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
 
@@ -111,11 +112,13 @@ router.delete("/:id/delete", authCheck, async (req, res) => {
   }
 });
 
+////**** GROUPS CONTACTS ******////
+
 // GET GROUP CONTACTS
 router.get("/:id/contacts", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
   try {
-    const groupContacts = await Contacts.findAll({
+    const groupContacts = await Contacts.findAndCountAll({
       limit: req.query.limit,
       offset: req.query.offset,
       where: {
@@ -135,6 +138,8 @@ router.get("/:id/contacts", authCheck, async (req, res) => {
         }
       ]
     });
+
+    console.log("GROUP CONTACTS", groupContacts);
     res.json(groupContacts);
   } catch (err) {
     console.error("FETCHING GROUP CONTACTS ERROR", err);

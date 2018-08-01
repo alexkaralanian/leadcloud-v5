@@ -1,6 +1,7 @@
 import * as types from "../types";
 
 const initialState = {
+  count: 0,
   limit: 25,
   offset: 0,
   query: "",
@@ -9,24 +10,22 @@ const initialState = {
 
 const queryReducer = (state = initialState, action) => {
   switch (action.type) {
-    case types.SET_QUERY:
+    case types.SET_COUNT:
       return {
         ...state,
-        query: action.payload,
-        offset: 0
-      };
-
-    case types.RESET_QUERY:
-      return {
-        ...state,
-        query: "",
-        offset: 0
+        count: action.payload
       };
 
     case types.SET_OFFSET:
       return {
         ...state,
         offset: action.payload
+      };
+
+    case types.SET_QUERY:
+      return {
+        ...state,
+        query: action.payload
       };
 
     case types.IS_LOADING:

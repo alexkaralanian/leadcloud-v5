@@ -11,7 +11,11 @@ import Errors from "../../components/Error/Error";
 import Pills from "../../components/Pills/Pills";
 
 import { setModalVisibility } from "../../actions/modal-actions";
-import { fetchComponent, resetQuery } from "../../actions/query-actions";
+import {
+  fetchComponent,
+  setQuery,
+  setOffset
+} from "../../actions/query-actions";
 import { setError, clearError } from "../../actions/common-actions";
 import {
   syncContacts,
@@ -19,28 +23,28 @@ import {
   searchContacts2,
   clearContacts
 } from "../../actions/contact-actions";
-
 import {
   submitGroupContacts,
   addSelectedContact,
   deleteSelectedContact
 } from "../../actions/group-contacts-actions";
-
 import TableRow from "../../components/TableRow/TableRow";
 
 class SearchContactsContainer extends React.Component {
-  componentDidMount = () => {
-    const { fetchComponent, resetQuery } = this.props;
-    resetQuery();
+  componentDidMount() {
+    const { fetchComponent, setQuery, setOffset } = this.props;
+    setQuery("");
+    setOffset(0);
     fetchComponent("contacts", [], setContacts, null, null);
-  };
+  }
 
-  componentWillUnmount = () => {
+  componentWillUnmount() {
     const { clearError, clearContacts, resetQuery } = this.props;
     clearError();
     clearContacts();
-    resetQuery();
-  };
+    setQuery("");
+    setOffset(25);
+  }
 
   render() {
     const {
@@ -107,9 +111,10 @@ const mapDispatchToProps = {
   fetchComponent,
   clearContacts,
   clearError,
-  resetQuery,
   setModalVisibility,
   submitGroupContacts,
+  setQuery,
+  setOffset,
   push
 };
 

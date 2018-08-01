@@ -1,6 +1,6 @@
 import React from "react";
 import { Grid, Row, Col, Button, Glyphicon } from "react-bootstrap";
-import SearchContactsContainer from "../../containers/ContactsContainer/SearchContactsContainer";
+import SearchContactsContainer from "../../containers/SearchContactsContainer/SearchContactsContainer";
 import "./Modal.css";
 
 const Modal = ({ displayModal, submitFunction, searchText }) => (
@@ -8,23 +8,17 @@ const Modal = ({ displayModal, submitFunction, searchText }) => (
     <div className="modal_bg" />
     <div className="modal_container">
       <div id="search-contacts-container" className="modal_inner-container">
-        <Grid>
-          <Row>
-            <Col xs={12}>
-              <div className="modal_button-close">
-                <Button
-                  bsStyle="primary"
-                  bsSize="xsmall"
-                  onClick={() => displayModal(false)}
-                  className="header_button-sm"
-                >
-                  <Glyphicon glyph="remove" />
-                </Button>
-              </div>
-              <SearchContactsContainer />
-            </Col>
-          </Row>
-        </Grid>
+        <div className="modal_button-close">
+          <Button
+            bsStyle="primary"
+            bsSize="xsmall"
+            onClick={() => displayModal(false)}
+            className="header_button-sm"
+          >
+            <Glyphicon glyph="remove" />
+          </Button>
+        </div>
+        <SearchContactsContainer />
       </div>
     </div>
   </div>

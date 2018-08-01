@@ -2,12 +2,16 @@ import React from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { Grid, Row, Col } from "react-bootstrap";
-import GroupContacts from "../../components/GroupContacts/GroupContacts";
 import SearchForm from "../../components/SearchForm/SearchForm";
 import SearchToggle from "../../components/SearchToggle/SearchToggle";
+import TableRow from "../../components/TableRow/TableRow";
 
 import { fetchGroup } from "../../actions/group-actions";
-import { fetchComponent, resetQuery } from "../../actions/query-actions";
+import {
+  fetchComponent,
+  setQuery,
+  setOffset
+} from "../../actions/query-actions";
 
 import {
   searchContacts,
@@ -35,23 +39,25 @@ class GroupContactsContainer extends React.Component {
 
   componentWillUnmount() {
     window.removeEventListener("scroll", this.onScroll, false);
-    const { resetQuery, clearGroupContacts } = this.props;
+    const { resetQuery, clearGroupContacts, setQuery, setOffset } = this.props;
     clearGroupContacts();
-    resetQuery();
+    setQuery("");
+    setOffset(0);
   }
 
   onScroll = () => {
     const groups = this.props.groupContactsComponent === "groups";
     const {
       isLoading,
+      count,
+      offset,
       fetchComponent,
       groupContacts,
-      group,
-      query
+      group
     } = this.props;
     if (
       window.innerHeight + window.scrollY >= document.body.offsetHeight - 500 &&
-      groupContacts.length &&
+      count > offset &&
       !isLoading
     ) {
       fetchComponent(
@@ -79,14 +85,20 @@ class GroupContactsContainer extends React.Component {
       <Redirect to="/" />
     ) : (
       <Grid>
-        <SearchForm searchFunction={searchGroupContacts} />
-        <GroupContacts
-          isFetching={isFetching}
-          collection={groupContacts}
-          submitGroupContact={submitGroupContact}
-          deleteGroupContact={deleteGroupContact}
-          group={group}
-        />
+        <Row>
+          <Col xs={12}>
+            <SearchForm searchFunction={searchGroupContacts} />
+            <TableRow
+              componentName="contact"
+              rowText="fullName"
+              collection={groupContacts}
+              submitFunction={deleteGroupContact}
+              buttonText={"Remove"}
+              buttonStyle={"danger"}
+              hostComponent={group}
+            />
+          </Col>
+        </Row>
       </Grid>
     );
   }
@@ -96,6 +108,8 @@ const mapStateToProps = state => ({
   isAuthed: state.authReducer.isAuthed,
   isFetching: state.commonReducer.isFetching,
   isLoading: state.queryReducer.isLoading,
+  count: state.queryReducer.count,
+  offset: state.queryReducer.offset,
   group: state.groupReducer.group,
   groupContacts: state.groupContactsReducer.groupContacts
 });
@@ -103,10 +117,11 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   fetchGroup,
   fetchComponent,
-  resetQuery,
   clearGroupContacts,
   submitGroupContact,
-  deleteGroupContact
+  deleteGroupContact,
+  setQuery,
+  setOffset
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(

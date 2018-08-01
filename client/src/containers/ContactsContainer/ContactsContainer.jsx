@@ -8,7 +8,12 @@ import Contacts from "../../components/Contacts/Contacts";
 import Navigation from "../NavContainer/NavContainer";
 import Errors from "../../components/Error/Error";
 
-import { fetchComponent, resetQuery } from "../../actions/query-actions";
+import {
+  fetchComponent,
+  setQuery,
+  setOffset
+} from "../../actions/query-actions";
+
 import { setError, clearError } from "../../actions/common-actions";
 import {
   syncContacts,
@@ -25,18 +30,19 @@ class ContactsContainer extends React.Component {
   };
 
   componentWillUnmount = () => {
-    const { clearError, clearContacts, resetQuery } = this.props;
+    const { clearError, clearContacts, setQuery, setOffset } = this.props;
     window.removeEventListener("scroll", this.onScroll, false);
-    clearError();
+    // clearError();
     clearContacts();
-    resetQuery();
+    setQuery("");
+    setOffset(0);
   };
 
   onScroll = () => {
-    const { isLoading, contacts, fetchComponent } = this.props;
+    const { isLoading, offset, count, contacts, fetchComponent } = this.props;
     if (
       window.innerHeight + window.scrollY >= document.body.offsetHeight - 500 &&
-      contacts.length &&
+      count > offset &&
       !isLoading
     ) {
       fetchComponent("contacts", contacts, setContacts, null, null);
@@ -96,7 +102,9 @@ const mapStateToProps = state => ({
   isAuthed: state.authReducer.isAuthed,
   isLoading: state.queryReducer.isLoading,
   isFetching: state.commonReducer.isFetching,
-  error: state.commonReducer.error
+  error: state.commonReducer.error,
+  count: state.queryReducer.count,
+  offset: state.queryReducer.offset
 });
 
 const mapDispatchToProps = {
@@ -104,7 +112,8 @@ const mapDispatchToProps = {
   fetchComponent,
   clearContacts,
   clearError,
-  resetQuery
+  setQuery,
+  setOffset
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContactsContainer);

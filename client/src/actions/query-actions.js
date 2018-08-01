@@ -2,10 +2,6 @@ import axios from "axios";
 import store from "../store";
 import * as types from "../types";
 
-export const resetQuery = () => ({
-  type: types.RESET_QUERY
-});
-
 export const setQuery = query => ({
   type: types.SET_QUERY,
   payload: query
@@ -14,6 +10,11 @@ export const setQuery = query => ({
 export const setOffset = offset => ({
   type: types.SET_OFFSET,
   payload: offset
+});
+
+export const setCount = count => ({
+  type: types.SET_COUNT,
+  payload: count
 });
 
 export const isLoading = bool => ({
@@ -30,14 +31,17 @@ export const fetchComponent = (
 ) => async dispatch => {
   const state = store.getState();
 
+  const count = state.queryReducer.count;
   const limit = state.queryReducer.limit;
   const offset = state.queryReducer.offset;
   const query = state.queryReducer.query;
   const newOffset = offset + limit;
 
+  // query only gets set when component search function is invoked, is an empty string
+  // no query / fetchAll is default return state from db
+
   try {
     dispatch(isLoading(true));
-
     const res = id
       ? await axios.get(
           `/api/${componentName}/${id}/${subComponent}/?limit=${limit}&offset=${offset}&query=${query}`
@@ -46,7 +50,9 @@ export const fetchComponent = (
           `/api/${componentName}/?limit=${limit}&offset=${offset}&query=${query}`
         );
 
-    dispatch(setFunction(componentArray.concat(res.data)));
+    console.log("THE RES", res.data);
+    dispatch(setFunction(componentArray.concat(res.data.rows)));
+    dispatch(setCount(res.data.count));
     dispatch(setOffset(newOffset));
     dispatch(isLoading(false));
   } catch (err) {

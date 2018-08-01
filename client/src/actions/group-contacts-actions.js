@@ -43,6 +43,7 @@ export const searchGroupContacts = values => {
   const groupId = state.groupReducer.group.id;
   const query = values.nativeEvent.target.defaultValue;
   store.dispatch(setQuery(query));
+  store.dispatch(setOffset(0));
   store.dispatch(
     fetchComponent("groups", [], setGroupContacts, groupId, "contacts")
   );
@@ -84,9 +85,7 @@ export const submitGroupContacts = (
         groupId
       }
     );
-
     dispatch(setGroupContacts(res.data));
-    dispatch(setOffset(25));
   } catch (err) {
     console.error("Submitting Group Contacts Unsuccessful", err);
   }

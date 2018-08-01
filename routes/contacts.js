@@ -140,7 +140,7 @@ router.get("/", async (req, res) => {
   const userId = req.session.user.toString();
   console.log("REQ.QUERY", req.query);
   try {
-    const contacts = await Contacts.findAll({
+    const contacts = await Contacts.findAndCountAll({
       limit: req.query.limit,
       offset: req.query.offset,
       order: [["updatedAt", "DESC"]],

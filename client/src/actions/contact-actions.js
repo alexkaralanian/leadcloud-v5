@@ -6,7 +6,7 @@ import store from "../store";
 import { setListingContactsSearchResults } from "./listing-contacts-actions";
 import { setGroupContactsSearchResults } from "./group-contacts-actions";
 
-import { fetchComponent, setQuery } from "./query-actions";
+import { fetchComponent, setQuery, setOffset } from "./query-actions";
 
 import {
   setError,
@@ -50,6 +50,7 @@ export const clearContacts = () => ({
 export const searchContacts = values => {
   const query = values.nativeEvent.target.defaultValue;
   store.dispatch(setQuery(query));
+  store.dispatch(setOffset(0));
   store.dispatch(fetchComponent("contacts", [], setContacts));
 };
 
@@ -59,6 +60,7 @@ export const searchContacts2 = values => {
     store.dispatch(clearContacts());
   } else {
     store.dispatch(setQuery(query));
+    store.dispatch(setOffset(0));
     store.dispatch(fetchComponent("contacts", [], setContacts));
   }
 };

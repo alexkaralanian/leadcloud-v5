@@ -93,6 +93,7 @@ export const CLEAR_CAMPAIGN_GROUPS_SEARCH_RESULTS =
 export const SET_MODAL_VISIBILITY = "SET_MODAL_VISIBILITY";
 
 // QUERY REDUCER:
+export const SET_COUNT = "SET_COUNT";
 export const RESET_QUERY = "RESET_QUERY";
 export const SET_OFFSET = "SET_OFFSET";
 export const SET_QUERY = "SET_QUERY";

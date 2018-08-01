@@ -24,8 +24,7 @@ import { submitGroupContact } from "../../actions/group-contacts-actions";
 
 class SingleGroupContainer extends React.Component {
   state = {
-    activeKey: 1,
-    selectedContacts: []
+    activeKey: 1
   };
 
   componentDidMount() {
@@ -86,6 +85,14 @@ class SingleGroupContainer extends React.Component {
           />
         )}
 
+        {/* GROUP CONTACTS*/}
+        <Route
+          exact
+          path={`/group/${group.id}/contacts`}
+          render={routeProps => <GroupContactsContainer {...routeProps} />}
+        />
+
+        {/* GROUP INFO */}
         <Route
           exact
           path={match.params.id === "new" ? `/group/new` : `/group/${group.id}`}
@@ -102,12 +109,6 @@ class SingleGroupContainer extends React.Component {
               }}
             />
           )}
-        />
-
-        <Route
-          exact
-          path={`/group/${group.id}/contacts`}
-          render={routeProps => <GroupContactsContainer {...routeProps} />}
         />
       </React.Fragment>
     );

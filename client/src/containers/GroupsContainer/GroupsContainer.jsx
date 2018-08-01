@@ -6,7 +6,11 @@ import SearchForm from "../../components/SearchForm/SearchForm";
 import Groups from "../../components/Groups/Groups";
 import { setGroups, clearGroups } from "../../actions/group-actions";
 
-import { fetchComponent, resetQuery } from "../../actions/query-actions";
+import {
+  fetchComponent,
+  setQuery,
+  setOffset
+} from "../../actions/query-actions";
 
 class GroupsContainer extends React.Component {
   componentDidMount = () => {
@@ -17,16 +21,17 @@ class GroupsContainer extends React.Component {
 
   componentWillUnmount = () => {
     window.removeEventListener("scroll", this.onScroll, false);
-    const { clearGroups, resetQuery } = this.props;
+    const { clearGroups, setQuery, setOffset } = this.props;
     clearGroups();
-    resetQuery();
+    setQuery("");
+    setOffset(0);
   };
 
   onScroll = () => {
-    const { isLoading, fetchComponent, groups } = this.props;
+    const { isLoading, count, offset, fetchComponent, groups } = this.props;
     if (
       window.innerHeight + window.scrollY >= document.body.offsetHeight - 500 &&
-      groups.length &&
+      count > offset &&
       !isLoading
     ) {
       fetchComponent("groups", groups, setGroups);
@@ -39,6 +44,7 @@ class GroupsContainer extends React.Component {
 
   render = () => {
     const { isFetching, history, groups, component } = this.props;
+    console.log("GROUPS", groups);
     return (
       <Grid>
         <SearchForm searchFunction={() => console.log("SEARCH  GROUPS")} />
@@ -55,14 +61,17 @@ class GroupsContainer extends React.Component {
 
 const mapStateToProps = state => ({
   groups: state.groupReducer.groups,
-  isLoading: state.queryReducer.isLoading
+  isLoading: state.queryReducer.isLoading,
+  count: state.queryReducer.count,
+  offset: state.queryReducer.offset
 });
 
 const mapDispatchToProps = {
   fetchComponent,
   setGroups,
-  resetQuery,
-  clearGroups
+  clearGroups,
+  setQuery,
+  setOffset
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(GroupsContainer);
