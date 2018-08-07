@@ -4,7 +4,11 @@ import { Grid, Row, Col, Button } from "react-bootstrap";
 
 import SearchForm from "../../components/SearchForm/SearchForm";
 import Groups from "../../components/Groups/Groups";
-import { setGroups, clearGroups } from "../../actions/group-actions";
+import {
+  setGroups,
+  clearGroups,
+  searchGroups
+} from "../../actions/group-actions";
 
 import {
   fetchComponent,
@@ -34,7 +38,7 @@ class GroupsContainer extends React.Component {
       count > offset &&
       !isLoading
     ) {
-      fetchComponent("groups", groups, setGroups);
+      fetchComponent("groups", groups, setGroups, null, null);
     }
   };
 
@@ -44,10 +48,12 @@ class GroupsContainer extends React.Component {
 
   render = () => {
     const { isFetching, history, groups, component } = this.props;
-    console.log("GROUPS", groups);
     return (
       <Grid>
-        <SearchForm searchFunction={() => console.log("SEARCH  GROUPS")} />
+        <SearchForm
+          searchText="Search Groups..."
+          searchFunction={searchGroups}
+        />
         <Groups
           groups={groups}
           hostId={this.props.hostId}

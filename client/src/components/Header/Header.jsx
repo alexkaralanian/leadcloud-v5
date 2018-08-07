@@ -7,7 +7,12 @@ const Header = ({
   componentName,
   headerTitle,
   isNew,
-  primaryFunc
+  primaryGlyph,
+  primaryFunc,
+  primaryStyle,
+  secondaryGlyph,
+  secondaryFunc,
+  secondaryStyle
 }) => (
   <Grid>
     <Row>
@@ -16,17 +21,28 @@ const Header = ({
           <h1 className="header_text">
             {isNew ? `New ${componentName}` : headerTitle}
           </h1>
-          {/*<div className="header_button-container">*/}
-          <Button
-            className="header_button-lg"
-            bsStyle="primary"
-            bsSize="large"
-            onClick={primaryFunc}
-          >
-            <Glyphicon glyph="plus" />
-          </Button>
-          {/*<div className="header_button-text">Add Contacts</div>
-          </div>*/}
+          <div className="header_button-row">
+            {primaryFunc && (
+              <Button
+                className="header_button-lg"
+                bsStyle="primary"
+                bsSize="large"
+                onClick={primaryFunc}
+              >
+                <Glyphicon glyph={primaryGlyph} />
+              </Button>
+            )}
+            {secondaryFunc && (
+              <Button
+                className="header_button-lg"
+                bsStyle={secondaryStyle}
+                bsSize="large"
+                onClick={secondaryFunc}
+              >
+                <Glyphicon glyph={secondaryGlyph} />
+              </Button>
+            )}
+          </div>
         </div>
       </Col>
     </Row>

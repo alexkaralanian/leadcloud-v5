@@ -16,7 +16,7 @@ const SearchForm = ({
   searchText
 }) => {
   return (
-    <FormGroup>
+    <FormGroup className="formGroup">
       <Field
         type="text"
         name="contactSearch"

@@ -23,7 +23,6 @@ ContactForm = ({
   reset,
   submitting,
   auditClick,
-
   isContactNew,
   contact,
   fetchContact,

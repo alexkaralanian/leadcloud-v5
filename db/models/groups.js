@@ -5,7 +5,8 @@ module.exports = (sequelize, DataTypes) => {
       googleId: {
         type: DataTypes.STRING
       },
-      title: DataTypes.STRING
+      title: DataTypes.STRING,
+      description: DataTypes.TEXT
     },
     {}
   );

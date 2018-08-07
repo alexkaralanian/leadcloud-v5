@@ -53,6 +53,22 @@ class SingleGroupContainer extends React.Component {
     }
   };
 
+  headerPrimaryFuncSwitch = path => {
+    const { group, setModalVisibility } = this.props;
+    switch (path) {
+      case `/group/${group.id}/contacts`:
+        return () => setModalVisibility(true);
+    }
+  };
+
+  headerPrimaryGlyphSwitch = path => {
+    const { group } = this.props;
+    switch (path) {
+      case `/group/${group.id}/contacts`:
+        return "plus";
+    }
+  };
+
   render() {
     const {
       isAuthed,
@@ -66,6 +82,9 @@ class SingleGroupContainer extends React.Component {
       isModalVisible,
       setModalVisibility
     } = this.props;
+
+    const path = this.props.history.location.pathname;
+
     return (
       <React.Fragment>
         <Navigation />
@@ -74,9 +93,10 @@ class SingleGroupContainer extends React.Component {
           componentName="Group"
           headerTitle={group.title}
           isNew={match.params.id === "new"}
-          primaryFunc={() => setModalVisibility(true)}
+          primaryFunc={this.headerPrimaryFuncSwitch(path)}
+          primaryGlyph={this.headerPrimaryGlyphSwitch(path)}
         />
-        {match.params.id === "new" ? null : (
+        {match.params.id !== "new" && (
           <GroupNav
             groupId={match.params.id}
             isGroupNew={match.params.id === "new"}

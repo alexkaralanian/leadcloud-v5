@@ -6,36 +6,26 @@ import { Grid, Row, Col, Button } from "react-bootstrap";
 
 import Navigation from "../NavContainer/NavContainer";
 import GroupsContainer from "../GroupsContainer/GroupsContainer";
+import Header from "../../components/Header/Header";
 
 class GroupsDashboardContainer extends React.Component {
   render() {
-    const { isAuthed, isFetching, push, groups } = this.props;
+    const { isAuthed, history, isFetching, push, groups } = this.props;
 
     return !isAuthed ? (
       <Redirect to="/" />
     ) : (
-      <div>
+      <React.Fragment>
         <Navigation />
-        <Grid>
-          <Row>
-            <Col xs={12}>
-              <h2>Groups</h2>
-            </Col>
-          </Row>
-          <Row id="load-contacts-btn">
-            <Col sm={12}>
-              <Button
-                className="submitButton"
-                bsStyle="primary"
-                onClick={() => push("/group/new")}
-              >
-                <span>Create New</span>
-              </Button>
-            </Col>
-          </Row>
-        </Grid>
+        <Header
+          componentName="Groups"
+          headerTitle="Groups"
+          isNew={null}
+          primaryFunc={() => history.push("/group/new")}
+          primaryGlyph="plus"
+        />
         <GroupsContainer />
-      </div>
+      </React.Fragment>
     );
   }
 }

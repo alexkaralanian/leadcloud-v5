@@ -4,6 +4,7 @@ import { Grid, Row, Col, Button } from "react-bootstrap";
 import { Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
 import SearchForm from "../../components/SearchForm/SearchForm";
+import Header from "../../components/Header/Header";
 import Contacts from "../../components/Contacts/Contacts";
 import Navigation from "../NavContainer/NavContainer";
 import Errors from "../../components/Error/Error";
@@ -67,28 +68,22 @@ class ContactsContainer extends React.Component {
     ) : (
       <div>
         <Navigation />
+
+        <Header
+          componentName="Contacts"
+          headerTitle="Contacts"
+          isNew={null}
+          primaryFunc={() => history.push("/contact/new")}
+          primaryGlyph="plus"
+          secondaryFunc={() => syncContacts()}
+          secondaryGlyph="refresh"
+        />
+
         <Grid>
-          <Row id="load-contacts-btn">
-            <Col sm={6}>
-              <Button
-                className="submitButton"
-                bsStyle="primary"
-                onClick={() => history.push("/contact/new")}
-              >
-                <span>Create New</span>
-              </Button>
-            </Col>
-            <Col sm={6}>
-              <Button
-                className="submitButton"
-                bsStyle="primary"
-                onClick={() => syncContacts()}
-              >
-                <span>Sync Contacts</span>
-              </Button>
-            </Col>
-          </Row>
-          <SearchForm searchFunction={searchContacts} />
+          <SearchForm
+            searchFunction={searchContacts}
+            searchText="Search Contacts..."
+          />
         </Grid>
         <Contacts contacts={contacts} isFetching={isFetching} />
         {/*<Errors errorText={this.props.error} />*/}

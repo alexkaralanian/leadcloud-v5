@@ -2,7 +2,15 @@ import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Field, reduxForm } from "redux-form";
-import { Button, Form, FormGroup, Grid, Col, Row } from "react-bootstrap";
+import {
+  Button,
+  Form,
+  FormGroup,
+  Grid,
+  Col,
+  Row,
+  Glyphicon
+} from "react-bootstrap";
 
 import { contactValidate } from "../../helpers/redux-form/validate";
 import { fetchGroup } from "../../actions/group-actions";
@@ -36,6 +44,12 @@ let GroupForm = ({
               component={inputField}
               label="Group Title"
             />
+            <Field
+              type="text"
+              name="description"
+              component={textAreaField}
+              label="Description"
+            />
           </FormGroup>
         </Col>
       </Row>
@@ -43,38 +57,40 @@ let GroupForm = ({
         {isGroupNew ? (
           <Col xs={12}>
             <Button
-              className="submitButton"
+              className="header_button-lg"
               type="submit"
               bsStyle="primary"
+              bsSize="large"
               disabled={pristine || submitting}
             >
               <span>Submit</span>
             </Button>
           </Col>
         ) : (
-          <div>
-            <Col xs={12} sm={6}>
+          <Col xs={12}>
+            <div className="form_button-row">
               <Button
-                className="submitButton"
+                className="header_button-lg"
                 type="submit"
                 bsStyle="primary"
+                bsSize="large"
                 disabled={pristine || submitting}
               >
-                <span>Update</span>
+                <Glyphicon glyph="floppy-disk" />
               </Button>
-            </Col>
-            <Col xs={12} sm={6}>
+
               <Button
-                className="submitButton"
+                className="header_button-lg"
                 onClick={() => {
                   deleteGroup(group.id);
                 }}
                 bsStyle="danger"
+                bsSize="large"
               >
-                <span>Delete</span>
+                <Glyphicon glyph="trash" />
               </Button>
-            </Col>
-          </div>
+            </div>
+          </Col>
         )}
       </Row>
     </Grid>

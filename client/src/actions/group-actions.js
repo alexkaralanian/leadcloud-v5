@@ -2,7 +2,8 @@ import axios from "axios";
 import * as types from "../types";
 import { push } from "react-router-redux";
 import { isFetching, setError, clearError } from "./common-actions";
-import { isLoading } from "./query-actions";
+import { fetchComponent, setQuery, setOffset } from "./query-actions";
+import store from "../store";
 
 /* ------------   ACTION CREATORS     ------------------ */
 
@@ -32,6 +33,16 @@ export const fetchGroup = id => async dispatch => {
   }
 };
 
+// SEARCH GROUPS
+export const searchGroups = values => {
+  const state = store.getState();
+  const groupId = state.groupReducer.group.id;
+  const query = values.nativeEvent.target.defaultValue;
+  store.dispatch(setQuery(query));
+  store.dispatch(setOffset(0));
+  store.dispatch(fetchComponent("groups", [], setGroups, null, null));
+};
+
 // CREATE NEW GROUP
 export const submitNewGroup = data => async dispatch => {
   dispatch(isFetching(true));
@@ -50,6 +61,7 @@ export const submitNewGroup = data => async dispatch => {
 // UPDATE GROUP
 export const updateGroup = (values, id) => async dispatch => {
   try {
+    console.log("VALUES", values);
     const res = await axios.patch(`/api/groups/${id}/update`, values);
     dispatch(setGroup(res.data));
   } catch (err) {

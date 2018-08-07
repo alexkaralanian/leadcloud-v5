@@ -15,11 +15,9 @@ const GroupNav = ({ groupId, isGroupNew, push, onMenuSelect, activeKey }) => (
               Info
             </NavItem>
 
-
-
-            <NavItem eventKey={3} onSelect={() => onMenuSelect(3)}>
+            {/*<NavItem eventKey={3} onSelect={() => onMenuSelect(3)}>
               Media
-            </NavItem>
+            </NavItem>*/}
           </Nav>
         </Col>
       </Row>

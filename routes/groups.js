@@ -1,11 +1,13 @@
 const express = require("express");
 const isEmpty = require("lodash.isempty");
+const Sequelize = require("sequelize");
 const Contacts = require("../db/models").contacts;
 const Groups = require("../db/models").groups;
 const ContactGroups = require("../db/models").ContactGroups;
 const authCheck = require("../middlewares/authChecker");
 
 const router = express.Router();
+const Op = Sequelize.Op;
 
 // GET ALL GROUPS FROM DB
 router.get("/", authCheck, async (req, res) => {
@@ -17,12 +19,13 @@ router.get("/", authCheck, async (req, res) => {
       offset: req.query.offset,
       where: {
         UserUuid: userId,
-        $and: {
+        [Op.and]: {
           title: {
-            $iLike: `${req.query.query}%`
+            [Op.iLike]: `%${req.query.query}%`
           }
         }
-      }
+      },
+      order: [["updatedAt", "DESC"]]
     });
     res.json(groups);
   } catch (err) {
@@ -56,7 +59,7 @@ router.post("/new", authCheck, async (req, res) => {
       where: {
         UserUuid: userId,
         title: {
-          $iLike: req.body.title
+          [Op.iLike]: req.body.title
         }
       }
     });
@@ -123,9 +126,9 @@ router.get("/:id/contacts", authCheck, async (req, res) => {
       offset: req.query.offset,
       where: {
         UserUuid: userId,
-        $and: {
+        [Op.and]: {
           fullName: {
-            $iLike: `${req.query.query}%`
+            [Op.iLike]: `%${req.query.query}%`
           }
         }
       },
@@ -136,7 +139,8 @@ router.get("/:id/contacts", authCheck, async (req, res) => {
             id: req.params.id
           }
         }
-      ]
+      ],
+      order: [["updatedAt", "DESC"]]
     });
 
     console.log("GROUP CONTACTS", groupContacts);
