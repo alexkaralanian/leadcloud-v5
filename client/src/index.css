@@ -176,8 +176,8 @@ iframe {
 
 /*** NAVIGATION ***/
 
-.NavWrapper {
-  margin: 15px 0;
+.secondary_nav-container {
+  margin: 0 0 1.5rem 0;
 }
 
 /*** HEADER ***/

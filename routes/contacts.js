@@ -1,5 +1,6 @@
 const express = require("express");
 const moment = require("moment");
+const Sequelize = require("sequelize");
 const isEmpty = require("lodash.isempty");
 const { google } = require("googleapis");
 
@@ -12,6 +13,7 @@ const Groups = require("../db/models").groups;
 
 const router = express.Router();
 const people = google.people("v1");
+const Op = Sequelize.Op;
 
 // FETCH, MAP, AND LOAD USER'S GROUPS AND CONTACTS TO DB
 router.get("/loadcontacts", authCheck, findUserById, async (req, res) => {
@@ -146,9 +148,9 @@ router.get("/", async (req, res) => {
       order: [["updatedAt", "DESC"]],
       where: {
         UserUuid: userId,
-        $and: {
+        [Op.and]: {
           fullName: {
-            $iLike: `${req.query.query}%`
+            [Op.iLike]: `%${req.query.query}%`
           }
         }
       }
@@ -170,7 +172,9 @@ router.get("/:id", authCheck, async (req, res) => {
         UserUuid: userId
       }
     });
-    const groups = await contact.getGroups();
+    const groups = await contact.getGroups({
+      order: [["title", "ASC"]]
+    });
     const contactGroups = groups.map(group => {
       if (group !== null) {
         return group.dataValues;

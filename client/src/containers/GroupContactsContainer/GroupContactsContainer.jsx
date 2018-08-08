@@ -5,6 +5,7 @@ import { Grid, Row, Col } from "react-bootstrap";
 import SearchForm from "../../components/SearchForm/SearchForm";
 import SearchToggle from "../../components/SearchToggle/SearchToggle";
 import TableRow from "../../components/TableRow/TableRow";
+import Counter from "../../components/Counter/Counter";
 
 import { fetchGroup } from "../../actions/group-actions";
 import {
@@ -88,6 +89,7 @@ class GroupContactsContainer extends React.Component {
         <Row>
           <Col xs={12}>
             <SearchForm searchFunction={searchGroupContacts} />
+            <Counter />
             <TableRow
               componentName="contact"
               rowText="fullName"

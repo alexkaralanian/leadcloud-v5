@@ -2,7 +2,7 @@ import React from "react";
 import { Grid, Col, Row, Nav, NavItem } from "react-bootstrap";
 
 const GroupNav = ({ groupId, isGroupNew, push, onMenuSelect, activeKey }) => (
-  <div className="NavWrapper">
+  <div className="secondary_nav-container">
     <Grid>
       <Row>
         <Col xs={12}>

@@ -7,6 +7,7 @@ import { Grid, Row, Col, Button } from "react-bootstrap";
 import Navigation from "../NavContainer/NavContainer";
 import GroupsContainer from "../GroupsContainer/GroupsContainer";
 import Header from "../../components/Header/Header";
+import Counter from "../../components/Counter/Counter";
 
 class GroupsDashboardContainer extends React.Component {
   render() {
@@ -31,7 +32,8 @@ class GroupsDashboardContainer extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  isAuthed: state.authReducer.isAuthed
+  isAuthed: state.authReducer.isAuthed,
+  count: state.queryReducer.count
 });
 
 const mapDispatchToProps = {
