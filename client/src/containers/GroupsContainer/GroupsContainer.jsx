@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { Grid, Row, Col, Button } from "react-bootstrap";
 
 import SearchForm from "../../components/SearchForm/SearchForm";
+import Counter from "../../components/Counter/Counter";
 import Groups from "../../components/Groups/Groups";
 import {
   setGroups,
@@ -17,19 +18,19 @@ import {
 } from "../../actions/query-actions";
 
 class GroupsContainer extends React.Component {
-  componentDidMount = () => {
+  componentDidMount() {
     window.addEventListener("scroll", this.onScroll, false);
     const { fetchComponent, groups } = this.props;
     fetchComponent("groups", [], setGroups, null, null);
-  };
+  }
 
-  componentWillUnmount = () => {
+  componentWillUnmount() {
     window.removeEventListener("scroll", this.onScroll, false);
     const { clearGroups, setQuery, setOffset } = this.props;
     clearGroups();
     setQuery("");
     setOffset(0);
-  };
+  }
 
   onScroll = () => {
     const { isLoading, count, offset, fetchComponent, groups } = this.props;
@@ -54,6 +55,7 @@ class GroupsContainer extends React.Component {
           searchText="Search Groups..."
           searchFunction={searchGroups}
         />
+        <Counter />
         <Groups
           groups={groups}
           hostId={this.props.hostId}

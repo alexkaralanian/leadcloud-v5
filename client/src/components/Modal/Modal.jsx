@@ -3,7 +3,7 @@ import { Grid, Row, Col, Button, Glyphicon } from "react-bootstrap";
 import SearchContactsContainer from "../../containers/SearchContactsContainer/SearchContactsContainer";
 import "./Modal.css";
 
-const Modal = ({ displayModal, submitFunction, searchText }) => (
+const Modal = ({ displayModal }) => (
   <div>
     <div className="modal_bg" />
     <div className="modal_container">

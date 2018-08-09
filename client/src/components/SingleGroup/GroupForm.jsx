@@ -32,12 +32,13 @@ let GroupForm = ({
   group,
   deleteGroup
 }) => (
-  <Form onSubmit={handleSubmit}>
-    {/* *** NAMES *** */}
-    <Grid>
+  <Grid className="group-form_container">
+    <Form onSubmit={handleSubmit}>
+      {/* *** NAMES *** */}
+
       <Row>
         <Col xs={12}>
-          <FormGroup className="formGroup">
+          <FormGroup>
             <Field
               type="text"
               name="title"
@@ -56,45 +57,56 @@ let GroupForm = ({
       <Row>
         {isGroupNew ? (
           <Col xs={12}>
-            <Button
-              className="header_button-lg"
-              type="submit"
-              bsStyle="primary"
-              bsSize="large"
-              disabled={pristine || submitting}
-            >
-              <span>Submit</span>
-            </Button>
-          </Col>
-        ) : (
-          <Col xs={12}>
-            <div className="form_button-row">
+            <div className="button_footer-container">
               <Button
-                className="header_button-lg"
+                className="button-lg"
                 type="submit"
                 bsStyle="primary"
                 bsSize="large"
                 disabled={pristine || submitting}
               >
-                <Glyphicon glyph="floppy-disk" />
+                <div className="button_inner">
+                  <span className="button_inner-text">Submit</span>
+                  <Glyphicon glyph="floppy-disk" />
+                </div>
+              </Button>
+            </div>
+          </Col>
+        ) : (
+          <Col xs={12}>
+            <div className="button_footer-container">
+              <Button
+                className="button-lg"
+                type="submit"
+                bsStyle="primary"
+                bsSize="large"
+                disabled={pristine || submitting}
+              >
+                <div className="button_inner">
+                  <span className="button_inner-text">Update</span>
+                  <Glyphicon glyph="floppy-disk" />
+                </div>
               </Button>
 
               <Button
-                className="header_button-lg"
+                className="button-lg"
                 onClick={() => {
                   deleteGroup(group.id);
                 }}
-                bsStyle="danger"
                 bsSize="large"
+                bsStyle="danger"
               >
-                <Glyphicon glyph="trash" />
+                <div className="button_inner">
+                  <span className="button_inner-text">Delete</span>
+                  <Glyphicon glyph="trash" />
+                </div>
               </Button>
             </div>
           </Col>
         )}
       </Row>
-    </Grid>
-  </Form>
+    </Form>
+  </Grid>
 );
 
 GroupForm = reduxForm({

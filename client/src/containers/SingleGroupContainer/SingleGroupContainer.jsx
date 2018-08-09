@@ -16,11 +16,23 @@ import {
   fetchGroup,
   submitNewGroup,
   updateGroup,
-  deleteGroup
+  deleteGroup,
+  setGroup
 } from "../../actions/group-actions";
 
 import { setModalVisibility } from "../../actions/modal-actions";
-import { submitGroupContact } from "../../actions/group-contacts-actions";
+
+import {
+  submitGroupContact,
+  setGroupContacts
+} from "../../actions/group-contacts-actions";
+
+import {
+  fetchComponent,
+  setQuery,
+  setOffset,
+  setCount
+} from "../../actions/query-actions";
 
 class SingleGroupContainer extends React.Component {
   state = {
@@ -37,6 +49,7 @@ class SingleGroupContainer extends React.Component {
   onMenuSelect = eventKey => {
     const { push, match } = this.props;
     const groupId = match.params.id;
+
     if (eventKey === 1) {
       push(`/group/${groupId}/contacts`);
       this.setState({ activeKey: 1 });
@@ -54,10 +67,12 @@ class SingleGroupContainer extends React.Component {
   };
 
   headerPrimaryFuncSwitch = path => {
-    const { group, setModalVisibility } = this.props;
+    const { group, setModalVisibility, setGroup } = this.props;
     switch (path) {
       case `/group/${group.id}/contacts`:
-        return () => setModalVisibility(true);
+        return () => {
+          setModalVisibility(true);
+        };
     }
   };
 
@@ -67,6 +82,24 @@ class SingleGroupContainer extends React.Component {
       case `/group/${group.id}/contacts`:
         return "plus";
     }
+  };
+
+  displayModalFunc = bool => {
+    const {
+      match,
+      fetchGroup,
+      fetchComponent,
+      group,
+      setModalVisibility,
+      setQuery,
+      setOffset,
+      setCount
+    } = this.props;
+    setModalVisibility(bool);
+    setCount(0);
+    setOffset(0);
+
+    fetchComponent("groups", [], setGroupContacts, group.id, "contacts");
   };
 
   render() {
@@ -88,17 +121,17 @@ class SingleGroupContainer extends React.Component {
     return (
       <React.Fragment>
         <Navigation />
-        {isModalVisible && <Modal displayModal={setModalVisibility} />}
+        {isModalVisible && <Modal displayModal={this.displayModalFunc} />}
         <Header
           componentName="Group"
           headerTitle={group.title}
           isNew={match.params.id === "new"}
-          primaryFunc={this.headerPrimaryFuncSwitch(path)}
-          primaryGlyph={this.headerPrimaryGlyphSwitch(path)}
+          primaryFunc={() => setModalVisibility(true)}
+          primaryGlyph="plus"
         />
         {match.params.id !== "new" && (
           <GroupNav
-            groupId={match.params.id}
+            groupId={group.id}
             isGroupNew={match.params.id === "new"}
             push={push}
             activeKey={this.state.activeKey}
@@ -149,7 +182,12 @@ const mapDispatchToProps = {
   updateGroup,
   deleteGroup,
   setModalVisibility,
-  push
+  push,
+  fetchComponent,
+  setQuery,
+  setCount,
+  setOffset,
+  setGroup
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(

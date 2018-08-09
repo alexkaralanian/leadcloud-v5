@@ -4,13 +4,16 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  border-radius: 2px;
-  margin-bottom: 1rem;
+  /*  border-radius: 2px 2px 0 0;*/
+  /*margin-bottom: 2rem;*/
   min-height: 6rem;
+  background-color: #222;
+  padding: 2rem;
 }
 
 h1.header_text {
   margin-top: 0px;
+  color: white;
 }
 
 .header_text {
@@ -25,5 +28,16 @@ h1.header_text {
 }
 
 .header_button-row button {
-  margin-left: 1rem;
+  margin-left: 2rem;
+}
+
+.header_image {
+  height: 8.5rem;
+  border-radius: 3px;
+  margin-right: 2rem;
+}
+
+.header_container-inner {
+  display: flex;
+  align-items: center;
 }

@@ -65,6 +65,7 @@ class SearchContactsContainer extends React.Component {
             searchText={"Search Contacts..."}
           />
           <Button
+          className="button"
             onClick={() => submitGroupContacts(selectedContacts, group.id)}
             bsStyle="primary"
           >

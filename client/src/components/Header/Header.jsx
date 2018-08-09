@@ -18,9 +18,18 @@ const Header = ({
     <Row>
       <Col xs={12}>
         <div className="header_container">
+         <div className="header_container-inner">
+          {images && (
+            <img
+              className="header_image"
+              alt="Contact"
+              src={images && images[0]}
+            />
+          )}
           <h1 className="header_text">
             {isNew ? `New ${componentName}` : headerTitle}
           </h1>
+          </div>
           <div className="header_button-row">
             {primaryFunc && (
               <Button

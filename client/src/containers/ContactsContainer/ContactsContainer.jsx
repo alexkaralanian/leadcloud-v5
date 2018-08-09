@@ -8,11 +8,13 @@ import Header from "../../components/Header/Header";
 import Contacts from "../../components/Contacts/Contacts";
 import Navigation from "../NavContainer/NavContainer";
 import Errors from "../../components/Error/Error";
+import Counter from "../../components/Counter/Counter";
 
 import {
   fetchComponent,
   setQuery,
-  setOffset
+  setOffset,
+  setCount
 } from "../../actions/query-actions";
 
 import { setError, clearError } from "../../actions/common-actions";
@@ -84,6 +86,7 @@ class ContactsContainer extends React.Component {
             searchFunction={searchContacts}
             searchText="Search Contacts..."
           />
+          <Counter />
         </Grid>
         <Contacts contacts={contacts} isFetching={isFetching} />
         {/*<Errors errorText={this.props.error} />*/}

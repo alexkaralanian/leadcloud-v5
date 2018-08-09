@@ -2,14 +2,16 @@ import React from "react";
 import { connect } from "react-redux";
 import { push } from "react-router-redux";
 import { Route, Redirect } from "react-router-dom";
+import { Grid, Col, Row } from "react-bootstrap";
 import PropTypes from "prop-types";
 
 import Navigation from "../NavContainer/NavContainer";
+import Header from "../../components/Header/Header";
 import ContactNav from "../../components/SingleContact/ContactNav";
-import ContactHeader from "../../components/SingleContact/ContactHeader";
 import ContactListings from "../../components/ContactListings/ContactListings";
-import SingleContact from "../../components/SingleContact/SingleContact";
+import ContactForm from "../../components/SingleContact/ContactForm";
 import ImageCarousel from "../../components/ImageCarousel/ImageCarousel";
+import Pills from "../../components/Pills/Pills";
 
 import SingleContactEmailsContainer from "./SingleContactEmailsContainer";
 import ContactGroups from "../../components/ContactGroups/ContactGroups";
@@ -47,6 +49,10 @@ import {
 } from "../../actions/contact-groups-actions";
 
 class SingleContactContainer extends React.Component {
+  state = {
+    activeKey: 1
+  };
+
   componentDidMount() {
     const { match, fetchContact, fetchContactListings } = this.props;
 
@@ -94,6 +100,36 @@ class SingleContactContainer extends React.Component {
     clearError();
   }
 
+  onMenuSelect = eventKey => {
+    const { push, match } = this.props;
+    const contactId = match.params.id;
+
+    if (eventKey === 1) {
+      push(`/contact/${contactId}`);
+      this.setState({ activeKey: 1 });
+    }
+
+    if (eventKey === 2) {
+      push(`/contact/${contactId}/listings`);
+      this.setState({ activeKey: 2 });
+    }
+
+    if (eventKey === 3) {
+      push(`/contact/${contactId}/groups`);
+      this.setState({ activeKey: 3 });
+    }
+
+    if (eventKey === 4) {
+      push(`/contact/${contactId}/emails`);
+      this.setState({ activeKey: 4 });
+    }
+
+    if (eventKey === 5) {
+      push(`/contact/${contactId}/media`);
+      this.setState({ activeKey: 5 });
+    }
+  };
+
   render() {
     const {
       match,
@@ -127,15 +163,22 @@ class SingleContactContainer extends React.Component {
     ) : (
       <div>
         <Navigation />
-        <ContactHeader
-          contact={contact}
-          isContactNew={match.params.id === "new"}
+        <Header
+          componentName="Contact"
+          headerTitle={contact.fullName}
+          isNew={match.params.id === "new"}
           images={contact.images}
         />
 
         {/* CONTACT NESTED NAV */}
-        {match.params.id === "new" ? null : (
-          <ContactNav contactId={contact.id} push={push} />
+        {match.params.id !== "new" && (
+          <ContactNav
+            contactId={contact.id}
+            isGroupNew={match.params.id === "new"}
+            push={push}
+            activeKey={this.state.activeKey}
+            onMenuSelect={this.onMenuSelect}
+          />
         )}
 
         {/* CONTACT FORM */}
@@ -147,14 +190,17 @@ class SingleContactContainer extends React.Component {
               : `/contact/${contact.id}`
           }
           render={routeProps => (
-            <SingleContact
+            <ContactForm
               {...routeProps}
-              contact={contact}
-              isContactNew={match.params.id === "new"}
-              submitNewContact={submitNewContact}
-              updateContact={updateContact}
+              onSubmit={values => {
+                match.params.id === "new"
+                  ? submitNewContact(values)
+                  : updateContact(values, contact.id);
+              }}
               deleteContact={deleteContact}
-              contactGroups={contactGroups}
+              isContactNew={match.params.id === "new"}
+              contact={contact}
+              fetchContact={fetchContact}
             />
           )}
         />
@@ -188,12 +234,20 @@ class SingleContactContainer extends React.Component {
           path={`/contact/${contact.id}/groups`}
           render={routeProps => (
             <React.Fragment>
-              <ContactGroups
-                {...routeProps}
-                hostId={contact.id}
-                contactGroups={contactGroups}
-                deleteContactGroup={deleteContactGroup}
-              />
+              <Grid>
+                <Row>
+                  <Col xs={12}>
+                    <Pills
+                      {...routeProps}
+                      component={contactGroups}
+                      componentName="group"
+                      submitFunction={deleteContactGroup}
+                      displayValue="title"
+                    />
+                  </Col>
+                </Row>
+              </Grid>
+
               <GroupsContainer
                 hostId={contact.id}
                 component="ContactGroups"

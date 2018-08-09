@@ -1,0 +1,21 @@
+.search-form,
+.search-form .input_container {
+  margin-bottom: 0;
+  margin-top: 0rem;
+}
+
+.search-form .input_container input {
+  border-radius: 0;
+  /*  border-top: none;
+  border-bottom: none;+*/
+  border-color: #eee;
+  /*border: none;*/
+  box-shadow: none;
+  /*font-weight: 400;*/
+  font-size: 1.6rem !important;
+}
+
+.search-form .input_container input::placeholder {
+  /*color: black;*/
+  font-size: 1.6rem;
+}

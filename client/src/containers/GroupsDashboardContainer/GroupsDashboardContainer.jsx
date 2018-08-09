@@ -9,7 +9,14 @@ import GroupsContainer from "../GroupsContainer/GroupsContainer";
 import Header from "../../components/Header/Header";
 import Counter from "../../components/Counter/Counter";
 
+import { setGroup } from "../../actions/group-actions";
+
 class GroupsDashboardContainer extends React.Component {
+  groupsPrimaryFunc = () => {
+    const { history, setGroup, push } = this.props;
+    setGroup({});
+    push("/group/new");
+  };
   render() {
     const { isAuthed, history, isFetching, push, groups } = this.props;
 
@@ -22,7 +29,7 @@ class GroupsDashboardContainer extends React.Component {
           componentName="Groups"
           headerTitle="Groups"
           isNew={null}
-          primaryFunc={() => history.push("/group/new")}
+          primaryFunc={this.groupsPrimaryFunc}
           primaryGlyph="plus"
         />
         <GroupsContainer />
@@ -37,7 +44,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  push
+  push,
+  setGroup
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(

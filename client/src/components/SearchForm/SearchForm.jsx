@@ -4,6 +4,7 @@ import { Grid, Row, Col, Field, reduxForm } from "redux-form";
 import { FormGroup } from "react-bootstrap";
 
 import inputField from "../InputField/InputField";
+import "./SearchForm.css";
 
 const SearchForm = ({
   load,
@@ -16,7 +17,7 @@ const SearchForm = ({
   searchText
 }) => {
   return (
-    <FormGroup className="formGroup">
+    <FormGroup className="search-form">
       <Field
         type="text"
         name="contactSearch"

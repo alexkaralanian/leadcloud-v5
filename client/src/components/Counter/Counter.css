@@ -1,0 +1,16 @@
+.counter_container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  height: 4rem;
+  background-color: #eee;
+  padding: 1rem;
+  padding-right: 2rem;
+  margin-bottom: 2rem;
+  /*  border-radius: 2px;*/
+}
+
+.counter_text {
+  font-weight: 200;
+  font-size: 1.5rem;
+}
