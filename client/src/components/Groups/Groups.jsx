@@ -38,7 +38,7 @@ const Groups = ({ groups, isFetching, component, hostId, submitFunction }) =>
                 )}
               </td>
               <td className="nameDisplay">
-                <Link to={`/group/${group.id}/contacts`}>
+                <Link to={`/groups/${group.id}/contacts`}>
                   <span>{group.title}</span>
                 </Link>
               </td>

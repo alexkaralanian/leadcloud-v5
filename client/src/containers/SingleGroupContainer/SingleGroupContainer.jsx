@@ -51,17 +51,17 @@ class SingleGroupContainer extends React.Component {
     const groupId = match.params.id;
 
     if (eventKey === 1) {
-      push(`/group/${groupId}/contacts`);
+      push(`/groups/${groupId}/contacts`);
       this.setState({ activeKey: 1 });
     }
 
     if (eventKey === 2) {
-      push(`/group/${groupId}`);
+      push(`/groups/${groupId}`);
       this.setState({ activeKey: 2 });
     }
 
     if (eventKey === 3) {
-      push(`/group/${groupId}/media`);
+      push(`/groups/${groupId}/media`);
       this.setState({ activeKey: 3 });
     }
   };
@@ -69,7 +69,7 @@ class SingleGroupContainer extends React.Component {
   headerPrimaryFuncSwitch = path => {
     const { group, setModalVisibility, setGroup } = this.props;
     switch (path) {
-      case `/group/${group.id}/contacts`:
+      case `/groups/${group.id}/contacts`:
         return () => {
           setModalVisibility(true);
         };
@@ -79,7 +79,7 @@ class SingleGroupContainer extends React.Component {
   headerPrimaryGlyphSwitch = path => {
     const { group } = this.props;
     switch (path) {
-      case `/group/${group.id}/contacts`:
+      case `/groups/${group.id}/contacts`:
         return "plus";
     }
   };
@@ -121,7 +121,11 @@ class SingleGroupContainer extends React.Component {
     return (
       <React.Fragment>
         <Navigation />
-        {isModalVisible && <Modal displayModal={this.displayModalFunc} />}
+        <Modal
+          displayModal={this.displayModalFunc}
+          isModalVisible={isModalVisible}
+          title={group.title}
+        />
         <BreadCrumbs />
         <Grid>
           <Header
@@ -145,14 +149,16 @@ class SingleGroupContainer extends React.Component {
         {/* GROUP CONTACTS*/}
         <Route
           exact
-          path={`/group/${group.id}/contacts`}
+          path={`/groups/${group.id}/contacts`}
           render={routeProps => <GroupContactsContainer {...routeProps} />}
         />
 
         {/* GROUP INFO */}
         <Route
           exact
-          path={match.params.id === "new" ? `/group/new` : `/group/${group.id}`}
+          path={
+            match.params.id === "new" ? `/groups/new` : `/groups/${group.id}`
+          }
           render={routeProps => (
             <GroupForm
               {...routeProps}

@@ -6,16 +6,25 @@
 
 .search-form .input_container input {
   border-radius: 0;
-  /*  border-top: none;
-  border-bottom: none;+*/
   border-color: #eee;
-  /*border: none;*/
   box-shadow: none;
   font-weight: 400;
   font-size: 1.5rem !important;
+  border-right: none;
 }
 
 .search-form .input_container input::placeholder {
   font-weight: 400;
   font-size: 1.5rem;
+}
+
+.input-group-addon {
+  background-color: white;
+  border-radius: 0;
+  border: none;
+  border-right: 1px solid #eee;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+  box-shadow: none;
+  height: 3rem !important;
 }

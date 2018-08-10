@@ -58,14 +58,13 @@ class SearchContactsContainer extends React.Component {
 
     return (
       <React.Fragment>
-        <h2 className="modal_header">{group.title}</h2>
         <div className="modal_search-container">
           <SearchForm
             searchFunction={searchContacts2}
             searchText={"Search Contacts..."}
           />
           <Button
-          className="button"
+            className="button"
             onClick={() => submitGroupContacts(selectedContacts, group.id)}
             bsStyle="primary"
           >

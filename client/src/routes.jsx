@@ -127,10 +127,10 @@ class App extends React.Component {
             <Route path="/listings" component={Listings} />
             <Route path="/listing/:id" component={SingleListing} />
             <Route path="/openhouse/:listingId" component={OpenHouse} />
-            <Route path="/groups" component={Groups} />
-            <Route path="/group/:id" component={SingleGroup} />
+            <Route exact path="/groups" component={Groups} />
+            <Route path="/groups/:id" component={SingleGroup} />
             {/*<Route exact path="/group/:id/contacts" component={GroupContacts} />*/}
-            <Route exact path="/group/new" component={SingleGroup} />
+            <Route exact path="/groups/new" component={SingleGroup} />
             <Route path="/campaigns" component={Campaigns} />
             {/*<Route path="/campaign/:id" component={SingleCampaign} />*/}
             <Route path="/campaign/new" component={CreateCampaign} />
