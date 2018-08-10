@@ -8,12 +8,6 @@
 
 html {
   font-size: 62.5%;
-  /* 1 rem = 10px but bad practice to use px
-  default browser font size is 16px
-  useing would break user font-sizes (accessibility)
-  100% is 16px
-  to covert, we calculate 10/16 = 62.5%
- */
 }
 
 body {
@@ -26,22 +20,6 @@ body {
   overflow-y: scroll;
   /*padding: 1rem;*/
 }
-
-/*.nav {
-  margin: 1rem 0;
-}*/
-
-/*.nav-pills li {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.nav-pills li a {
-  height: 38px !important;
-  padding-top: 5px;
-  padding-bottom: 0px;
-}*/
 
 .background {
   margin-top: -20px;
@@ -206,43 +184,6 @@ iframe {
 }
 
 /* BUTTONS */
-
-.header_button-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  /*border-left: 1px solid lightgrey;*/
-  padding-left: 1.5rem;
-}
-
-.header_button-lg {
-  height: 5rem;
-  width: 5rem;
-  border-radius: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 1rem;
-}
-
-.header_button-sm {
-  height: 2.5rem;
-  width: 2.5rem;
-  border-radius: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.header_button-sm span {
-  margin-top: -1px;
-  margin-left: 0px;
-}
-
-.header_button-lg span {
-  margin-left: 1px;
-}
 
 .form_button-row {
   padding: 1rem;

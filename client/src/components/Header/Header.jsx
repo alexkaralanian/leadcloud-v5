@@ -14,11 +14,10 @@ const Header = ({
   secondaryFunc,
   secondaryStyle
 }) => (
-  <Grid>
-    <Row>
-      <Col xs={12}>
-        <div className="header_container">
-         <div className="header_container-inner">
+  <Row>
+    <Col xs={12}>
+      <div className="header_container">
+        <div className="header_container-inner">
           {images && (
             <img
               className="header_image"
@@ -29,33 +28,32 @@ const Header = ({
           <h1 className="header_text">
             {isNew ? `New ${componentName}` : headerTitle}
           </h1>
-          </div>
-          <div className="header_button-row">
-            {primaryFunc && (
-              <Button
-                className="header_button-lg"
-                bsStyle="primary"
-                bsSize="large"
-                onClick={primaryFunc}
-              >
-                <Glyphicon glyph={primaryGlyph} />
-              </Button>
-            )}
-            {secondaryFunc && (
-              <Button
-                className="header_button-lg"
-                bsStyle={secondaryStyle}
-                bsSize="large"
-                onClick={secondaryFunc}
-              >
-                <Glyphicon glyph={secondaryGlyph} />
-              </Button>
-            )}
-          </div>
         </div>
-      </Col>
-    </Row>
-  </Grid>
+        <div className="header_button-row">
+          {primaryFunc && (
+            <Button
+              className="header_button-lg"
+              bsStyle="primary"
+              bsSize="large"
+              onClick={primaryFunc}
+            >
+              <Glyphicon glyph={primaryGlyph} />
+            </Button>
+          )}
+          {secondaryFunc && (
+            <Button
+              className="header_button-lg"
+              bsStyle={secondaryStyle}
+              bsSize="large"
+              onClick={secondaryFunc}
+            >
+              <Glyphicon glyph={secondaryGlyph} />
+            </Button>
+          )}
+        </div>
+      </div>
+    </Col>
+  </Row>
 );
 
 export default Header;

@@ -6,6 +6,7 @@ import { Grid, Col, Row } from "react-bootstrap";
 import PropTypes from "prop-types";
 
 import Navigation from "../NavContainer/NavContainer";
+import BreadCrumbs from "../../components/BreadCrumbs/BreadCrumbs";
 import Header from "../../components/Header/Header";
 import ContactNav from "../../components/SingleContact/ContactNav";
 import ContactListings from "../../components/ContactListings/ContactListings";
@@ -17,13 +18,15 @@ import SingleContactEmailsContainer from "./SingleContactEmailsContainer";
 import ContactGroups from "../../components/ContactGroups/ContactGroups";
 import GroupsContainer from "../GroupsContainer/GroupsContainer";
 
+import SearchForm from "../../components/SearchForm/SearchForm";
+import Counter from "../../components/Counter/Counter";
+
 import {
   fetchContact,
   submitNewContact,
   updateContact,
   deleteContact,
   clearContact,
-  // fetchContactGroups,
   onDrop,
   deleteContactImage
 } from "../../actions/contact-actions";
@@ -42,6 +45,8 @@ import {
   fetchEmailsByContact,
   setEmailQuery
 } from "../../actions/email-actions";
+
+import { searchGroups } from "../../actions/group-actions";
 
 import {
   submitContactGroup,
@@ -69,12 +74,10 @@ class SingleContactContainer extends React.Component {
       maxResults,
       fetchEmailsByContact,
       emailsByContact
-      // fetchContactGroups,
     } = this.props;
 
     if (contact !== nextProps.contact) {
       if (nextProps.contact.email) {
-        // Map over all contacts email addresses + create query string to fetch ALL emails from ALL addresses.
         let query = "";
         nextProps.contact.email.forEach(email => {
           query += `from: ${email.value.trim()} OR `;
@@ -90,7 +93,6 @@ class SingleContactContainer extends React.Component {
           emailsByContact
         );
       }
-      // fetchContactGroups(nextProps.contact.membership);
     }
   }
 
@@ -100,32 +102,31 @@ class SingleContactContainer extends React.Component {
     clearError();
   }
 
-  onMenuSelect = eventKey => {
-    const { push, match } = this.props;
-    const contactId = match.params.id;
+  onMenuSelect = (eventKey, path) => {
+    const { push, contact } = this.props;
 
     if (eventKey === 1) {
-      push(`/contact/${contactId}`);
+      push(`/contacts/${contact.id}`);
       this.setState({ activeKey: 1 });
     }
 
     if (eventKey === 2) {
-      push(`/contact/${contactId}/listings`);
+      push(`/contacts/${contact.id}/listings`);
       this.setState({ activeKey: 2 });
     }
 
     if (eventKey === 3) {
-      push(`/contact/${contactId}/groups`);
+      push(`/contacts/${contact.id}/groups`);
       this.setState({ activeKey: 3 });
     }
 
     if (eventKey === 4) {
-      push(`/contact/${contactId}/emails`);
+      push(`/contacts/${contact.id}/emails`);
       this.setState({ activeKey: 4 });
     }
 
     if (eventKey === 5) {
-      push(`/contact/${contactId}/media`);
+      push(`/contacts/${contact.id}/media`);
       this.setState({ activeKey: 5 });
     }
   };
@@ -155,7 +156,9 @@ class SingleContactContainer extends React.Component {
       contactGroups,
       submitContactGroup,
       deleteContactGroup,
-      deleteGroupContact
+      deleteGroupContact,
+
+      path
     } = this.props;
 
     return !isAuthed ? (
@@ -163,16 +166,21 @@ class SingleContactContainer extends React.Component {
     ) : (
       <div>
         <Navigation />
-        <Header
-          componentName="Contact"
-          headerTitle={contact.fullName}
-          isNew={match.params.id === "new"}
-          images={contact.images}
-        />
+        <BreadCrumbs />
+        <Grid>
+          <Header
+            componentName="Contact"
+            headerTitle={contact.fullName}
+            isNew={match.params.id === "new"}
+            images={contact.images}
+          />
+        </Grid>
 
         {/* CONTACT NESTED NAV */}
         {match.params.id !== "new" && (
           <ContactNav
+            path={path}
+            location={this.props.location.pathname}
             contactId={contact.id}
             isGroupNew={match.params.id === "new"}
             push={push}
@@ -186,8 +194,8 @@ class SingleContactContainer extends React.Component {
           exact
           path={
             match.params.id === "new"
-              ? `/contact/new`
-              : `/contact/${contact.id}`
+              ? `/contacts/new`
+              : `/contacts/${contact.id}`
           }
           render={routeProps => (
             <ContactForm
@@ -207,7 +215,7 @@ class SingleContactContainer extends React.Component {
 
         {/* CONTACT LISTINGS */}
         <Route
-          path={`/contact/${contact.id}/listings`}
+          path={`/contacts/${contact.id}/listings`}
           render={routeProps => (
             <ContactListings
               {...routeProps}
@@ -223,7 +231,7 @@ class SingleContactContainer extends React.Component {
 
         {/* CONTACT EMAILS */}
         <Route
-          path={`/contact/${contact.id}/emails`}
+          path={`/contacts/${contact.id}/emails`}
           render={routeProps => (
             <SingleContactEmailsContainer {...routeProps} />
           )}
@@ -231,15 +239,21 @@ class SingleContactContainer extends React.Component {
 
         {/* CONTACT GROUPS */}
         <Route
-          path={`/contact/${contact.id}/groups`}
+          path={`/contacts/${contact.id}/groups`}
           render={routeProps => (
             <React.Fragment>
               <Grid>
+                <SearchForm
+                  searchText="Search Groups..."
+                  searchFunction={searchGroups}
+                />
+                <Counter />
                 <Row>
                   <Col xs={12}>
                     <Pills
                       {...routeProps}
                       component={contactGroups}
+                      hostComponent={contact}
                       componentName="group"
                       submitFunction={deleteContactGroup}
                       displayValue="title"
@@ -259,7 +273,7 @@ class SingleContactContainer extends React.Component {
 
         {/* CONTACT MEDIA */}
         <Route
-          path={`/contact/${contact.id}/media`}
+          path={`/contacts/${contact.id}/media`}
           render={routeProps => (
             <ImageCarousel
               {...routeProps}
@@ -288,7 +302,8 @@ const mapStateToProps = state => ({
   emailsByContact: state.contactReducer.emailsByContact,
   emailQuery: state.emailReducer.emailQuery,
   maxResults: state.contactReducer.maxResults,
-  pageToken: state.contactReducer.pageToken
+  pageToken: state.contactReducer.pageToken,
+  path: state.router.location.pathname
 });
 
 const mapDispatchToProps = {

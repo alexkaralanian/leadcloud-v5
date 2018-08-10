@@ -6,7 +6,8 @@ const ContactNav = ({
   isContactNew,
   push,
   onMenuSelect,
-  activeKey
+  activeKey,
+  path
 }) => (
   <div className="secondary_nav-container">
     <Grid>

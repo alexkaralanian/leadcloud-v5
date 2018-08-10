@@ -9,6 +9,7 @@ import Contacts from "../../components/Contacts/Contacts";
 import Navigation from "../NavContainer/NavContainer";
 import Errors from "../../components/Error/Error";
 import Counter from "../../components/Counter/Counter";
+import BreadCrumbs from "../../components/BreadCrumbs/BreadCrumbs";
 
 import {
   fetchComponent,
@@ -70,18 +71,18 @@ class ContactsContainer extends React.Component {
     ) : (
       <div>
         <Navigation />
-
-        <Header
-          componentName="Contacts"
-          headerTitle="Contacts"
-          isNew={null}
-          primaryFunc={() => history.push("/contact/new")}
-          primaryGlyph="plus"
-          secondaryFunc={() => syncContacts()}
-          secondaryGlyph="refresh"
-        />
-
+        <BreadCrumbs />
         <Grid>
+          <Header
+            componentName="Contacts"
+            headerTitle="Contacts"
+            isNew={null}
+            primaryFunc={() => history.push("/contact/new")}
+            primaryGlyph="plus"
+            secondaryFunc={() => syncContacts()}
+            secondaryGlyph="refresh"
+          />
+
           <SearchForm
             searchFunction={searchContacts}
             searchText="Search Contacts..."

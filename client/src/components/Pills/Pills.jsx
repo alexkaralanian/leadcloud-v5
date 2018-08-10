@@ -5,6 +5,7 @@ import "./Pills.css";
 
 const Pills = ({
   component, // group
+  hostComponent,
   componentName,
   submitFunction,
   displayValue
@@ -14,19 +15,22 @@ const Pills = ({
       {component &&
         component.map(item => (
           <li key={item.id}>
-            <div
-              role="button"
-              className="pills_button"
-              onClick={event => {
-                event.stopPropagation();
-                submitFunction(item);
-              }}
-            >
-              <span className="pills_link">x</span>
+            <div className="pills_container">
+              <Link key={item.id} to={`/${componentName}/${item.id}`}>
+                <div className="pills_link">{item[displayValue]}</div>
+              </Link>
+
+              <div
+                role="button"
+                className="pills_button"
+                onClick={event => {
+                  event.stopPropagation();
+                  submitFunction(item.id, hostComponent.id);
+                }}
+              >
+                <span className="pills_link">x</span>
+              </div>
             </div>
-            <Link key={item.id} to={`/${componentName}/${item.id}`}>
-              <div className="pills_link">{item[displayValue]}</div>
-            </Link>
           </li>
         ))}
     </ul>

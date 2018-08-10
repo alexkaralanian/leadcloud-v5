@@ -121,8 +121,8 @@ class App extends React.Component {
             <Route path="/emails" component={Emails} />
             <Route path="/email/:id" component={SingleEmail} />
             <Route path="/iframecontainer" component={iFrameContainer} />
-            <Route path="/contacts" component={Contacts} />
-            <Route path="/contact/:id" component={SingleContact} />
+            <Route exact path="/contacts" component={Contacts} />
+            <Route path="/contacts/:id" component={SingleContact} />
             <Route path="/contact/new" component={SingleContact} />
             <Route path="/listings" component={Listings} />
             <Route path="/listing/:id" component={SingleListing} />

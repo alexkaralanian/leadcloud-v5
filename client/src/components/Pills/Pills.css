@@ -7,32 +7,31 @@
   flex-wrap: wrap;
 }
 
+.pills_container {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
 .pills_list li {
   position: relative;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   background-color: lightgray;
-  padding: 0.5rem 1.5rem;
+  padding-left: 1rem;
   border-radius: 3px;
-  margin: 0rem 1rem 0.4rem 0;
+  margin: 0rem 0.9rem 0.6rem 0;
 }
 
 .pills_button {
-  position: absolute;
-  border: 1px dotted lightgrey;
-  background-color: white;
-  border-radius: 100%;
+  border-left: 1px solid #aaa;
+  margin-left: 1rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 1.7rem;
-  height: 1.7rem;
+  padding: 0 1rem;
   z-index: 5;
-  top: 0px;
-  right: 0px;
-  margin-top: -5px;
-  margin-right: -5px;
 }
 
 .pills_button span {
@@ -40,5 +39,7 @@
 }
 
 .pills_link {
-  font-size: 12px;
+  font-size: 1.3rem;
+  /*font-weight: 200;*/
+  padding: 0.4rem 0;
 }

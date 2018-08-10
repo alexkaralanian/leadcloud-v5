@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { Route, Redirect } from "react-router-dom";
 import { Grid, Row, Col, Button, Glyphicon } from "react-bootstrap";
 import Navigation from "../NavContainer/NavContainer";
-
+import BreadCrumbs from "../../components/BreadCrumbs/BreadCrumbs";
 import Header from "../../components/Header/Header";
 import GroupForm from "../../components/SingleGroup/GroupForm";
 import GroupContactsContainer from "../GroupContactsContainer/GroupContactsContainer";
@@ -122,13 +122,16 @@ class SingleGroupContainer extends React.Component {
       <React.Fragment>
         <Navigation />
         {isModalVisible && <Modal displayModal={this.displayModalFunc} />}
-        <Header
-          componentName="Group"
-          headerTitle={group.title}
-          isNew={match.params.id === "new"}
-          primaryFunc={() => setModalVisibility(true)}
-          primaryGlyph="plus"
-        />
+        <BreadCrumbs />
+        <Grid>
+          <Header
+            componentName="Group"
+            headerTitle={group.title}
+            isNew={match.params.id === "new"}
+            primaryFunc={() => setModalVisibility(true)}
+            primaryGlyph="plus"
+          />
+        </Grid>
         {match.params.id !== "new" && (
           <GroupNav
             groupId={group.id}

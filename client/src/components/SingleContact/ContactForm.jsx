@@ -2,7 +2,15 @@ import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Field, reduxForm } from "redux-form";
-import { Button, Form, FormGroup, Grid, Col, Row } from "react-bootstrap";
+import {
+  Button,
+  Form,
+  FormGroup,
+  Grid,
+  Col,
+  Row,
+  Glyphicon
+} from "react-bootstrap";
 
 import { contactValidate } from "../../helpers/redux-form/validate";
 import { fetchContact } from "../../actions/contact-actions";
@@ -133,36 +141,51 @@ ContactForm = ({
       </Row>
 
       {/* *** BUTTONS *** */}
+
       <Row>
         <Col xs={12}>
           {isContactNew ? (
-            <Button
-              className="submitButton"
-              type="submit"
-              bsStyle="primary"
-              disabled={pristine || submitting}
-            >
-              <span>Submit</span>
-            </Button>
-          ) : (
-            <div>
+            <div className="button_footer-container">
               <Button
-                className="submitButton"
+                className="button-lg"
                 type="submit"
                 bsStyle="primary"
+                bsSize="large"
                 disabled={pristine || submitting}
               >
-                <span>Update</span>
+                <div className="button_inner">
+                  <span className="button_inner-text">Submit</span>
+                  <Glyphicon glyph="floppy-disk" />
+                </div>
+              </Button>
+            </div>
+          ) : (
+            <div className="button_footer-container">
+              <Button
+                className="button-lg"
+                type="submit"
+                bsStyle="primary"
+                bsSize="large"
+                disabled={pristine || submitting}
+              >
+                <div className="button_inner">
+                  <span className="button_inner-text">Update</span>
+                  <Glyphicon glyph="floppy-disk" />
+                </div>
               </Button>
 
               <Button
+                className="button-lg"
                 onClick={() => {
                   deleteContact(contact.id);
                 }}
-                className="submitButton"
+                bsSize="large"
                 bsStyle="danger"
               >
-                <span>Delete Contact</span>
+                <div className="button_inner">
+                  <span className="button_inner-text">Delete</span>
+                  <Glyphicon glyph="trash" />
+                </div>
               </Button>
             </div>
           )}

@@ -2,8 +2,8 @@ import React from "react";
 import { connect } from "react-redux";
 import { Grid, Row, Col, Button } from "react-bootstrap";
 
-import SearchForm from "../../components/SearchForm/SearchForm";
-import Counter from "../../components/Counter/Counter";
+// import SearchForm from "../../components/SearchForm/SearchForm";
+// import Counter from "../../components/Counter/Counter";
 import Groups from "../../components/Groups/Groups";
 import {
   setGroups,
@@ -51,11 +51,6 @@ class GroupsContainer extends React.Component {
     const { isFetching, history, groups, component } = this.props;
     return (
       <Grid>
-        <SearchForm
-          searchText="Search Groups..."
-          searchFunction={searchGroups}
-        />
-        <Counter />
         <Groups
           groups={groups}
           hostId={this.props.hostId}

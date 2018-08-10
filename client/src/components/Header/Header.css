@@ -4,11 +4,9 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  /*  border-radius: 2px 2px 0 0;*/
-  /*margin-bottom: 2rem;*/
   min-height: 6rem;
   background-color: #222;
-  padding: 2rem;
+  padding: 2rem 1.5rem;
 }
 
 h1.header_text {
@@ -20,6 +18,47 @@ h1.header_text {
   font-weight: 200;
   margin-bottom: 10px;
   word-wrap: break-word;
+}
+
+.header_button-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /*border-left: 1px solid lightgrey;*/
+  /*padding-left: 1.5rem;*/
+}
+
+.header_button-lg {
+  height: 4.6rem;
+  width: 4.6rem;
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header_button-lg:first-child {
+  margin-left: 0 !important;
+}
+
+.header_button-sm {
+  height: 2.5rem;
+  width: 2.5rem;
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header_button-sm span {
+  align-self: center;
+  margin-top: -1px;
+  margin-left: 0px;
+}
+
+.header_button-lg span {
+  margin-left: 1px;
 }
 
 .header_button-row {
