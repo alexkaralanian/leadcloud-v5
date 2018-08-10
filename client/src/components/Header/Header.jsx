@@ -1,6 +1,7 @@
 import React from "react";
 import { Grid, Row, Col, Button, Glyphicon } from "react-bootstrap";
 import "./Header.css";
+import Glass from "../../images/glyphicons_free/glyphicons/png/glyphicons-1-glass.png";
 
 const Header = ({
   images,
@@ -12,7 +13,8 @@ const Header = ({
   primaryStyle,
   secondaryGlyph,
   secondaryFunc,
-  secondaryStyle
+  secondaryStyle,
+  isVisible
 }) => (
   <Row>
     <Col xs={12}>
@@ -28,9 +30,10 @@ const Header = ({
           <h1 className="header_text">
             {isNew ? `New ${componentName}` : headerTitle}
           </h1>
+          {/*<img src={Glass} />*/}
         </div>
         <div className="header_button-row">
-          {primaryFunc && (
+          {primaryFunc && isVisible && (
             <Button
               className="header_button-lg"
               bsStyle="primary"
@@ -40,7 +43,7 @@ const Header = ({
               <Glyphicon glyph={primaryGlyph} />
             </Button>
           )}
-          {secondaryFunc && (
+          {secondaryFunc && isVisible && (
             <Button
               className="header_button-lg"
               bsStyle={secondaryStyle}

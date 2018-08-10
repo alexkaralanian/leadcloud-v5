@@ -44,7 +44,7 @@ class GroupsContainer extends React.Component {
   };
 
   createNewGroup = () => {
-    this.props.history.push("/group/new");
+    this.props.history.push("/groups/new");
   };
 
   render = () => {

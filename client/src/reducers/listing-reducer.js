@@ -28,10 +28,7 @@ const listingReducer = (state = initialState, action) => {
     case types.SET_LISTINGS:
       return {
         ...state,
-        listings: action.listings,
-        limit: action.limit,
-        offset: action.offset,
-        query: action.query
+        listings: action.payload
       };
 
     case types.SET_LISTING:

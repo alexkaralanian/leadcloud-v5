@@ -50,7 +50,7 @@ export const submitNewGroup = data => async dispatch => {
     const res = await axios.post("/api/groups/new", data);
     dispatch(setGroup(res.data));
     dispatch(isFetching(false));
-    dispatch(push(`/group/${res.data.id}`));
+    dispatch(push(`/groups/${res.data.id}`));
   } catch (err) {
     console.error("Submitting new group unsuccessful", err);
     dispatch(isFetching(false));
@@ -61,7 +61,6 @@ export const submitNewGroup = data => async dispatch => {
 // UPDATE GROUP
 export const updateGroup = (values, id) => async dispatch => {
   try {
-    console.log("VALUES", values);
     const res = await axios.patch(`/api/groups/${id}/update`, values);
     dispatch(setGroup(res.data));
   } catch (err) {

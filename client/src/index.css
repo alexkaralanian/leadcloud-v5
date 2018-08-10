@@ -12,8 +12,8 @@ html {
 
 body {
   box-sizing: border-box;
-  /*font-family: sans-serif;*/
-  /*  font-weight: 200;*/
+  /* font-family: "Roboto", sans-serif;*/
+  font-weight: 400;
   font-size: 14px;
   line-height: 1.7;
   color: #444;
@@ -180,7 +180,25 @@ iframe {
 /*** NAVIGATION ***/
 
 .secondary_nav-container {
-  margin: 2rem 0 2rem 0;
+  margin: 0rem 0 2rem 0;
+  background-color: #white;
+  padding: 0rem 0;
+  padding-left: 0 !important;
+  border: 1px solid #eee;
+  border-top: none;
+  /*height: 4rem;*/
+}
+
+.secondary_nav-container .container {
+  padding-left: 0;
+}
+
+.nav-pills li a {
+  border-radius: 0px;
+  border-color: #eee;
+  padding-top: 0.9rem;
+  padding-bottom: 0.9rem;
+  font-family: "Helvetica Neue";
 }
 
 /* BUTTONS */
@@ -239,3 +257,12 @@ iframe {
 .group-form_container {
   margin-top: 2rem;
 }
+
+/*.navbar a {
+  font-family: "Helvetica Neue";
+  font-size: 1.3rem;
+}
+
+.navbar-brand {
+  font-size: 1.8rem !important;
+}*/

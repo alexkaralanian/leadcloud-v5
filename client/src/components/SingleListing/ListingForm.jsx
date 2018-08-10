@@ -2,12 +2,21 @@ import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Field, reduxForm } from "redux-form";
-import { Grid, Row, Col, Button, Form, FormGroup } from "react-bootstrap";
+import {
+  Grid,
+  Row,
+  Col,
+  Button,
+  Form,
+  FormGroup,
+  Glyphicon
+} from "react-bootstrap";
 
 import { contactValidate } from "../../helpers/redux-form/validate";
 import { fetchListing } from "../../actions/listing-actions";
-
 import inputField from "../InputField/InputField";
+
+import "./SingleListing.css";
 
 let ListingForm = ({
   handleSubmit,
@@ -43,39 +52,52 @@ let ListingForm = ({
       <Row>
         {isListingNew ? (
           <Col xs={12}>
-            <Button
-              className="submitButton"
-              type="submit"
-              bsStyle="primary"
-              disabled={pristine || submitting}
-            >
-              <span>Submit</span>
-            </Button>
-          </Col>
-        ) : (
-          <div>
-            <Col xs={12}>
+            <div className="button_footer-container">
               <Button
-                className="submitButton"
+                className="button-lg"
                 type="submit"
                 bsStyle="primary"
+                bsSize="large"
                 disabled={pristine || submitting}
               >
-                <span>Update</span>
+                <div className="button_inner">
+                  <span className="button_inner-text">Submit</span>
+                  <Glyphicon glyph="floppy-disk" />
+                </div>
               </Button>
-            </Col>
-            <Col xs={12}>
+            </div>
+          </Col>
+        ) : (
+          <Col xs={12}>
+            <div className="button_footer-container">
               <Button
-                className="submitButton"
+                className="button-lg"
+                type="submit"
+                bsStyle="primary"
+                bsSize="large"
+                disabled={pristine || submitting}
+              >
+                <div className="button_inner">
+                  <span className="button_inner-text">Update</span>
+                  <Glyphicon glyph="floppy-disk" />
+                </div>
+              </Button>
+
+              <Button
+                className="button-lg"
                 onClick={() => {
                   deleteListing(listing.id);
                 }}
+                bsSize="large"
                 bsStyle="danger"
               >
-                <span>Delete</span>
+                <div className="button_inner">
+                  <span className="button_inner-text">Delete</span>
+                  <Glyphicon glyph="trash" />
+                </div>
               </Button>
-            </Col>
-          </div>
+            </div>
+          </Col>
         )}
       </Row>
     </Form>

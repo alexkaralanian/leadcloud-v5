@@ -17,8 +17,6 @@ const Op = Sequelize.Op;
 
 // FETCH, MAP, AND LOAD USER'S GROUPS AND CONTACTS TO DB
 router.get("/loadcontacts", authCheck, findUserById, async (req, res) => {
-  console.log("LOAD CONTACTS");
-
   const userId = req.session.user.toString();
 
   // FETCH, MAP, & LOAD USER'S GROUPS

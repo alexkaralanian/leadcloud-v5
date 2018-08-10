@@ -1,15 +1,17 @@
 import React from "react";
-import { connect } from "react-redux";
-import { Grid, Row, Col, Button } from "react-bootstrap";
-import { Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
-import SearchForm from "../../components/SearchForm/SearchForm";
-import Header from "../../components/Header/Header";
+import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
+import { push } from "react-router-redux";
+import { Grid, Row, Col, Button } from "react-bootstrap";
+
 import Contacts from "../../components/Contacts/Contacts";
 import Navigation from "../NavContainer/NavContainer";
-import Errors from "../../components/Error/Error";
-import Counter from "../../components/Counter/Counter";
 import BreadCrumbs from "../../components/BreadCrumbs/BreadCrumbs";
+import Header from "../../components/Header/Header";
+import SearchForm from "../../components/SearchForm/SearchForm";
+import Counter from "../../components/Counter/Counter";
+import Errors from "../../components/Error/Error";
 
 import {
   fetchComponent,
@@ -54,7 +56,7 @@ class ContactsContainer extends React.Component {
   };
 
   createNewContact = () => {
-    this.props.history.push("/contact/new");
+    this.props.push("/contact/new");
   };
 
   render() {
@@ -74,10 +76,11 @@ class ContactsContainer extends React.Component {
         <BreadCrumbs />
         <Grid>
           <Header
-            componentName="Contacts"
+            isVisible={true}
+            componentName="contacts"
             headerTitle="Contacts"
             isNew={null}
-            primaryFunc={() => history.push("/contact/new")}
+            primaryFunc={() => history.push("/contacts/new")}
             primaryGlyph="plus"
             secondaryFunc={() => syncContacts()}
             secondaryGlyph="refresh"
@@ -112,7 +115,8 @@ const mapDispatchToProps = {
   clearContacts,
   clearError,
   setQuery,
-  setOffset
+  setOffset,
+  push
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContactsContainer);

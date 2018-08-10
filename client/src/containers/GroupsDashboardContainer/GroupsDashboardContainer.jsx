@@ -17,10 +17,10 @@ class GroupsDashboardContainer extends React.Component {
   groupsPrimaryFunc = () => {
     const { setGroup, push } = this.props;
     setGroup({});
-    push("/group/new");
+    push("/groups/new");
   };
   render() {
-    const { isAuthed, isFetching } = this.props;
+    const { isAuthed, match, isFetching } = this.props;
 
     return !isAuthed ? (
       <Redirect to="/" />
@@ -30,7 +30,8 @@ class GroupsDashboardContainer extends React.Component {
         <BreadCrumbs />
         <Grid>
           <Header
-            componentName="Groups"
+            isVisible={match.params.id !== "new"}
+            componentName="groups"
             headerTitle="Groups"
             isNew={null}
             primaryFunc={this.groupsPrimaryFunc}

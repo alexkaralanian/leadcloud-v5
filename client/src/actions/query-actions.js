@@ -42,6 +42,7 @@ export const fetchComponent = (
 
   try {
     dispatch(isLoading(true));
+
     const res = id
       ? await axios.get(
           `/api/${componentName}/${id}/${subComponent}/?limit=${limit}&offset=${offset}&query=${query}`
@@ -50,7 +51,7 @@ export const fetchComponent = (
           `/api/${componentName}/?limit=${limit}&offset=${offset}&query=${query}`
         );
 
-    console.log("THE RES", res.data);
+    console.log("FETCH COMPONENT RES", res.data);
     dispatch(setFunction(componentArray.concat(res.data.rows)));
     dispatch(setCount(res.data.count));
     dispatch(setOffset(newOffset));

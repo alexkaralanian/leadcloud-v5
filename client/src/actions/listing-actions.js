@@ -1,15 +1,15 @@
 import axios from "axios";
 import { push } from "react-router-redux";
+import store from "../store";
+
+import * as types from "../types";
 import { setContactListingsSearchResults } from "./contact-listings-actions";
 import { setCampaignListingsSearchResults } from "./campaign-listings-actions";
-import * as types from "../types";
+import { fetchComponent, setQuery, setOffset } from "./query-actions";
 
-export const setListings = (listings, limit, offset, query) => ({
+export const setListings = listings => ({
   type: types.SET_LISTINGS,
-  listings,
-  limit,
-  offset,
-  query
+  payload: listings
 });
 
 export const setListing = listing => ({
@@ -53,57 +53,11 @@ export const clearError = () => ({
   type: types.CLEAR_ERROR
 });
 
-// SEARCH LISTINGS
-export const searchListings = (
-  listingsArray,
-  limit,
-  offset,
-  query,
-  section
-) => async dispatch => {
-  try {
-    const res = await axios.get(
-      `/api/listings/?limit=${limit}&offset=${offset}&query=${query}`
-    );
-
-    if (section === "contactListings") {
-      dispatch(setContactListingsSearchResults(res.data));
-    }
-
-    if (section === "campaignListings") {
-      dispatch(setCampaignListingsSearchResults(res.data));
-    } else {
-      dispatch(setListings(res.data, limit, limit, null));
-    }
-  } catch (err) {
-    console.error("fetchContacts ERROR", err.response);
-    dispatch(setError("ERROR FETCHING CONTACTS"));
-  }
-};
-
-// FETCH LISTINGS
-export const fetchListings = (
-  listingsArray,
-  limit,
-  offset,
-  query
-) => async dispatch => {
-  dispatch(isFetching(true));
-  const newOffset = offset + limit;
-  try {
-    const res = await axios.get(
-      `/api/listings/?limit=${limit}&offset=${offset}&query=${query}`
-    );
-
-    dispatch(
-      setListings(listingsArray.concat(res.data), limit, newOffset, query)
-    );
-    dispatch(isFetching(false));
-  } catch (err) {
-    console.error("fetchListings unsusccessful", err.response);
-    dispatch(isFetching(false));
-    dispatch(setError("ERROR FETCHING LISTINGS"));
-  }
+export const searchListings = values => {
+  const query = values.nativeEvent.target.defaultValue;
+  store.dispatch(setQuery(query));
+  store.dispatch(setOffset(0));
+  store.dispatch(fetchComponent("listings", [], setListings));
 };
 
 export const fetchListing = id => async dispatch => {
@@ -128,7 +82,7 @@ export const submitNewListing = data => async dispatch => {
 
     dispatch(setListing(res.data));
     dispatch(setIsListingNew(false));
-    dispatch(push(`/listing/${res.data.id}`));
+    dispatch(push(`/listings/${res.data.id}`));
 
     dispatch(isFetching(false));
   } catch (err) {

@@ -124,8 +124,9 @@ class App extends React.Component {
             <Route exact path="/contacts" component={Contacts} />
             <Route path="/contacts/:id" component={SingleContact} />
             <Route path="/contact/new" component={SingleContact} />
-            <Route path="/listings" component={Listings} />
-            <Route path="/listing/:id" component={SingleListing} />
+            <Route exact path="/listings" component={Listings} />
+            <Route path="/listings/:id" component={SingleListing} />
+            <Route path="/listings/new" component={SingleListing} />
             <Route path="/openhouse/:listingId" component={OpenHouse} />
             <Route exact path="/groups" component={Groups} />
             <Route path="/groups/:id" component={SingleGroup} />

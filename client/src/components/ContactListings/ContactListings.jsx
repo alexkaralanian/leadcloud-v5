@@ -26,7 +26,7 @@ const ContactListings = ({
         />
 
         <TableRow
-          componentName="listing"
+          componentName="listings"
           rowText="address"
           collection={contactListingsSearchResults}
           submitFunction={submitContactListing}
@@ -36,7 +36,7 @@ const ContactListings = ({
         />
         <hr />
         <TableRow
-          componentName="listing"
+          componentName="listings"
           rowText="address"
           collection={contactListings}
           submitFunction={deleteContactListing}

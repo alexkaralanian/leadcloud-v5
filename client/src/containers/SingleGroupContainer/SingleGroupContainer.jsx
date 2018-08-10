@@ -129,22 +129,24 @@ class SingleGroupContainer extends React.Component {
         <BreadCrumbs />
         <Grid>
           <Header
+            isVisible={true}
             componentName="Group"
             headerTitle={group.title}
             isNew={match.params.id === "new"}
             primaryFunc={() => setModalVisibility(true)}
             primaryGlyph="plus"
           />
+
+          {match.params.id !== "new" && (
+            <GroupNav
+              groupId={group.id}
+              isGroupNew={match.params.id === "new"}
+              push={push}
+              activeKey={this.state.activeKey}
+              onMenuSelect={this.onMenuSelect}
+            />
+          )}
         </Grid>
-        {match.params.id !== "new" && (
-          <GroupNav
-            groupId={group.id}
-            isGroupNew={match.params.id === "new"}
-            push={push}
-            activeKey={this.state.activeKey}
-            onMenuSelect={this.onMenuSelect}
-          />
-        )}
 
         {/* GROUP CONTACTS*/}
         <Route

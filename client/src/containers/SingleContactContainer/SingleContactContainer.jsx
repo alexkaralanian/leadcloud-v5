@@ -1,9 +1,9 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { push } from "react-router-redux";
 import { Route, Redirect } from "react-router-dom";
 import { Grid, Col, Row } from "react-bootstrap";
-import PropTypes from "prop-types";
 
 import Navigation from "../NavContainer/NavContainer";
 import BreadCrumbs from "../../components/BreadCrumbs/BreadCrumbs";
@@ -178,15 +178,12 @@ class SingleContactContainer extends React.Component {
 
         {/* CONTACT NESTED NAV */}
         {match.params.id !== "new" && (
-          <ContactNav
-            path={path}
-            location={this.props.location.pathname}
-            contactId={contact.id}
-            isGroupNew={match.params.id === "new"}
-            push={push}
-            activeKey={this.state.activeKey}
-            onMenuSelect={this.onMenuSelect}
-          />
+          <Grid>
+            <ContactNav
+              activeKey={this.state.activeKey}
+              onMenuSelect={this.onMenuSelect}
+            />
+          </Grid>
         )}
 
         {/* CONTACT FORM */}
@@ -213,6 +210,40 @@ class SingleContactContainer extends React.Component {
           )}
         />
 
+        {/* CONTACT GROUPS */}
+        <Route
+          path={`/contacts/${contact.id}/groups`}
+          render={routeProps => (
+            <React.Fragment>
+              <Grid>
+                <Row>
+                  <Col xs={12}>
+                    <Pills
+                      {...routeProps}
+                      component={contactGroups}
+                      hostComponent={contact}
+                      componentName="groups"
+                      submitFunction={deleteContactGroup}
+                      displayValue="title"
+                    />
+                  </Col>
+                </Row>
+                <SearchForm
+                  searchText="Search Groups..."
+                  searchFunction={searchGroups}
+                />
+                <Counter />
+              </Grid>
+
+              <GroupsContainer
+                hostId={contact.id}
+                component="ContactGroups"
+                submitFunction={submitContactGroup}
+              />
+            </React.Fragment>
+          )}
+        />
+
         {/* CONTACT LISTINGS */}
         <Route
           path={`/contacts/${contact.id}/listings`}
@@ -234,40 +265,6 @@ class SingleContactContainer extends React.Component {
           path={`/contacts/${contact.id}/emails`}
           render={routeProps => (
             <SingleContactEmailsContainer {...routeProps} />
-          )}
-        />
-
-        {/* CONTACT GROUPS */}
-        <Route
-          path={`/contacts/${contact.id}/groups`}
-          render={routeProps => (
-            <React.Fragment>
-              <Grid>
-                <SearchForm
-                  searchText="Search Groups..."
-                  searchFunction={searchGroups}
-                />
-                <Counter />
-                <Row>
-                  <Col xs={12}>
-                    <Pills
-                      {...routeProps}
-                      component={contactGroups}
-                      hostComponent={contact}
-                      componentName="group"
-                      submitFunction={deleteContactGroup}
-                      displayValue="title"
-                    />
-                  </Col>
-                </Row>
-              </Grid>
-
-              <GroupsContainer
-                hostId={contact.id}
-                component="ContactGroups"
-                submitFunction={submitContactGroup}
-              />
-            </React.Fragment>
           )}
         />
 

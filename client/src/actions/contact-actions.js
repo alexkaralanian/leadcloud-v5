@@ -1,11 +1,10 @@
 import axios from "axios";
 import { push } from "react-router-redux";
-import * as types from "../types";
 import store from "../store";
 
+import * as types from "../types";
 import { setListingContactsSearchResults } from "./listing-contacts-actions";
 import { setGroupContactsSearchResults } from "./group-contacts-actions";
-
 import { fetchComponent, setQuery, setOffset } from "./query-actions";
 
 import {
@@ -100,7 +99,7 @@ export const submitNewContact = data => async dispatch => {
     const res = await axios.post("/api/contacts/new", data);
     if (res.status === 200) {
       dispatch(setContact(res.data));
-      dispatch(push(`/contact/${res.data.id}`));
+      dispatch(push(`/contacts/${res.data.id}`));
     }
     dispatch(isFetching(false));
   } catch (err) {

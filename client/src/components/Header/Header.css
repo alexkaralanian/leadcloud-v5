@@ -12,10 +12,11 @@
 h1.header_text {
   margin-top: 0px;
   color: white;
+  font-family: "Helvetica Neue" !important;
+  font-weight: 200;
 }
 
 .header_text {
-  font-weight: 200;
   margin-bottom: 10px;
   word-wrap: break-word;
 }

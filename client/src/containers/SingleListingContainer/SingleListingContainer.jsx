@@ -3,10 +3,12 @@ import { connect } from "react-redux";
 import { push } from "react-router-redux";
 import { Route, Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
+import { Grid, Col, Row } from "react-bootstrap";
 
 import Navigation from "../NavContainer/NavContainer";
+import BreadCrumbs from "../../components/BreadCrumbs/BreadCrumbs";
+import Header from "../../components/Header/Header";
 import ListingNav from "../../components/SingleListing/ListingNav";
-import ListingHeader from "../../components/SingleListing/ListingHeader";
 import ListingContacts from "../../components/ListingContacts/ListingContacts";
 import ListingForm from "../../components/SingleListing/ListingForm";
 import ImageCarousel from "../../components/ImageCarousel/ImageCarousel";
@@ -32,6 +34,10 @@ import {
 } from "../../actions/listing-contacts-actions";
 
 class SingleListingContainer extends React.Component {
+  state = {
+    activeKey: 1
+  };
+
   componentDidMount() {
     const { match, fetchListing, fetchListingContacts } = this.props;
 
@@ -45,6 +51,30 @@ class SingleListingContainer extends React.Component {
     const { clearListing } = this.props;
     clearListing();
   }
+
+  onMenuSelect = (eventKey, path) => {
+    const { push, listing } = this.props;
+
+    if (eventKey === 1) {
+      push(`/listings/${listing.id}`);
+      this.setState({ activeKey: 1 });
+    }
+
+    if (eventKey === 2) {
+      push(`/listings/${listing.id}/contacts`);
+      this.setState({ activeKey: 2 });
+    }
+
+    if (eventKey === 3) {
+      push(`/listings/${listing.id}/emails`);
+      this.setState({ activeKey: 3 });
+    }
+
+    if (eventKey === 4) {
+      push(`/listings/${listing.id}/media`);
+      this.setState({ activeKey: 4 });
+    }
+  };
 
   render() {
     const {
@@ -73,16 +103,25 @@ class SingleListingContainer extends React.Component {
     ) : (
       <div>
         <Navigation />
+        <BreadCrumbs />
 
         {/* HEADER */}
-        <ListingHeader
-          listing={listing}
-          isListingNew={match.params.id === "new"}
-          images={images}
-        />
+        <Grid>
+          <Header
+            componentName="Listing"
+            headerTitle={listing.address}
+            isNew={match.params.id === "new"}
+            images={listing.images}
+          />
+        </Grid>
 
-        {match.params.id === "new" ? null : (
-          <ListingNav listingId={listing.id} push={push} />
+        {match.params.id !== "new" && (
+          <Grid>
+            <ListingNav
+              activeKey={this.state.activeKey}
+              onMenuSelect={this.onMenuSelect}
+            />
+          </Grid>
         )}
 
         {/* LISTING FORM (INFO) */}
@@ -90,8 +129,8 @@ class SingleListingContainer extends React.Component {
           exact
           path={
             match.params.id === "new"
-              ? `/listing/new`
-              : `/listing/${listing.id}`
+              ? `/listings/new`
+              : `/listings/${listing.id}`
           }
           render={routeProps => (
             <ListingForm
@@ -110,7 +149,7 @@ class SingleListingContainer extends React.Component {
 
         {/* LISTING CONTACTS */}
         <Route
-          path={`/listing/${listing.id}/contacts`}
+          path={`/listings/${listing.id}/contacts`}
           render={routeProps => (
             <div>
               <ListingContacts
@@ -128,7 +167,7 @@ class SingleListingContainer extends React.Component {
 
         {/* LISTING EMAILS */}
         <Route
-          path={`/listing/${listing.id}/emails`}
+          path={`/listings/${listing.id}/emails`}
           render={routeProps => (
             <Emails
               {...routeProps}
@@ -140,7 +179,7 @@ class SingleListingContainer extends React.Component {
 
         {/* LISTING MEDIA */}
         <Route
-          path={`/listing/${listing.id}/media`}
+          path={`/listings/${listing.id}/media`}
           render={routeProps => (
             <ImageCarousel
               {...routeProps}

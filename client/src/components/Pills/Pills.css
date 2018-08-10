@@ -1,7 +1,7 @@
 .pills_list {
   list-style: none;
   padding-left: 0px;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -20,7 +20,7 @@
   justify-content: space-around;
   background-color: lightgray;
   padding-left: 1rem;
-  border-radius: 3px;
+  border-radius: 2px;
   margin: 0rem 0.9rem 0.6rem 0;
 }
 

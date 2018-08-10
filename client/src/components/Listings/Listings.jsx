@@ -40,7 +40,7 @@ const Listings = ({ listings, isFetching, isListingNew }) =>
               </td>
               <td>
                 {listing.address ? (
-                  <Link to={`/listing/${listing.id}`}>{listing.address}</Link>
+                  <Link to={`/listings/${listing.id}`}>{listing.address}</Link>
                 ) : (
                   ""
                 )}

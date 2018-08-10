@@ -91,7 +91,7 @@ class GroupContactsContainer extends React.Component {
             <SearchForm searchFunction={searchGroupContacts} />
             <Counter />
             <TableRow
-              componentName="contact"
+              componentName="contacts"
               rowText="fullName"
               collection={groupContacts}
               submitFunction={deleteGroupContact}

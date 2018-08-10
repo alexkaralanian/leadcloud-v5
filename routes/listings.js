@@ -1,29 +1,31 @@
 const express = require("express");
 const moment = require("moment");
+const Sequelize = require("sequelize");
 
 const authCheck = require("../middlewares/authChecker");
 const Listings = require("../db/models").listings;
 const Contacts = require("../db/models").contacts;
 
 const router = express.Router();
+const Op = Sequelize.Op;
 
 // GET ALL LISTINGS FROM DB
 router.get("/", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
 
   try {
-    const listings = await Listings.findAll({
+    const listings = await Listings.findAndCountAll({
       limit: req.query.limit,
       offset: req.query.offset,
       where: {
         UserUuid: userId,
-        $and: {
+        [Op.and]: {
           address: {
-            $iLike: `${req.query.query}%`
+            [Op.iLike]: `%${req.query.query}%`
           }
         }
       },
-      order: [["updated", "DESC"]]
+      order: [["updatedAt", "DESC"]]
     });
 
     res.json(listings);

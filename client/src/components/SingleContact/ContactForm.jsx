@@ -18,6 +18,8 @@ import { fetchContact } from "../../actions/contact-actions";
 import inputField from "../InputField/InputField";
 import textAreaField from "../InputField/TextAreaField";
 
+import "./SingleContact.css";
+
 const capitalize = word => {
   if (word) return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
 };
@@ -36,7 +38,7 @@ ContactForm = ({
   fetchContact,
   deleteContact
 }) => (
-  <Grid>
+  <Grid className="contact_container">
     <Form onSubmit={handleSubmit}>
       {/* *** NAMES *** */}
       <Row>
