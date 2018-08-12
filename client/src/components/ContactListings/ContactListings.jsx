@@ -19,7 +19,7 @@ const ContactListings = ({
       <Col xs={12}>
         <SearchForm
           searchFunction={searchContactListings}
-          searchText="Search Listing Contacts..."
+          searchText="Search Contact Listings..."
         />
         <Counter />
         <TableRow

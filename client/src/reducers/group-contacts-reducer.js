@@ -2,8 +2,8 @@ import * as types from "../types";
 
 const initialState = {
   groupContacts: [],
-  groupId: null,
-  component: "groups"
+  groupId: null
+  // component: "groups"
   // groupContactsSearchResults: []
 };
 
@@ -21,11 +21,11 @@ const groupContactsReducer = (state = initialState, action) => {
         groupContacts: []
       };
 
-    case types.SET_GROUP_CONTACTS_COMPONENT:
-      return {
-        ...state,
-        component: action.payload
-      };
+    // case types.SET_GROUP_CONTACTS_COMPONENT:
+    //   return {
+    //     ...state,
+    //     component: action.payload
+    //   };
 
     // case types.SET_GROUP_CONTACTS_SEARCH_RESULTS:
     //   return {

@@ -1,8 +1,8 @@
 import axios from "axios";
 import { searchListings } from "./listing-actions";
 import { isFetching, clearFormData } from "./common-actions";
-import { fetchComponent, setQuery, setOffset } from "./query-actions";
-import { setModalVisibility, setSelectedContacts } from "./modal-actions";
+import { fetchComponent, setQuery, setOffset, setCount } from "./query-actions";
+import { setModalVisibility, setSelected } from "./modal-actions";
 import * as types from "../types";
 import store from "../store";
 
@@ -39,7 +39,7 @@ export const submitContactListings = (
     contactId: contactId,
     listingId: listing.id
   }));
-  dispatch(setSelectedContacts([]));
+  dispatch(setSelected([]));
   dispatch(setModalVisibility(false));
   try {
     const res = await axios.post(
@@ -48,7 +48,8 @@ export const submitContactListings = (
         contactListings
       }
     );
-    dispatch(setContactListings(res.data));
+    dispatch(setContactListings(res.data.rows));
+    dispatch(setCount(res.data.count));
   } catch (err) {
     console.error("Submitting Contact Listings Unsuccessful", err);
   }
@@ -59,12 +60,14 @@ export const deleteContactListing = (
   contactId
 ) => async dispatch => {
   dispatch(isFetching(true));
+  console.log("DELET CONTACT LISTING");
   try {
-    const res = await axios.post(`/api/contacts/${contactId}/contact/delete`, {
+    const res = await axios.post(`/api/contacts/${contactId}/listing/delete`, {
       listingId
     });
-
-    dispatch(setContactListings(res.data));
+    console.log("DELET RES", res.data);
+    dispatch(setContactListings(res.data.rows));
+    dispatch(setCount(res.data.count));
     dispatch(isFetching(false));
   } catch (err) {
     console.error("Deleting contact listing unsuccessful", err);

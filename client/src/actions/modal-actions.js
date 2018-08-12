@@ -7,24 +7,22 @@ export const setModalVisibility = bool => ({
   payload: bool
 });
 
-export const setSelectedContacts = contacts => ({
-  type: types.SET_SELECTED_CONTACTS,
-  payload: contacts
+export const setSelected = items => ({
+  type: types.SET_SELECTED,
+  payload: items
 });
 
-export const addSelectedContact = contact => {
+export const addSelected = item => {
   const state = store.getState();
-  console.log("STATE", state);
-  const selectedContacts = state.modalReducer.selectedContacts.slice();
-  if (!selectedContacts.includes(contact)) selectedContacts.push(contact);
-  store.dispatch(setSelectedContacts(selectedContacts));
+
+  const selected = state.modalReducer.selected.slice();
+  if (!selected.includes(item)) selected.push(item);
+  store.dispatch(setSelected(selected));
 };
 
-export const deleteSelectedContact = contact => {
+export const deleteSelected = item => {
   const state = store.getState();
-  console.log("DELETE STATE", state);
-  const selectedContacts = state.modalReducer.selectedContacts.slice();
-  selectedContacts.splice(selectedContacts.indexOf(contact));
-  store.dispatch(setSelectedContacts(selectedContacts));
+  const selected = state.modalReducer.selected.slice();
+  selected.splice(selected.indexOf(item));
+  store.dispatch(setSelected(selected));
 };
-

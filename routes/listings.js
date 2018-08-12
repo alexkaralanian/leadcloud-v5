@@ -152,7 +152,7 @@ router.post("/:id/contacts/bulk-add", authCheck, async (req, res) => {
   try {
     await ListingContacts.bulkCreate(req.body.listingContacts);
 
-    const listingContacts = await Contacts.findAll({
+    const listingContacts = await Contacts.findAndCountAll({
       limit: 25,
       offset: 0,
       query: "",
@@ -187,7 +187,7 @@ router.post("/:id/contact/delete", authCheck, async (req, res) => {
     });
     await listing.removeContact(req.body.contactId);
 
-    const listingContacts = await Contacts.findAll({
+    const listingContacts = await Contacts.findAndCountAll({
       limit: 25,
       offset: 0,
       where: {

@@ -10,6 +10,7 @@ const authCheck = require("../middlewares/authChecker");
 const Contacts = require("../db/models").contacts;
 const Listings = require("../db/models").listings;
 const Groups = require("../db/models").groups;
+const ListingContacts = require("../db/models").ListingContacts;
 
 const router = express.Router();
 const people = google.people("v1");
@@ -282,18 +283,6 @@ router.delete("/:id/delete", authCheck, async (req, res) => {
 
 // CONTACT LISTINGS
 
-// router.post("/fetchContactListings", authCheck, async (req, res) => {
-//   try {
-//     const contact = await Contacts.findById(req.body.contactId);
-//     const listings = await contact.getListings();
-//     res.json(listings.map(listing => listing.dataValues));
-//   } catch (err) {
-//     console.error(err);
-//   }
-// });
-
-// CONTACT LISTINGS
-
 router.get("/:id/listings", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
   try {
@@ -324,14 +313,14 @@ router.get("/:id/listings", authCheck, async (req, res) => {
   }
 });
 
-// BULK ADD CONTACTS TO GROUP AND RETURN GROUP-CONTACTS
+// BULK ADD LISTINGS TO CONTACT AND RETURN LISTING-CONTACTS
 router.post("/:id/listings/bulk-add", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
 
   try {
     await ListingContacts.bulkCreate(req.body.contactListings);
 
-    const contactListings = await Listings.findAll({
+    const contactListings = await Listings.findAndCountAll({
       limit: 25,
       offset: 0,
       query: "",
@@ -366,7 +355,7 @@ router.post("/:id/listing/delete", authCheck, async (req, res) => {
     });
     await contact.removeListing(req.body.listingId);
 
-    const contacListingss = await Listings.findAll({
+    const contactListings = await Listings.findAndCountAll({
       limit: 25,
       offset: 0,
       where: {
@@ -384,49 +373,9 @@ router.post("/:id/listing/delete", authCheck, async (req, res) => {
     });
     res.json(contactListings);
   } catch (err) {
-    console.error("ERROR REMOVING LISTING FROM CONTACT");
+    console.error("ERROR REMOVING LISTING FROM CONTACT", err);
   }
 });
-
-// router.post("/setContactListing", authCheck, async (req, res) => {
-//   const userId = req.session.user.toString();
-
-//   try {
-//     const listing = await Listings.findOne({
-//       where: {
-//         id: req.body.listingId,
-//         UserUuid: userId
-//       }
-//     });
-
-//     await listing.addContact(req.body.contactId);
-
-//     const contact = await Contacts.findOne({
-//       where: {
-//         id: req.body.contactId,
-//         UserUuid: userId
-//       }
-//     });
-//     await contact.addListing(req.body.listingId);
-
-//     const listings = await contact.getListings();
-//     res.json(listings.map(listing => listing.dataValues));
-//   } catch (err) {
-//     console.error(err);
-//   }
-// });
-
-// router.post("/deleteContactListing", authCheck, async (req, res) => {
-//   try {
-//     const contact = await Contacts.findById(req.body.contactId);
-//     await contact.removeListing(req.body.listingId);
-
-//     const listings = await contact.getListings();
-//     res.json(listings.map(listing => listing.dataValues));
-//   } catch (err) {
-//     console.error(err);
-//   }
-// });
 
 router.post("/new/openhouse", authCheck, async (req, res) => {
   const userId = req.session.user.toString();

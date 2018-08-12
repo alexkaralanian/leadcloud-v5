@@ -2,7 +2,7 @@ import * as types from "../types";
 
 const initialState = {
   isModalVisible: false,
-  selectedContacts: []
+  selected: []
 };
 
 const modalReducer = (state = initialState, action) => {
@@ -13,10 +13,10 @@ const modalReducer = (state = initialState, action) => {
         isModalVisible: action.payload
       };
 
-    case types.SET_SELECTED_CONTACTS:
+    case types.SET_SELECTED:
       return {
         ...state,
-        selectedContacts: action.payload
+        selected: action.payload
       };
 
     default:

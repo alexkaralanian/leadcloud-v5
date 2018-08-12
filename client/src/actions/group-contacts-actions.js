@@ -8,7 +8,7 @@ import store from "../store";
 
 import { fetchComponent, setQuery, setOffset } from "./query-actions";
 
-import { setModalVisibility, setSelectedContacts } from "./modal-actions";
+import { setModalVisibility, setSelected } from "./modal-actions";
 
 export const setGroupContacts = groupContacts => ({
   type: types.SET_GROUP_CONTACTS,
@@ -56,7 +56,7 @@ export const submitGroupContacts = (
     groupId,
     contactId: contact.id
   }));
-  dispatch(setSelectedContacts([]));
+  dispatch(setSelected([]));
   dispatch(setModalVisibility(false));
   try {
     const res = await axios.post(

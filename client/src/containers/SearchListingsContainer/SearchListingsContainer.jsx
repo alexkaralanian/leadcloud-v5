@@ -1,47 +1,49 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Button } from "react-bootstrap";
+import PropTypes from "prop-types";
 
 import SearchForm from "../../components/SearchForm/SearchForm";
 import Pills from "../../components/Pills/Pills";
-import TableRow from "../../components/TableRow/TableRow";
 
 import { setModalVisibility } from "../../actions/modal-actions";
 
 import {
   fetchComponent,
   setQuery,
-  setOffset,
-  setCount
+  setOffset
 } from "../../actions/query-actions";
 
 import { setError, clearError } from "../../actions/common-actions";
 
 import {
-  setContacts,
-  searchContacts2,
-  clearContacts
-} from "../../actions/contact-actions";
+  setListings,
+  searchListings,
+  clearListings
+} from "../../actions/listing-actions";
 
 import { addSelected, deleteSelected } from "../../actions/modal-actions";
 
-class SearchContactsContainer extends React.Component {
+import TableRow from "../../components/TableRow/TableRow";
+
+class SearchListingsContainer extends React.Component {
   componentDidMount() {
     const { fetchComponent, setQuery, setOffset } = this.props;
     setOffset(0);
-    fetchComponent("contacts", [], setContacts, null, null);
+    fetchComponent("listings", [], setListings, null, null);
   }
 
   componentWillUnmount() {
-    const { clearError, clearContacts, setCount, setOffset } = this.props;
-    clearContacts();
+    const { clearError, setQuery, setOffset } = this.props;
+    clearListings();
+    clearError();
+    setOffset(25);
   }
 
   render() {
     const {
       isFetching,
-      contacts,
+      listings,
       submitFunction,
       hostComponent,
       selected
@@ -51,8 +53,8 @@ class SearchContactsContainer extends React.Component {
       <React.Fragment>
         <div className="modal_search-container">
           <SearchForm
-            searchFunction={searchContacts2}
-            searchText={"Search Contacts..."}
+            searchFunction={searchListings}
+            searchText={"Search Listings..."}
           />
           <Button
             className="button"
@@ -66,18 +68,18 @@ class SearchContactsContainer extends React.Component {
           <Pills
             hostComponent={hostComponent}
             component={selected}
-            componentName="contacts"
+            componentName="listings"
             submitFunction={deleteSelected}
-            displayValue="fullName"
+            displayValue="address"
           />
         </div>
-        {contacts.length > 0 && (
+        {listings.length > 0 && (
           <TableRow
-            componentName="contacts"
-            rowText="fullName"
-            collection={contacts}
+            componentName="listings"
+            rowText="address"
+            collection={listings}
             submitFunction={addSelected}
-            buttonText={"Add Contact"}
+            buttonText={"Add Listing"}
             buttonStyle={"warning"}
             hostComponent={hostComponent}
             isModal={true}
@@ -89,7 +91,7 @@ class SearchContactsContainer extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  contacts: state.contactReducer.contacts,
+  listings: state.listingReducer.listings,
   selected: state.modalReducer.selected,
   isAuthed: state.authReducer.isAuthed,
   isLoading: state.queryReducer.isLoading,
@@ -99,14 +101,13 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   fetchComponent,
-  clearContacts,
+  clearListings,
   clearError,
   setModalVisibility,
   setQuery,
-  setCount,
   setOffset
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(
-  SearchContactsContainer
+  SearchListingsContainer
 );

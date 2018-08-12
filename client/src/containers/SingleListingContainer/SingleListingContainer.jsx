@@ -15,6 +15,7 @@ import ImageCarousel from "../../components/ImageCarousel/ImageCarousel";
 import Emails from "../../components/Emails/Emails";
 
 import Modal from "../../components/Modal/Modal";
+import SearchContactsContainer from "../SearchContactsContainer/SearchContactsContainer";
 
 import {
   fetchListing,
@@ -66,10 +67,10 @@ class SingleListingContainer extends React.Component {
 
   componentWillUnmount() {
     const { setListingContacts, setQuery, setOffset } = this.props;
-    setListingContacts([]);
-    setQuery("");
-    setOffset(0);
-    clearListing();
+    // setListingContacts([]);
+    // setQuery("");
+    // setOffset(0);
+    // clearListing();
   }
 
   onMenuSelect = (eventKey, path) => {
@@ -103,15 +104,13 @@ class SingleListingContainer extends React.Component {
       setModalVisibility,
       listing,
       setListingContacts,
-      setQuery,
       setOffset,
       setCount
     } = this.props;
 
     setModalVisibility(bool);
-    setCount(0);
     setOffset(0);
-
+    setCount(0);
     fetchComponent("listings", [], setListingContacts, listing.id, "contacts");
   };
 
@@ -140,9 +139,7 @@ class SingleListingContainer extends React.Component {
 
       isModalVisible,
       setModalVisibility,
-      setQuery,
-      setOffset,
-      setCount
+      setOffset
     } = this.props;
 
     return !isAuthed ? (
@@ -154,8 +151,14 @@ class SingleListingContainer extends React.Component {
           displayModal={this.displayModalFunc}
           isModalVisible={isModalVisible}
           title={listing.address}
-          hostComponent={listing}
-          submitFunction={submitListingContacts}
+          // hostComponent={listing}
+          // submitFunction={submitListingContacts}
+          Container={
+            <SearchContactsContainer
+              submitFunction={submitListingContacts}
+              hostComponent={listing}
+            />
+          }
         />
         <BreadCrumbs />
 
@@ -284,7 +287,6 @@ const mapDispatchToProps = {
 
   setListingContacts,
   fetchComponent,
-  setQuery,
   setOffset,
   setCount
 };

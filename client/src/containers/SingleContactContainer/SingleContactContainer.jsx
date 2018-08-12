@@ -21,6 +21,7 @@ import GroupsContainer from "../GroupsContainer/GroupsContainer";
 import SearchForm from "../../components/SearchForm/SearchForm";
 import Counter from "../../components/Counter/Counter";
 import Modal from "../../components/Modal/Modal";
+import SearchListingsContainer from "../SearchListingsContainer/SearchListingsContainer";
 
 import { setModalVisibility } from "../../actions/modal-actions";
 
@@ -47,8 +48,7 @@ import {
   searchContactListings,
   setContactListings,
   submitContactListings,
-  deleteContactListing,
-  clearContactListingsSearchResults
+  deleteContactListing
 } from "../../actions/contact-listings-actions";
 
 import {
@@ -115,7 +115,6 @@ class SingleContactContainer extends React.Component {
   componentWillUnmount() {
     const { setContactListings, setQuery, setOffset } = this.props;
     setContactListings([]);
-    setQuery("");
     setOffset(0);
     clearContact();
   }
@@ -194,7 +193,6 @@ class SingleContactContainer extends React.Component {
       contactGroups,
       submitContactGroup,
       deleteContactGroup,
-      deleteGroupContact,
       path,
 
       isModalVisible,
@@ -212,6 +210,12 @@ class SingleContactContainer extends React.Component {
           title={contact.fullName}
           hostComponent={contact}
           submitFunction={submitContactListings}
+          Container={
+            <SearchListingsContainer
+              submitFunction={submitContactListings}
+              hostComponent={contact}
+            />
+          }
         />
         <BreadCrumbs />
         <Grid>
@@ -303,7 +307,6 @@ class SingleContactContainer extends React.Component {
               contact={contact}
               contactListings={contactListings}
               searchContactListings={searchContactListings}
-              contactListingsSearchResults={contactListingsSearchResults}
               submitContactListing={submitContactListings}
               deleteContactListing={deleteContactListing}
             />
@@ -371,7 +374,6 @@ const mapDispatchToProps = {
   searchContactListings,
   submitContactListings,
   deleteContactListing,
-  clearContactListingsSearchResults,
 
   submitContactGroup,
   deleteContactGroup,
@@ -380,7 +382,9 @@ const mapDispatchToProps = {
   clearError,
 
   setContactListings,
-  setModalVisibility
+  setModalVisibility,
+  setCount,
+  setOffset
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(
