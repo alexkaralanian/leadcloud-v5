@@ -22,6 +22,11 @@ export const isLoading = bool => ({
   payload: bool
 });
 
+export const isFetching = bool => ({
+  type: types.IS_FETCHING,
+  payload: bool
+});
+
 export const fetchComponent = (
   componentName, // string, ie "contacts"
   componentArray, // array, ie []
@@ -37,8 +42,7 @@ export const fetchComponent = (
   const query = state.queryReducer.query;
   const newOffset = offset + limit;
 
-  // query only gets set when component search function is invoked, is an empty string
-  // no query / fetchAll is default return state from db
+  console.log("FETCH COMPONENT");
 
   try {
     dispatch(isLoading(true));
@@ -56,8 +60,10 @@ export const fetchComponent = (
     dispatch(setCount(res.data.count));
     dispatch(setOffset(newOffset));
     dispatch(isLoading(false));
+    dispatch(isFetching(false));
   } catch (err) {
     dispatch(isLoading(false));
+    dispatch(isFetching(false));
     console.error(
       id
         ? `Fetching ${componentName} ${subComponent} unsuccessful`

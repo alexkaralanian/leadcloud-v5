@@ -10,12 +10,10 @@ class Counter extends React.Component {
 
     return (
       <div className="counter_container">
-        {count > 0 && (
-          <div className="counter_text">
-            {`Displaying ${count > offset ? offset : offset - (offset - count)}
+        <div className="counter_text">
+          {`Displaying ${count > offset ? offset : offset - (offset - count)}
                 of ${count} items`}
-          </div>
-        )}
+        </div>
       </div>
     );
   }

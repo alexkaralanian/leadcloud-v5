@@ -66,10 +66,11 @@ export const searchContacts2 = values => {
 
 // SYNC GOOGLE CONTACTS
 export const syncContacts = () => async dispatch => {
-  // dispatch(isFetching(true));
+  dispatch(isFetching(true));
   try {
     const res = await axios.get("/api/contacts/loadcontacts");
     if (res.status === 200) {
+      store.dispatch(fetchComponent("contacts", [], setContacts));
     }
   } catch (err) {
     console.error("Loading contacts from DB unsuccessful", err);

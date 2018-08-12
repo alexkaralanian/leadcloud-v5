@@ -14,6 +14,8 @@ import ListingForm from "../../components/SingleListing/ListingForm";
 import ImageCarousel from "../../components/ImageCarousel/ImageCarousel";
 import Emails from "../../components/Emails/Emails";
 
+import Modal from "../../components/Modal/Modal";
+
 import {
   fetchListing,
   submitNewListing,
@@ -26,12 +28,20 @@ import {
 } from "../../actions/listing-actions";
 
 import {
+  setListingContacts,
   searchListingContacts,
-  fetchListingContacts,
-  submitListingContact,
-  deleteListingContact,
-  clearListingContactsSearchResults
+  submitListingContacts,
+  deleteListingContact
 } from "../../actions/listing-contacts-actions";
+
+import { setModalVisibility } from "../../actions/modal-actions";
+
+import {
+  fetchComponent,
+  setQuery,
+  setOffset,
+  setCount
+} from "../../actions/query-actions";
 
 class SingleListingContainer extends React.Component {
   state = {
@@ -39,16 +49,26 @@ class SingleListingContainer extends React.Component {
   };
 
   componentDidMount() {
-    const { match, fetchListing, fetchListingContacts } = this.props;
+    const { match, fetchComponent, fetchListing } = this.props;
 
     if (match.params.id !== "new") {
       fetchListing(match.params.id);
-      fetchListingContacts(match.params.id);
+
+      fetchComponent(
+        "listings",
+        [],
+        setListingContacts,
+        match.params.id,
+        "contacts"
+      );
     }
   }
 
   componentWillUnmount() {
-    const { clearListing } = this.props;
+    const { setListingContacts, setQuery, setOffset } = this.props;
+    setListingContacts([]);
+    setQuery("");
+    setOffset(0);
     clearListing();
   }
 
@@ -76,9 +96,29 @@ class SingleListingContainer extends React.Component {
     }
   };
 
+  displayModalFunc = bool => {
+    const {
+      match,
+      fetchComponent,
+      listing,
+      setModalVisibility,
+      setListingContacts,
+      setQuery,
+      setOffset,
+      setCount
+    } = this.props;
+
+    setModalVisibility(bool);
+    setCount(0);
+    setOffset(0);
+
+    fetchComponent("listings", [], setListingContacts, listing.id, "contacts");
+  };
+
   render() {
     const {
       match,
+      location,
       push,
       isAuthed,
       listing,
@@ -86,32 +126,51 @@ class SingleListingContainer extends React.Component {
       updateListing,
       deleteListing,
       searchContacts,
-      listingContactsSearchResults,
+
       listingContacts,
-      submitListingContact,
+      listingContactsSearchResults,
+      submitListingContacts,
       deleteListingContact,
 
       listingEmails,
       isFetching,
       onDrop,
       images,
-      deleteListingImage
+      deleteListingImage,
+
+      isModalVisible,
+      setModalVisibility,
+      setQuery,
+      setOffset,
+      setCount
     } = this.props;
 
     return !isAuthed ? (
       <Redirect path="/" />
     ) : (
-      <div>
+      <React.Fragment>
         <Navigation />
+        <Modal
+          displayModal={this.displayModalFunc}
+          isModalVisible={isModalVisible}
+          title={listing.address}
+          hostComponent={listing}
+          submitFunction={submitListingContacts}
+        />
         <BreadCrumbs />
 
         {/* HEADER */}
         <Grid>
           <Header
+            isVisible={
+              location.pathname === `/listings/${match.params.id}/contacts`
+            }
             componentName="Listing"
             headerTitle={listing.address}
             isNew={match.params.id === "new"}
             images={listing.images}
+            primaryFunc={() => setModalVisibility(true)}
+            primaryGlyph="plus"
           />
         </Grid>
 
@@ -156,9 +215,7 @@ class SingleListingContainer extends React.Component {
                 {...routeProps}
                 listing={listing}
                 listingContacts={listingContacts}
-                listingContactsSearchResults={listingContactsSearchResults}
-                searchContacts={searchListingContacts}
-                submitListingContact={submitListingContact}
+                searchListingContacts={searchListingContacts}
                 deleteListingContact={deleteListingContact}
               />
             </div>
@@ -190,7 +247,7 @@ class SingleListingContainer extends React.Component {
             />
           )}
         />
-      </div>
+      </React.Fragment>
     );
   }
 }
@@ -198,11 +255,12 @@ class SingleListingContainer extends React.Component {
 const mapStateToProps = state => ({
   isAuthed: state.authReducer.isAuthed,
   listing: state.listingReducer.listing,
-  listingContacts: state.listingReducer.listingContacts,
+  listingContacts: state.listingContactsReducer.listingContacts,
   listingContactsSearchResults:
-    state.listingReducer.listingContactsSearchResults,
+    state.listingContactsReducer.listingContactsSearchResults,
   images: state.listingReducer.images,
-  isFetching: state.listingReducer.isFetching
+  isFetching: state.listingReducer.isFetching,
+  isModalVisible: state.modalReducer.isModalVisible
 });
 
 const mapDispatchToProps = {
@@ -215,14 +273,20 @@ const mapDispatchToProps = {
   clearListing,
 
   searchListingContacts,
-  clearListingContactsSearchResults,
-  fetchListingContacts,
-  submitListingContact,
+  submitListingContacts,
   deleteListingContact,
 
   onDrop,
   deleteListingImage,
-  push
+  push,
+
+  setModalVisibility,
+
+  setListingContacts,
+  fetchComponent,
+  setQuery,
+  setOffset,
+  setCount
 };
 
 SingleListingContainer.propTypes = {

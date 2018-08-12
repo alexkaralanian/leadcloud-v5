@@ -13,26 +13,29 @@ const Pills = ({
   return (
     <ul className="pills_list">
       {component &&
-        component.map(item => (
-          <li key={item.id}>
-            <div className="pills_container">
-              <Link key={item.id} to={`/${componentName}/${item.id}`}>
-                <div className="pills_link">{item[displayValue]}</div>
-              </Link>
+        component.map(item => {
+          console.log("PILLS", { item, hostComponent });
+          return (
+            <li key={item.id}>
+              <div className="pills_container">
+                <Link key={item.id} to={`/${componentName}/${item.id}`}>
+                  <div className="pills_link">{item[displayValue]}</div>
+                </Link>
 
-              <div
-                role="button"
-                className="pills_button"
-                onClick={event => {
-                  event.stopPropagation();
-                  submitFunction(item.id, hostComponent.id);
-                }}
-              >
-                <span className="pills_link">x</span>
+                <div
+                  role="button"
+                  className="pills_button"
+                  onClick={event => {
+                    event.stopPropagation();
+                    submitFunction(item.id, hostComponent.id);
+                  }}
+                >
+                  <span className="pills_link">x</span>
+                </div>
               </div>
-            </div>
-          </li>
-        ))}
+            </li>
+          );
+        })}
     </ul>
   );
 };

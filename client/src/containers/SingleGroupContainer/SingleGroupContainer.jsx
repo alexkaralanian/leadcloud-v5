@@ -24,7 +24,8 @@ import { setModalVisibility } from "../../actions/modal-actions";
 
 import {
   submitGroupContact,
-  setGroupContacts
+  setGroupContacts,
+  submitGroupContacts
 } from "../../actions/group-contacts-actions";
 
 import {
@@ -111,7 +112,7 @@ class SingleGroupContainer extends React.Component {
       submitNewGroup,
       updateGroup,
       deleteGroup,
-      submitGroupContact,
+      submitGroupContacts,
       isModalVisible,
       setModalVisibility
     } = this.props;
@@ -125,6 +126,8 @@ class SingleGroupContainer extends React.Component {
           displayModal={this.displayModalFunc}
           isModalVisible={isModalVisible}
           title={group.title}
+          submitFunction={submitGroupContacts}
+          component={group}
         />
         <BreadCrumbs />
         <Grid>
@@ -189,7 +192,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   fetchGroup,
   submitNewGroup,
-  submitGroupContact,
+  submitGroupContacts,
   updateGroup,
   deleteGroup,
   setModalVisibility,

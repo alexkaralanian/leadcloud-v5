@@ -10,9 +10,6 @@ const initialState = {
   listings: [],
   listing: {},
 
-  listingContacts: [],
-  listingContactsSearchResults: [],
-
   emailsByListing: [],
   groups: [],
 
@@ -42,25 +39,6 @@ const listingReducer = (state = initialState, action) => {
       return {
         ...state,
         query: action.payload
-      };
-
-    // LISTING CONTACTS
-
-    case types.SET_LISTING_CONTACTS:
-      return {
-        ...state,
-        listingContacts: action.payload
-      };
-    case types.SET_LISTING_CONTACTS_SEARCH_RESULTS:
-      return {
-        ...state,
-        listingContactsSearchResults: action.payload
-      };
-
-    case types.CLEAR_LISTING_CONTACTS_SEARCH_RESULTS:
-      return {
-        ...state,
-        listingContactsSearchResults: []
       };
 
     // EMAILS

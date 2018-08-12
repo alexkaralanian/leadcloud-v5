@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     {}
   );
   listings.associate = models => {
-    listings.belongsToMany(models.contacts, { through: "ListingContact" });
+    listings.belongsToMany(models.contacts, { through: "ListingContacts" });
     listings.belongsTo(models.users, { as: "User" });
   };
   return listings;

@@ -1,6 +1,8 @@
 import axios from "axios";
 import { searchListings } from "./listing-actions";
 import { isFetching, clearFormData } from "./common-actions";
+import { fetchComponent, setQuery, setOffset } from "./query-actions";
+import { setModalVisibility, setSelectedContacts } from "./modal-actions";
 import * as types from "../types";
 import store from "../store";
 
@@ -20,60 +22,35 @@ export const clearContactListingsSearchResults = () => ({
 
 export const searchContactListings = values => {
   const state = store.getState();
+  const contactId = state.contactReducer.contact.id;
   const query = values.nativeEvent.target.defaultValue;
-  const contactListingsSearchResults =
-    state.contactReducer.contactListingsSearchResults;
-
-  if (query.length < 1) store.dispatch(clearContactListingsSearchResults());
-  if (query.length >= 1) {
-    store.dispatch(
-      searchListings(
-        contactListingsSearchResults,
-        25,
-        0,
-        query,
-        "contactListings"
-      )
-    );
-  }
-
-  if (!query) store.dispatch(clearContactListingsSearchResults());
+  store.dispatch(setQuery(query));
+  store.dispatch(setOffset(0));
+  store.dispatch(
+    fetchComponent("contacts", [], setContactListings, contactId, "listings")
+  );
 };
 
-export const fetchContactListings = contactId => async dispatch => {
-  dispatch(isFetching(true));
-  try {
-    const res = await axios.post("/api/contacts/fetchContactListings", {
-      contactId
-    });
-    if (res.status === 200) {
-      dispatch(setContactListings(res.data));
-    }
-    dispatch(isFetching(false));
-  } catch (err) {
-    console.error("Fetching listing contacts unsuccessful", err);
-    dispatch(isFetching(false));
-  }
-};
-
-export const submitContactListing = (
-  listingId,
+export const submitContactListings = (
+  contactListingsArray,
   contactId
 ) => async dispatch => {
-  dispatch(isFetching(true));
+  const contactListings = contactListingsArray.map(listing => ({
+    contactId: contactId,
+    listingId: listing.id
+  }));
+  dispatch(setSelectedContacts([]));
+  dispatch(setModalVisibility(false));
   try {
-    const res = await axios.post("/api/contacts/setContactListing", {
-      contactId,
-      listingId
-    });
-
+    const res = await axios.post(
+      `/api/contacts/${contactId}/listings/bulk-add`,
+      {
+        contactListings
+      }
+    );
     dispatch(setContactListings(res.data));
-    dispatch(clearContactListingsSearchResults());
-    dispatch(clearFormData());
-    dispatch(isFetching(false));
   } catch (err) {
-    console.error("Setting listing contacts unsuccessful", err);
-    dispatch(isFetching(false));
+    console.error("Submitting Contact Listings Unsuccessful", err);
   }
 };
 
@@ -83,17 +60,14 @@ export const deleteContactListing = (
 ) => async dispatch => {
   dispatch(isFetching(true));
   try {
-    const res = await axios.post("/api/contacts/deleteContactListing", {
-      listingId,
-      contactId
+    const res = await axios.post(`/api/contacts/${contactId}/contact/delete`, {
+      listingId
     });
-
-    console.log("DELETE RES", res.data);
 
     dispatch(setContactListings(res.data));
     dispatch(isFetching(false));
   } catch (err) {
-    console.error("Deleting listing contacts unsuccessful", err);
+    console.error("Deleting contact listing unsuccessful", err);
     dispatch(isFetching(false));
   }
 };

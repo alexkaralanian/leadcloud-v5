@@ -12,8 +12,6 @@ export const submitContactGroup = (
   contactGroupId,
   contactId
 ) => async dispatch => {
-  console.log("GROUP ID", contactGroupId, contactId);
-
   try {
     const res = await axios.post(
       `/api/groups/${contactGroupId}/contact-groups/add`,
@@ -33,8 +31,6 @@ export const deleteContactGroup = (
   contactGroupId,
   contactId
 ) => async dispatch => {
-  console.log("GROUP ID", contactGroupId, contactId);
-
   try {
     const res = await axios.post(
       `/api/groups/${contactGroupId}/contact-groups/delete`,

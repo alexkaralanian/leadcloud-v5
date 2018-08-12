@@ -24,10 +24,10 @@ import {
   clearContacts
 } from "../../actions/contact-actions";
 import {
-  submitGroupContacts,
   addSelectedContact,
   deleteSelectedContact
-} from "../../actions/group-contacts-actions";
+} from "../../actions/modal-actions";
+
 import TableRow from "../../components/TableRow/TableRow";
 
 class SearchContactsContainer extends React.Component {
@@ -51,8 +51,7 @@ class SearchContactsContainer extends React.Component {
       isFetching,
       contacts,
       submitFunction,
-      group,
-      submitGroupContacts,
+      hostComponent,
       selectedContacts
     } = this.props;
 
@@ -65,29 +64,30 @@ class SearchContactsContainer extends React.Component {
           />
           <Button
             className="button"
-            onClick={() => submitGroupContacts(selectedContacts, group.id)}
+            onClick={() => submitFunction(selectedContacts, hostComponent.id)}
             bsStyle="primary"
           >
-            Submit Contacts
+            Add Selected
           </Button>
         </div>
         <div className="modal_pills-container">
           <Pills
+            hostComponent={hostComponent}
             component={selectedContacts}
-            componentName="contact"
+            componentName="contacts"
             submitFunction={deleteSelectedContact}
             displayValue="fullName"
           />
         </div>
         {contacts.length > 0 && (
           <TableRow
-            componentName="contact"
+            componentName="contacts"
             rowText="fullName"
             collection={contacts}
             submitFunction={addSelectedContact}
             buttonText={"Add Contact"}
             buttonStyle={"warning"}
-            hostComponent={group}
+            hostComponent={hostComponent}
             isModal={true}
           />
         )}
@@ -99,7 +99,7 @@ class SearchContactsContainer extends React.Component {
 const mapStateToProps = state => ({
   contacts: state.contactReducer.contacts,
   group: state.groupReducer.group,
-  selectedContacts: state.groupContactsReducer.selectedContacts,
+  selectedContacts: state.modalReducer.selectedContacts,
   isAuthed: state.authReducer.isAuthed,
   isLoading: state.queryReducer.isLoading,
   isFetching: state.commonReducer.isFetching,
@@ -112,7 +112,6 @@ const mapDispatchToProps = {
   clearContacts,
   clearError,
   setModalVisibility,
-  submitGroupContacts,
   setQuery,
   setOffset,
   push

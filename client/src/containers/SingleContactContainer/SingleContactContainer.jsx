@@ -20,6 +20,9 @@ import GroupsContainer from "../GroupsContainer/GroupsContainer";
 
 import SearchForm from "../../components/SearchForm/SearchForm";
 import Counter from "../../components/Counter/Counter";
+import Modal from "../../components/Modal/Modal";
+
+import { setModalVisibility } from "../../actions/modal-actions";
 
 import {
   fetchContact,
@@ -35,8 +38,8 @@ import { clearError } from "../../actions/common-actions";
 
 import {
   searchContactListings,
-  fetchContactListings,
-  submitContactListing,
+  setContactListings,
+  submitContactListings,
   deleteContactListing,
   clearContactListingsSearchResults
 } from "../../actions/contact-listings-actions";
@@ -131,9 +134,29 @@ class SingleContactContainer extends React.Component {
     }
   };
 
+  displayModalFunc = bool => {
+    const {
+      match,
+      fetchComponent,
+      setModalVisibility,
+      contact,
+      setContactsListings,
+      setQuery,
+      setOffset,
+      setCount
+    } = this.props;
+
+    setModalVisibility(bool);
+    setCount(0);
+    setOffset(0);
+
+    fetchComponent("contacts", [], setContactsListings, contact.id, "listings");
+  };
+
   render() {
     const {
       match,
+      location,
       isAuthed,
       push,
 
@@ -145,7 +168,7 @@ class SingleContactContainer extends React.Component {
       searchContactListings,
       contactListingsSearchResults,
       contactListings,
-      submitContactListing,
+      submitContactListings,
       deleteContactListing,
 
       emailsByContact,
@@ -157,8 +180,9 @@ class SingleContactContainer extends React.Component {
       submitContactGroup,
       deleteContactGroup,
       deleteGroupContact,
+      path,
 
-      path
+      isModalVisible
     } = this.props;
 
     return !isAuthed ? (
@@ -166,13 +190,23 @@ class SingleContactContainer extends React.Component {
     ) : (
       <div>
         <Navigation />
+        <Modal
+          displayModal={this.displayModalFunc}
+          isModalVisible={isModalVisible}
+          title={contact.fullName}
+          hostComponent={contact}
+          submitFunction={submitContactListings}
+        />
         <BreadCrumbs />
         <Grid>
           <Header
+            isVisible={location.pathname === `/contacts/${contact.id}/listings`}
             componentName="Contact"
             headerTitle={contact.fullName}
             isNew={match.params.id === "new"}
             images={contact.images}
+            primaryFunc={() => setModalVisibility(true)}
+            primaryGlyph="plus"
           />
         </Grid>
 
@@ -254,7 +288,7 @@ class SingleContactContainer extends React.Component {
               contactListings={contactListings}
               searchContactListings={searchContactListings}
               contactListingsSearchResults={contactListingsSearchResults}
-              submitContactListing={submitContactListing}
+              submitContactListing={submitContactListings}
               deleteContactListing={deleteContactListing}
             />
           )}
@@ -300,7 +334,8 @@ const mapStateToProps = state => ({
   emailQuery: state.emailReducer.emailQuery,
   maxResults: state.contactReducer.maxResults,
   pageToken: state.contactReducer.pageToken,
-  path: state.router.location.pathname
+  path: state.router.location.pathname,
+  isModalVisible: state.modalReducer.isModalVisible
 });
 
 const mapDispatchToProps = {
@@ -317,8 +352,7 @@ const mapDispatchToProps = {
   setEmailQuery,
 
   searchContactListings,
-  fetchContactListings,
-  submitContactListing,
+  submitContactListings,
   deleteContactListing,
   clearContactListingsSearchResults,
 

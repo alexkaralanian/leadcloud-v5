@@ -1,16 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { reduxForm } from "redux-form";
-
 import { Grid, Row, Col } from "react-bootstrap";
-
 import SearchForm from "../SearchForm/SearchForm";
 import TableRow from "../TableRow/TableRow";
+import Counter from "../../components/Counter/Counter";
 
 const ListingContacts = ({
   listing,
   listingContacts,
-  searchContacts,
+  searchListingContacts,
   listingContactsSearchResults,
   setContactsQuery,
   submitListingContact,
@@ -20,22 +19,10 @@ const ListingContacts = ({
     <Grid>
       <Row>
         <Col xs={12}>
-          <h3 className="headerText">Add Contacts</h3>
-
-          <SearchForm searchFunction={searchContacts} />
-
+          <SearchForm searchFunction={searchListingContacts} />
+          <Counter />
           <TableRow
-            componentName="contact"
-            rowText="fullName"
-            collection={listingContactsSearchResults}
-            submitFunction={submitListingContact}
-            hostComponent={listing}
-            buttonText="Add Contact"
-            buttonStyle="warning"
-          />
-          <hr />
-          <TableRow
-            componentName="contact"
+            componentName="contacts"
             rowText="fullName"
             collection={listingContacts}
             submitFunction={deleteListingContact}

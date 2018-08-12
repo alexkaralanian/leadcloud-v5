@@ -2,8 +2,8 @@ module.exports = (sequelize, DataTypes) => {
   const ContactGroups = sequelize.define(
     "ContactGroups",
     {
-      groupId: DataTypes.STRING,
-      contactId: DataTypes.STRING
+      groupId: DataTypes.INTEGER,
+      contactId: DataTypes.INTEGER
     },
     {}
   );

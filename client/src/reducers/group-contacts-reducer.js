@@ -2,7 +2,6 @@ import * as types from "../types";
 
 const initialState = {
   groupContacts: [],
-  selectedContacts: [],
   groupId: null,
   component: "groups"
   // groupContactsSearchResults: []
@@ -14,12 +13,6 @@ const groupContactsReducer = (state = initialState, action) => {
       return {
         ...state,
         groupContacts: action.payload
-      };
-
-    case types.SET_SELECTED_CONTACTS:
-      return {
-        ...state,
-        selectedContacts: action.payload
       };
 
     case types.CLEAR_GROUP_CONTACTS:
