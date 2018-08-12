@@ -25,6 +25,13 @@ import Modal from "../../components/Modal/Modal";
 import { setModalVisibility } from "../../actions/modal-actions";
 
 import {
+  fetchComponent,
+  setQuery,
+  setOffset,
+  setCount
+} from "../../actions/query-actions";
+
+import {
   fetchContact,
   submitNewContact,
   updateContact,
@@ -62,11 +69,17 @@ class SingleContactContainer extends React.Component {
   };
 
   componentDidMount() {
-    const { match, fetchContact, fetchContactListings } = this.props;
+    const { match, fetchComponent, fetchContact } = this.props;
 
     if (match.params.id !== "new") {
       fetchContact(match.params.id);
-      fetchContactListings(match.params.id);
+      fetchComponent(
+        "contacts",
+        [],
+        setContactListings,
+        match.params.id,
+        "listings"
+      );
     }
   }
 
@@ -100,9 +113,11 @@ class SingleContactContainer extends React.Component {
   }
 
   componentWillUnmount() {
-    const { clearContact, clearError } = this.props;
+    const { setContactListings, setQuery, setOffset } = this.props;
+    setContactListings([]);
+    setQuery("");
+    setOffset(0);
     clearContact();
-    clearError();
   }
 
   onMenuSelect = (eventKey, path) => {
@@ -140,7 +155,7 @@ class SingleContactContainer extends React.Component {
       fetchComponent,
       setModalVisibility,
       contact,
-      setContactsListings,
+      setContactListings,
       setQuery,
       setOffset,
       setCount
@@ -150,7 +165,7 @@ class SingleContactContainer extends React.Component {
     setCount(0);
     setOffset(0);
 
-    fetchComponent("contacts", [], setContactsListings, contact.id, "listings");
+    fetchComponent("contacts", [], setContactListings, contact.id, "listings");
   };
 
   render() {
@@ -182,7 +197,8 @@ class SingleContactContainer extends React.Component {
       deleteGroupContact,
       path,
 
-      isModalVisible
+      isModalVisible,
+      setModalVisibility
     } = this.props;
 
     return !isAuthed ? (
@@ -342,6 +358,7 @@ const mapDispatchToProps = {
   push,
 
   fetchContact,
+  fetchComponent,
   submitNewContact,
   updateContact,
   deleteContact,
@@ -360,7 +377,10 @@ const mapDispatchToProps = {
   deleteContactGroup,
 
   clearContact,
-  clearError
+  clearError,
+
+  setContactListings,
+  setModalVisibility
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(

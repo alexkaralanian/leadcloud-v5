@@ -100,8 +100,8 @@ class SingleListingContainer extends React.Component {
     const {
       match,
       fetchComponent,
-      listing,
       setModalVisibility,
+      listing,
       setListingContacts,
       setQuery,
       setOffset,

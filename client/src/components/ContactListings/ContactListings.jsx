@@ -4,37 +4,24 @@ import { reduxForm } from "redux-form";
 import { Grid, Col, Row } from "react-bootstrap";
 
 import SearchForm from "../SearchForm/SearchForm";
+import Counter from "../../components/Counter/Counter";
 import TableRow from "../TableRow/TableRow";
 
 const ContactListings = ({
   contact,
   contactListings,
   searchContactListings,
-  contactListingsSearchResults,
-  setSearchResult,
   submitContactListing,
   deleteContactListing
 }) => (
   <Grid>
     <Row>
       <Col xs={12}>
-        <h3 className="headerText">Add Listings</h3>
-
         <SearchForm
           searchFunction={searchContactListings}
-          fieldText="Search for listings"
+          searchText="Search Listing Contacts..."
         />
-
-        <TableRow
-          componentName="listings"
-          rowText="address"
-          collection={contactListingsSearchResults}
-          submitFunction={submitContactListing}
-          hostComponent={contact}
-          buttonText="Add Listing"
-          buttonStyle="warning"
-        />
-        <hr />
+        <Counter />
         <TableRow
           componentName="listings"
           rowText="address"

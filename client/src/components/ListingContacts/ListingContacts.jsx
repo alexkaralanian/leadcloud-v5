@@ -2,16 +2,15 @@ import React from "react";
 import PropTypes from "prop-types";
 import { reduxForm } from "redux-form";
 import { Grid, Row, Col } from "react-bootstrap";
+
 import SearchForm from "../SearchForm/SearchForm";
-import TableRow from "../TableRow/TableRow";
 import Counter from "../../components/Counter/Counter";
+import TableRow from "../TableRow/TableRow";
 
 const ListingContacts = ({
   listing,
   listingContacts,
   searchListingContacts,
-  listingContactsSearchResults,
-  setContactsQuery,
   submitListingContact,
   deleteListingContact
 }) => {
@@ -19,7 +18,10 @@ const ListingContacts = ({
     <Grid>
       <Row>
         <Col xs={12}>
-          <SearchForm searchFunction={searchListingContacts} />
+          <SearchForm
+            searchFunction={searchListingContacts}
+            searchText="Search Contact Listings..."
+          />
           <Counter />
           <TableRow
             componentName="contacts"
