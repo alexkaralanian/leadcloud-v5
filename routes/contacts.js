@@ -11,6 +11,7 @@ const Contacts = require("../db/models").contacts;
 const Listings = require("../db/models").listings;
 const Groups = require("../db/models").groups;
 const ListingContacts = require("../db/models").ListingContacts;
+const ContactGroups = require("../db/models").ContactGroups;
 
 const router = express.Router();
 const people = google.people("v1");
@@ -281,8 +282,7 @@ router.delete("/:id/delete", authCheck, async (req, res) => {
   }
 });
 
-// CONTACT LISTINGS
-
+//////////// CONTACT LISTINGS ////////////
 router.get("/:id/listings", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
   try {
@@ -314,11 +314,13 @@ router.get("/:id/listings", authCheck, async (req, res) => {
 });
 
 // BULK ADD LISTINGS TO CONTACT AND RETURN LISTING-CONTACTS
-router.post("/:id/listings/bulk-add", authCheck, async (req, res) => {
+router.post("/:id/listings/add", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
 
   try {
-    await ListingContacts.bulkCreate(req.body.contactListings);
+    await ListingContacts.bulkCreate(req.body.contactListings, {
+      validate: false
+    });
 
     const contactListings = await Listings.findAndCountAll({
       limit: 25,
@@ -336,7 +338,6 @@ router.post("/:id/listings/bulk-add", authCheck, async (req, res) => {
         }
       ]
     });
-
     res.json(contactListings);
   } catch (err) {
     console.error("ERROR ADDING LISTINGS TO CONTACT", err);
@@ -377,6 +378,153 @@ router.post("/:id/listing/delete", authCheck, async (req, res) => {
   }
 });
 
+//////////// CONTACT GROUPS  ////////////
+router.get("/:id/groups", authCheck, async (req, res) => {
+  const userId = req.session.user.toString();
+  try {
+    const contactGroups = await Groups.findAndCountAll({
+      limit: req.query.limit,
+      offset: req.query.offset,
+      where: {
+        UserUuid: userId,
+        [Op.and]: {
+          title: {
+            [Op.iLike]: `%${req.query.query}%`
+          }
+        }
+      },
+      include: [
+        {
+          model: Contacts,
+          where: {
+            id: req.params.id
+          }
+        }
+      ],
+      order: [["title", "ASC"]]
+    });
+    res.json(contactGroups);
+  } catch (err) {
+    console.error("FETCHING CONTACT GROUPS ERROR", err);
+  }
+});
+
+router.post("/:id/groups/add", authCheck, async (req, res) => {
+  const userId = req.session.user.toString();
+
+  try {
+    await ContactGroups.bulkCreate(req.body.contactGroups);
+
+    const contactGroups = await Groups.findAndCountAll({
+      limit: 25,
+      offset: 0,
+      query: "",
+      where: {
+        UserUuid: userId
+      },
+      include: [
+        {
+          model: Contacts,
+          where: {
+            id: req.params.id
+          }
+        }
+      ],
+      order: [["title", "ASC"]]
+    });
+    res.json(contactGroups);
+  } catch (err) {
+    console.error("ERROR ADDING GROUPS TO CONTACT", err);
+  }
+});
+
+// REMOVE GROUP FROM CONTACT AND RETURN CONTACT-GROUPS
+router.post("/:id/group/delete", authCheck, async (req, res) => {
+  const userId = req.session.user.toString();
+  console.log("REQ.bODY", req.body);
+  try {
+    const contact = await Contacts.findOne({
+      where: {
+        UserUuid: userId,
+        id: req.params.id
+      }
+    });
+    await contact.removeGroup(req.body.groupId);
+    const contactGroups = await Groups.findAndCountAll({
+      limit: 25,
+      offset: 0,
+      where: {
+        UserUuid: userId
+      },
+      include: [
+        {
+          model: Contacts,
+          where: {
+            id: req.params.id
+          }
+        }
+      ],
+      order: [["title", "ASC"]]
+    });
+    res.json(contactGroups);
+  } catch (err) {
+    console.error("ERROR REMOVING GROUP FROM CONTACT", err);
+  }
+});
+
+//////////// CONTACT IMAGES  ////////////
+
+// ADD NEW IMAGES
+router.post("/images", authCheck, async (req, res) => {
+  const userId = req.session.user.toString();
+
+  try {
+    const contact = await Contacts.findOne({
+      where: {
+        id: req.body.componentId,
+        UserUuid: userId
+      }
+    });
+
+    let images = contact.images;
+    if (!images || images.length === 0) {
+      images = req.body.images;
+    } else {
+      images = images.concat(req.body.images);
+    }
+    const updatedContact = await contact.update({ images });
+    res.json(updatedContact);
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+// DELETE IMAGES
+router.post("/images/delete", authCheck, async (req, res) => {
+  const userId = req.session.user.toString();
+  try {
+    const contact = await Contacts.findOne({
+      where: {
+        UserUuid: userId,
+        id: req.body.contactId
+      }
+    });
+    const imageArray = contact.images;
+    imageArray.splice(imageArray.indexOf(req.body.image), 1);
+
+    const updatedContact = contact.update({
+      images: imageArray.length === 0 ? null : imageArray
+    });
+
+    res.json(updatedContact);
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+//////////// OPEN HOUSE  ////////////
+
+// LAUNCH OPEN HOUSE FORM LISTING
 router.post("/new/openhouse", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
 
@@ -426,54 +574,6 @@ router.post("/new/openhouse", authCheck, async (req, res) => {
     } else {
       res.json(contact[0].dataValues);
     }
-  } catch (err) {
-    console.error(err);
-  }
-});
-
-// ADD NEW IMAGES
-router.post("/images", authCheck, async (req, res) => {
-  const userId = req.session.user.toString();
-
-  try {
-    const contact = await Contacts.findOne({
-      where: {
-        id: req.body.componentId,
-        UserUuid: userId
-      }
-    });
-
-    let images = contact.images;
-    if (!images || images.length === 0) {
-      images = req.body.images;
-    } else {
-      images = images.concat(req.body.images);
-    }
-    const updatedContact = await contact.update({ images });
-    res.json(updatedContact);
-  } catch (err) {
-    console.error(err);
-  }
-});
-
-// DELETE IMAGES
-router.post("/images/delete", authCheck, async (req, res) => {
-  const userId = req.session.user.toString();
-  try {
-    const contact = await Contacts.findOne({
-      where: {
-        UserUuid: userId,
-        id: req.body.contactId
-      }
-    });
-    const imageArray = contact.images;
-    imageArray.splice(imageArray.indexOf(req.body.image), 1);
-
-    const updatedContact = contact.update({
-      images: imageArray.length === 0 ? null : imageArray
-    });
-
-    res.json(updatedContact);
   } catch (err) {
     console.error(err);
   }

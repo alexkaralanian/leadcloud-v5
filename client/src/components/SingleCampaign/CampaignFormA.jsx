@@ -2,12 +2,28 @@ import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Field, reduxForm } from "redux-form";
-import { Button, Form, FormGroup, Grid, Col, Row } from "react-bootstrap";
+import {
+  Button,
+  Form,
+  FormGroup,
+  Grid,
+  Col,
+  Row,
+  Panel,
+  Glyphicon
+} from "react-bootstrap";
+
+import InputField from "../InputField/InputField";
+import TextAreaField from "../InputField/TextAreaField";
+import Header from "../Header/Header";
+import Modal from "../../components/Modal/Modal";
+import SearchListingsContainer from "../../containers/SearchListingsContainer/SearchListingsContainer";
+import TableRow from "../TableRow/TableRow";
+import ButtonFooter from "../ButtonFooter/ButtonFooter";
+
 import { contactValidate } from "../../helpers/redux-form/validate";
 
-import TableRowCheckbox from "../../components/TableRow/TableRow_Checkbox";
-import SearchForm from "../../components/SearchForm/SearchForm";
-import inputField from "../InputField/InputField";
+import { searchListings, setListings } from "../../actions/listing-actions";
 
 let CampaignFormA;
 
@@ -22,22 +38,33 @@ CampaignFormA = ({
   campaignListings,
   searchCampaignListings,
   campaignListingsSearchResults,
-  submitCampaignListing,
+  submitCampaignListings,
   deleteCampaignListing,
+
+  displayModalFuncA,
+  isModalVisible,
+  setModalVisibility,
+  isListingPanelOpen,
+  displayListingPanel,
+  isRecipientsPanelOpen,
+  displayRecipientsPanel,
   nextPage
 }) => (
   <Form>
     <Grid>
-      <Row>
-        <Col xs={12}>
-          <h2>New Campaign</h2>
-        </Col>
+      <Header
+        isVisible={true}
+        componentName="campaigns"
+        headerTitle="New Campaign"
+        isNew={null}
+      />
+      <Row className="margin-top-2">
         <Col xs={12}>
           <FormGroup className="formGroup">
             <Field
               type="text"
               name="title"
-              component={inputField}
+              component={InputField}
               label="Title"
             />
           </FormGroup>
@@ -45,8 +72,16 @@ CampaignFormA = ({
             <Field
               type="text"
               name="subject"
-              component={inputField}
+              component={InputField}
               label="Subject"
+            />
+          </FormGroup>
+          <FormGroup className="formGroup">
+            <Field
+              type="text"
+              name="subject"
+              component={TextAreaField}
+              label="Body"
             />
           </FormGroup>
         </Col>
@@ -54,48 +89,105 @@ CampaignFormA = ({
 
       <Row>
         <Col xs={12}>
-          <h3>Search Listings</h3>
-          <SearchForm searchFunction={searchCampaignListings} />
-        </Col>
+          <Button bsSize="xsmall" onClick={() => displayRecipientsPanel()}>
+            Collapse
+          </Button>
+          <div className="header_secondary">
+            <div className="header_3">Recipients</div>
 
-        <Col xs={12}>
-          <TableRowCheckbox
-            componentName="listings"
-            rowText="address"
-            collection={campaignListings}
-            submitFunction={deleteCampaignListing}
-            hostComponent={campaign}
-            buttonText="Delete Listing"
-            buttonStyle="danger"
-          />
-        </Col>
-
-        <Col xs={12}>
-          <TableRowCheckbox
-            componentName="listings"
-            rowText="address"
-            collection={campaignListingsSearchResults}
-            submitFunction={submitCampaignListing}
-            hostComponent={campaign}
-            buttonText="Add Listing"
-            buttonStyle="warning"
-          />
+            <Button
+              className="button_width"
+              // bsStyle="primary"
+              onClick={evt => {
+                evt.stopPropagation();
+                console.log("ADD");
+              }}
+            >
+              <span>Add Groups</span>
+            </Button>
+          </div>
+          <Panel
+            id="collapsible-panel-example-1"
+            expanded={isRecipientsPanelOpen}
+          >
+            <Panel.Collapse>
+              <Panel.Body>
+                <TableRow
+                  componentName="groups"
+                  rowText="title"
+                  collection={null}
+                  submitFunction={null}
+                  hostComponent={campaign}
+                  buttonText="Remove Group"
+                  hostComponent={null}
+                  buttonStyle="danger"
+                />
+              </Panel.Body>
+            </Panel.Collapse>
+          </Panel>
         </Col>
       </Row>
 
       <Row>
         <Col xs={12}>
-          <div>
+          <Button bsSize="xsmall" onClick={() => displayListingPanel()}>
+            Collapse
+          </Button>
+          <div className="header_secondary">
+            <div className="header_3">Listings</div>
             <Button
-              onClick={nextPage}
-              className="submitButton"
-              type="button"
-              bsStyle="primary"
-              disabled={pristine || submitting}
+              className="button_width"
+              // bsStyle="primary"
+              onClick={evt => {
+                evt.stopPropagation();
+                setModalVisibility(true);
+              }}
             >
-              <span>Next</span>
+              <span>Add Listings</span>
             </Button>
+            <Modal
+              displayModal={displayModalFuncA}
+              isModalVisible={isModalVisible}
+              title={"Campaign Listings"}
+              hostComponent={null}
+              // isModal={true}
+              Container={
+                <SearchListingsContainer
+                  submitFunction={submitCampaignListings}
+                  setFunction={setListings}
+                  searchFunction={searchListings}
+                />
+              }
+            />
           </div>
+          <Panel id="collapsible-panel-example-1" expanded={isListingPanelOpen}>
+            <Panel.Collapse>
+              <Panel.Body>
+                <TableRow
+                  componentName="listings"
+                  rowText="address"
+                  collection={campaignListings}
+                  submitFunction={deleteCampaignListing}
+                  hostComponent={campaign}
+                  buttonText="Remove Listing"
+                  hostComponent={null}
+                  buttonStyle="danger"
+                />
+              </Panel.Body>
+            </Panel.Collapse>
+          </Panel>
+        </Col>
+      </Row>
+
+      {/* *** BUTTONS *** */}
+      <Row>
+        <Col xs={12}>
+          <ButtonFooter
+            pristine={pristine}
+            submitting={submitting}
+            primaryButtonText="Next"
+            component={campaign}
+          />
         </Col>
       </Row>
     </Grid>

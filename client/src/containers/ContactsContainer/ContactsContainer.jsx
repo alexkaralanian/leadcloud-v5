@@ -20,7 +20,12 @@ import {
   setCount
 } from "../../actions/query-actions";
 
-import { setError, clearError } from "../../actions/common-actions";
+import {
+  setError,
+  clearError,
+  clearFormData
+} from "../../actions/common-actions";
+
 import {
   syncContacts,
   setContacts,
@@ -36,10 +41,9 @@ class ContactsContainer extends React.Component {
   }
 
   componentWillUnmount() {
-    const { clearError, clearContacts, setQuery, setOffset } = this.props;
+    const { clearFormData, clearContacts, setQuery, setOffset } = this.props;
     window.removeEventListener("scroll", this.onScroll, false);
-    // clearError();
-    clearContacts();
+    clearFormData();
     setQuery("");
     setOffset(0);
   }
@@ -57,6 +61,7 @@ class ContactsContainer extends React.Component {
 
   createNewContact = () => {
     this.props.push("/contact/new");
+    this.props.clearFormData();
   };
 
   render() {
@@ -80,8 +85,10 @@ class ContactsContainer extends React.Component {
             componentName="contacts"
             headerTitle="Contacts"
             isNew={null}
+            primaryText="Create Contact"
             primaryFunc={() => history.push("/contacts/new")}
             primaryGlyph="plus"
+            secondaryText="Sync Contacts"
             secondaryFunc={() => syncContacts()}
             secondaryGlyph="refresh"
           />
@@ -112,8 +119,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   syncContacts,
   fetchComponent,
-  clearContacts,
-  clearError,
+  clearFormData,
   setQuery,
   setOffset,
   push

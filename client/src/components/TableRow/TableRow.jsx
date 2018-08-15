@@ -40,12 +40,14 @@ const TableRow = ({
                 </Link>
               </td>
               <td>
+                {/* component represents the pills on state in modal view */}
                 <Button
                   className="addButton"
+                  disabled={component.disabled}
                   bsStyle={buttonStyle}
                   onClick={() =>
                     isModal
-                      ? submitFunction(component)
+                      ? submitFunction(component, hostComponent.id)
                       : submitFunction(component.id, hostComponent.id)
                   }
                 >

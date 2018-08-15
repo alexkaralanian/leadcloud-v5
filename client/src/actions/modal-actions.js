@@ -13,9 +13,10 @@ export const setSelected = items => ({
 });
 
 export const addSelected = item => {
+  console.log("ADD SELECTED", item);
   const state = store.getState();
-
   const selected = state.modalReducer.selected.slice();
+
   if (!selected.includes(item)) selected.push(item);
   store.dispatch(setSelected(selected));
 };

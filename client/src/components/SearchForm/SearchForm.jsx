@@ -12,6 +12,8 @@ import {
 // import inputField from "../InputField/InputField";
 import "./SearchForm.css";
 
+let searchForm;
+
 const inputField = ({
   input,
   label,
@@ -45,8 +47,11 @@ const SearchForm = ({
   searchFunction,
   values,
   reducer,
-  searchText
+  searchText,
+  form
 }) => {
+  searchForm = form;
+
   return (
     <FormGroup className="search-form">
       <Field
@@ -61,6 +66,6 @@ const SearchForm = ({
 };
 
 export default reduxForm({
-  form: "searchForm", // a unique name for this form
+  form: `${searchForm || "searchForm"}`, // a unique name for this form
   enableReinitialize: true
 })(SearchForm);

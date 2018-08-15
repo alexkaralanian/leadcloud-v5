@@ -2,6 +2,7 @@ import * as types from "../types";
 
 const initialState = {
   isModalVisible: false,
+  isModal2Visible: false,
   selected: []
 };
 

@@ -5,39 +5,24 @@ import PropTypes from "prop-types";
 
 import SearchForm from "../../components/SearchForm/SearchForm";
 import Pills from "../../components/Pills/Pills";
-
-import { setModalVisibility } from "../../actions/modal-actions";
-
-import {
-  fetchComponent,
-  setQuery,
-  setOffset
-} from "../../actions/query-actions";
-
-import { setError, clearError } from "../../actions/common-actions";
-
-import {
-  setListings,
-  searchListings,
-  clearListings
-} from "../../actions/listing-actions";
+import TableRow from "../../components/TableRow/TableRow";
 
 import { addSelected, deleteSelected } from "../../actions/modal-actions";
 
-import TableRow from "../../components/TableRow/TableRow";
+import { fetchComponent, setOffset } from "../../actions/query-actions";
+
+import { setListings } from "../../actions/listing-actions";
 
 class SearchListingsContainer extends React.Component {
-  componentDidMount() {
-    const { fetchComponent, setQuery, setOffset } = this.props;
+  componentWillMount() {
+    const { fetchComponent, setOffset, setFunction } = this.props;
     setOffset(0);
-    fetchComponent("listings", [], setListings, null, null);
+    fetchComponent("listings", [], setFunction, null, null);
   }
 
   componentWillUnmount() {
-    const { clearError, setQuery, setOffset } = this.props;
-    clearListings();
-    clearError();
-    setOffset(25);
+    const { setListings } = this.props;
+    setListings([]);
   }
 
   render() {
@@ -45,15 +30,17 @@ class SearchListingsContainer extends React.Component {
       isFetching,
       listings,
       submitFunction,
+      displayModal,
       hostComponent,
-      selected
+      selected,
+      searchFunction
     } = this.props;
 
     return (
       <React.Fragment>
         <div className="modal_search-container">
           <SearchForm
-            searchFunction={searchListings}
+            searchFunction={searchFunction}
             searchText={"Search Listings..."}
           />
           <Button
@@ -73,18 +60,16 @@ class SearchListingsContainer extends React.Component {
             displayValue="address"
           />
         </div>
-        {listings.length > 0 && (
-          <TableRow
-            componentName="listings"
-            rowText="address"
-            collection={listings}
-            submitFunction={addSelected}
-            buttonText={"Add Listing"}
-            buttonStyle={"warning"}
-            hostComponent={hostComponent}
-            isModal={true}
-          />
-        )}
+        <TableRow
+          componentName="listings"
+          rowText="address"
+          collection={listings}
+          submitFunction={addSelected}
+          buttonText={"Add Listing"}
+          buttonStyle={"warning"}
+          hostComponent={hostComponent}
+          isModal={true}
+        />
       </React.Fragment>
     );
   }
@@ -93,19 +78,15 @@ class SearchListingsContainer extends React.Component {
 const mapStateToProps = state => ({
   listings: state.listingReducer.listings,
   selected: state.modalReducer.selected,
-  isAuthed: state.authReducer.isAuthed,
-  isLoading: state.queryReducer.isLoading,
-  isFetching: state.commonReducer.isFetching,
-  error: state.commonReducer.error
+  isFetching: state.commonReducer.isFetching
 });
 
 const mapDispatchToProps = {
   fetchComponent,
-  clearListings,
-  clearError,
-  setModalVisibility,
-  setQuery,
+  setListings,
   setOffset
+  // setFunction,
+  // searchFunction
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(

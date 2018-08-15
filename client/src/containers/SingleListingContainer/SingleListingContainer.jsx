@@ -50,7 +50,9 @@ class SingleListingContainer extends React.Component {
   };
 
   componentDidMount() {
-    const { match, fetchComponent, fetchListing } = this.props;
+    const { match, fetchComponent, fetchListing, setOffset } = this.props;
+
+    setOffset(0);
 
     if (match.params.id !== "new") {
       fetchListing(match.params.id);
@@ -67,10 +69,7 @@ class SingleListingContainer extends React.Component {
 
   componentWillUnmount() {
     const { setListingContacts, setQuery, setOffset } = this.props;
-    // setListingContacts([]);
-    // setQuery("");
-    // setOffset(0);
-    // clearListing();
+    setOffset(0);
   }
 
   onMenuSelect = (eventKey, path) => {
@@ -174,6 +173,7 @@ class SingleListingContainer extends React.Component {
             images={listing.images}
             primaryFunc={() => setModalVisibility(true)}
             primaryGlyph="plus"
+            primaryText="Add Contacts"
           />
         </Grid>
 

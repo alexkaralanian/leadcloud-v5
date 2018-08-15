@@ -115,64 +115,6 @@ router.delete("/:id/delete", authCheck, async (req, res) => {
   }
 });
 
-/////////////// CONTACT GROUPS ///////////////
-
-// ADD GROUP TO CONTACT-GROUPS AND RETURN CONTACT GROUPS
-router.post("/:id/contact-groups/add", authCheck, async (req, res) => {
-  const userId = req.session.user.toString();
-
-  try {
-    const group = await Groups.findOne({
-      where: {
-        UserUuid: userId,
-        id: req.body.contactGroupId
-      }
-    });
-    await group.addContact(req.body.contactId);
-
-    const contact = await Contacts.findOne({
-      where: {
-        UserUuid: userId,
-        id: req.body.contactId
-      }
-    });
-    const contactGroups = await contact.getGroups({
-      order: [["title", "ASC"]]
-    });
-    res.json(contactGroups);
-  } catch (err) {
-    console.error("ERROR ADDING CONTACT TO GROUP");
-  }
-});
-
-// REMOVE GROUP FROM CONTACT-GROUPS AND RETURN CONTACT-GROUPS
-router.post("/:id/contact-groups/delete", authCheck, async (req, res) => {
-  const userId = req.session.user.toString();
-
-  try {
-    const group = await Groups.findOne({
-      where: {
-        UserUuid: userId,
-        id: req.body.contactGroupId
-      }
-    });
-    await group.removeContact(req.body.contactId);
-
-    const contact = await Contacts.findOne({
-      where: {
-        UserUuid: userId,
-        id: req.body.contactId
-      }
-    });
-    const contactGroups = await contact.getGroups({
-      order: [["title", "ASC"]]
-    });
-    res.json(contactGroups);
-  } catch (err) {
-    console.error("ERROR REMOVING CONTACT FROM GROUP");
-  }
-});
-
 /////////////// GROUP CONTACTS ///////////////
 
 // RETURN ALL GROUP-CONTACTS
@@ -206,44 +148,8 @@ router.get("/:id/contacts", authCheck, async (req, res) => {
   }
 });
 
-// ADD CONTACT TO GROUP AND RETURN GROUP-CONTACTS
-router.post("/:id/group-contacts/add", authCheck, async (req, res) => {
-  const userId = req.session.user.toString();
-
-  try {
-    const group = await Groups.findOne({
-      where: {
-        UserUuid: userId,
-        id: req.body.groupId
-      }
-    });
-
-    await group.addContacts(req.body.groupContactId);
-
-    const groupContacts = await Contacts.findAll({
-      limit: 25,
-      offset: 0,
-      where: {
-        UserUuid: userId
-      },
-      include: [
-        {
-          model: Groups,
-          where: {
-            id: req.body.groupId
-          }
-        }
-      ],
-      order: [["updatedAt", "DESC"]]
-    });
-    res.json(groupContacts);
-  } catch (err) {
-    console.error("ERROR ADDING CONTACT TO GROUP");
-  }
-});
-
 // BULK ADD CONTACTS TO GROUP AND RETURN GROUP-CONTACTS
-router.post("/:id/group-contacts/bulk-add", authCheck, async (req, res) => {
+router.post("/:id/contacts/add", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
 
   try {
@@ -273,7 +179,7 @@ router.post("/:id/group-contacts/bulk-add", authCheck, async (req, res) => {
 });
 
 // REMOVE CONTACT FROM GROUP AND RETURN GROUP-CONTACTS
-router.post("/:id/group-contacts/delete", authCheck, async (req, res) => {
+router.post("/:id/contacts/delete", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
 
   try {

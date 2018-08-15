@@ -11,24 +11,26 @@ const ContactListings = ({
   contact,
   contactListings,
   searchContactListings,
-  submitContactListing,
   deleteContactListing
 }) => (
   <Grid>
     <Row>
       <Col xs={12}>
-        <SearchForm
-          searchFunction={searchContactListings}
-          searchText="Search Contact Listings..."
-        />
-        <Counter />
+        <div>
+          <SearchForm
+            searchFunction={searchContactListings}
+            searchText="Search Contact Listings..."
+            form="searchContactListings"
+          />
+          <Counter />
+        </div>
         <TableRow
           componentName="listings"
           rowText="address"
           collection={contactListings}
           submitFunction={deleteContactListing}
           hostComponent={contact}
-          buttonText="Delete Listing"
+          buttonText="Remove Listing"
           buttonStyle="danger"
         />
       </Col>

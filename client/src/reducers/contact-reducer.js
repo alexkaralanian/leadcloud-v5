@@ -9,7 +9,6 @@ const initialState = {
 
   contact: {},
   contactListings: [],
-  contactListingsSearchResults: [],
   contactGroups: [],
 
   emailsByContact: [],
@@ -35,18 +34,6 @@ const contactReducer = (state = initialState, action) => {
       return {
         ...state,
         contactListings: action.payload
-      };
-
-    case types.SET_CONTACT_LISTINGS_SEARCH_RESULTS:
-      return {
-        ...state,
-        contactListingsSearchResults: action.payload
-      };
-
-    case types.CLEAR_CONTACT_LISTINGS_SEARCH_RESULTS:
-      return {
-        ...state,
-        contactListingsSearchResults: []
       };
 
     case types.SET_EMAILS_BY_CONTACT:
@@ -77,12 +64,6 @@ const contactReducer = (state = initialState, action) => {
         ...state,
         contacts: []
       };
-
-    // case types.CLEAR_EMAILS_BY_CONTACT:
-    //   return {
-    //     ...state,
-    //     emailsByContact: []
-    //   };
 
     default:
       return state;

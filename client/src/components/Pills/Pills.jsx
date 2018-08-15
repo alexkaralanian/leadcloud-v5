@@ -14,14 +14,12 @@ const Pills = ({
     <ul className="pills_list">
       {component &&
         component.map(item => {
-          console.log("PILLS", { item, hostComponent });
           return (
             <li key={item.id}>
               <div className="pills_container">
                 <Link key={item.id} to={`/${componentName}/${item.id}`}>
                   <div className="pills_link">{item[displayValue]}</div>
                 </Link>
-
                 <div
                   role="button"
                   className="pills_button"

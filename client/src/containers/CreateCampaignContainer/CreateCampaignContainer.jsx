@@ -1,21 +1,29 @@
 import React from "react";
 import { connect } from "react-redux";
+import { Grid } from "react-bootstrap";
 
 import Navigation from "../NavContainer/NavContainer";
+import BreadCrumbs from "../../components/BreadCrumbs/BreadCrumbs";
+import Header from "../../components/Header/Header";
+
 import CampaignFormA from "../../components/SingleCampaign/CampaignFormA";
 import CampaignFormB from "../../components/SingleCampaign/CampaignFormB";
 import CampaignFormC from "../../components/SingleCampaign/CampaignFormC";
 import SingleCampaign from "../../components/SingleCampaign/SingleCampaign";
 
-import { fetchComponent } from "../../actions/query-actions";
+import {
+  fetchComponent,
+  setCount,
+  setOffset
+} from "../../actions/query-actions";
 
 import { setGroups, clearGroups } from "../../actions/group-actions";
 
 import {
-  searchCampaignListings,
-  submitCampaignListing,
+  submitCampaignListings,
   deleteCampaignListing
 } from "../../actions/campaign-listings-actions";
+
 import { submitCampaign } from "../../actions/campaign-actions";
 import {
   // searchCampaignGroups,
@@ -23,29 +31,47 @@ import {
   deleteCampaignGroup
 } from "../../actions/campaign-groups-actions";
 
+import { setModalVisibility } from "../../actions/modal-actions";
+
 class CreateCampaignContainer extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      page: 1
-    };
-    this.nextPage = this.nextPage.bind(this);
-    this.previousPage = this.previousPage.bind(this);
-    // this.submitCampaignForm = this.submitCampaignForm.bind(this);
-  }
+  state = {
+    page: 1,
+    isRecipientsPanelOpen: true,
+    isListingPanelOpen: true,
+    isListingsModalVisible: false,
+    isGroupsModalVisible: false
+  };
 
   componentDidMount() {
     const { fetchComponent, groups } = this.props;
-    fetchComponent("groups", groups, setGroups);
+    fetchComponent("groups", [], setGroups, null, null);
   }
 
-  nextPage() {
+  nextPage = () => {
     this.setState({ page: this.state.page + 1 });
-  }
+  };
 
-  previousPage() {
+  previousPage = () => {
     this.setState({ page: this.state.page - 1 });
-  }
+  };
+
+  displayListingPanel = () => {
+    this.setState({ isListingPanelOpen: !this.state.isListingPanelOpen });
+  };
+
+  displayRecipientsPanel = () => {
+    this.setState({ isRecipientsPanelOpen: !this.state.isRecipientsPanelOpen });
+  };
+
+  displayModalFuncA = bool => {
+    const {
+      setModalVisibility,
+      isModalVisible,
+      setCampaignListings
+    } = this.props;
+
+    setModalVisibility(bool);
+  };
 
   // submitCampaignForm(values) {
   //   this.props.submitCampaign(
@@ -59,14 +85,16 @@ class CreateCampaignContainer extends React.Component {
     const {
       campaign,
       campaignListings,
-      searchCampaignListings,
       campaignListingsSearchResults,
 
       groups,
       campaignGroups,
       // searchCampaignGroups,
       campaignGroupsSearchResults,
-      submitCampaign
+      submitCampaign,
+
+      setModalVisibility,
+      isModalVisible
     } = this.props;
 
     const { page } = this.state;
@@ -74,14 +102,20 @@ class CreateCampaignContainer extends React.Component {
     return (
       <React.Fragment>
         <Navigation />
+        <BreadCrumbs />
         <div>
           {page === 1 && (
             <CampaignFormA
+              displayModalFuncA={this.displayModalFuncA}
+              setModalVisibility={setModalVisibility}
+              isModalVisible={isModalVisible}
+              isListingPanelOpen={this.state.isListingPanelOpen}
+              isRecipientsPanelOpen={this.state.isRecipientsPanelOpen}
+              displayListingPanel={this.displayListingPanel}
+              displayRecipientsPanel={this.displayRecipientsPanel}
               campaignListings={campaignListings}
               campaign={campaign}
-              searchCampaignListings={searchCampaignListings}
-              campaignListingsSearchResults={campaignListingsSearchResults}
-              submitCampaignListing={submitCampaignListing}
+              submitCampaignListings={submitCampaignListings}
               deleteCampaignListing={deleteCampaignListing}
               nextPage={this.nextPage}
             />
@@ -114,7 +148,6 @@ class CreateCampaignContainer extends React.Component {
             />
           )}
         </div>
-        )
       </React.Fragment>
     );
   }
@@ -122,18 +155,20 @@ class CreateCampaignContainer extends React.Component {
 
 const mapStateToProps = state => ({
   groups: state.groupReducer.groups,
-
   campaignListings: state.campaignReducer.campaignListings,
   campaignGroups: state.campaignReducer.campaignGroups,
   campaignListingsSearchResults:
-    state.campaignReducer.campaignListingsSearchResults
+    state.campaignReducer.campaignListingsSearchResults,
+  isModalVisible: state.modalReducer.isModalVisible
   // campaignGroupsSearchResults: state.campaignReducer.campaignGroupsSearchResults
 });
 
 const mapDispatchToProps = {
-  searchCampaignListings,
-  submitCampaign
-  // searchCampaignGroups
+  submitCampaign,
+  fetchComponent,
+  setModalVisibility,
+  setOffset,
+  setCount
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(

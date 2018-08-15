@@ -4,18 +4,11 @@ import { Grid, Col, Row, Button, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "./Campaigns.css";
 
-const Campaigns = ({ createNewCampaign, campaigns }) => {
+const Campaigns = ({ campaigns }) => {
   return (
-    <Grid>
+    <Grid className="margin-top-2">
       <Row>
         <Col xs={12}>
-          <Button
-            className="submitButton"
-            bsStyle="primary"
-            onClick={createNewCampaign}
-          >
-            CREATE NEW
-          </Button>
           <Table striped>
             <thead>
               <tr>

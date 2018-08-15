@@ -1,23 +1,15 @@
 import axios from "axios";
-import { searchListings } from "./listing-actions";
-import { isFetching, clearFormData } from "./common-actions";
-import { fetchComponent, setQuery, setOffset, setCount } from "./query-actions";
-import { setModalVisibility, setSelected } from "./modal-actions";
 import * as types from "../types";
 import store from "../store";
+
+import { searchListings, setListings } from "./listing-actions";
+import { fetchComponent, setQuery, setOffset, setCount } from "./query-actions";
+import { setSelected } from "./modal-actions";
+import { isFetching, clearFormData } from "./common-actions";
 
 export const setContactListings = listings => ({
   type: types.SET_CONTACT_LISTINGS,
   payload: listings
-});
-
-export const setContactListingsSearchResults = searchResults => ({
-  type: types.SET_CONTACT_LISTINGS_SEARCH_RESULTS,
-  payload: searchResults
-});
-
-export const clearContactListingsSearchResults = () => ({
-  type: types.CLEAR_CONTACT_LISTINGS_SEARCH_RESULTS
 });
 
 export const searchContactListings = values => {
@@ -31,6 +23,27 @@ export const searchContactListings = values => {
   );
 };
 
+export const setDiffedContactListings = listings => {
+  const state = store.getState();
+  const contactListings = state.contactReducer.contactListings;
+  listings = listings.slice();
+  contactListings.forEach(contactListing => {
+    listings.forEach(listing => {
+      if (contactListing.id == listing.id) {
+        listing.disabled = true;
+      }
+    });
+  });
+  store.dispatch(setListings(listings));
+};
+
+export const searchDiffedContactListings = values => {
+  const query = values.nativeEvent.target.defaultValue;
+  store.dispatch(setQuery(query));
+  store.dispatch(setOffset(0));
+  store.dispatch(fetchComponent("listings", [], setDiffedContactListings));
+};
+
 export const submitContactListings = (
   contactListingsArray,
   contactId
@@ -40,14 +53,10 @@ export const submitContactListings = (
     listingId: listing.id
   }));
   dispatch(setSelected([]));
-  dispatch(setModalVisibility(false));
   try {
-    const res = await axios.post(
-      `/api/contacts/${contactId}/listings/bulk-add`,
-      {
-        contactListings
-      }
-    );
+    const res = await axios.post(`/api/contacts/${contactId}/listings/add`, {
+      contactListings
+    });
     dispatch(setContactListings(res.data.rows));
     dispatch(setCount(res.data.count));
   } catch (err) {
@@ -59,18 +68,13 @@ export const deleteContactListing = (
   listingId,
   contactId
 ) => async dispatch => {
-  dispatch(isFetching(true));
-  console.log("DELET CONTACT LISTING");
   try {
     const res = await axios.post(`/api/contacts/${contactId}/listing/delete`, {
       listingId
     });
-    console.log("DELET RES", res.data);
     dispatch(setContactListings(res.data.rows));
     dispatch(setCount(res.data.count));
-    dispatch(isFetching(false));
   } catch (err) {
-    console.error("Deleting contact listing unsuccessful", err);
-    dispatch(isFetching(false));
+    console.error("Deleting Contact Listing Unsuccessful", err);
   }
 };

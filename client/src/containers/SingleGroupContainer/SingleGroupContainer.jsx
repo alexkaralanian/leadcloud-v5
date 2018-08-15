@@ -11,6 +11,7 @@ import GroupContactsContainer from "../GroupContactsContainer/GroupContactsConta
 import GroupNav from "../../components/SingleGroup/GroupNav";
 
 import Modal from "../../components/Modal/Modal";
+import SearchContactsContainer from "../SearchContactsContainer/SearchContactsContainer";
 
 import {
   fetchGroup,
@@ -126,16 +127,21 @@ class SingleGroupContainer extends React.Component {
           displayModal={this.displayModalFunc}
           isModalVisible={isModalVisible}
           title={group.title}
-          submitFunction={submitGroupContacts}
-          component={group}
+          Container={
+            <SearchContactsContainer
+              submitFunction={submitGroupContacts}
+              hostComponent={group}
+            />
+          }
         />
         <BreadCrumbs />
         <Grid>
           <Header
             isVisible={true}
+            isNew={match.params.id === "new"}
             componentName="Group"
             headerTitle={group.title}
-            isNew={match.params.id === "new"}
+            primaryText="Add Contacts"
             primaryFunc={() => setModalVisibility(true)}
             primaryGlyph="plus"
           />

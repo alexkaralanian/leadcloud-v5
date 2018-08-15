@@ -24,28 +24,6 @@ export const isFetching = bool => ({
   isFetching: bool
 });
 
-export const searchCampaignListings = values => {
-  const state = store.getState();
-  const query = values.nativeEvent.target.defaultValue;
-  const campaignListingsSearchResults =
-    state.campaignReducer.campaignListingsSearchResults;
-
-  if (query.length < 1) store.dispatch(clearCampaignListingsSearchResults());
-  if (query.length >= 1) {
-    store.dispatch(
-      searchListings(
-        campaignListingsSearchResults,
-        25,
-        0,
-        query,
-        "campaignListings"
-      )
-    );
-  }
-
-  if (!query) store.dispatch(clearCampaignListingsSearchResults());
-};
-
 // export const fetchCampaignListings = contactId => async dispatch => {
 //   dispatch(isFetching(true));
 //   try {
@@ -62,21 +40,11 @@ export const searchCampaignListings = values => {
 //   }
 // };
 
-export const submitCampaignListing = listing => {
+export const submitCampaignListings = listings => {
+  console.log("LISTINGS", listings);
   const state = store.getState();
-  store.dispatch(isFetching(true));
-
-  const campaignListings = state.campaignReducer.campaignListings.slice();
-  try {
-    campaignListings.push(listing);
-
-    store.dispatch(setCampaignListings(campaignListings));
-    store.dispatch(clearCampaignListingsSearchResults());
-    store.dispatch(isFetching(false));
-  } catch (err) {
-    console.error("Setting campaign listing unsuccessful", err);
-    store.dispatch(isFetching(false));
-  }
+  const campaignListings = state.campaignReducer.campaignListings;
+  store.dispatch(setCampaignListings(campaignListings.concat(listings)));
 };
 
 export const deleteCampaignListing = listing => {

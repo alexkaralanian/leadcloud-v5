@@ -1,49 +1,47 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Button } from "react-bootstrap";
+import PropTypes from "prop-types";
 
 import SearchForm from "../../components/SearchForm/SearchForm";
 import Pills from "../../components/Pills/Pills";
 import TableRow from "../../components/TableRow/TableRow";
 
-import {
-  setModalVisibility,
-  addSelected,
-  deleteSelected
-} from "../../actions/modal-actions";
+import { addSelected, deleteSelected } from "../../actions/modal-actions";
 
 import { fetchComponent, setOffset } from "../../actions/query-actions";
 
-import { setContacts, searchContacts2 } from "../../actions/contact-actions";
+import { setGroups } from "../../actions/group-actions";
 
-class SearchContactsContainer extends React.Component {
-  componentDidMount() {
-    const { fetchComponent, setOffset } = this.props;
-    setOffset(0)
-    fetchComponent("contacts", [], setContacts, null, null);
+class SearchGroupsContainer extends React.Component {
+  componentWillMount() {
+    const { fetchComponent, setOffset, setFunction } = this.props;
+    setOffset(0);
+    fetchComponent("groups", [], setFunction, null, null);
   }
 
   componentWillUnmount() {
-    const { setContacts } = this.props;
-    setContacts([]);
+    const { setGroups } = this.props;
+    setGroups([]);
   }
 
   render() {
     const {
       isFetching,
-      contacts,
+      groups,
       submitFunction,
+      displayModal,
       hostComponent,
-      selected
+      selected,
+      searchFunction
     } = this.props;
 
     return (
       <React.Fragment>
         <div className="modal_search-container">
           <SearchForm
-            searchFunction={searchContacts2}
-            searchText={"Search Contacts..."}
+            searchFunction={searchFunction}
+            searchText={"Search Groups..."}
           />
           <Button
             className="button"
@@ -57,42 +55,38 @@ class SearchContactsContainer extends React.Component {
           <Pills
             hostComponent={hostComponent}
             component={selected}
-            componentName="contacts"
+            componentName="groups"
             submitFunction={deleteSelected}
-            displayValue="fullName"
+            displayValue="title"
           />
         </div>
-        {contacts.length > 0 && (
-          <TableRow
-            componentName="contacts"
-            rowText="fullName"
-            collection={contacts}
-            submitFunction={addSelected}
-            buttonText={"Add Contact"}
-            buttonStyle={"warning"}
-            hostComponent={hostComponent}
-            isModal={true}
-          />
-        )}
+        <TableRow
+          componentName="groups"
+          rowText="title"
+          collection={groups}
+          submitFunction={addSelected}
+          buttonText={"Add Group"}
+          buttonStyle={"warning"}
+          hostComponent={hostComponent}
+          isModal={true}
+        />
       </React.Fragment>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  contacts: state.contactReducer.contacts,
+  groups: state.groupReducer.groups,
   selected: state.modalReducer.selected,
-  isLoading: state.queryReducer.isLoading,
   isFetching: state.commonReducer.isFetching
 });
 
 const mapDispatchToProps = {
   fetchComponent,
-  setModalVisibility,
-  setContacts,
-  setOffset
+  setOffset,
+  setGroups
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(
-  SearchContactsContainer
+  SearchGroupsContainer
 );

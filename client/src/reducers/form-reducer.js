@@ -4,12 +4,16 @@ import * as types from "../types";
 const formReducer = reducer.plugin({
   contactForm: (state, action) => {
     switch (action.type) {
+      case types.CLEAR_FORM_DATA:
+        return undefined;
       default:
         return state;
     }
   },
   listingForm: (state, action) => {
     switch (action.type) {
+      case types.CLEAR_FORM_DATA:
+        return undefined;
       default:
         return state;
     }
@@ -43,6 +47,15 @@ const formReducer = reducer.plugin({
   },
 
   searchContactListings: (state, action) => {
+    switch (action.type) {
+      case types.CLEAR_FORM_DATA:
+        return undefined;
+      default:
+        return state;
+    }
+  },
+
+  searchContactGoups: (state, action) => {
     switch (action.type) {
       case types.CLEAR_FORM_DATA:
         return undefined;

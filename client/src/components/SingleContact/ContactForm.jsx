@@ -2,21 +2,14 @@ import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Field, reduxForm } from "redux-form";
-import {
-  Button,
-  Form,
-  FormGroup,
-  Grid,
-  Col,
-  Row,
-  Glyphicon
-} from "react-bootstrap";
+import { Form, FormGroup, Grid, Col, Row } from "react-bootstrap";
 
 import { contactValidate } from "../../helpers/redux-form/validate";
 import { fetchContact } from "../../actions/contact-actions";
 
-import inputField from "../InputField/InputField";
-import textAreaField from "../InputField/TextAreaField";
+import InputField from "../InputField/InputField";
+import TextAreaField from "../InputField/TextAreaField";
+import ButtonFooter from "../ButtonFooter/ButtonFooter";
 
 import "./SingleContact.css";
 
@@ -38,158 +31,116 @@ ContactForm = ({
   fetchContact,
   deleteContact
 }) => (
-  <Grid className="contact_container">
+  <Grid>
     <Form onSubmit={handleSubmit}>
-      {/* *** NAMES *** */}
-      <Row>
-        <Col xs={12} sm={6}>
-          <FormGroup className="formGroup">
+      <FormGroup>
+        {/* *** NAMES *** */}
+        <Row>
+          <Col xs={12} sm={6}>
             <Field
               type="text"
               name="firstName"
-              component={inputField}
+              component={InputField}
               label="First Name"
             />
-          </FormGroup>
-        </Col>
-        <Col xs={12} sm={6}>
-          <FormGroup className="formGroup">
+          </Col>
+          <Col xs={12} sm={6}>
             <Field
               type="text"
               name="lastName"
-              component={inputField}
+              component={InputField}
               label="Last Name"
             />
-          </FormGroup>
-        </Col>
-      </Row>
+          </Col>
+        </Row>
 
-      {/* ***EMAIL ADDRESSES*** */}
-      <Row>
-        {isContactNew || !contact.email ? (
-          <Col xs={12} sm={6}>
-            <FormGroup className="formGroup">
+        {/* ***EMAIL ADDRESSES*** */}
+        <Row>
+          {isContactNew || !contact.email ? (
+            <Col xs={12} sm={6}>
               <Field
                 type="email"
                 name={"email"}
-                component={inputField}
+                component={InputField}
                 label="Email"
               />
-            </FormGroup>
-          </Col>
-        ) : (
-          contact.email &&
-          contact.email.map(address => {
-            return (
-              <Col xs={12} sm={6} key={address.value}>
-                <FormGroup className="formGroup">
+            </Col>
+          ) : (
+            contact.email &&
+            contact.email.map(address => {
+              return (
+                <Col xs={12} sm={6} key={address.value}>
                   <Field
                     type="email"
                     name={`email[${contact.email.indexOf(address)}].value`}
-                    component={inputField}
+                    component={InputField}
                     label={`${capitalize(address.type)} Email`}
                   />
-                </FormGroup>
-              </Col>
-            );
-          })
-        )}
-      </Row>
+                </Col>
+              );
+            })
+          )}
+        </Row>
 
-      {/* ***PHONE NUMBERS*** */}
-      <Row>
-        {isContactNew || !contact.phone ? (
-          <Col xs={12} sm={6}>
-            <FormGroup className="formGroup">
+        {/* ***PHONE NUMBERS*** */}
+        <Row>
+          {isContactNew || !contact.phone ? (
+            <Col xs={12} sm={6}>
               <Field
                 type="tel"
                 name={"phone"}
-                component={inputField}
+                component={InputField}
                 label="Phone"
               />
-            </FormGroup>
-          </Col>
-        ) : (
-          contact.phone &&
-          contact.phone.map(number => {
-            return (
-              <Col xs={12} sm={6} key={number.value}>
-                <FormGroup className="formGroup">
+            </Col>
+          ) : (
+            contact.phone &&
+            contact.phone.map(number => {
+              return (
+                <Col xs={12} sm={6} key={number.value}>
                   <Field
                     type="tel"
                     name={`phone[${contact.phone.indexOf(number)}].value`}
-                    component={inputField}
+                    component={InputField}
                     label={`${capitalize(number.type)} Phone`}
                   />
-                </FormGroup>
-              </Col>
-            );
-          })
-        )}
-      </Row>
+                </Col>
+              );
+            })
+          )}
+        </Row>
 
-      {/* *** NOTES *** */}
-      <Row>
-        <Col xs={12}>
-          <FormGroup controlId="formControlsTextarea">
+        {/* *** NOTES *** */}
+        <Row>
+          <Col xs={12}>
             <Field
               type="text"
               name="notes"
-              component={textAreaField}
+              component={TextAreaField}
               label="Notes"
             />
-          </FormGroup>
-        </Col>
-      </Row>
+          </Col>
+        </Row>
+      </FormGroup>
 
       {/* *** BUTTONS *** */}
-
       <Row>
         <Col xs={12}>
           {isContactNew ? (
-            <div className="button_footer-container">
-              <Button
-                className="button-lg"
-                type="submit"
-                bsStyle="primary"
-                bsSize="large"
-                disabled={pristine || submitting}
-              >
-                <div className="button_inner">
-                  <span className="button_inner-text">Submit</span>
-                  <Glyphicon glyph="floppy-disk" />
-                </div>
-              </Button>
-            </div>
+            <ButtonFooter
+              primaryButtonText="Submit"
+              pristine={pristine}
+              submitting={submitting}
+            />
           ) : (
-            <div className="button_footer-container">
-              <Button
-                className="button-lg"
-                type="submit"
-                bsStyle="primary"
-                bsSize="large"
-                disabled={pristine || submitting}
-              >
-                <div className="button_inner">
-                  <span className="button_inner-text">Update</span>
-                  <Glyphicon glyph="floppy-disk" />
-                </div>
-              </Button>
-
-              <Button
-                className="button-lg"
-                onClick={() => {
-                  deleteContact(contact.id);
-                }}
-                bsSize="large"
-                bsStyle="danger"
-              >
-                <div className="button_inner">
-                  <span className="button_inner-text">Delete</span>
-                  <Glyphicon glyph="trash" />
-                </div>
-              </Button>
-            </div>
+            <ButtonFooter
+              pristine={pristine}
+              submitting={submitting}
+              primaryButtonText="Update"
+              secondaryButtonText="Delete"
+              secondaryFunc={deleteContact}
+              component={contact}
+            />
           )}
         </Col>
       </Row>

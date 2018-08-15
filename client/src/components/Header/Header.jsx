@@ -9,9 +9,11 @@ const Header = ({
   headerTitle,
   isNew,
   primaryGlyph,
+  primaryText,
   primaryFunc,
   primaryStyle,
   secondaryGlyph,
+  secondaryText,
   secondaryFunc,
   secondaryStyle,
   isVisible
@@ -30,29 +32,38 @@ const Header = ({
           <h1 className="header_text">
             {isNew ? `New ${componentName}` : headerTitle}
           </h1>
-          {/*<img src={Glass} />*/}
         </div>
         <div className="header_button-row">
-          {primaryFunc && isVisible && (
-            <Button
-              className="header_button-lg"
-              bsStyle="primary"
-              bsSize="large"
-              onClick={primaryFunc}
-            >
-              <Glyphicon glyph={primaryGlyph} />
-            </Button>
-          )}
-          {secondaryFunc && isVisible && (
-            <Button
-              className="header_button-lg"
-              bsStyle={secondaryStyle}
-              bsSize="large"
-              onClick={secondaryFunc}
-            >
-              <Glyphicon glyph={secondaryGlyph} />
-            </Button>
-          )}
+          {primaryFunc &&
+            isVisible &&
+            !isNew && (
+              <Button
+                className="button-lg"
+                bsStyle="primary"
+                bsSize="large"
+                onClick={primaryFunc}
+              >
+                <div className="button_inner">
+                  <span className="button_inner-text">{primaryText}</span>
+                  <Glyphicon glyph={primaryGlyph} />
+                </div>
+              </Button>
+            )}
+          {secondaryFunc &&
+            isVisible &&
+            !isNew && (
+              <Button
+                className="button-lg"
+                bsStyle={secondaryStyle}
+                bsSize="large"
+                onClick={secondaryFunc}
+              >
+                <div className="button_inner">
+                  <span className="button_inner-text">{secondaryText}</span>
+                  <Glyphicon glyph={secondaryGlyph} />
+                </div>
+              </Button>
+            )}
         </div>
       </div>
     </Col>

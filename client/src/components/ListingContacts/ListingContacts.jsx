@@ -18,11 +18,15 @@ const ListingContacts = ({
     <Grid>
       <Row>
         <Col xs={12}>
-          <SearchForm
-            searchFunction={searchListingContacts}
-            searchText="Search Contact Listings..."
-          />
-          <Counter />
+          {listingContacts.length > 0 && (
+            <div>
+              <SearchForm
+                searchFunction={searchListingContacts}
+                searchText="Search Listing Contacts..."
+              />
+              <Counter />
+            </div>
+          )}
           <TableRow
             componentName="contacts"
             rowText="fullName"
@@ -32,6 +36,7 @@ const ListingContacts = ({
             buttonText="Delete Contact"
             buttonStyle="danger"
           />
+
         </Col>
       </Row>
     </Grid>

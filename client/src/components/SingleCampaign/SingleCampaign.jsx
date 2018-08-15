@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Grid, Row, Col, Button } from "react-bootstrap";
 
 const SingleCampaign = ({ campaign }) => (
-  <Grid>
+  <Grid className="margin-top-2">
     <Row>
       <Col xs={12}>
         <h1>Campaign</h1>

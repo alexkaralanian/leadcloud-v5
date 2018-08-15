@@ -26,6 +26,8 @@ import {
   setCount
 } from "../../actions/query-actions";
 
+import { clearFormData } from "../../actions/common-actions";
+
 class ListingsContainer extends React.Component {
   componentDidMount() {
     const { fetchComponent, listings } = this.props;
@@ -34,11 +36,11 @@ class ListingsContainer extends React.Component {
   }
 
   componentWillUnmount() {
-    const { clearError, clearListings, setQuery, setOffset } = this.props;
+    const { clearFormData, setQuery, setOffset } = this.props;
     window.removeEventListener("scroll", this.onScroll, false);
     setQuery("");
     setOffset(0);
-    clearListings();
+    clearFormData();
   }
 
   onScroll = () => {
@@ -71,6 +73,7 @@ class ListingsContainer extends React.Component {
             componentName="listings"
             headerTitle="Listings"
             isNew={null}
+            primaryText="Create Listing"
             primaryFunc={() => push("/listings/new")}
             primaryGlyph="plus"
           />
@@ -101,8 +104,7 @@ const mapDispatchToProps = {
   // fetchListings,
   fetchComponent,
   searchListings,
-  clearListings,
-  clearError,
+  clearFormData,
   setQuery,
   setOffset,
   push

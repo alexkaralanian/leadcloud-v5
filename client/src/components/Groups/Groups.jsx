@@ -24,11 +24,11 @@ const Groups = ({ groups, isFetching, component, hostId, submitFunction }) =>
             <tr key={group.id}>
               <td>
                 {group && group.images ? (
-                  <div className="tableImg">
+                  <div className="table_img">
                     <img alt="contact" src={group.images[0]} />
                   </div>
                 ) : (
-                  <div className="tableImgNull">
+                  <div className="table_img-null">
                     <span>
                       {group && group.title
                         ? group.title.charAt(0).toUpperCase()
@@ -37,7 +37,7 @@ const Groups = ({ groups, isFetching, component, hostId, submitFunction }) =>
                   </div>
                 )}
               </td>
-              <td className="nameDisplay">
+              <td>
                 <Link to={`/groups/${group.id}/contacts`}>
                   <span>{group.title}</span>
                 </Link>

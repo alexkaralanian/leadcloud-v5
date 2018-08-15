@@ -2,21 +2,14 @@ import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Field, reduxForm } from "redux-form";
-import {
-  Button,
-  Form,
-  FormGroup,
-  Grid,
-  Col,
-  Row,
-  Glyphicon
-} from "react-bootstrap";
+import { Form, FormGroup, Grid, Col, Row } from "react-bootstrap";
 
 import { contactValidate } from "../../helpers/redux-form/validate";
 import { fetchGroup } from "../../actions/group-actions";
 
-import inputField from "../InputField/InputField";
-import textAreaField from "../InputField/TextAreaField";
+import InputField from "../InputField/InputField";
+import TextAreaField from "../InputField/TextAreaField";
+import ButtonFooter from "../ButtonFooter/ButtonFooter";
 
 const capitalize = word => {
   if (word) word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
@@ -32,78 +25,45 @@ let GroupForm = ({
   group,
   deleteGroup
 }) => (
-  <Grid className="group-form_container">
+  <Grid className="margin-top-2">
     <Form onSubmit={handleSubmit}>
-      {/* *** NAMES *** */}
-
-      <Row>
-        <Col xs={12}>
-          <FormGroup>
+      <FormGroup>
+        <Row>
+          <Col xs={12}>
             <Field
               type="text"
               name="title"
-              component={inputField}
+              component={InputField}
               label="Group Title"
             />
             <Field
               type="text"
               name="description"
-              component={textAreaField}
+              component={TextAreaField}
               label="Description"
             />
-          </FormGroup>
-        </Col>
-      </Row>
+          </Col>
+        </Row>
+      </FormGroup>
       <Row>
-        {isGroupNew ? (
-          <Col xs={12}>
-            <div className="button_footer-container">
-              <Button
-                className="button-lg"
-                type="submit"
-                bsStyle="primary"
-                bsSize="large"
-                disabled={pristine || submitting}
-              >
-                <div className="button_inner">
-                  <span className="button_inner-text">Submit</span>
-                  <Glyphicon glyph="floppy-disk" />
-                </div>
-              </Button>
-            </div>
-          </Col>
-        ) : (
-          <Col xs={12}>
-            <div className="button_footer-container">
-              <Button
-                className="button-lg"
-                type="submit"
-                bsStyle="primary"
-                bsSize="large"
-                disabled={pristine || submitting}
-              >
-                <div className="button_inner">
-                  <span className="button_inner-text">Update</span>
-                  <Glyphicon glyph="floppy-disk" />
-                </div>
-              </Button>
-
-              <Button
-                className="button-lg"
-                onClick={() => {
-                  deleteGroup(group.id);
-                }}
-                bsSize="large"
-                bsStyle="danger"
-              >
-                <div className="button_inner">
-                  <span className="button_inner-text">Delete</span>
-                  <Glyphicon glyph="trash" />
-                </div>
-              </Button>
-            </div>
-          </Col>
-        )}
+        <Col xs={12}>
+          {isGroupNew ? (
+            <ButtonFooter
+              primaryButtonText="Submit"
+              pristine={pristine}
+              submitting={submitting}
+            />
+          ) : (
+            <ButtonFooter
+              pristine={pristine}
+              submitting={submitting}
+              primaryButtonText="Update"
+              secondaryButtonText="Delete"
+              secondaryFunc={deleteGroup}
+              component={group}
+            />
+          )}
+        </Col>
       </Row>
     </Form>
   </Grid>

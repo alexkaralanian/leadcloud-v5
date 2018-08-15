@@ -34,6 +34,7 @@ class GroupsDashboardContainer extends React.Component {
             componentName="groups"
             headerTitle="Groups"
             isNew={null}
+            primaryText="Create Group"
             primaryFunc={this.groupsPrimaryFunc}
             primaryGlyph="plus"
           />

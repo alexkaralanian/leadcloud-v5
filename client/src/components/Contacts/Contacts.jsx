@@ -31,11 +31,11 @@ const Contacts = ({ contacts, groups, isFetching }) =>
                   <tr key={contact.id}>
                     <td>
                       {contact.images ? (
-                        <div className="tableImg">
+                        <div className="table_img">
                           <img alt="contact" src={contact.images[0]} />
                         </div>
                       ) : (
-                        <div className="tableImgNull">
+                        <div className="table_img-null">
                           <span>
                             {contact.firstName &&
                               contact.firstName.charAt(0).toUpperCase()}
@@ -43,7 +43,7 @@ const Contacts = ({ contacts, groups, isFetching }) =>
                         </div>
                       )}
                     </td>
-                    <td className="nameDisplay">
+                    <td>
                       {contact.fullName ? (
                         <Link to={`/contacts/${contact.id}`}>
                           <span>{contact.fullName}</span>
@@ -53,7 +53,7 @@ const Contacts = ({ contacts, groups, isFetching }) =>
                       )}
                     </td>
 
-                    <td className="emailDisplay">
+                    <td>
                       {contact.email ? (
                         <Link to={`/contacts/${contact.id}`}>
                           {`${contact.email[0].value}`}
