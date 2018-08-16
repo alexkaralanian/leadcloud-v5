@@ -19,11 +19,10 @@ import SearchContactsContainer from "../SearchContactsContainer/SearchContactsCo
 
 import {
   fetchListing,
+  setListing,
   submitNewListing,
   updateListing,
   deleteListing,
-  setIsListingNew,
-  clearListing,
   onDrop,
   deleteListingImage
 } from "../../actions/listing-actions";
@@ -32,7 +31,9 @@ import {
   setListingContacts,
   searchListingContacts,
   submitListingContacts,
-  deleteListingContact
+  deleteListingContact,
+  searchDiffedListingContacts,
+  setDiffedListingContacts
 } from "../../actions/listing-contacts-actions";
 
 import { setModalVisibility } from "../../actions/modal-actions";
@@ -46,13 +47,12 @@ import {
 
 class SingleListingContainer extends React.Component {
   state = {
-    activeKey: 1
+    activeKey: 1,
+    isContactsModalVisible: false
   };
 
   componentDidMount() {
     const { match, fetchComponent, fetchListing, setOffset } = this.props;
-
-    setOffset(0);
 
     if (match.params.id !== "new") {
       fetchListing(match.params.id);
@@ -68,8 +68,9 @@ class SingleListingContainer extends React.Component {
   }
 
   componentWillUnmount() {
-    const { setListingContacts, setQuery, setOffset } = this.props;
+    const { setListing, setQuery, setOffset } = this.props;
     setOffset(0);
+    setListing({});
   }
 
   onMenuSelect = (eventKey, path) => {
@@ -96,49 +97,62 @@ class SingleListingContainer extends React.Component {
     }
   };
 
-  displayModalFunc = bool => {
-    const {
-      match,
-      fetchComponent,
-      setModalVisibility,
-      listing,
-      setListingContacts,
-      setOffset,
-      setCount
-    } = this.props;
+  displayContactsModal = () => {
+    this.setState({
+      isContactsModalVisible: true
+    });
+  };
 
-    setModalVisibility(bool);
-    setOffset(0);
-    setCount(0);
-    fetchComponent("listings", [], setListingContacts, listing.id, "contacts");
+  submitContacts = (selected, hostId) => {
+    this.props.submitListingContacts(selected, hostId);
+    this.setState({
+      isContactsModalVisible: false
+    });
+  };
+
+  onContactsModalExit = () => {
+    this.props.setQuery("");
+    this.setState({
+      isContactsModalVisible: false
+    });
+  };
+
+  headerFunc = () => {
+    const { match, location, group } = this.props;
+    switch (location.pathname) {
+      case `/listings/${match.params.id}/contacts`:
+        return {
+          modalFunc: this.displayContactsModal,
+          modalText: "Add Contacts",
+          isVisible: true
+        };
+      default:
+        return {
+          modalFunc: null,
+          modalText: null,
+          isVisible: false
+        };
+    }
   };
 
   render() {
     const {
-      match,
-      location,
-      push,
       isAuthed,
+      match,
+
       listing,
       submitNewListing,
       updateListing,
       deleteListing,
-      searchContacts,
 
       listingContacts,
-      listingContactsSearchResults,
+      searchListingContacts,
       submitListingContacts,
       deleteListingContact,
 
-      listingEmails,
-      isFetching,
       onDrop,
       images,
-      deleteListingImage,
-
-      isModalVisible,
-      setModalVisibility,
-      setOffset
+      deleteListingImage
     } = this.props;
 
     return !isAuthed ? (
@@ -146,34 +160,19 @@ class SingleListingContainer extends React.Component {
     ) : (
       <React.Fragment>
         <Navigation />
-        <Modal
-          displayModal={this.displayModalFunc}
-          isModalVisible={isModalVisible}
-          title={listing.address}
-          // hostComponent={listing}
-          // submitFunction={submitListingContacts}
-          Container={
-            <SearchContactsContainer
-              submitFunction={submitListingContacts}
-              hostComponent={listing}
-            />
-          }
-        />
         <BreadCrumbs />
 
         {/* HEADER */}
         <Grid>
           <Header
-            isVisible={
-              location.pathname === `/listings/${match.params.id}/contacts`
-            }
+            isVisible={this.headerFunc().isVisible}
+            isNew={match.params.id === "new"}
             componentName="Listing"
             headerTitle={listing.address}
-            isNew={match.params.id === "new"}
             images={listing.images}
-            primaryFunc={() => setModalVisibility(true)}
+            primaryFunc={() => this.headerFunc().modalFunc()}
             primaryGlyph="plus"
-            primaryText="Add Contacts"
+            primaryText={this.headerFunc().modalText}
           />
         </Grid>
 
@@ -186,7 +185,7 @@ class SingleListingContainer extends React.Component {
           </Grid>
         )}
 
-        {/* LISTING FORM (INFO) */}
+        {/* LISTING FORM  */}
         <Route
           exact
           path={
@@ -210,6 +209,21 @@ class SingleListingContainer extends React.Component {
         />
 
         {/* LISTING CONTACTS */}
+        <Modal
+          displayModal={this.displayContactsModal}
+          onExit={this.onContactsModalExit}
+          isModalVisible={this.state.isContactsModalVisible}
+          title={listing.address}
+          Container={
+            <SearchContactsContainer
+              displayModal={this.displayContactsModal}
+              submitFunction={this.submitContacts}
+              hostComponent={listing}
+              setFunction={setDiffedListingContacts}
+              searchFunction={searchDiffedListingContacts}
+            />
+          }
+        />
         <Route
           path={`/listings/${listing.id}/contacts`}
           render={routeProps => (
@@ -225,17 +239,17 @@ class SingleListingContainer extends React.Component {
           )}
         />
 
-        {/* LISTING EMAILS */}
+        {/* LISTING EMAILS
         <Route
           path={`/listings/${listing.id}/emails`}
           render={routeProps => (
             <Emails
               {...routeProps}
-              contacts={listingEmails}
+              contacts={null}
               isFetching={isFetching}
             />
           )}
-        />
+        />*/}
 
         {/* LISTING MEDIA */}
         <Route
@@ -259,36 +273,30 @@ const mapStateToProps = state => ({
   isAuthed: state.authReducer.isAuthed,
   listing: state.listingReducer.listing,
   listingContacts: state.listingContactsReducer.listingContacts,
-  listingContactsSearchResults:
-    state.listingContactsReducer.listingContactsSearchResults,
   images: state.listingReducer.images,
-  isFetching: state.listingReducer.isFetching,
-  isModalVisible: state.modalReducer.isModalVisible
+  isFetching: state.commonReducer.isFetching
 });
 
 const mapDispatchToProps = {
-  submitNewListing,
-  setIsListingNew,
+  push,
+  setCount,
+  setOffset,
+  setQuery,
+  fetchComponent,
 
   fetchListing,
+  setListing,
+  submitNewListing,
   updateListing,
   deleteListing,
-  clearListing,
 
+  setListingContacts,
   searchListingContacts,
   submitListingContacts,
   deleteListingContact,
 
   onDrop,
-  deleteListingImage,
-  push,
-
-  setModalVisibility,
-
-  setListingContacts,
-  fetchComponent,
-  setOffset,
-  setCount
+  deleteListingImage
 };
 
 SingleListingContainer.propTypes = {

@@ -66,8 +66,8 @@ export const fetchComponent = (
     dispatch(isFetching(false));
     console.error(
       id
-        ? `Fetching ${componentName} ${subComponent} unsuccessful`
-        : `Fetching ${componentName} unsuccessfsul`,
+        ? `Fetching ${componentName} ${subComponent} Unsuccessful`
+        : `Fetching ${componentName} Unsuccessfsul`,
       err
     );
   }

@@ -23,7 +23,7 @@ export const searchContactListings = values => {
   );
 };
 
-export const setDiffedContactListings = listings => {
+export const setDiffedContactListings = listings => dispatch => {
   const state = store.getState();
   const contactListings = state.contactReducer.contactListings;
   listings = listings.slice();
@@ -34,7 +34,7 @@ export const setDiffedContactListings = listings => {
       }
     });
   });
-  store.dispatch(setListings(listings));
+  dispatch(setListings(listings));
 };
 
 export const searchDiffedContactListings = values => {
@@ -49,7 +49,7 @@ export const submitContactListings = (
   contactId
 ) => async dispatch => {
   const contactListings = contactListingsArray.map(listing => ({
-    contactId: contactId,
+    contactId,
     listingId: listing.id
   }));
   dispatch(setSelected([]));

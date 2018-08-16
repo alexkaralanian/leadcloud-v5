@@ -1,11 +1,8 @@
 import axios from "axios";
-import { push } from "react-router-redux";
+import * as types from "../types";
 import store from "../store";
 
-import * as types from "../types";
-import { setListingContactsSearchResults } from "./listing-contacts-actions";
-import { setGroupContactsSearchResults } from "./group-contacts-actions";
-import { fetchComponent, setQuery, setOffset } from "./query-actions";
+import { push } from "react-router-redux";
 
 import {
   setError,
@@ -13,6 +10,10 @@ import {
   isFetching,
   clearFormData
 } from "./common-actions";
+
+import { fetchComponent, setQuery, setOffset } from "./query-actions";
+
+import { setContactGroups } from "./contact-groups-actions";
 
 export const setContacts = contacts => ({
   type: types.SET_CONTACTS,
@@ -24,24 +25,9 @@ export const setContact = contact => ({
   contact
 });
 
-const setContactGroups = contactGroups => ({
-  type: types.SET_CONTACT_GROUPS,
-  payload: contactGroups
-});
-
 export const setContactImages = images => ({
   type: types.SET_CONTACT_IMAGES,
   payload: images
-});
-
-// ADMINISTRATIVE ACTIONS
-
-export const clearContact = () => ({
-  type: types.CLEAR_CONTACT
-});
-
-export const clearContacts = () => ({
-  type: types.CLEAR_CONTACTS
 });
 
 /* ------------       DISPATCHERS     ------------------ */
@@ -50,18 +36,7 @@ export const searchContacts = values => {
   const query = values.nativeEvent.target.defaultValue;
   store.dispatch(setQuery(query));
   store.dispatch(setOffset(0));
-  store.dispatch(fetchComponent("contacts", [], setContacts));
-};
-
-export const searchContacts2 = values => {
-  const query = values.nativeEvent.target.defaultValue;
-  if (query.length <= 1) {
-    store.dispatch(clearContacts());
-  } else {
-    store.dispatch(setQuery(query));
-    store.dispatch(setOffset(0));
-    store.dispatch(fetchComponent("contacts", [], setContacts));
-  }
+  store.dispatch(fetchComponent("contacts", [], setContacts, null, null));
 };
 
 // SYNC GOOGLE CONTACTS

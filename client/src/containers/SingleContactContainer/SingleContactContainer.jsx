@@ -35,10 +35,10 @@ import {
 
 import {
   fetchContact,
+  setContact,
   submitNewContact,
   updateContact,
   deleteContact,
-  clearContact,
   onDrop,
   deleteContactImage
 } from "../../actions/contact-actions";
@@ -48,8 +48,8 @@ import {
   setContactListings,
   submitContactListings,
   deleteContactListing,
-  setDiffedContactListings,
-  searchDiffedContactListings
+  searchDiffedContactListings,
+  setDiffedContactListings
 } from "../../actions/contact-listings-actions";
 
 import { searchGroups } from "../../actions/group-actions";
@@ -78,13 +78,14 @@ class SingleContactContainer extends React.Component {
   componentDidMount() {
     const {
       match,
+      location,
       fetchComponent,
       fetchContact,
-      clearContact,
+      setContact,
       setOffset
     } = this.props;
 
-    clearContact();
+    setContact({});
     setOffset(0);
 
     if (match.params.id !== "new") {
@@ -97,10 +98,25 @@ class SingleContactContainer extends React.Component {
         "listings"
       );
     }
+
+    switch (location.pathname) {
+      case `/contacts/${match.params.id}`:
+        return this.setState({ activeKey: 1 });
+      case `/contacts/${match.params.id}/listings`:
+        return this.setState({ activeKey: 2 });
+      case `/contacts/${match.params.id}/groups`:
+        return this.setState({ activeKey: 3 });
+      case `/contacts/${match.params.id}/emails`:
+        return this.setState({ activeKey: 4 });
+      case `/contacts/${match.params.id}/media`:
+        return this.setState({ activeKey: 5 });
+    }
   }
 
   componentWillReceiveProps(nextProps) {
     const {
+      match,
+      location,
       contact,
       setEmailQuery,
       maxResults,
@@ -129,9 +145,9 @@ class SingleContactContainer extends React.Component {
   }
 
   componentWillUnmount() {
-    const { setContactListings, setQuery, setOffset } = this.props;
+    const { setContact, setQuery, setOffset } = this.props;
     setOffset(0);
-    clearContact();
+    setContact({});
   }
 
   onMenuSelect = (eventKey, path) => {
@@ -163,14 +179,10 @@ class SingleContactContainer extends React.Component {
     }
   };
 
-  displayListingsModal = bool => {
-    const { setOffset, setCount, fetchComponent, contact } = this.props;
+  displayListingsModal = () => {
     this.setState({
-      isListingsModalVisible: bool
+      isListingsModalVisible: true
     });
-    setCount(0);
-    setOffset(0);
-    fetchComponent("contacts", [], setContactListings, contact.id, "listings");
   };
 
   submitListings = (selected, hostId) => {
@@ -180,14 +192,24 @@ class SingleContactContainer extends React.Component {
     });
   };
 
-  displayGroupsModal = bool => {
-    const { setOffset, setCount, fetchComponent, contact } = this.props;
+  onListingsModalExit = () => {
+    this.props.setQuery("");
     this.setState({
-      isGroupsModalVisible: bool
+      isListingsModalVisible: false
     });
-    setCount(0);
-    setOffset(0);
-    fetchComponent("contacts", [], setContactGroups, contact.id, "groups");
+  };
+
+  displayGroupsModal = () => {
+    this.setState({
+      isGroupsModalVisible: true
+    });
+  };
+
+  onGroupsModalExit = () => {
+    this.props.setQuery("");
+    this.setState({
+      isGroupsModalVisible: false
+    });
   };
 
   submitGroups = (selected, hostId) => {
@@ -197,6 +219,7 @@ class SingleContactContainer extends React.Component {
     });
   };
 
+  // HEADER
   headerFunc = () => {
     const { match, location, contact } = this.props;
     switch (location.pathname) {
@@ -306,6 +329,7 @@ class SingleContactContainer extends React.Component {
         {/* CONTACT LISTINGS */}
         <Modal
           displayModal={this.displayListingsModal}
+          onExit={this.onListingsModalExit}
           isModalVisible={this.state.isListingsModalVisible}
           title={contact.fullName}
           Container={
@@ -313,7 +337,6 @@ class SingleContactContainer extends React.Component {
               displayModal={this.displayListingsModal}
               submitFunction={this.submitListings}
               hostComponent={contact}
-              componentListings={contactListings}
               setFunction={setDiffedContactListings}
               searchFunction={searchDiffedContactListings}
             />
@@ -334,17 +357,9 @@ class SingleContactContainer extends React.Component {
 
         {/* CONTACT GROUPS */}
 
-        {/**** IN PROGRESS ***/}
-        {/****
-
-        setDiffedContactGroups,
-        searchDiffedContactGroups,
-        submitContactGroups
-        deleteContactGroup
-        ***/}
-
         <Modal
           displayModal={this.displayGroupsModal}
+          onExit={this.onGroupsModalExit}
           isModalVisible={this.state.isGroupsModalVisible}
           title={contact.fullName}
           Container={
@@ -352,7 +367,7 @@ class SingleContactContainer extends React.Component {
               displayModal={this.displayGroupsModal}
               submitFunction={this.submitGroups}
               hostComponent={contact}
-              componentListings={contactGroups}
+              componentGroups={contactGroups}
               setFunction={setDiffedContactGroups}
               searchFunction={searchDiffedContactGroups}
             />
@@ -371,7 +386,6 @@ class SingleContactContainer extends React.Component {
             </React.Fragment>
           )}
         />
-        {/**** IN PROGRESS ***/}
 
         {/* CONTACT EMAILS */}
         <Route
@@ -421,11 +435,12 @@ const mapDispatchToProps = {
   push,
   setCount,
   setOffset,
+  setQuery,
   fetchComponent,
   clearError,
 
   fetchContact,
-  clearContact,
+  setContact,
   submitNewContact,
   updateContact,
   deleteContact,

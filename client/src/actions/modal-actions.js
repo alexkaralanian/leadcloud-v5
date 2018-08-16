@@ -12,11 +12,10 @@ export const setSelected = items => ({
   payload: items
 });
 
+// DO NOT MAP DISPATCH TO THESE FUNCTIONS AT CALL SIT.E
 export const addSelected = item => {
-  console.log("ADD SELECTED", item);
   const state = store.getState();
   const selected = state.modalReducer.selected.slice();
-
   if (!selected.includes(item)) selected.push(item);
   store.dispatch(setSelected(selected));
 };

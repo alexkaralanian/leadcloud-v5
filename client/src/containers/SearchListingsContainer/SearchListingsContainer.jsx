@@ -27,13 +27,12 @@ class SearchListingsContainer extends React.Component {
 
   render() {
     const {
-      isFetching,
       listings,
-      submitFunction,
-      displayModal,
-      hostComponent,
       selected,
-      searchFunction
+      submitFunction,
+      searchFunction,
+      displayModal,
+      hostComponent
     } = this.props;
 
     return (
@@ -65,7 +64,7 @@ class SearchListingsContainer extends React.Component {
           rowText="address"
           collection={listings}
           submitFunction={addSelected}
-          buttonText={"Add Listing"}
+          buttonText={"Add"}
           buttonStyle={"warning"}
           hostComponent={hostComponent}
           isModal={true}
@@ -77,16 +76,13 @@ class SearchListingsContainer extends React.Component {
 
 const mapStateToProps = state => ({
   listings: state.listingReducer.listings,
-  selected: state.modalReducer.selected,
-  isFetching: state.commonReducer.isFetching
+  selected: state.modalReducer.selected
 });
 
 const mapDispatchToProps = {
   fetchComponent,
   setListings,
   setOffset
-  // setFunction,
-  // searchFunction
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(

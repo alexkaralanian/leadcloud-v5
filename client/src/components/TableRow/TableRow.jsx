@@ -26,9 +26,9 @@ const TableRow = ({
                 ) : (
                   <div className="table_img-null">
                     <span>
-                      {component && component[rowText]
-                        ? component[rowText].charAt(0).toUpperCase()
-                        : null}
+                      {component &&
+                        component[rowText] &&
+                        component[rowText].charAt(0).toUpperCase()}
                     </span>
                   </div>
                 )}

@@ -142,6 +142,7 @@ router.get("/:id/contacts", authCheck, async (req, res) => {
       ],
       order: [["updatedAt", "DESC"]]
     });
+    console.log("GROUP CONTACTS", groupContacts);
     res.json(groupContacts);
   } catch (err) {
     console.error("FETCHING GROUP CONTACTS ERROR", err);
@@ -154,10 +155,10 @@ router.post("/:id/contacts/add", authCheck, async (req, res) => {
 
   try {
     await ContactGroups.bulkCreate(req.body.groupContacts);
-
-    const groupContacts = await Contacts.findAll({
+    const groupContacts = await Contacts.findAndCountAll({
       limit: 25,
       offset: 0,
+      query: "",
       where: {
         UserUuid: userId
       },
@@ -165,13 +166,12 @@ router.post("/:id/contacts/add", authCheck, async (req, res) => {
         {
           model: Groups,
           where: {
-            id: req.body.groupId
+            id: req.params.id
           }
         }
       ],
       order: [["updatedAt", "DESC"]]
     });
-
     res.json(groupContacts);
   } catch (err) {
     console.error("ERROR ADDING CONTACTS TO GROUP", err);
@@ -179,19 +179,19 @@ router.post("/:id/contacts/add", authCheck, async (req, res) => {
 });
 
 // REMOVE CONTACT FROM GROUP AND RETURN GROUP-CONTACTS
-router.post("/:id/contacts/delete", authCheck, async (req, res) => {
+router.post("/:id/contact/delete", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
 
   try {
     const group = await Groups.findOne({
       where: {
         UserUuid: userId,
-        id: req.body.groupId
+        id: req.params.id
       }
     });
-    await group.removeContact(req.body.groupContactId);
+    await group.removeContact(req.body.contactId);
 
-    const groupContacts = await Contacts.findAll({
+    const groupContacts = await Contacts.findAndCountAll({
       limit: 25,
       offset: 0,
       where: {
@@ -201,7 +201,7 @@ router.post("/:id/contacts/delete", authCheck, async (req, res) => {
         {
           model: Groups,
           where: {
-            id: req.body.groupId
+            id: req.params.id
           }
         }
       ],

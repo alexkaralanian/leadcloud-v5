@@ -7,21 +7,26 @@ import SearchForm from "../../components/SearchForm/SearchForm";
 import Pills from "../../components/Pills/Pills";
 import TableRow from "../../components/TableRow/TableRow";
 
-import {
-  setModalVisibility,
-  addSelected,
-  deleteSelected
-} from "../../actions/modal-actions";
+import { addSelected, deleteSelected } from "../../actions/modal-actions";
 
 import { fetchComponent, setOffset } from "../../actions/query-actions";
 
-import { setContacts, searchContacts2 } from "../../actions/contact-actions";
+import { setContacts } from "../../actions/contact-actions";
+
+import {
+  // searchGroupContacts,
+  setGroupContacts,
+  submitGroupContacts,
+  // deleteGroupContacts,
+  searchDiffedGroupContacts,
+  setDiffedGroupContacts
+} from "../../actions/group-contacts-actions";
 
 class SearchContactsContainer extends React.Component {
   componentDidMount() {
-    const { fetchComponent, setOffset } = this.props;
-    setOffset(0)
-    fetchComponent("contacts", [], setContacts, null, null);
+    const { fetchComponent, setOffset, setFunction } = this.props;
+    setOffset(0);
+    fetchComponent("contacts", [], setFunction, null, null);
   }
 
   componentWillUnmount() {
@@ -31,23 +36,27 @@ class SearchContactsContainer extends React.Component {
 
   render() {
     const {
-      isFetching,
       contacts,
+      selected,
       submitFunction,
-      hostComponent,
-      selected
+      searchFunction,
+      displayModal,
+      hostComponent
     } = this.props;
 
     return (
       <React.Fragment>
         <div className="modal_search-container">
           <SearchForm
-            searchFunction={searchContacts2}
+            searchFunction={searchFunction}
             searchText={"Search Contacts..."}
           />
           <Button
             className="button"
-            onClick={() => submitFunction(selected, hostComponent.id)}
+            onClick={evt => {
+              evt.stopPropagation();
+              submitFunction(selected, hostComponent.id);
+            }}
             bsStyle="primary"
           >
             Add Selected
@@ -62,18 +71,16 @@ class SearchContactsContainer extends React.Component {
             displayValue="fullName"
           />
         </div>
-        {contacts.length > 0 && (
-          <TableRow
-            componentName="contacts"
-            rowText="fullName"
-            collection={contacts}
-            submitFunction={addSelected}
-            buttonText={"Add Contact"}
-            buttonStyle={"warning"}
-            hostComponent={hostComponent}
-            isModal={true}
-          />
-        )}
+        <TableRow
+          componentName="contacts"
+          rowText="fullName"
+          collection={contacts}
+          submitFunction={addSelected}
+          buttonText={"Add Contact"}
+          buttonStyle={"warning"}
+          hostComponent={hostComponent}
+          isModal={true}
+        />
       </React.Fragment>
     );
   }
@@ -81,14 +88,11 @@ class SearchContactsContainer extends React.Component {
 
 const mapStateToProps = state => ({
   contacts: state.contactReducer.contacts,
-  selected: state.modalReducer.selected,
-  isLoading: state.queryReducer.isLoading,
-  isFetching: state.commonReducer.isFetching
+  selected: state.modalReducer.selected
 });
 
 const mapDispatchToProps = {
   fetchComponent,
-  setModalVisibility,
   setContacts,
   setOffset
 };

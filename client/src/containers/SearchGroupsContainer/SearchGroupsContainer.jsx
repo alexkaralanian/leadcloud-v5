@@ -27,13 +27,12 @@ class SearchGroupsContainer extends React.Component {
 
   render() {
     const {
-      isFetching,
       groups,
-      submitFunction,
-      displayModal,
-      hostComponent,
       selected,
-      searchFunction
+      submitFunction,
+      searchFunction,
+      displayModal,
+      hostComponent
     } = this.props;
 
     return (
@@ -78,7 +77,6 @@ class SearchGroupsContainer extends React.Component {
 const mapStateToProps = state => ({
   groups: state.groupReducer.groups,
   selected: state.modalReducer.selected,
-  isFetching: state.commonReducer.isFetching
 });
 
 const mapDispatchToProps = {

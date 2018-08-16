@@ -30,7 +30,7 @@ const ContactListings = ({
           collection={contactListings}
           submitFunction={deleteContactListing}
           hostComponent={contact}
-          buttonText="Remove Listing"
+          buttonText="Remove"
           buttonStyle="danger"
         />
       </Col>

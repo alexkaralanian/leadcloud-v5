@@ -41,7 +41,10 @@ const Header = ({
                 className="button-lg"
                 bsStyle="primary"
                 bsSize="large"
-                onClick={primaryFunc}
+                onClick={evt => {
+                  evt.stopPropagation();
+                  primaryFunc();
+                }}
               >
                 <div className="button_inner">
                   <span className="button_inner-text">{primaryText}</span>

@@ -3,8 +3,7 @@ import * as types from "../types";
 const initialState = {
   groups: [],
   group: {},
-  isFetching: false,
-  isLoading: false
+  groupContacts: []
 };
 
 const groupReducer = (state = initialState, action) => {
@@ -13,6 +12,12 @@ const groupReducer = (state = initialState, action) => {
       return {
         ...state,
         groups: action.payload
+      };
+
+    case types.SET_GROUP_CONTACTS:
+      return {
+        ...state,
+        groupContacts: action.payload
       };
 
     case types.CLEAR_GROUPS:

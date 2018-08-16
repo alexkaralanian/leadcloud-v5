@@ -23,7 +23,6 @@ import {
 import {
   setGroupContacts,
   setGroupContactsComponent,
-  clearGroupContacts,
   searchGroupContacts,
   deleteGroupContact
 } from "../../actions/group-contacts-actions";
@@ -40,7 +39,7 @@ class GroupContactsContainer extends React.Component {
   componentWillUnmount() {
     window.removeEventListener("scroll", this.onScroll, false);
     const { resetQuery, clearGroupContacts, setQuery, setOffset } = this.props;
-    clearGroupContacts();
+    setGroupContacts([]);
     setQuery("");
     setOffset(0);
   }
@@ -118,7 +117,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   fetchGroup,
   fetchComponent,
-  clearGroupContacts,
   deleteGroupContact,
   setQuery,
   setOffset

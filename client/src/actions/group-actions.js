@@ -1,11 +1,15 @@
 import axios from "axios";
 import * as types from "../types";
-import { push } from "react-router-redux";
-import { isFetching, setError, clearError } from "./common-actions";
-import { fetchComponent, setQuery, setOffset } from "./query-actions";
 import store from "../store";
 
-/* ------------   ACTION CREATORS     ------------------ */
+import { push } from "react-router-redux";
+import {
+  isFetching,
+  setError,
+  clearError,
+  clearFormData
+} from "./common-actions";
+import { fetchComponent, setQuery, setOffset } from "./query-actions";
 
 export const setGroups = groups => ({
   type: types.SET_GROUPS,
@@ -21,6 +25,7 @@ export const setGroup = group => ({
   payload: group
 });
 
+// FETCH GROUP
 export const fetchGroup = id => async dispatch => {
   dispatch(isFetching(true));
   try {
@@ -35,8 +40,6 @@ export const fetchGroup = id => async dispatch => {
 
 // SEARCH GROUPS
 export const searchGroups = values => {
-  const state = store.getState();
-  const groupId = state.groupReducer.group.id;
   const query = values.nativeEvent.target.defaultValue;
   store.dispatch(setQuery(query));
   store.dispatch(setOffset(0));

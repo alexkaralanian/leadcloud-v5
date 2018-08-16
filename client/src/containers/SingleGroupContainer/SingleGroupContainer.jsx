@@ -9,9 +9,15 @@ import Header from "../../components/Header/Header";
 import GroupForm from "../../components/SingleGroup/GroupForm";
 import GroupContactsContainer from "../GroupContactsContainer/GroupContactsContainer";
 import GroupNav from "../../components/SingleGroup/GroupNav";
-
 import Modal from "../../components/Modal/Modal";
 import SearchContactsContainer from "../SearchContactsContainer/SearchContactsContainer";
+
+import {
+  fetchComponent,
+  setQuery,
+  setOffset,
+  setCount
+} from "../../actions/query-actions";
 
 import {
   fetchGroup,
@@ -24,98 +30,109 @@ import {
 import { setModalVisibility } from "../../actions/modal-actions";
 
 import {
-  submitGroupContact,
+  // searchGroupContacts,
   setGroupContacts,
-  submitGroupContacts
+  submitGroupContacts,
+  // deleteGroupContacts,
+  searchDiffedGroupContacts,
+  setDiffedGroupContacts
 } from "../../actions/group-contacts-actions";
-
-import {
-  fetchComponent,
-  setQuery,
-  setOffset,
-  setCount
-} from "../../actions/query-actions";
 
 class SingleGroupContainer extends React.Component {
   state = {
-    activeKey: 1
+    activeKey: 1,
+    isContactsModalVisible: false
   };
 
   componentDidMount() {
-    const { match, fetchGroup } = this.props;
+    const { match, fetchGroup, location } = this.props;
     if (match.params.id !== "new") {
       fetchGroup(match.params.id);
     }
+    switch (location.pathname) {
+      case `/groups/${match.params.id}/contacts`:
+        return this.setState({ activeKey: 1 });
+      case `/groups/${match.params.id}`:
+        return this.setState({ activeKey: 2 });
+    }
   }
 
-  onMenuSelect = eventKey => {
-    const { push, match } = this.props;
-    const groupId = match.params.id;
+  componentWillUnmount() {
+    const { setGroup, setQuery, setOffset } = this.props;
+    setOffset(0);
+    setGroup({});
+  }
 
+  // GROUP SUB-NAV
+  onMenuSelect = eventKey => {
+    const { push, match, location } = this.props;
+    const groupId = match.params.id;
     if (eventKey === 1) {
       push(`/groups/${groupId}/contacts`);
       this.setState({ activeKey: 1 });
     }
-
     if (eventKey === 2) {
       push(`/groups/${groupId}`);
       this.setState({ activeKey: 2 });
     }
-
     if (eventKey === 3) {
       push(`/groups/${groupId}/media`);
       this.setState({ activeKey: 3 });
     }
   };
+  0;
 
-  headerPrimaryFuncSwitch = path => {
-    const { group, setModalVisibility, setGroup } = this.props;
-    switch (path) {
-      case `/groups/${group.id}/contacts`:
-        return () => {
-          setModalVisibility(true);
+  // GROUP CONTACTS MODAL
+  displayContactsModal = () => {
+    this.setState({
+      isContactsModalVisible: true
+    });
+  };
+
+  submitContacts = (selected, hostId) => {
+    this.props.submitGroupContacts(selected, hostId);
+    this.setState({
+      isContactsModalVisible: false
+    });
+  };
+
+  onContactsModalExit = () => {
+    this.props.setQuery("");
+    this.setState({
+      isContactsModalVisible: false
+    });
+  };
+
+  // HEADER
+  headerFunc = () => {
+    const { match, location, group } = this.props;
+    switch (location.pathname) {
+      case `/groups/${match.params.id}/contacts`:
+        return {
+          modalFunc: this.displayContactsModal,
+          modalText: "Add Contacts",
+          isVisible: true
+        };
+      default:
+        return {
+          modalFunc: null,
+          modalText: null,
+          isVisible: false
         };
     }
-  };
-
-  headerPrimaryGlyphSwitch = path => {
-    const { group } = this.props;
-    switch (path) {
-      case `/groups/${group.id}/contacts`:
-        return "plus";
-    }
-  };
-
-  displayModalFunc = bool => {
-    const {
-      match,
-      fetchGroup,
-      fetchComponent,
-      group,
-      setModalVisibility,
-      setQuery,
-      setOffset,
-      setCount
-    } = this.props;
-    setModalVisibility(bool);
-    setCount(0);
-    setOffset(0);
-
-    fetchComponent("groups", [], setGroupContacts, group.id, "contacts");
   };
 
   render() {
     const {
       isAuthed,
       match,
-      push,
+
       group,
       submitNewGroup,
       updateGroup,
       deleteGroup,
-      submitGroupContacts,
-      isModalVisible,
-      setModalVisibility
+      groupContacts,
+      submitGroupContacts
     } = this.props;
 
     const path = this.props.history.location.pathname;
@@ -123,34 +140,21 @@ class SingleGroupContainer extends React.Component {
     return (
       <React.Fragment>
         <Navigation />
-        <Modal
-          displayModal={this.displayModalFunc}
-          isModalVisible={isModalVisible}
-          title={group.title}
-          Container={
-            <SearchContactsContainer
-              submitFunction={submitGroupContacts}
-              hostComponent={group}
-            />
-          }
-        />
         <BreadCrumbs />
         <Grid>
           <Header
-            isVisible={true}
+            isVisible={this.headerFunc().isVisible}
             isNew={match.params.id === "new"}
             componentName="Group"
             headerTitle={group.title}
-            primaryText="Add Contacts"
-            primaryFunc={() => setModalVisibility(true)}
+            primaryFunc={() => this.headerFunc().modalFunc()}
             primaryGlyph="plus"
+            primaryText={this.headerFunc().modalText}
           />
 
+          {/* GROUP NESTED NAV */}
           {match.params.id !== "new" && (
             <GroupNav
-              groupId={group.id}
-              isGroupNew={match.params.id === "new"}
-              push={push}
               activeKey={this.state.activeKey}
               onMenuSelect={this.onMenuSelect}
             />
@@ -158,6 +162,21 @@ class SingleGroupContainer extends React.Component {
         </Grid>
 
         {/* GROUP CONTACTS*/}
+        <Modal
+          displayModal={this.displayContactsModal}
+          onExit={this.onContactsModalExit}
+          isModalVisible={this.state.isContactsModalVisible}
+          title={group.title}
+          Container={
+            <SearchContactsContainer
+              displayModal={this.displayContactsModal}
+              submitFunction={this.submitContacts}
+              hostComponent={group}
+              setFunction={setDiffedGroupContacts}
+              searchFunction={searchDiffedGroupContacts}
+            />
+          }
+        />
         <Route
           exact
           path={`/groups/${group.id}/contacts`}
@@ -190,24 +209,25 @@ class SingleGroupContainer extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  group: state.groupReducer.group,
   isAuthed: state.authReducer.isAuthed,
-  isModalVisible: state.modalReducer.isModalVisible
+  group: state.groupReducer.group,
+  groupContacts: state.groupReducer.groupContacts
 });
 
 const mapDispatchToProps = {
+  push,
+  setQuery,
+  setOffset,
+  setCount,
+  fetchComponent,
+
   fetchGroup,
+  setGroup,
   submitNewGroup,
-  submitGroupContacts,
   updateGroup,
   deleteGroup,
-  setModalVisibility,
-  push,
-  fetchComponent,
-  setQuery,
-  setCount,
-  setOffset,
-  setGroup
+
+  submitGroupContacts
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(

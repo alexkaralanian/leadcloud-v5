@@ -146,12 +146,11 @@ router.get("/:id/contacts", authCheck, async (req, res) => {
 });
 
 // BULK ADD CONTACTS TO GROUP AND RETURN GROUP-CONTACTS
-router.post("/:id/contacts/bulk-add", authCheck, async (req, res) => {
+router.post("/:id/contacts/add", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
 
   try {
     await ListingContacts.bulkCreate(req.body.listingContacts);
-
     const listingContacts = await Contacts.findAndCountAll({
       limit: 25,
       offset: 0,
@@ -168,7 +167,6 @@ router.post("/:id/contacts/bulk-add", authCheck, async (req, res) => {
         }
       ]
     });
-
     res.json(listingContacts);
   } catch (err) {
     console.error("ERROR ADDING CONTACTS TO LISTING", err);

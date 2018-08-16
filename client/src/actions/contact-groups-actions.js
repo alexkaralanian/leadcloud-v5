@@ -55,10 +55,11 @@ export const submitContactGroups = (
   contactId
 ) => async dispatch => {
   const contactGroups = contactGroupsArray.map(group => ({
-    contactId: contactId,
+    contactId,
     groupId: group.id
   }));
   dispatch(setSelected([]));
+  dispatch(setQuery(""));
   try {
     const res = await axios.post(`/api/contacts/${contactId}/groups/add`, {
       contactGroups
