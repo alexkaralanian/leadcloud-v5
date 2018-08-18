@@ -13,7 +13,6 @@ export const setListingContacts = listingContacts => ({
 });
 
 export const searchListingContacts = values => {
-  console.log("VALUES", values);
   const state = store.getState();
   const listingId = state.listingReducer.listing.id;
   const query = values.nativeEvent.target.defaultValue;
@@ -48,16 +47,16 @@ export const searchDiffedListingContacts = values => {
 
 export const submitListingContacts = (
   listingContactsArray,
-  listingId
+  listing
 ) => async dispatch => {
   const listingContacts = listingContactsArray.map(contact => ({
-    listingId,
+    listingId: listing.id,
     contactId: contact.id
   }));
   dispatch(setSelected([]));
   dispatch(setQuery(""));
   try {
-    const res = await axios.post(`/api/listings/${listingId}/contacts/add`, {
+    const res = await axios.post(`/api/listings/${listing.id}/contacts/add`, {
       listingContacts
     });
     dispatch(setListingContacts(res.data.rows));
@@ -67,13 +66,14 @@ export const submitListingContacts = (
   }
 };
 
-export const deleteListingContact = (
-  contactId,
-  listingId
-) => async dispatch => {
+export const deleteListingContact = (contact, listing) => async dispatch => {
+  console.log({
+    contact,
+    listing
+  });
   try {
-    const res = await axios.post(`/api/listings/${listingId}/contact/delete`, {
-      contactId
+    const res = await axios.post(`/api/listings/${listing.id}/contact/delete`, {
+      contactId: contact.id
     });
     dispatch(setListingContacts(res.data.rows));
     dispatch(setCount(res.data.count));

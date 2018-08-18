@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Button, Table } from "react-bootstrap";
 
-const TableRow = ({
+const TableRowCampaign = ({
   componentName,
   collection,
   submitFunction,
@@ -45,11 +45,7 @@ const TableRow = ({
                   className="addButton"
                   disabled={component.disabled}
                   bsStyle={buttonStyle}
-                  onClick={() =>
-                    hostComponent
-                      ? submitFunction(component, hostComponent)
-                      : submitFunction(component)
-                  }
+                  onClick={() => submitFunction(component)}
                 >
                   <span>{buttonText}</span>
                 </Button>
@@ -61,4 +57,4 @@ const TableRow = ({
   );
 };
 
-export default TableRow;
+export default TableRowCampaign;

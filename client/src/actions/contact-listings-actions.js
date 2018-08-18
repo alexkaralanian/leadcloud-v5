@@ -46,15 +46,15 @@ export const searchDiffedContactListings = values => {
 
 export const submitContactListings = (
   contactListingsArray,
-  contactId
+  contact
 ) => async dispatch => {
   const contactListings = contactListingsArray.map(listing => ({
-    contactId,
+    contactId: contact.id,
     listingId: listing.id
   }));
   dispatch(setSelected([]));
   try {
-    const res = await axios.post(`/api/contacts/${contactId}/listings/add`, {
+    const res = await axios.post(`/api/contacts/${contact.id}/listings/add`, {
       contactListings
     });
     dispatch(setContactListings(res.data.rows));
@@ -64,13 +64,10 @@ export const submitContactListings = (
   }
 };
 
-export const deleteContactListing = (
-  listingId,
-  contactId
-) => async dispatch => {
+export const deleteContactListing = (listing, contact) => async dispatch => {
   try {
-    const res = await axios.post(`/api/contacts/${contactId}/listing/delete`, {
-      listingId
+    const res = await axios.post(`/api/contacts/${contact.id}/listing/delete`, {
+      listingId: listing.id
     });
     dispatch(setContactListings(res.data.rows));
     dispatch(setCount(res.data.count));

@@ -25,13 +25,10 @@ export const searchContactGroups = values => {
   );
 };
 
-export const setDiffedContactGroups = groups => {
+export const setDiffedContactGroups = groups => dispatch => {
   const state = store.getState();
   const contactGroups = state.contactReducer.contactGroups;
   groups = groups.slice();
-
-  console.log("GROUPS", groups);
-  console.log("CONTACT GROUPS", contactGroups);
 
   contactGroups.forEach(contactGroup => {
     groups.forEach(group => {
@@ -52,16 +49,16 @@ export const searchDiffedContactGroups = values => {
 
 export const submitContactGroups = (
   contactGroupsArray,
-  contactId
+  contact
 ) => async dispatch => {
   const contactGroups = contactGroupsArray.map(group => ({
-    contactId,
+    contactId: contact.id,
     groupId: group.id
   }));
   dispatch(setSelected([]));
   dispatch(setQuery(""));
   try {
-    const res = await axios.post(`/api/contacts/${contactId}/groups/add`, {
+    const res = await axios.post(`/api/contacts/${contact.id}/groups/add`, {
       contactGroups
     });
     dispatch(setContactGroups(res.data.rows));
@@ -71,12 +68,11 @@ export const submitContactGroups = (
   }
 };
 
-export const deleteContactGroup = (groupId, contactId) => async dispatch => {
+export const deleteContactGroup = (group, contact) => async dispatch => {
   try {
-    const res = await axios.post(`/api/contacts/${contactId}/group/delete`, {
-      groupId
+    const res = await axios.post(`/api/contacts/${contact.id}/group/delete`, {
+      groupId: group.id
     });
-
     dispatch(setContactGroups(res.data.rows));
     dispatch(setCount(res.data.count));
   } catch (err) {

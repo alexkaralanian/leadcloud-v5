@@ -9,7 +9,11 @@ import TableRow from "../../components/TableRow/TableRow";
 
 import { addSelected, deleteSelected } from "../../actions/modal-actions";
 
-import { fetchComponent, setOffset } from "../../actions/query-actions";
+import {
+  fetchComponent,
+  setOffset,
+  setQuery
+} from "../../actions/query-actions";
 
 import { setGroups } from "../../actions/group-actions";
 
@@ -17,6 +21,7 @@ class SearchGroupsContainer extends React.Component {
   componentWillMount() {
     const { fetchComponent, setOffset, setFunction } = this.props;
     setOffset(0);
+    setQuery("");
     fetchComponent("groups", [], setFunction, null, null);
   }
 
@@ -44,7 +49,11 @@ class SearchGroupsContainer extends React.Component {
           />
           <Button
             className="button"
-            onClick={() => submitFunction(selected, hostComponent.id)}
+            onClick={() => {
+              hostComponent
+                ? submitFunction(selected, hostComponent)
+                : submitFunction(selected);
+            }}
             bsStyle="primary"
           >
             Add Selected
@@ -67,7 +76,6 @@ class SearchGroupsContainer extends React.Component {
           buttonText={"Add Group"}
           buttonStyle={"warning"}
           hostComponent={hostComponent}
-          isModal={true}
         />
       </React.Fragment>
     );
@@ -76,13 +84,14 @@ class SearchGroupsContainer extends React.Component {
 
 const mapStateToProps = state => ({
   groups: state.groupReducer.groups,
-  selected: state.modalReducer.selected,
+  selected: state.modalReducer.selected
 });
 
 const mapDispatchToProps = {
   fetchComponent,
+  setGroups,
   setOffset,
-  setGroups
+  setQuery
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(

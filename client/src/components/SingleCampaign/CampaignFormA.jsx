@@ -34,6 +34,7 @@ CampaignFormA = ({
   reset,
   submitting,
   auditClick,
+
   campaign,
   campaignListings,
   searchCampaignListings,
@@ -52,31 +53,22 @@ CampaignFormA = ({
 }) => (
   <Form>
     <Grid>
-      <Header
-        isVisible={true}
-        componentName="campaigns"
-        headerTitle="New Campaign"
-        isNew={null}
-      />
+
       <Row className="margin-top-2">
         <Col xs={12}>
-          <FormGroup className="formGroup">
+          <FormGroup>
             <Field
               type="text"
               name="title"
               component={InputField}
               label="Title"
             />
-          </FormGroup>
-          <FormGroup className="formGroup">
             <Field
               type="text"
               name="subject"
               component={InputField}
               label="Subject"
             />
-          </FormGroup>
-          <FormGroup className="formGroup">
             <Field
               type="text"
               name="subject"

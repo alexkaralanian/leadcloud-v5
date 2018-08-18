@@ -9,14 +9,19 @@ import TableRow from "../../components/TableRow/TableRow";
 
 import { addSelected, deleteSelected } from "../../actions/modal-actions";
 
-import { fetchComponent, setOffset } from "../../actions/query-actions";
+import {
+  fetchComponent,
+  setOffset,
+  setQuery
+} from "../../actions/query-actions";
 
 import { setListings } from "../../actions/listing-actions";
 
 class SearchListingsContainer extends React.Component {
   componentWillMount() {
-    const { fetchComponent, setOffset, setFunction } = this.props;
+    const { fetchComponent, setOffset, setQuery, setFunction } = this.props;
     setOffset(0);
+    setQuery("");
     fetchComponent("listings", [], setFunction, null, null);
   }
 
@@ -44,7 +49,7 @@ class SearchListingsContainer extends React.Component {
           />
           <Button
             className="button"
-            onClick={() => submitFunction(selected, hostComponent.id)}
+            onClick={() => submitFunction(selected, hostComponent)}
             bsStyle="primary"
           >
             Add Selected
@@ -82,7 +87,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   fetchComponent,
   setListings,
-  setOffset
+  setOffset,
+  setQuery
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(

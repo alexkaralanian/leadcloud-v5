@@ -103,15 +103,14 @@ class SingleListingContainer extends React.Component {
     });
   };
 
-  submitContacts = (selected, hostId) => {
-    this.props.submitListingContacts(selected, hostId);
+  submitContacts = (selected, host) => {
+    this.props.submitListingContacts(selected, host);
     this.setState({
       isContactsModalVisible: false
     });
   };
 
   onContactsModalExit = () => {
-    this.props.setQuery("");
     this.setState({
       isContactsModalVisible: false
     });

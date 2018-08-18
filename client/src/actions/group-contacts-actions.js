@@ -47,16 +47,17 @@ export const searchDiffedGroupContacts = values => {
 
 export const submitGroupContacts = (
   groupContactsArray,
-  groupId
+  group
 ) => async dispatch => {
+  console.log("GROUP", group);
   const groupContacts = groupContactsArray.map(contact => ({
-    groupId,
+    groupId: group.id,
     contactId: contact.id
   }));
   dispatch(setSelected([]));
   dispatch(setQuery(""));
   try {
-    const res = await axios.post(`/api/groups/${groupId}/contacts/add`, {
+    const res = await axios.post(`/api/groups/${group.id}/contacts/add`, {
       groupContacts
     });
     dispatch(setGroupContacts(res.data.rows));
@@ -66,11 +67,11 @@ export const submitGroupContacts = (
   }
 };
 
-export const deleteGroupContact = (contactId, groupId) => async dispatch => {
+export const deleteGroupContact = (contact, group) => async dispatch => {
   const state = store.getState();
   try {
-    const res = await axios.post(`/api/groups/${groupId}/contact/delete`, {
-      contactId
+    const res = await axios.post(`/api/groups/${group.id}/contact/delete`, {
+      contactId: contact.id
     });
     dispatch(setGroupContacts(res.data.rows));
     dispatch(setCount(res.data.count));

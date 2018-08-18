@@ -185,15 +185,14 @@ class SingleContactContainer extends React.Component {
     });
   };
 
-  submitListings = (selected, hostId) => {
-    this.props.submitContactListings(selected, hostId);
+  submitListings = (selected, host) => {
+    this.props.submitContactListings(selected, host);
     this.setState({
       isListingsModalVisible: false
     });
   };
 
   onListingsModalExit = () => {
-    this.props.setQuery("");
     this.setState({
       isListingsModalVisible: false
     });
@@ -206,14 +205,13 @@ class SingleContactContainer extends React.Component {
   };
 
   onGroupsModalExit = () => {
-    this.props.setQuery("");
     this.setState({
       isGroupsModalVisible: false
     });
   };
 
-  submitGroups = (selected, hostId) => {
-    this.props.submitContactGroups(selected, hostId);
+  submitGroups = (selected, host) => {
+    this.props.submitContactGroups(selected, host);
     this.setState({
       isGroupsModalVisible: false
     });

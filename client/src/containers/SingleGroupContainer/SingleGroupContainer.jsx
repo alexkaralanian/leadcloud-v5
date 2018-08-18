@@ -89,15 +89,14 @@ class SingleGroupContainer extends React.Component {
     });
   };
 
-  submitContacts = (selected, hostId) => {
-    this.props.submitGroupContacts(selected, hostId);
+  submitContacts = (selected, host) => {
+    this.props.submitGroupContacts(selected, host);
     this.setState({
       isContactsModalVisible: false
     });
   };
 
   onContactsModalExit = () => {
-    this.props.setQuery("");
     this.setState({
       isContactsModalVisible: false
     });

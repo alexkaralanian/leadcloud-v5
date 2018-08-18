@@ -1,27 +1,17 @@
 import axios from "axios";
 import * as types from "../types";
-import { searchListings } from "./listing-actions";
 import store from "../store";
+
+import { searchListings, setListings } from "./listing-actions";
+import { fetchComponent, setQuery, setOffset, setCount } from "./query-actions";
+import { setSelected } from "./modal-actions";
+import { isFetching, clearFormData } from "./common-actions";
 
 /* ------------   ACTION CREATORS     ------------------ */
 
 export const setCampaignListings = listings => ({
   type: types.SET_CAMPAIGN_LISTINGS,
   payload: listings
-});
-
-export const setCampaignListingsSearchResults = searchResults => ({
-  type: types.SET_CAMPAIGN_LISTINGS_SEARCH_RESULTS,
-  payload: searchResults
-});
-
-export const clearCampaignListingsSearchResults = () => ({
-  type: types.CLEAR_CAMPAIGN_LISTINGS_SEARCH_RESULTS
-});
-
-export const isFetching = bool => ({
-  type: types.IS_FETCHING,
-  isFetching: bool
 });
 
 // export const fetchCampaignListings = contactId => async dispatch => {
@@ -39,6 +29,29 @@ export const isFetching = bool => ({
 //     dispatch(isFetching(false));
 //   }
 // };
+
+export const setDiffedCampaignListings = listings => {
+  // const state = store.getState();
+  // const contactGroups = state.contactReducer.contactGroups;
+  // groups = groups.slice();
+  // console.log("GROUPS", groups);
+  // console.log("CONTACT GROUPS", contactGroups);
+  // contactGroups.forEach(contactGroup => {
+  //   groups.forEach(group => {
+  //     if (contactGroup.id == group.id) {
+  //       group.disabled = true;
+  //     }
+  //   });
+  // });
+  // store.dispatch(setGroups(groups));
+};
+
+export const searchDiffedCampaignListings = values => {
+  const query = values.nativeEvent.target.defaultValue;
+  store.dispatch(setQuery(query));
+  store.dispatch(setOffset(0));
+  store.dispatch(fetchComponent("groups", [], setDiffedCampaignListings));
+};
 
 export const submitCampaignListings = listings => {
   console.log("LISTINGS", listings);

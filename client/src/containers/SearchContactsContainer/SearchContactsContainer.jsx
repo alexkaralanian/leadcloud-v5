@@ -9,23 +9,19 @@ import TableRow from "../../components/TableRow/TableRow";
 
 import { addSelected, deleteSelected } from "../../actions/modal-actions";
 
-import { fetchComponent, setOffset } from "../../actions/query-actions";
+import {
+  fetchComponent,
+  setOffset,
+  setQuery
+} from "../../actions/query-actions";
 
 import { setContacts } from "../../actions/contact-actions";
-
-import {
-  // searchGroupContacts,
-  setGroupContacts,
-  submitGroupContacts,
-  // deleteGroupContacts,
-  searchDiffedGroupContacts,
-  setDiffedGroupContacts
-} from "../../actions/group-contacts-actions";
 
 class SearchContactsContainer extends React.Component {
   componentDidMount() {
     const { fetchComponent, setOffset, setFunction } = this.props;
     setOffset(0);
+    setQuery("");
     fetchComponent("contacts", [], setFunction, null, null);
   }
 
@@ -55,7 +51,7 @@ class SearchContactsContainer extends React.Component {
             className="button"
             onClick={evt => {
               evt.stopPropagation();
-              submitFunction(selected, hostComponent.id);
+              submitFunction(selected, hostComponent);
             }}
             bsStyle="primary"
           >
@@ -94,7 +90,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   fetchComponent,
   setContacts,
-  setOffset
+  setOffset,
+  setQuery
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(

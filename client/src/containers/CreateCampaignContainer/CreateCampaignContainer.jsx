@@ -6,7 +6,7 @@ import Navigation from "../NavContainer/NavContainer";
 import BreadCrumbs from "../../components/BreadCrumbs/BreadCrumbs";
 import Header from "../../components/Header/Header";
 
-import CampaignFormA from "../../components/SingleCampaign/CampaignFormA";
+import CampaignFormA_Container from "../../components/SingleCampaign/CampaignFormA_Container";
 import CampaignFormB from "../../components/SingleCampaign/CampaignFormB";
 import CampaignFormC from "../../components/SingleCampaign/CampaignFormC";
 import SingleCampaign from "../../components/SingleCampaign/SingleCampaign";
@@ -55,31 +55,61 @@ class CreateCampaignContainer extends React.Component {
     this.setState({ page: this.state.page - 1 });
   };
 
-  displayListingPanel = () => {
-    this.setState({ isListingPanelOpen: !this.state.isListingPanelOpen });
-  };
+  // displayListingPanel = () => {
+  //   this.setState({ isListingPanelOpen: !this.state.isListingPanelOpen });
+  // };
 
-  displayRecipientsPanel = () => {
-    this.setState({ isRecipientsPanelOpen: !this.state.isRecipientsPanelOpen });
-  };
+  // displayRecipientsPanel = () => {
+  //   this.setState({ isRecipientsPanelOpen: !this.state.isRecipientsPanelOpen });
+  // };
 
-  displayModalFuncA = bool => {
-    const {
-      setModalVisibility,
-      isModalVisible,
-      setCampaignListings
-    } = this.props;
+  // displayModalFuncA = bool => {
+  //   const {
+  //     setModalVisibility,
+  //     isModalVisible,
+  //     setCampaignListings
+  //   } = this.props;
 
-    setModalVisibility(bool);
-  };
+  //   setModalVisibility(bool);
+  // };
 
-  // submitCampaignForm(values) {
-  //   this.props.submitCampaign(
-  //     values,
-  //     this.props.campaignListings,
-  //     this.props.campaignGroups
-  //   );
-  // }
+  // displayListingsModal = () => {
+  //   this.setState({
+  //     isListingsModalVisible: true
+  //   });
+  // };
+
+  // submitListings = (selected, hostId) => {
+  //   this.props.submitCampaignListings(selected, hostId);
+  //   this.setState({
+  //     isListingsModalVisible: false
+  //   });
+  // };
+
+  // onListingsModalExit = () => {
+  //   this.setState({
+  //     isListingsModalVisible: false
+  //   });
+  // };
+
+  // displayGroupsModal = () => {
+  //   this.setState({
+  //     isGroupsModalVisible: true
+  //   });
+  // };
+
+  // onGroupsModalExit = () => {
+  //   this.setState({
+  //     isGroupsModalVisible: false
+  //   });
+  // };
+
+  // submitGroups = (selected, hostId) => {
+  //   this.props.submitCampaignGroups(selected, hostId);
+  //   this.setState({
+  //     isGroupsModalVisible: false
+  //   });
+  // };
 
   render() {
     const {
@@ -103,23 +133,17 @@ class CreateCampaignContainer extends React.Component {
       <React.Fragment>
         <Navigation />
         <BreadCrumbs />
+        <Grid>
+          <Header
+            isVisible={true}
+            componentName="campaigns"
+            headerTitle="New Campaign"
+            isNew={null}
+          />
+
+          {page === 1 && <CampaignFormA_Container nextPage={this.nextPage} />}
+        </Grid>
         <div>
-          {page === 1 && (
-            <CampaignFormA
-              displayModalFuncA={this.displayModalFuncA}
-              setModalVisibility={setModalVisibility}
-              isModalVisible={isModalVisible}
-              isListingPanelOpen={this.state.isListingPanelOpen}
-              isRecipientsPanelOpen={this.state.isRecipientsPanelOpen}
-              displayListingPanel={this.displayListingPanel}
-              displayRecipientsPanel={this.displayRecipientsPanel}
-              campaignListings={campaignListings}
-              campaign={campaign}
-              submitCampaignListings={submitCampaignListings}
-              deleteCampaignListing={deleteCampaignListing}
-              nextPage={this.nextPage}
-            />
-          )}
           {page === 2 && (
             <CampaignFormB
               campaign={campaign}
