@@ -14,62 +14,50 @@ export const setCampaignListings = listings => ({
   payload: listings
 });
 
-// export const fetchCampaignListings = contactId => async dispatch => {
-//   dispatch(isFetching(true));
-//   try {
-//     const res = await axios.post("/api/campaigns/fetchCampaignListings", {
-//       contactId
-//     });
-//     if (res.status === 200) {
-//       dispatch(setCampaignListings(res.data));
-//     }
-//     dispatch(isFetching(false));
-//   } catch (err) {
-//     console.error("Fetching listing contacts unsuccessful", err);
-//     dispatch(isFetching(false));
-//   }
-// };
+export const loadListingData = listingData => ({
+  type: types.LOAD_LISTING_DATA,
+  payload: listingData
+});
 
-export const setDiffedCampaignListings = listings => {
-  // const state = store.getState();
-  // const contactGroups = state.contactReducer.contactGroups;
-  // groups = groups.slice();
-  // console.log("GROUPS", groups);
-  // console.log("CONTACT GROUPS", contactGroups);
-  // contactGroups.forEach(contactGroup => {
-  //   groups.forEach(group => {
-  //     if (contactGroup.id == group.id) {
-  //       group.disabled = true;
-  //     }
-  //   });
-  // });
-  // store.dispatch(setGroups(groups));
+export const setDiffedCampaignListings = listings => dispatch => {
+  const state = store.getState();
+  const campaignListings = state.campaignReducer.campaignListings;
+  listings = listings.slice();
+  campaignListings.forEach(campaignListing => {
+    listings.forEach(listing => {
+      if (campaignListing.id == listing.id) {
+        listing.disabled = true;
+      }
+    });
+  });
+  dispatch(setListings(listings));
 };
 
 export const searchDiffedCampaignListings = values => {
   const query = values.nativeEvent.target.defaultValue;
   store.dispatch(setQuery(query));
   store.dispatch(setOffset(0));
-  store.dispatch(fetchComponent("groups", [], setDiffedCampaignListings));
+  store.dispatch(fetchComponent("listings", [], setDiffedCampaignListings));
 };
 
-export const submitCampaignListings = listings => {
-  console.log("LISTINGS", listings);
+export const submitCampaignListings = listings => dispatch => {
   const state = store.getState();
   const campaignListings = state.campaignReducer.campaignListings;
-  store.dispatch(setCampaignListings(campaignListings.concat(listings)));
+  const newListings = [];
+
+  listings.forEach(listing => {
+    if (!campaignListings.includes(listing)) {
+      newListings.push(listing);
+    }
+  });
+  store.dispatch(setCampaignListings(campaignListings.concat(newListings)));
+  store.dispatch(setSelected([]));
 };
 
 export const deleteCampaignListing = listing => {
   const state = store.getState();
   const campaignListings = state.campaignReducer.campaignListings.slice();
-
-  try {
-    campaignListings.splice(campaignListings.indexOf(listing), 1);
-    store.dispatch(setCampaignListings(campaignListings));
-    store.dispatch(isFetching(false));
-  } catch (err) {
-    console.error("Deleting listing contacts unsuccessful", err);
-    store.dispatch(isFetching(false));
-  }
+  const campaignListingIds = campaignListings.map(listing => listing.id);
+  campaignListings.splice(campaignListingIds.indexOf(listing.id), 1);
+  store.dispatch(setCampaignListings(campaignListings));
 };

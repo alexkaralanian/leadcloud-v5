@@ -5,13 +5,11 @@ import * as types from "../types";
 
 const initialState = {
   contacts: [],
-  contactsSearchResults: [],
-
   contact: {},
   contactListings: [],
   contactGroups: [],
-
   emailsByContact: [],
+
   pageToken: "",
   maxResults: 15
 };
@@ -36,33 +34,17 @@ const contactReducer = (state = initialState, action) => {
         contactListings: action.payload
       };
 
-    case types.SET_EMAILS_BY_CONTACT:
-      return {
-        ...state,
-        emailsByContact: action.emailsByContact,
-        pageToken: action.pageToken
-      };
-
     case types.SET_CONTACT_GROUPS:
       return {
         ...state,
         contactGroups: action.payload
       };
 
-    case types.CLEAR_CONTACT:
+    case types.SET_EMAILS_BY_CONTACT:
       return {
         ...state,
-        contact: {},
-        emailsByContact: [],
-        photo: "",
-        contactGroups: [],
-        googleImages: null
-      };
-
-    case types.CLEAR_CONTACTS:
-      return {
-        ...state,
-        contacts: []
+        emailsByContact: action.emailsByContact,
+        pageToken: action.pageToken
       };
 
     default:

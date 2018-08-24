@@ -59,13 +59,9 @@ class ContactsContainer extends React.Component {
     }
   };
 
-  createNewContact = () => {
-    this.props.push("/contact/new");
-    this.props.clearFormData();
-  };
-
   render() {
     const {
+      push,
       history,
       isAuthed,
       isFetching,
@@ -86,7 +82,7 @@ class ContactsContainer extends React.Component {
             headerTitle="Contacts"
             isNew={null}
             primaryText="Create Contact"
-            primaryFunc={() => history.push("/contacts/new")}
+            primaryFunc={() => push("/contacts/new")}
             primaryGlyph="plus"
             secondaryText="Sync Contacts"
             secondaryFunc={() => syncContacts()}

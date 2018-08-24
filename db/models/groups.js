@@ -2,9 +2,7 @@ module.exports = (sequelize, DataTypes) => {
   const groups = sequelize.define(
     "groups",
     {
-      googleId: {
-        type: DataTypes.STRING
-      },
+      googleId: DataTypes.STRING,
       title: DataTypes.STRING,
       description: DataTypes.TEXT
     },

@@ -37,7 +37,7 @@ export const setDiffedContactGroups = groups => dispatch => {
       }
     });
   });
-  store.dispatch(setGroups(groups));
+  dispatch(setGroups(groups));
 };
 
 export const searchDiffedContactGroups = values => {

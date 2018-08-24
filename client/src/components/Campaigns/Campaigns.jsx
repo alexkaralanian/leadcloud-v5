@@ -22,7 +22,7 @@ const Campaigns = ({ campaigns }) => {
                 campaigns.map(campaign => (
                   <tr key={campaign.id}>
                     <td>
-                      <Link to={`/campaign/${campaign.id}`}>
+                      <Link to={`/campaigns/${campaign.id}`}>
                         <span>{campaign.title}</span>
                       </Link>
                     </td>

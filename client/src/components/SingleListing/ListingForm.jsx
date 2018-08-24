@@ -8,6 +8,7 @@ import { contactValidate } from "../../helpers/redux-form/validate";
 import { fetchListing } from "../../actions/listing-actions";
 
 import InputField from "../InputField/InputField";
+import TextAreaField from "../InputField/TextAreaField";
 import ButtonFooter from "../ButtonFooter/ButtonFooter";
 
 import "./SingleListing.css";
@@ -35,6 +36,12 @@ let ListingForm = ({
         <Field type="text" name="city" component={InputField} label="City" />
         <Field type="text" name="state" component={InputField} label="State" />
         <Field type="text" name="zip" component={InputField} label="Zip" />
+        <Field
+          type="text"
+          name="description"
+          component={TextAreaField}
+          label="Description"
+        />
       </FormGroup>
 
       <Row>

@@ -271,7 +271,7 @@ class SingleListingContainer extends React.Component {
 const mapStateToProps = state => ({
   isAuthed: state.authReducer.isAuthed,
   listing: state.listingReducer.listing,
-  listingContacts: state.listingContactsReducer.listingContacts,
+  listingContacts: state.listingReducer.listingContacts,
   images: state.listingReducer.images,
   isFetching: state.commonReducer.isFetching
 });

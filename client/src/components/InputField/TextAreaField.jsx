@@ -1,5 +1,6 @@
 import React from "react";
 import { FormControl, ControlLabel } from "react-bootstrap";
+import Textarea from "react-autosize-textarea";
 
 const textAreaField = ({
   input,
@@ -7,18 +8,21 @@ const textAreaField = ({
   placeholder,
   type,
   meta: { touched, active, error }
-}) => (
-  <div>
-    <ControlLabel>{label}</ControlLabel>
-    <FormControl
-      componentClass="textarea"
-      {...input}
-      label={label}
-      placeholder={placeholder}
-      type={type}
-    />
-    {touched && !active && error && <div>{error}</div>}
-  </div>
-);
+}) => {
+  console.log("INPUT", input);
+  return (
+    <React.Fragment>
+      <ControlLabel>{label}</ControlLabel>
+      <FormControl
+        componentClass={Textarea}
+        {...input}
+        label={label}
+        placeholder={placeholder}
+        type={type}
+      />
+      {touched && !active && error && <div>{error}</div>}
+    </React.Fragment>
+  );
+};
 
 export default textAreaField;

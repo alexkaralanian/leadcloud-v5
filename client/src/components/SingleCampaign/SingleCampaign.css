@@ -1,4 +1,25 @@
-.CampaignListingImage {
-  height: 35rem;
+.campaign_listing_card {
+  margin: 2rem 0;
+}
+
+.campaign_listing_card-inner {
+  max-width: 100%;
+  margin: 0 auto;
+  justify-content: center;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 2px;
+}
+
+.campaign_listing-img {
+  max-height: 40rem;
+  max-width: 100%;
   margin-bottom: 1rem;
+  border-radius: 3px;
+}
+
+.campaign_listing_card-inner textarea {
+  width: 100%;
+  margin-bottom: 1rem;
+  /*  padding: 1rem 0;*/
 }

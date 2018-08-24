@@ -13,11 +13,14 @@ import { fetchCampaigns } from "../../actions/campaign-actions";
 
 class CampaignsContainer extends React.Component {
   componentDidMount() {
-    this.props.fetchCampaigns();
+    const { fetchCampaigns, match } = this.props;
+    fetchCampaigns();
+    console.log("CAMPAIGNS MATCH", match);
   }
 
   render() {
-    return !this.props.isAuthed ? (
+    const { isAuthed, push, campaigns, createNewCampaign } = this.props;
+    return !isAuthed ? (
       <Redirect path="/" />
     ) : (
       <React.Fragment>
@@ -30,14 +33,11 @@ class CampaignsContainer extends React.Component {
             headerTitle="Campaigns"
             isNew={null}
             primaryText="Create Campaign"
-            primaryFunc={() => this.props.push("/campaign/new")}
+            primaryFunc={() => push("/campaigns/new")}
             primaryGlyph="plus"
           />
         </Grid>
-        <Campaigns
-          campaigns={this.props.campaigns}
-          createNewCampaign={this.createNewCampaign}
-        />
+        <Campaigns campaigns={campaigns} />
       </React.Fragment>
     );
   }

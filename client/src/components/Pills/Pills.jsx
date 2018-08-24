@@ -25,7 +25,7 @@ const Pills = ({
                   className="pills_button"
                   onClick={event => {
                     event.stopPropagation();
-                    submitFunction(item.id, hostComponent.id);
+                    submitFunction(item, hostComponent);
                   }}
                 >
                   <span className="pills_link">x</span>

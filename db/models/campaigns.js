@@ -4,9 +4,11 @@ module.exports = (sequelize, DataTypes) => {
     {
       title: DataTypes.STRING,
       subject: DataTypes.STRING,
+      body: DataTypes.TEXT,
       listings: DataTypes.JSONB,
       recipients: DataTypes.JSONB,
-      groups: DataTypes.JSONB
+      groups: DataTypes.JSONB,
+      isDraft: DataTypes.BOOLEAN
     },
     {}
   );

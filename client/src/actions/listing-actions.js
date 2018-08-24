@@ -1,8 +1,9 @@
 import axios from "axios";
 import { push } from "react-router-redux";
 import store from "../store";
-
 import * as types from "../types";
+
+import { isFetching, setError, clearError } from "./common-actions";
 import { setContactListingsSearchResults } from "./contact-listings-actions";
 import { setCampaignListingsSearchResults } from "./campaign-listings-actions";
 import { fetchComponent, setQuery, setOffset } from "./query-actions";
@@ -15,42 +16,6 @@ export const setListings = listings => ({
 export const setListing = listing => ({
   type: types.SET_LISTING,
   payload: listing
-});
-
-export const setListingsQuery = query => ({
-  type: types.SET_LISTING_QUERY,
-  payload: query
-});
-
-// ADMINISTRATIVE
-
-export function setIsListingNew(bool) {
-  return {
-    type: types.IS_LISTING_NEW,
-    payload: bool
-  };
-}
-
-export const isFetching = bool => ({
-  type: types.IS_FETCHING,
-  isFetching: bool
-});
-
-export const clearListing = () => ({
-  type: types.CLEAR_LISTING
-});
-
-export const clearListings = () => ({
-  type: types.CLEAR_LISTINGS
-});
-
-export const setError = error => ({
-  type: types.SET_ERROR,
-  error
-});
-
-export const clearError = () => ({
-  type: types.CLEAR_ERROR
 });
 
 export const searchListings = values => {
@@ -76,12 +41,10 @@ export const fetchListing = id => async dispatch => {
 
 export const submitNewListing = data => async dispatch => {
   dispatch(isFetching(true));
-
   try {
     const res = await axios.post("/api/listings/new", data);
 
     dispatch(setListing(res.data));
-    dispatch(setIsListingNew(false));
     dispatch(push(`/listings/${res.data.id}`));
 
     dispatch(isFetching(false));

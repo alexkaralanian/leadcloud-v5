@@ -10,38 +10,24 @@ import { isFetching, clearFormData } from "./common-actions";
 /* ------------   ACTION CREATORS     ------------------ */
 
 export const setCampaignGroups = campaignGroups => {
-  console.log("CAMPAIGN GROUPS ACTION", campaignGroups);
   return {
     type: types.SET_CAMPAIGN_GROUPS,
     payload: campaignGroups
   };
 };
 
-// export const searchCampaignGroups = values => {
-//   const state = store.getState();
-//   const contactId = state.contactReducer.contact.id;
-//   const query = values.nativeEvent.target.defaultValue;
-//   store.dispatch(setQuery(query));
-//   store.dispatch(setOffset(0));
-//   store.dispatch(
-//     fetchComponent("contacts", [], setCampaignGroups, contactId, "groups")
-//   );
-// };
-
-export const setDiffedCampaignGroups = groups => {
-  // const state = store.getState();
-  // const contactGroups = state.contactReducer.contactGroups;
-  // groups = groups.slice();
-  // console.log("GROUPS", groups);
-  // console.log("CONTACT GROUPS", contactGroups);
-  // contactGroups.forEach(contactGroup => {
-  //   groups.forEach(group => {
-  //     if (contactGroup.id == group.id) {
-  //       group.disabled = true;
-  //     }
-  //   });
-  // });
-  // store.dispatch(setGroups(groups));
+export const setDiffedCampaignGroups = groups => dispatch => {
+  const state = store.getState();
+  const campaignGroups = state.campaignReducer.campaignGroups;
+  groups = groups.slice();
+  campaignGroups.forEach(campaignGroup => {
+    groups.forEach(group => {
+      if (campaignGroup.id == group.id) {
+        group.disabled = true;
+      }
+    });
+  });
+  dispatch(setGroups(groups));
 };
 
 export const searchDiffedCampaignGroups = values => {
@@ -51,59 +37,26 @@ export const searchDiffedCampaignGroups = values => {
   store.dispatch(fetchComponent("groups", [], setDiffedCampaignGroups));
 };
 
-export const submitCampaignGroups = (
-  campaignGroupsArray,
-  contactId
-) => async dispatch => {
-  const campaignGroups = campaignGroupsArray.map(group => ({
-    contactId,
-    groupId: group.id
-  }));
-  dispatch(setSelected([]));
-  dispatch(setQuery(""));
-  try {
-    const res = await axios.post(`/api/contacts/${contactId}/groups/add`, {
-      campaignGroups
-    });
-    dispatch(setCampaignGroups(res.data.rows));
-    dispatch(setCount(res.data.count));
-  } catch (err) {
-    console.error("Submitting Contact Groups Unsuccessful", err);
-  }
-};
-
-export const deleteCampaignGroup = (groupId, contactId) => async dispatch => {
-  try {
-    const res = await axios.post(`/api/contacts/${contactId}/group/delete`, {
-      groupId
-    });
-
-    dispatch(setCampaignGroups(res.data.rows));
-    dispatch(setCount(res.data.count));
-  } catch (err) {
-    console.error("Submitting Contact Group Unsuccessful", err);
-  }
-};
-
-///////
-
-export const submitCampaignGroup = group => {
+export const submitCampaignGroups = groups => dispatch => {
   const state = store.getState();
   const campaignGroups = state.campaignReducer.campaignGroups.slice();
+  const newGroups = [];
 
-  if (!campaignGroups.includes(group)) {
-    campaignGroups.push(group);
-  }
+  groups.forEach(group => {
+    if (!campaignGroups.includes(group)) {
+      newGroups.push(group);
+    }
+  });
 
-  store.dispatch(setCampaignGroups(campaignGroups));
+  dispatch(setCampaignGroups(campaignGroups.concat(newGroups)));
+  store.dispatch(setSelected([]));
 };
 
-// export const deleteCampaignGroup = groupId => {
-//   const state = store.getState();
+export const deleteCampaignGroup = group => {
+  const state = store.getState();
+  const campaignGroups = state.campaignReducer.campaignGroups.slice();
+  const campaignGroupIds = campaignGroups.map(group => group.id);
 
-//   const campaignGroups = state.campaignReducer.campaignGroups.slice();
-//   const campaignGroupsIdMap = campaignGroups.map(group => group.id);
-
-//   campaignGroups.splice(campaignGroupsIdMap.indexOf(groupId), 1);
-//   store.dispatch(setCampaignGroups(campaignGroups));
-// };
+  campaignGroups.splice(campaignGroupIds.indexOf(group.id), 1);
+  store.dispatch(setCampaignGroups(campaignGroups));
+};

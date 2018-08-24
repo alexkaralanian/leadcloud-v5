@@ -1,41 +1,31 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Grid } from "react-bootstrap";
+import { Route, Redirect } from "react-router-dom";
 
 import Navigation from "../NavContainer/NavContainer";
 import BreadCrumbs from "../../components/BreadCrumbs/BreadCrumbs";
 import Header from "../../components/Header/Header";
-
-import CampaignFormA_Container from "../../components/SingleCampaign/CampaignFormA_Container";
-import CampaignFormB from "../../components/SingleCampaign/CampaignFormB";
-import CampaignFormC from "../../components/SingleCampaign/CampaignFormC";
-import SingleCampaign from "../../components/SingleCampaign/SingleCampaign";
+import CampaignFormA from "../../components/SingleCampaign/CampaignFormA";
 
 import {
   fetchComponent,
-  setCount,
-  setOffset
+  setQuery,
+  setOffset,
+  setCount
 } from "../../actions/query-actions";
 
-import { setGroups, clearGroups } from "../../actions/group-actions";
-
 import {
-  submitCampaignListings,
-  deleteCampaignListing
-} from "../../actions/campaign-listings-actions";
-
-import { submitCampaign } from "../../actions/campaign-actions";
-import {
-  // searchCampaignGroups,
-  submitCampaignGroup,
-  deleteCampaignGroup
-} from "../../actions/campaign-groups-actions";
-
-import { setModalVisibility } from "../../actions/modal-actions";
+  fetchCampaign,
+  setCampaign,
+  createCampaign,
+  submitCampaign
+} from "../../actions/campaign-actions";
 
 class CreateCampaignContainer extends React.Component {
   state = {
     page: 1,
+    activeKey: 1,
     isRecipientsPanelOpen: true,
     isListingPanelOpen: true,
     isListingsModalVisible: false,
@@ -43,8 +33,21 @@ class CreateCampaignContainer extends React.Component {
   };
 
   componentDidMount() {
-    const { fetchComponent, groups } = this.props;
-    fetchComponent("groups", [], setGroups, null, null);
+    const {
+      match,
+      location,
+      fetchComponent,
+      fetchCampaign,
+      setContact,
+      setOffset
+    } = this.props;
+
+    setCampaign({});
+    setOffset(0);
+
+    if (match.path !== "/campaigns/new") {
+      fetchCampaign(match.params.id);
+    }
   }
 
   nextPage = () => {
@@ -55,142 +58,61 @@ class CreateCampaignContainer extends React.Component {
     this.setState({ page: this.state.page - 1 });
   };
 
-  // displayListingPanel = () => {
-  //   this.setState({ isListingPanelOpen: !this.state.isListingPanelOpen });
-  // };
-
-  // displayRecipientsPanel = () => {
-  //   this.setState({ isRecipientsPanelOpen: !this.state.isRecipientsPanelOpen });
-  // };
-
-  // displayModalFuncA = bool => {
-  //   const {
-  //     setModalVisibility,
-  //     isModalVisible,
-  //     setCampaignListings
-  //   } = this.props;
-
-  //   setModalVisibility(bool);
-  // };
-
-  // displayListingsModal = () => {
-  //   this.setState({
-  //     isListingsModalVisible: true
-  //   });
-  // };
-
-  // submitListings = (selected, hostId) => {
-  //   this.props.submitCampaignListings(selected, hostId);
-  //   this.setState({
-  //     isListingsModalVisible: false
-  //   });
-  // };
-
-  // onListingsModalExit = () => {
-  //   this.setState({
-  //     isListingsModalVisible: false
-  //   });
-  // };
-
-  // displayGroupsModal = () => {
-  //   this.setState({
-  //     isGroupsModalVisible: true
-  //   });
-  // };
-
-  // onGroupsModalExit = () => {
-  //   this.setState({
-  //     isGroupsModalVisible: false
-  //   });
-  // };
-
-  // submitGroups = (selected, hostId) => {
-  //   this.props.submitCampaignGroups(selected, hostId);
-  //   this.setState({
-  //     isGroupsModalVisible: false
-  //   });
-  // };
-
   render() {
     const {
+      match,
       campaign,
       campaignListings,
-      campaignListingsSearchResults,
-
-      groups,
       campaignGroups,
-      // searchCampaignGroups,
-      campaignGroupsSearchResults,
-      submitCampaign,
-
-      setModalVisibility,
-      isModalVisible
+      createCampaign
     } = this.props;
 
     const { page } = this.state;
 
     return (
-      <React.Fragment>
+      <div>
         <Navigation />
         <BreadCrumbs />
         <Grid>
           <Header
             isVisible={true}
-            componentName="campaigns"
-            headerTitle="New Campaign"
-            isNew={null}
+            componentName="Campaigns"
+            headerTitle={campaign.title}
+            isNew={match.path === "/contacts/new"}
           />
 
-          {page === 1 && <CampaignFormA_Container nextPage={this.nextPage} />}
+          <Route
+            exact
+            path={
+              match.path === "/campaigns/new"
+                ? `/campaigns/new`
+                : `/campaigns/${campaign && campaign.id}`
+            }
+            render={routeProps => (
+              <CampaignFormA
+                onSubmit={values => {
+                  createCampaign(values, campaignListings, campaignGroups);
+                }}
+              />
+            )}
+          />
         </Grid>
-        <div>
-          {page === 2 && (
-            <CampaignFormB
-              campaign={campaign}
-              campaignListings={campaignListings}
-              nextPage={this.nextPage}
-              prevPage={this.previousPage}
-            />
-          )}
-          {page === 3 && (
-            <CampaignFormC
-              campaign={campaign}
-              groups={groups}
-              campaignGroups={campaignGroups}
-              // searchCampaignGroups={searchCampaignGroups}
-              // campaignGroupsSearchResults={campaignGroupsSearchResults}
-              submitCampaignGroup={submitCampaignGroup}
-              deleteCampaignGroup={deleteCampaignGroup}
-              nextPage={this.nextPage}
-              prevPage={this.previousPage}
-              // onSubmit={values => {
-              //   this.submitCampaignForm(values);
-              // }}
-              onSubmit={values => {
-                submitCampaign(values, campaignListings, campaignGroups);
-              }}
-            />
-          )}
-        </div>
-      </React.Fragment>
+      </div>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  groups: state.groupReducer.groups,
+  campaign: state.campaignReducer.campaign,
   campaignListings: state.campaignReducer.campaignListings,
-  campaignGroups: state.campaignReducer.campaignGroups,
-  campaignListingsSearchResults:
-    state.campaignReducer.campaignListingsSearchResults,
-  isModalVisible: state.modalReducer.isModalVisible
-  // campaignGroupsSearchResults: state.campaignReducer.campaignGroupsSearchResults
+  campaignGroups: state.campaignReducer.campaignGroups
 });
 
 const mapDispatchToProps = {
+  createCampaign,
   submitCampaign,
   fetchComponent,
-  setModalVisibility,
+  fetchCampaign,
   setOffset,
   setCount
 };

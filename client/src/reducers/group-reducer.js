@@ -14,22 +14,16 @@ const groupReducer = (state = initialState, action) => {
         groups: action.payload
       };
 
-    case types.SET_GROUP_CONTACTS:
-      return {
-        ...state,
-        groupContacts: action.payload
-      };
-
-    case types.CLEAR_GROUPS:
-      return {
-        ...state,
-        groups: []
-      };
-
     case types.SET_GROUP:
       return {
         ...state,
         group: action.payload
+      };
+
+    case types.SET_GROUP_CONTACTS:
+      return {
+        ...state,
+        groupContacts: action.payload
       };
 
     default:

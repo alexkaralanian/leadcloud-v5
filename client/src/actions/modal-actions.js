@@ -2,17 +2,12 @@ import axios from "axios";
 import store from "../store";
 import * as types from "../types";
 
-export const setModalVisibility = bool => ({
-  type: types.SET_MODAL_VISIBILITY,
-  payload: bool
-});
-
 export const setSelected = items => ({
   type: types.SET_SELECTED,
   payload: items
 });
 
-// DO NOT MAP DISPATCH TO THESE FUNCTIONS AT CALL SIT.E
+// DO NOT MAP DISPATCH TO THESE FUNCTIONS AT CALL SITE
 export const addSelected = item => {
   const state = store.getState();
   const selected = state.modalReducer.selected.slice();

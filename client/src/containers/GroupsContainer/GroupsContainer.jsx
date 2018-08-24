@@ -5,11 +5,7 @@ import { Grid, Row, Col, Button } from "react-bootstrap";
 // import SearchForm from "../../components/SearchForm/SearchForm";
 // import Counter from "../../components/Counter/Counter";
 import Groups from "../../components/Groups/Groups";
-import {
-  setGroups,
-  clearGroups,
-  searchGroups
-} from "../../actions/group-actions";
+import { setGroups, searchGroups } from "../../actions/group-actions";
 
 import {
   fetchComponent,
@@ -27,7 +23,7 @@ class GroupsContainer extends React.Component {
   componentWillUnmount() {
     window.removeEventListener("scroll", this.onScroll, false);
     const { clearGroups, setQuery, setOffset } = this.props;
-    clearGroups();
+    setGroups([]);
     setQuery("");
     setOffset(0);
   }
@@ -72,7 +68,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   fetchComponent,
   setGroups,
-  clearGroups,
   setQuery,
   setOffset
 };

@@ -142,20 +142,35 @@ router.get("/loadcontacts", authCheck, findUserById, async (req, res) => {
 // GET ALL CONTACTS FROM DB
 router.get("/", async (req, res) => {
   const userId = req.session.user.toString();
+
   try {
-    const contacts = await Contacts.findAndCountAll({
-      limit: req.query.limit,
-      offset: req.query.offset,
-      where: {
-        UserUuid: userId,
-        [Op.and]: {
-          fullName: {
-            [Op.iLike]: `%${req.query.query}%`
+    let contacts;
+
+    if (req.query.query) {
+      contacts = await Contacts.findAndCountAll({
+        limit: req.query.limit,
+        offset: req.query.offset,
+        where: {
+          UserUuid: userId,
+          [Op.and]: {
+            fullName: {
+              [Op.iLike]: `%${req.query.query}%`
+            }
           }
-        }
-      },
-      order: [["updatedAt", "DESC"]]
-    });
+        },
+        order: [["updatedAt", "DESC"]]
+      });
+    } else {
+      contacts = await Contacts.findAndCountAll({
+        limit: req.query.limit,
+        offset: req.query.offset,
+        where: {
+          UserUuid: userId
+        },
+        order: [["updatedAt", "DESC"]]
+      });
+    }
+
     res.json(contacts);
   } catch (err) {
     console.error("FETCHING CONTACTS ERROR", err);

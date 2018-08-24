@@ -111,7 +111,7 @@ const mapStateToProps = state => ({
   count: state.queryReducer.count,
   offset: state.queryReducer.offset,
   group: state.groupReducer.group,
-  groupContacts: state.groupContactsReducer.groupContacts
+  groupContacts: state.groupReducer.groupContacts
 });
 
 const mapDispatchToProps = {

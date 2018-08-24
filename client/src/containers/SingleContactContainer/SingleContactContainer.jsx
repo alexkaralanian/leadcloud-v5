@@ -12,12 +12,9 @@ import ContactNav from "../../components/SingleContact/ContactNav";
 import ContactListings from "../../components/ContactListings/ContactListings";
 import ContactForm from "../../components/SingleContact/ContactForm";
 import ImageCarousel from "../../components/ImageCarousel/ImageCarousel";
-import Pills from "../../components/Pills/Pills";
-
 import SingleContactEmailsContainer from "./SingleContactEmailsContainer";
 import ContactGroups from "../../components/ContactGroups/ContactGroups";
 import GroupsContainer from "../GroupsContainer/GroupsContainer";
-
 import SearchForm from "../../components/SearchForm/SearchForm";
 import Counter from "../../components/Counter/Counter";
 import Modal from "../../components/Modal/Modal";
@@ -88,7 +85,7 @@ class SingleContactContainer extends React.Component {
     setContact({});
     setOffset(0);
 
-    if (match.params.id !== "new") {
+    if (match.path !== "/contacts/new") {
       fetchContact(match.params.id);
       fetchComponent(
         "contacts",
@@ -266,7 +263,6 @@ class SingleContactContainer extends React.Component {
       deleteContactGroup,
 
       emailsByContact,
-
       onDrop,
       deleteContactImage
     } = this.props;
@@ -282,7 +278,7 @@ class SingleContactContainer extends React.Component {
             isVisible={this.headerFunc().isVisible}
             componentName="Contact"
             headerTitle={contact.fullName}
-            isNew={match.params.id === "new"}
+            isNew={match.path === "/contacts/new"}
             images={contact.images}
             primaryFunc={() => this.headerFunc().modalFunc(true)}
             primaryGlyph="plus"
@@ -291,7 +287,7 @@ class SingleContactContainer extends React.Component {
         </Grid>
 
         {/* CONTACT NESTED NAV */}
-        {match.params.id !== "new" && (
+        {match.path !== "/contacts/new" && (
           <Grid>
             <ContactNav
               activeKey={this.state.activeKey}
@@ -304,7 +300,7 @@ class SingleContactContainer extends React.Component {
         <Route
           exact
           path={
-            match.params.id === "new"
+            match.path === "/contacts/new"
               ? `/contacts/new`
               : `/contacts/${contact.id}`
           }
@@ -312,12 +308,12 @@ class SingleContactContainer extends React.Component {
             <ContactForm
               {...routeProps}
               onSubmit={values => {
-                match.params.id === "new"
+                match.path === "/contacts/new"
                   ? submitNewContact(values)
                   : updateContact(values, contact.id);
               }}
               deleteContact={deleteContact}
-              isContactNew={match.params.id === "new"}
+              isContactNew={match.path === "/contacts/new"}
               contact={contact}
               fetchContact={fetchContact}
             />
@@ -354,7 +350,6 @@ class SingleContactContainer extends React.Component {
         />
 
         {/* CONTACT GROUPS */}
-
         <Modal
           displayModal={this.displayGroupsModal}
           onExit={this.onGroupsModalExit}
@@ -413,20 +408,17 @@ class SingleContactContainer extends React.Component {
 
 const mapStateToProps = state => ({
   isAuthed: state.authReducer.isAuthed,
-  isFetching: state.contactReducer.isFetching,
-  isLoading: state.contactReducer.isLoading,
+  isFetching: state.commonReducer.isFetching,
+  isLoading: state.commonReducer.isLoading,
   error: state.contactReducer.error,
   contact: state.contactReducer.contact,
-  contactListingsSearchResults:
-    state.contactReducer.contactListingsSearchResults,
   contactGroups: state.contactReducer.contactGroups,
   contactListings: state.contactReducer.contactListings,
   emailsByContact: state.contactReducer.emailsByContact,
   emailQuery: state.emailReducer.emailQuery,
   maxResults: state.contactReducer.maxResults,
   pageToken: state.contactReducer.pageToken,
-  path: state.router.location.pathname,
-  isModalVisible: state.modalReducer.isModalVisible
+  path: state.router.location.pathname
 });
 
 const mapDispatchToProps = {

@@ -9,15 +9,12 @@ import {
   clearError,
   clearFormData
 } from "./common-actions";
+
 import { fetchComponent, setQuery, setOffset } from "./query-actions";
 
 export const setGroups = groups => ({
   type: types.SET_GROUPS,
   payload: groups
-});
-
-export const clearGroups = () => ({
-  type: types.CLEAR_GROUPS
 });
 
 export const setGroup = group => ({

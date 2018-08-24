@@ -55,7 +55,6 @@ export const fetchComponent = (
           `/api/${componentName}/?limit=${limit}&offset=${offset}&query=${query}`
         );
 
-    console.log("FETCH COMPONENT RES", res.data);
     dispatch(setFunction(componentArray.concat(res.data.rows)));
     dispatch(setCount(res.data.count));
     dispatch(setOffset(newOffset));

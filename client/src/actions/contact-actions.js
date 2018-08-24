@@ -25,11 +25,6 @@ export const setContact = contact => ({
   contact
 });
 
-export const setContactImages = images => ({
-  type: types.SET_CONTACT_IMAGES,
-  payload: images
-});
-
 /* ------------       DISPATCHERS     ------------------ */
 
 export const searchContacts = values => {

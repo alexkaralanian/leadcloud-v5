@@ -1,6 +1,7 @@
 const express = require("express");
 const sendgrid = require("sendgrid");
 const helper = sendgrid.mail;
+const { cleanString, cleanContacts } = require("../helpers/helpers");
 
 const Campaigns = require("../db/models").campaigns;
 const Contacts = require("../db/models").contacts;
@@ -12,37 +13,33 @@ const campaignTemplate = require("../services/emailTemplates/campaignTemplate");
 
 const router = express.Router();
 
-const cleanString = str =>
-  str
-    .toLowerCase()
-    .replace(/\s+/g, " ")
-    .trim();
-
-const cleanContacts = contactsArray => {
-  const emails = [];
-  const names = [];
-
-  contactsArray.forEach(contact => {
-    const name = contact.dataValues.firstName || null;
-    if (contact.dataValues.email) {
-      contact.dataValues.email.forEach(email => {
-        if (!emails.includes(email.value)) {
-          emails.push(email.value);
-          names.push(name);
-        }
-      });
-    }
-  });
-
-  // we map over the final namee and emails arrays and into one signle array cleanedContacts array ready for SendGrid.
-  const cleanedContacts = [];
-  for (let i = 0; i < emails.length; i++) {
-    cleanedContacts.push(new helper.Email(emails[i], names[i]));
-  }
-  return cleanedContacts;
-};
-
+// CREATE CAMPAIGN
 router.post("/create", authCheck, async (req, res) => {
+  console.log("REQ.BODY", req.body);
+  const userId = req.session.user.toString();
+  try {
+    const campaign = await Campaigns.findOrCreate({
+      where: {
+        UserUuid: userId,
+        title: cleanString(req.body.values.title)
+      },
+      defaults: {
+        subject: req.body.values.subject,
+        body: req.body.values.body,
+        groups: req.body.campaignGroups,
+        listings: req.body.campaignListings,
+        isDraft: true
+      }
+    });
+
+    res.json(campaign[0]);
+  } catch (err) {
+    console.error("CREATING CAMPAIGNS ERROR", err);
+  }
+});
+
+// SUBMIT CAMPAIGN
+router.post("/submit", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
 
   try {
@@ -71,16 +68,17 @@ router.post("/create", authCheck, async (req, res) => {
       contacts.reduce((sum, contactArray) => sum.concat(contactArray[0]))
     );
 
-    const campaign = await Campaigns.findOrCreate({
+    const campaign = await Campaigns.update({
       where: {
         UserUuid: userId,
-        title: cleanString(req.body.values.title)
+        id: req.body.campaignId
       },
       defaults: {
         subject: req.body.values.subject,
         groups: req.body.campaignGroups,
         listings: req.body.campaignListings,
-        recipients: cleanedContacts
+        recipients: cleanedContacts,
+        isDraft: false
       }
     });
 
@@ -96,7 +94,7 @@ router.post("/create", authCheck, async (req, res) => {
 
     res.json(campaign);
   } catch (err) {
-    console.error("CREATING CAMPAIGNS ERROR", err);
+    console.error("SUBMITTING CAMPAIGNS ERROR", err);
   }
 });
 

@@ -121,21 +121,24 @@ class App extends React.Component {
             <Route path="/emails" component={Emails} />
             <Route path="/email/:id" component={SingleEmail} />
             <Route path="/iframecontainer" component={iFrameContainer} />
+
             <Route exact path="/contacts" component={Contacts} />
+            <Route path="/contacts/new" component={SingleContact} />
             <Route path="/contacts/:id" component={SingleContact} />
-            <Route path="/contact/new" component={SingleContact} />
+
             <Route exact path="/listings" component={Listings} />
-            <Route path="/listings/:id" component={SingleListing} />
             <Route path="/listings/new" component={SingleListing} />
-            <Route path="/openhouse/:listingId" component={OpenHouse} />
+            <Route path="/listings/:id" component={SingleListing} />
+            <Route path="/listings/:id/openhouse" component={OpenHouse} />
+
             <Route exact path="/groups" component={Groups} />
-            <Route path="/groups/:id" component={SingleGroup} />
-            {/*<Route exact path="/group/:id/contacts" component={GroupContacts} />*/}
             <Route exact path="/groups/new" component={SingleGroup} />
-            <Route path="/campaigns" component={Campaigns} />
-            {/*<Route path="/campaign/:id" component={SingleCampaign} />*/}
-            <Route path="/campaign/new" component={CreateCampaign} />
-            <Route path="/campaign/:id" component={SingleCampaign} />
+            <Route path="/groups/:id" component={SingleGroup} />
+
+            <Route exact path="/campaigns" component={Campaigns} />
+            <Route path="/campaigns/new" component={CreateCampaign} />
+            <Route path="/campaigns/:id" component={CreateCampaign} />
+
             <Route
               render={() => (
                 <div>
