@@ -54,7 +54,7 @@ class SingleListingContainer extends React.Component {
   componentDidMount() {
     const { match, fetchComponent, fetchListing, setOffset } = this.props;
 
-    if (match.params.id !== "new") {
+    if (match.path !== "/listings/new") {
       fetchListing(match.params.id);
 
       fetchComponent(
@@ -165,7 +165,7 @@ class SingleListingContainer extends React.Component {
         <Grid>
           <Header
             isVisible={this.headerFunc().isVisible}
-            isNew={match.params.id === "new"}
+            isNew={match.path === "/listings/new"}
             componentName="Listing"
             headerTitle={listing.address}
             images={listing.images}
@@ -175,7 +175,7 @@ class SingleListingContainer extends React.Component {
           />
         </Grid>
 
-        {match.params.id !== "new" && (
+        {match.path !== "/listings/new" && (
           <Grid>
             <ListingNav
               activeKey={this.state.activeKey}
@@ -188,7 +188,7 @@ class SingleListingContainer extends React.Component {
         <Route
           exact
           path={
-            match.params.id === "new"
+            match.path === "/listings/new"
               ? `/listings/new`
               : `/listings/${listing.id}`
           }
@@ -196,13 +196,13 @@ class SingleListingContainer extends React.Component {
             <ListingForm
               {...routeProps}
               onSubmit={values => {
-                match.params.id === "new"
+                match.path === "/listings/new"
                   ? submitNewListing(values)
                   : updateListing(values, listing.id);
               }}
               listing={listing}
               deleteListing={deleteListing}
-              isListingNew={match.params.id === "new"}
+              isListingNew={match.path === "/listings/new"}
             />
           )}
         />

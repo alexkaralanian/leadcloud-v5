@@ -68,7 +68,8 @@ class CampaignFormA_Container extends React.Component {
   submitListings = selected => {
     this.props.submitCampaignListings(selected);
     this.setState({
-      isListingsModalVisible: false
+      isListingsModalVisible: false,
+      isListingsPanelOpen: true
     });
   };
 
@@ -92,7 +93,8 @@ class CampaignFormA_Container extends React.Component {
   submitGroups = selected => {
     this.props.submitCampaignGroups(selected);
     this.setState({
-      isGroupsModalVisible: false
+      isGroupsModalVisible: false,
+      isRecipientsPanelOpen: true
     });
   };
 

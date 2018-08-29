@@ -95,19 +95,6 @@ class SingleContactContainer extends React.Component {
         "listings"
       );
     }
-
-    switch (location.pathname) {
-      case `/contacts/${match.params.id}`:
-        return this.setState({ activeKey: 1 });
-      case `/contacts/${match.params.id}/listings`:
-        return this.setState({ activeKey: 2 });
-      case `/contacts/${match.params.id}/groups`:
-        return this.setState({ activeKey: 3 });
-      case `/contacts/${match.params.id}/emails`:
-        return this.setState({ activeKey: 4 });
-      case `/contacts/${match.params.id}/media`:
-        return this.setState({ activeKey: 5 });
-    }
   }
 
   componentWillReceiveProps(nextProps) {

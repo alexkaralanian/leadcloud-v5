@@ -1,27 +1,25 @@
 import React from "react";
-import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { push } from "react-router-redux";
 import Textarea from "react-autosize-textarea";
-// import { Email, Item, Span, A, renderEmail } from "react-html-email";
 import { Field, reduxForm } from "redux-form";
 import {
   Button,
   Form,
-  FormGroup,
-  FormControl,
-  ControlLabel,
   Grid,
   Col,
   Row,
-  Image
+  Image,
+  handleSubmit,
+  FormGroup
 } from "react-bootstrap";
-import { contactValidate } from "../../helpers/redux-form/validate";
 
-import TableRowCheckbox from "../../components/TableRow/TableRow_Checkbox";
-// import EmailHTML from "../../components/EmailTemplate/EmailTemplate";
 import SearchForm from "../../components/SearchForm/SearchForm";
 import TextAreaField from "../InputField/TextAreaField";
+import InputField from "../InputField/InputField";
 
+import { contactValidate } from "../../helpers/redux-form/validate";
 import { fetchListing } from "../../actions/listing-actions";
 import { loadListingData } from "../../actions/campaign-listings-actions";
 
@@ -38,24 +36,29 @@ CampaignFormB = ({
   auditClick,
   campaign,
   nextPage,
-  prevPage
+  prevPage,
+  push
 }) => {
   return (
-    <Form>
-      <Grid>
-        <Row>
-          <Col xs={12}>
-            <h2>{campaign.title}</h2>
-          </Col>
-
-          <Col xs={12}>
+    <Form className="margin-top-2" onSubmit={handleSubmit}>
+      <Row>
+        <Col xs={12}>
+          <FormGroup>
+            <Field
+              type="text"
+              name="subject"
+              component={InputField}
+              label="Subject"
+            />
             <Field
               type="text"
               name="body"
               component={TextAreaField}
               label="Body"
             />
-            {campaign.listings.map(listing => (
+          </FormGroup>
+          {campaign &&
+            campaign.listings.map(listing => (
               <div className="campaign_listing_card">
                 <div className="campaign_listing_card-inner">
                   <h3>{listing.address}</h3>
@@ -66,50 +69,54 @@ CampaignFormB = ({
                       src={listing.images[0]}
                     />
                   )}
-                  <Field
-                    type="text"
-                    name={`listings[${campaign.listings.indexOf(
-                      listing
-                    )}].description`}
-                    component={TextAreaField}
-                    label="Description"
-                  />
+                  <FormGroup>
+                    <Field
+                      type="text"
+                      name={`listings[${campaign.listings.indexOf(
+                        listing
+                      )}].description`}
+                      component={TextAreaField}
+                      label="Description"
+                    />
+                  </FormGroup>
                 </div>
               </div>
             ))}
-          </Col>
-        </Row>
-        <Row>
-          <Col xs={6}>
-            <div>
-              <Button
-                onClick={prevPage}
-                className="submitButton"
-                type="button"
-                bsStyle="primary"
-                disabled={pristine || submitting}
-              >
-                <span>Previous</span>
-              </Button>
-            </div>
-          </Col>
-          <Col xs={6}>
-            <div>
-              <Button
-                onClick={nextPage}
-                className="submitButton"
-                type="button"
-                bsStyle="primary"
-                disabled={pristine || submitting}
-              >
-                <span>Next</span>
-              </Button>
-            </div>
-          </Col>
-        </Row>
-      </Grid>
+        </Col>
+      </Row>
+      <Row>
+        <Col xs={12}>
+          <div className="button_footer-container">
+            <Button
+              className="button-lg"
+              onClick={() => push(`/campaigns/${campaign.id}`)}
+              bsSize="large"
+              // disabled={pristine || submitting}
+            >
+              <span>Prev</span>
+            </Button>
+            <Button
+              className="button-lg"
+              type="submit"
+              bsStyle="primary"
+              bsSize="large"
+              disabled={pristine || submitting}
+            >
+              <span>Submit</span>
+            </Button>
+          </div>
+        </Col>
+      </Row>
     </Form>
   );
+};
+
+const mapStateToProps = state => ({
+  initialValues: state.campaignReducer.campaign // pull initial values from account reducer
+});
+
+const mapDisptachToProps = {
+  push
 };
 
 CampaignFormB = reduxForm({
@@ -121,11 +128,6 @@ CampaignFormB = reduxForm({
   validate: contactValidate
 })(CampaignFormB);
 
-CampaignFormB = connect(
-  state => ({
-    initialValues: state.campaignReducer.campaign // pull initial values from account reducer
-  })
-  // { load: loadAccount } // bind account loading action creator
-)(CampaignFormB);
+CampaignFormB = connect(mapStateToProps, mapDisptachToProps)(CampaignFormB);
 
 export default CampaignFormB;

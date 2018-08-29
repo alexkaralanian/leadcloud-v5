@@ -19,6 +19,7 @@ class GroupsDashboardContainer extends React.Component {
     setGroup({});
     push("/groups/new");
   };
+
   render() {
     const { isAuthed, match, isFetching } = this.props;
 
@@ -30,7 +31,7 @@ class GroupsDashboardContainer extends React.Component {
         <BreadCrumbs />
         <Grid>
           <Header
-            isVisible={match.params.id !== "new"}
+            isVisible={true}
             componentName="groups"
             headerTitle="Groups"
             isNew={null}

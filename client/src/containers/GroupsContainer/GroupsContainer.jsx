@@ -1,10 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
+import { push } from "react-router-redux";
 import { Grid, Row, Col, Button } from "react-bootstrap";
 
-// import SearchForm from "../../components/SearchForm/SearchForm";
-// import Counter from "../../components/Counter/Counter";
 import Groups from "../../components/Groups/Groups";
+
 import { setGroups, searchGroups } from "../../actions/group-actions";
 
 import {
@@ -40,7 +40,7 @@ class GroupsContainer extends React.Component {
   };
 
   createNewGroup = () => {
-    this.props.history.push("/groups/new");
+    this.props.push("/groups/new");
   };
 
   render = () => {
@@ -69,7 +69,8 @@ const mapDispatchToProps = {
   fetchComponent,
   setGroups,
   setQuery,
-  setOffset
+  setOffset,
+  push
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(GroupsContainer);

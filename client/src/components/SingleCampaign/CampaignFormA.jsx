@@ -16,20 +16,11 @@ CampaignFormA = ({
   pristine,
   reset,
   submitting,
-  auditClick,
-  children
-  // campaignListings,
-  // campaignGroups
+  auditClick
 }) => (
-  <Form onSubmit={handleSubmit}>
+  <Form className="margin-top-2" onSubmit={handleSubmit}>
     <FormGroup>
       <Field type="text" name="title" component={InputField} label="Title" />
-      {/*<Field
-        type="text"
-        name="subject"
-        component={InputField}
-        label="Subject"
-      />*/}
     </FormGroup>
     <CampaignFormA_Container />
     <Row>
@@ -56,10 +47,12 @@ CampaignFormA = reduxForm({
   // keepDirtyOnReinitialize: true,
 })(CampaignFormA);
 
+const mapStateToProps = state => ({
+  initialValues: state.campaignReducer.campaign
+});
+
 CampaignFormA = connect(
-  state => ({
-    initialValues: state.campaignReducer.campaign // pull initial values from account reducer
-  })
+  mapStateToProps
   // { load: loadAccount } // bind account loading action creator
 )(CampaignFormA);
 

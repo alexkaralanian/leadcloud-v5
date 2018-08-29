@@ -46,14 +46,8 @@ class SingleGroupContainer extends React.Component {
 
   componentDidMount() {
     const { match, fetchGroup, location } = this.props;
-    if (match.params.id !== "new") {
+    if (match.path !== "/groups/new") {
       fetchGroup(match.params.id);
-    }
-    switch (location.pathname) {
-      case `/groups/${match.params.id}/contacts`:
-        return this.setState({ activeKey: 1 });
-      case `/groups/${match.params.id}`:
-        return this.setState({ activeKey: 2 });
     }
   }
 
@@ -143,7 +137,7 @@ class SingleGroupContainer extends React.Component {
         <Grid>
           <Header
             isVisible={this.headerFunc().isVisible}
-            isNew={match.params.id === "new"}
+            isNew={match.path === "/groups/new"}
             componentName="Group"
             headerTitle={group.title}
             primaryFunc={() => this.headerFunc().modalFunc()}
@@ -152,7 +146,7 @@ class SingleGroupContainer extends React.Component {
           />
 
           {/* GROUP NESTED NAV */}
-          {match.params.id !== "new" && (
+          {match.path !== "/groups/new" && (
             <GroupNav
               activeKey={this.state.activeKey}
               onMenuSelect={this.onMenuSelect}
@@ -186,16 +180,16 @@ class SingleGroupContainer extends React.Component {
         <Route
           exact
           path={
-            match.params.id === "new" ? `/groups/new` : `/groups/${group.id}`
+            match.path === "/groups/new" ? `/groups/new` : `/groups/${group.id}`
           }
           render={routeProps => (
             <GroupForm
               {...routeProps}
               group={group}
-              isGroupNew={match.params.id === "new"}
+              isGroupNew={match.path === "/groups/new"}
               deleteGroup={deleteGroup}
               onSubmit={values => {
-                match.params.id === "new"
+                match.path === "/groups/new"
                   ? submitNewGroup(values)
                   : updateGroup(values, group.id);
               }}

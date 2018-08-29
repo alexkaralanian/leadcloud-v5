@@ -15,7 +15,6 @@ class CampaignsContainer extends React.Component {
   componentDidMount() {
     const { fetchCampaigns, match } = this.props;
     fetchCampaigns();
-    console.log("CAMPAIGNS MATCH", match);
   }
 
   render() {

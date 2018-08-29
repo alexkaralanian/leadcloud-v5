@@ -1,5 +1,14 @@
 import React from "react";
-import { Grid, Row, Col, Button, Glyphicon } from "react-bootstrap";
+import {
+  Grid,
+  Row,
+  Col,
+  Button,
+  Glyphicon,
+  ButtonToolbar,
+  OverlayTrigger,
+  Tooltip
+} from "react-bootstrap";
 import "./Header.css";
 import Glass from "../../images/glyphicons_free/glyphicons/png/glyphicons-1-glass.png";
 
@@ -37,35 +46,43 @@ const Header = ({
           {primaryFunc &&
             isVisible &&
             !isNew && (
-              <Button
-                className="button-lg"
-                bsStyle="primary"
-                bsSize="large"
-                onClick={evt => {
-                  evt.stopPropagation();
-                  primaryFunc();
-                }}
-              >
-                <div className="button_inner">
-                  <span className="button_inner-text">{primaryText}</span>
-                  <Glyphicon glyph={primaryGlyph} />
-                </div>
-              </Button>
+              <ButtonToolbar>
+                <OverlayTrigger
+                  placement="bottom"
+                  overlay={<Tooltip id="tooltip">Add New Contact</Tooltip>}
+                >
+                  <Button
+                    className="button-sm"
+                    bsStyle="primary"
+                    bsSize="large"
+                    onClick={evt => {
+                      evt.stopPropagation();
+                      primaryFunc();
+                    }}
+                  >
+                    <Glyphicon glyph={primaryGlyph} />
+                  </Button>
+                </OverlayTrigger>
+              </ButtonToolbar>
             )}
           {secondaryFunc &&
             isVisible &&
             !isNew && (
-              <Button
-                className="button-lg"
-                bsStyle={secondaryStyle}
-                bsSize="large"
-                onClick={secondaryFunc}
-              >
-                <div className="button_inner">
-                  <span className="button_inner-text">{secondaryText}</span>
-                  <Glyphicon glyph={secondaryGlyph} />
-                </div>
-              </Button>
+              <ButtonToolbar>
+                <OverlayTrigger
+                  placement="bottom"
+                  overlay={<Tooltip id="tooltip">Sync Contacts</Tooltip>}
+                >
+                  <Button
+                    className="button-sm"
+                    bsStyle={secondaryStyle}
+                    bsSize="large"
+                    onClick={secondaryFunc}
+                  >
+                    <Glyphicon glyph={secondaryGlyph} />
+                  </Button>
+                </OverlayTrigger>
+              </ButtonToolbar>
             )}
         </div>
       </div>

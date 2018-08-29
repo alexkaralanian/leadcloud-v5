@@ -1,6 +1,4 @@
 const express = require("express");
-const sendgrid = require("sendgrid");
-const helper = sendgrid.mail;
 const { cleanString, cleanContacts } = require("../helpers/helpers");
 
 const Campaigns = require("../db/models").campaigns;
@@ -43,13 +41,13 @@ router.post("/submit", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
 
   try {
-    const emailPromises = await req.body.campaignGroups.map(
+    const emailPromises = await req.body.values.groups.map(
       async group =>
         await Contacts.findAll({
-          attributes: ["firstName", "email"],
           where: {
             UserUuid: userId
           },
+          attributes: ["firstName", "email"],
           include: [
             {
               model: Groups,
@@ -68,27 +66,30 @@ router.post("/submit", authCheck, async (req, res) => {
       contacts.reduce((sum, contactArray) => sum.concat(contactArray[0]))
     );
 
-    const campaign = await Campaigns.update({
+    const campaign = await Campaigns.findOne({
       where: {
         UserUuid: userId,
-        id: req.body.campaignId
-      },
-      defaults: {
-        subject: req.body.values.subject,
-        groups: req.body.campaignGroups,
-        listings: req.body.campaignListings,
-        recipients: cleanedContacts,
-        isDraft: false
+        id: req.body.values.id
       }
+    });
+
+    await campaign.update({
+      title: req.body.values.title,
+      subject: req.body.values.subject,
+      body: req.body.values.body,
+      groups: req.body.values.groups,
+      listings: req.body.values.listings,
+      recipients: cleanedContacts,
+      isDraft: false
     });
 
     // CAMPAIGN MAILER
     const mailer = new Mailer(
       {
-        subject: campaign[0].dataValues.subject,
-        recipients: campaign[0].dataValues.recipients
+        subject: campaign.subject,
+        recipients: campaign.recipients
       },
-      campaignTemplate(campaign[0].dataValues)
+      campaignTemplate(campaign)
     );
     mailer.send();
 
@@ -125,6 +126,25 @@ router.get("/:id", async (req, res) => {
     res.json(campaign);
   } catch (err) {
     console.error("FETCHING CAMPAIGN ERROR", err);
+  }
+});
+
+// UPDATE CAMPAIGN
+router.patch("/:id/update", authCheck, async (req, res) => {
+  const userId = req.session.user.toString();
+
+  try {
+    const campaign = await Campaigns.findOne({
+      where: {
+        id: req.params.id,
+        UserUuid: userId
+      }
+    });
+
+    const updatedCampaign = await campaign.update(req.body);
+    res.json(updatedCampaign);
+  } catch (err) {
+    console.error(err);
   }
 });
 

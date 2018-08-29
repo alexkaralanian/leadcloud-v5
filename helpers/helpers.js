@@ -1,3 +1,6 @@
+const sendgrid = require("sendgrid");
+const helper = sendgrid.mail;
+
 const cleanString = str =>
   str
     .toLowerCase()

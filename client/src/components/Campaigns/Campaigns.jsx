@@ -7,35 +7,33 @@ import "./Campaigns.css";
 const Campaigns = ({ campaigns }) => {
   return (
     <Grid className="margin-top-2">
-      <Row>
-        <Col xs={12}>
-          <Table striped>
-            <thead>
-              <tr>
-                <th>Title</th>
-                <th>Subject</th>
-                <th>Created At</th>
-              </tr>
-            </thead>
-            <tbody>
-              {campaigns &&
-                campaigns.map(campaign => (
-                  <tr key={campaign.id}>
-                    <td>
-                      <Link to={`/campaigns/${campaign.id}`}>
-                        <span>{campaign.title}</span>
-                      </Link>
-                    </td>
-                    <td>{campaign.subject}</td>
-                    <td>
-                      {Moment(campaign.createdAt).format("ddd, M/D/YY h:mma")}
-                    </td>
-                  </tr>
-                ))}
-            </tbody>
-          </Table>
-        </Col>
-      </Row>
+      <div className="table_container">
+        <Table striped>
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Subject</th>
+              <th>Created At</th>
+            </tr>
+          </thead>
+          <tbody>
+            {campaigns &&
+              campaigns.map(campaign => (
+                <tr key={campaign.id}>
+                  <td>
+                    <Link to={`/campaigns/${campaign.id}`}>
+                      <span>{campaign.title}</span>
+                    </Link>
+                  </td>
+                  <td>{campaign.subject}</td>
+                  <td>
+                    {Moment(campaign.createdAt).format("ddd, M/D/YY h:mma")}
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </Table>
+      </div>
     </Grid>
   );
 };
