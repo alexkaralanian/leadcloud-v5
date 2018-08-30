@@ -98,12 +98,12 @@ class SingleGroupContainer extends React.Component {
 
   // HEADER
   headerFunc = () => {
-    const { match, location, group } = this.props;
+    const { match, location } = this.props;
     switch (location.pathname) {
       case `/groups/${match.params.id}/contacts`:
         return {
           modalFunc: this.displayContactsModal,
-          modalText: "Add Contacts",
+          modalText: "Add Group Contacts",
           isVisible: true
         };
       default:
@@ -127,8 +127,6 @@ class SingleGroupContainer extends React.Component {
       groupContacts,
       submitGroupContacts
     } = this.props;
-
-    const path = this.props.history.location.pathname;
 
     return (
       <React.Fragment>

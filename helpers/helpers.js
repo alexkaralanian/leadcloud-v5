@@ -1,6 +1,13 @@
 const sendgrid = require("sendgrid");
 const helper = sendgrid.mail;
 
+const capitalize = string =>
+  string
+    .trim()
+    .split(" ")
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(" ");
+
 const cleanString = str =>
   str
     .toLowerCase()
@@ -33,5 +40,6 @@ const cleanContacts = contactsArray => {
 
 module.exports = {
   cleanString,
-  cleanContacts
+  cleanContacts,
+  capitalize
 };

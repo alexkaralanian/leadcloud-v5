@@ -10,7 +10,6 @@ import {
   Tooltip
 } from "react-bootstrap";
 import "./Header.css";
-import Glass from "../../images/glyphicons_free/glyphicons/png/glyphicons-1-glass.png";
 
 const Header = ({
   images,
@@ -49,12 +48,12 @@ const Header = ({
               <ButtonToolbar>
                 <OverlayTrigger
                   placement="bottom"
-                  overlay={<Tooltip id="tooltip">Add New Contact</Tooltip>}
+                  overlay={<Tooltip id="tooltip">{primaryText}</Tooltip>}
                 >
                   <Button
-                    className="button-sm"
+                    className="button-lg"
                     bsStyle="primary"
-                    bsSize="large"
+                    // bsSize="large"
                     onClick={evt => {
                       evt.stopPropagation();
                       primaryFunc();
@@ -71,12 +70,12 @@ const Header = ({
               <ButtonToolbar>
                 <OverlayTrigger
                   placement="bottom"
-                  overlay={<Tooltip id="tooltip">Sync Contacts</Tooltip>}
+                  overlay={<Tooltip id="tooltip">{secondaryText}</Tooltip>}
                 >
                   <Button
-                    className="button-sm"
+                    className="button-lg"
                     bsStyle={secondaryStyle}
-                    bsSize="large"
+                    // bsSize="large"
                     onClick={secondaryFunc}
                   >
                     <Glyphicon glyph={secondaryGlyph} />

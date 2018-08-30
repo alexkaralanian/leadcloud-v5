@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Col, Row, Nav, NavItem } from "react-bootstrap";
+import { Nav, NavItem } from "react-bootstrap";
 
 const CreateCampaignNav = ({ onMenuSelect, activeKey }) => (
   <div className="secondary_nav-container">
@@ -12,9 +12,9 @@ const CreateCampaignNav = ({ onMenuSelect, activeKey }) => (
         Edit
       </NavItem>
 
-      <NavItem eventKey={3} onSelect={() => onMenuSelect(3)}>
+      {/*<NavItem eventKey={3} onSelect={() => onMenuSelect(3)}>
         Review
-      </NavItem>
+      </NavItem>*/}
     </Nav>
   </div>
 );

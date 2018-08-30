@@ -6,7 +6,7 @@ import { Form, FormGroup, Row, Col, Button } from "react-bootstrap";
 
 import InputField from "../InputField/InputField";
 import TextAreaField from "../InputField/TextAreaField";
-import CampaignFormA_Container from "./CampaignFormA_Container";
+import CampaignFormAContainer from "./CampaignFormA_Container";
 
 let CampaignFormA;
 
@@ -16,13 +16,19 @@ CampaignFormA = ({
   pristine,
   reset,
   submitting,
-  auditClick
+  auditClick,
+  campaign
 }) => (
   <Form className="margin-top-2" onSubmit={handleSubmit}>
     <FormGroup>
-      <Field type="text" name="title" component={InputField} label="Title" />
+      <Field
+        type="text"
+        name="title"
+        component={InputField}
+        label="Campaign Title"
+      />
     </FormGroup>
-    <CampaignFormA_Container />
+    <CampaignFormAContainer />
     <Row>
       <Col xs={12}>
         <div className="button_footer-container">
@@ -31,7 +37,7 @@ CampaignFormA = ({
             type="submit"
             bsStyle="primary"
             bsSize="large"
-            disabled={pristine || submitting}
+            disabled={!campaign.title && (pristine || submitting)}
           >
             <span className="button_inner-text">Next</span>
           </Button>
@@ -42,17 +48,19 @@ CampaignFormA = ({
 );
 
 CampaignFormA = reduxForm({
-  form: "campaignForm", // a unique name for this form
-  enableReinitialize: true
-  // keepDirtyOnReinitialize: true,
+  form: "campaignFormA", // a unique name for this form
+  enableReinitialize: true,
+  keepDirtyOnReinitialize: true
 })(CampaignFormA);
 
 const mapStateToProps = state => ({
-  initialValues: state.campaignReducer.campaign
+  initialValues: state.campaignReducer.campaign,
+  campaign: state.campaignReducer.campaign
 });
 
 CampaignFormA = connect(
-  mapStateToProps
+  mapStateToProps,
+  null
   // { load: loadAccount } // bind account loading action creator
 )(CampaignFormA);
 

@@ -30,11 +30,7 @@ import {
 class CreateCampaignContainer extends React.Component {
   state = {
     page: 1,
-    activeKey: 1,
-    isRecipientsPanelOpen: true,
-    isListingPanelOpen: true,
-    isListingsModalVisible: false,
-    isGroupsModalVisible: false
+    activeKey: 1
   };
 
   componentDidMount() {
@@ -152,7 +148,7 @@ class CreateCampaignContainer extends React.Component {
             )}
           />
 
-          <Route
+          {/*<Route
             exact
             path={`/campaigns/${campaign.id}/review`}
             render={routeProps => (
@@ -167,7 +163,7 @@ class CreateCampaignContainer extends React.Component {
                 }}
               />
             )}
-          />
+          />*/}
         </Grid>
       </React.Fragment>
     );

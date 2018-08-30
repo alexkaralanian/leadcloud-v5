@@ -4,17 +4,12 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  min-height: 10rem;
   background-color: #222;
-  padding: 2.5rem 1.5rem;
-
-  border-radius: 3px 3px 0 0;
+  padding: 1.5rem 2rem 1.5rem 1rem;
+  min-height: 11rem;
+  border-radius: 2px 2px 0 0;
   overflow: none;
 }
-
-/*h1 {
-  font-weight: 500 !important;
-}*/
 
 h1.header_text {
   margin-top: 0;
@@ -22,14 +17,8 @@ h1.header_text {
   color: white;
   font-size: 4.5rem;
   font-weight: 200;
-  /*font-family: "Helvetica Neue" !important;*/
 }
-/*
-.header_text {
-  word-wrap: break-word;
-  font-weight: 300 !important;
-}
-*/
+
 .header_button-container {
   display: flex;
   flex-direction: column;

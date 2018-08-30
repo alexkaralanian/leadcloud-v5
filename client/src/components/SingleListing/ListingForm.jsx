@@ -13,7 +13,9 @@ import ButtonFooter from "../ButtonFooter/ButtonFooter";
 
 import "./SingleListing.css";
 
-let ListingForm = ({
+let ListingForm;
+
+ListingForm = ({
   handleSubmit,
   load,
   pristine,
@@ -25,7 +27,7 @@ let ListingForm = ({
   deleteListing
 }) => (
   <Grid>
-    <Form onSubmit={handleSubmit}>
+    <Form className="margin-top-2" onSubmit={handleSubmit}>
       <FormGroup>
         <Field
           type="text"

@@ -54,30 +54,6 @@ class CampaignFormA_Container extends React.Component {
   componentDidMount() {
     this.props.setOffset(0);
   }
-  // LISTINGS
-  displayListingPanel = () => {
-    this.setState({ isListingsPanelOpen: !this.state.isListingsPanelOpen });
-  };
-
-  displayListingsModal = () => {
-    this.setState({
-      isListingsModalVisible: true
-    });
-  };
-
-  submitListings = selected => {
-    this.props.submitCampaignListings(selected);
-    this.setState({
-      isListingsModalVisible: false,
-      isListingsPanelOpen: true
-    });
-  };
-
-  onListingsModalExit = () => {
-    this.setState({
-      isListingsModalVisible: false
-    });
-  };
 
   // RECIPIENTS
   displayRecipientsPanel = () => {
@@ -101,6 +77,31 @@ class CampaignFormA_Container extends React.Component {
   onGroupsModalExit = () => {
     this.setState({
       isGroupsModalVisible: false
+    });
+  };
+
+  // LISTINGS
+  displayListingPanel = () => {
+    this.setState({ isListingsPanelOpen: !this.state.isListingsPanelOpen });
+  };
+
+  displayListingsModal = () => {
+    this.setState({
+      isListingsModalVisible: true
+    });
+  };
+
+  submitListings = selected => {
+    this.props.submitCampaignListings(selected);
+    this.setState({
+      isListingsModalVisible: false,
+      isListingsPanelOpen: true
+    });
+  };
+
+  onListingsModalExit = () => {
+    this.setState({
+      isListingsModalVisible: false
     });
   };
 

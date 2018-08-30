@@ -17,6 +17,8 @@ import Emails from "../../components/Emails/Emails";
 import Modal from "../../components/Modal/Modal";
 import SearchContactsContainer from "../SearchContactsContainer/SearchContactsContainer";
 
+import OpenHouseContainer from "../OpenHouseContainer/OpenHouseContainer";
+
 import {
   fetchListing,
   setListing,
@@ -48,7 +50,8 @@ import {
 class SingleListingContainer extends React.Component {
   state = {
     activeKey: 1,
-    isContactsModalVisible: false
+    isContactsModalVisible: false,
+    isOpenHouseModalVisible: false
   };
 
   componentDidMount() {
@@ -97,6 +100,18 @@ class SingleListingContainer extends React.Component {
     }
   };
 
+  displayOpenHouseModal = () => {
+    this.setState({
+      isOpenHouseModalVisible: true
+    });
+  };
+
+  onOpenHouseModalExit = () => {
+    this.setState({
+      isOpenHouseModalVisible: false
+    });
+  };
+
   displayContactsModal = () => {
     this.setState({
       isContactsModalVisible: true
@@ -117,12 +132,19 @@ class SingleListingContainer extends React.Component {
   };
 
   headerFunc = () => {
-    const { match, location, group } = this.props;
+    const { match, location } = this.props;
     switch (location.pathname) {
+      case `/listings/${match.params.id}`:
+        return {
+          modalFunc: this.displayOpenHouseModal,
+          modalText: "Launch Open House",
+          isVisible: true
+        };
+
       case `/listings/${match.params.id}/contacts`:
         return {
           modalFunc: this.displayContactsModal,
-          modalText: "Add Contacts",
+          modalText: "Add Listing Contacts",
           isVisible: true
         };
       default:
@@ -185,6 +207,13 @@ class SingleListingContainer extends React.Component {
         )}
 
         {/* LISTING FORM  */}
+        <Modal
+          displayModal={this.displayOpenHouseModal}
+          onExit={this.onOpenHouseModalExit}
+          isModalVisible={this.state.isOpenHouseModalVisible}
+          title={listing.address}
+          Container={<OpenHouseContainer />}
+        />
         <Route
           exact
           path={

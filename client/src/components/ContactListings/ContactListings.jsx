@@ -17,22 +17,26 @@ const ContactListings = ({
     <Row>
       <Col xs={12}>
         <div>
-          <SearchForm
-            searchFunction={searchContactListings}
-            searchText="Search Contact Listings..."
-            form="searchContactListings"
-          />
+          <div className="margin-top-2">
+            <SearchForm
+              searchFunction={searchContactListings}
+              searchText="Search Contact Listings..."
+              form="searchContactListings"
+            />
+          </div>
           <Counter />
         </div>
-        <TableRow
-          componentName="listings"
-          rowText="address"
-          collection={contactListings}
-          submitFunction={deleteContactListing}
-          hostComponent={contact}
-          buttonText="Remove"
-          buttonStyle="danger"
-        />
+        {contactListings.length > 0 && (
+          <TableRow
+            componentName="listings"
+            rowText="address"
+            collection={contactListings}
+            submitFunction={deleteContactListing}
+            hostComponent={contact}
+            buttonText="Remove"
+            buttonStyle="danger"
+          />
+        )}
       </Col>
     </Row>
   </Grid>

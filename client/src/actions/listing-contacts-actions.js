@@ -25,7 +25,7 @@ export const searchListingContacts = values => {
 
 export const setDiffedListingContacts = contacts => dispatch => {
   const state = store.getState();
-  const listingContacts = state.listingContactsReducer.listingContacts;
+  const listingContacts = state.listingReducer.listingContacts;
   const newContacts = contacts.slice();
 
   listingContacts.forEach(listingContact => {

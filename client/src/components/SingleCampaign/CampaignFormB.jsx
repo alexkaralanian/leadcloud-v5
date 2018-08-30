@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { push } from "react-router-redux";
 import Textarea from "react-autosize-textarea";
+import findIndex from "lodash.findindex";
+
 import { Field, reduxForm } from "redux-form";
 import {
   Button,
@@ -58,30 +60,38 @@ CampaignFormB = ({
             />
           </FormGroup>
           {campaign &&
-            campaign.listings.map(listing => (
-              <div className="campaign_listing_card">
-                <div className="campaign_listing_card-inner">
-                  <h3>{listing.address}</h3>
-                  {listing.images && (
-                    <Image
-                      className="campaign_listing-img"
-                      responsive
-                      src={listing.images[0]}
-                    />
-                  )}
-                  <FormGroup>
-                    <Field
-                      type="text"
-                      name={`listings[${campaign.listings.indexOf(
-                        listing
-                      )}].description`}
-                      component={TextAreaField}
-                      label="Description"
-                    />
-                  </FormGroup>
+            campaign.listings.map(listing => {
+              console.log("LISTING", listing);
+              console.log(
+                "INDEX OF LISTING",
+                findIndex(campaign.listings, o => o.id === listing.id)
+              );
+              return (
+                <div key={listing.id} className="campaign_listing_card">
+                  <div className="campaign_listing_card-inner">
+                    <h3>{listing.address}</h3>
+                    {listing.images && (
+                      <Image
+                        className="campaign_listing-img"
+                        responsive
+                        src={listing.images[0]}
+                      />
+                    )}
+                    <FormGroup>
+                      <Field
+                        type="text"
+                        name={`listings[${findIndex(
+                          campaign.listings,
+                          obj => obj.id === listing.id
+                        )}].description`}
+                        component={TextAreaField}
+                        label="Description"
+                      />
+                    </FormGroup>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
         </Col>
       </Row>
       <Row>

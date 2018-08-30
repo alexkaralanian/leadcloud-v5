@@ -32,7 +32,7 @@ ContactForm = ({
   deleteContact
 }) => (
   <Grid>
-    <Form onSubmit={handleSubmit}>
+    <Form className="margin-top-2" onSubmit={handleSubmit}>
       <FormGroup>
         {/* *** NAMES *** */}
         <Row>

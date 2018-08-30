@@ -23,7 +23,7 @@ const inputField = ({
 }) => (
   <div className="input_container">
     {label && <ControlLabel>{label}</ControlLabel>}
-    <InputGroup>
+    <InputGroup className="search-form_input">
       <FormControl
         {...input}
         placeholder={placeholder}

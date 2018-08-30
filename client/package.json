@@ -12,6 +12,7 @@
         "bootstrap": "^3.3.7",
         "history": "^4.7.2",
         "lodash.debounce": "^4.0.8",
+        "lodash.findindex": "^4.6.0",
         "materialize-css": "^0.100.2",
         "moment": "^2.22.1",
         "prop-types": "^15.6.1",

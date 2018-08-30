@@ -5,7 +5,7 @@
 }
 
 .search-form .input_container input {
-  border-radius: 0;
+  border-radius: 0 0 0 0;
   border-color: #eee;
   box-shadow: none;
   font-weight: 400;
@@ -20,7 +20,7 @@
 
 .input-group-addon {
   background-color: white;
-  border-radius: 0;
+  border-radius: 0 0 0 0;
   border: none;
   border-right: 1px solid #eee;
   border-top: 1px solid #eee;

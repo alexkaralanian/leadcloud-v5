@@ -46,6 +46,7 @@ class SearchContactsContainer extends React.Component {
           <SearchForm
             searchFunction={searchFunction}
             searchText={"Search Contacts..."}
+            form="searchContacts"
           />
           <Button
             className="button"

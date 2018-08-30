@@ -13,13 +13,12 @@ const router = express.Router();
 
 // CREATE CAMPAIGN
 router.post("/create", authCheck, async (req, res) => {
-  console.log("REQ.BODY", req.body);
   const userId = req.session.user.toString();
   try {
     const campaign = await Campaigns.findOrCreate({
       where: {
         UserUuid: userId,
-        title: cleanString(req.body.values.title)
+        title: req.body.values.title
       },
       defaults: {
         subject: req.body.values.subject,
@@ -41,23 +40,23 @@ router.post("/submit", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
 
   try {
-    const emailPromises = await req.body.values.groups.map(
-      async group =>
-        await Contacts.findAll({
-          where: {
-            UserUuid: userId
-          },
-          attributes: ["firstName", "email"],
-          include: [
-            {
-              model: Groups,
-              where: {
-                id: group.id
-              }
+    const emailPromises = await req.body.values.groups.map(async group => {
+      const groupContacts = await Contacts.findAll({
+        where: {
+          UserUuid: userId
+        },
+        attributes: ["firstName", "email"],
+        include: [
+          {
+            model: Groups,
+            where: {
+              id: group.id
             }
-          ]
-        })
-    );
+          }
+        ]
+      });
+      return groupContacts;
+    });
     const contacts = await Promise.all(emailPromises);
 
     // concat all group contacts arrays into 1 array

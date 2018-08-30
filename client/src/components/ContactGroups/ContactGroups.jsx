@@ -21,25 +21,25 @@ const ContactGroups = ({
     <Grid>
       <Row>
         <Col xs={12}>
+          <div className="margin-top-2">
+            <SearchForm
+              searchFunction={searchContactGroups}
+              searchText="Search Contact Groups..."
+              form="searchContactGroups"
+            />
+          </div>
+          <Counter />
           {contactGroups.length > 0 && (
-            <div>
-              <SearchForm
-                searchFunction={searchContactGroups}
-                searchText="Search Contact Groups..."
-                form="searchContactGroups"
-              />
-              <Counter />
-            </div>
+            <TableRow
+              componentName="groups"
+              rowText="title"
+              collection={contactGroups}
+              submitFunction={deleteContactGroup}
+              hostComponent={contact}
+              buttonText="Remove Group"
+              buttonStyle="danger"
+            />
           )}
-          <TableRow
-            componentName="groups"
-            rowText="title"
-            collection={contactGroups}
-            submitFunction={deleteContactGroup}
-            hostComponent={contact}
-            buttonText="Remove Group"
-            buttonStyle="danger"
-          />
         </Col>
       </Row>
     </Grid>

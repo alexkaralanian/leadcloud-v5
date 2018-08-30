@@ -18,22 +18,25 @@ const ListingContacts = ({
     <Grid>
       <Row>
         <Col xs={12}>
-          <div>
+          <div className="margin-top-2">
             <SearchForm
               searchFunction={searchListingContacts}
               searchText="Search Listing Contacts..."
+              form="searchListingContacts"
             />
             <Counter />
           </div>
-          <TableRow
-            componentName="contacts"
-            rowText="fullName"
-            collection={listingContacts}
-            submitFunction={deleteListingContact}
-            hostComponent={listing}
-            buttonText="Delete Contact"
-            buttonStyle="danger"
-          />
+          {listingContacts.length > 0 && (
+            <TableRow
+              componentName="contacts"
+              rowText="fullName"
+              collection={listingContacts}
+              submitFunction={deleteListingContact}
+              hostComponent={listing}
+              buttonText="Delete Contact"
+              buttonStyle="danger"
+            />
+          )}
         </Col>
       </Row>
     </Grid>
