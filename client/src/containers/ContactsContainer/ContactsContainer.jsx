@@ -1,162 +1,125 @@
 import React from "react";
-import { connect } from "react-redux";
-import { Grid, Row, Col, Button } from "react-bootstrap";
-import { Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
-import SearchForm from "../../components/SearchForm/SearchForm";
-import Contacts from "../../components/Contacts/Contacts";
+import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
+import { push } from "react-router-redux";
+import { Grid, Row, Col, Button } from "react-bootstrap";
 
+import Contacts from "../../components/Contacts/Contacts";
 import Navigation from "../NavContainer/NavContainer";
+import BreadCrumbs from "../../components/BreadCrumbs/BreadCrumbs";
+import Header from "../../components/Header/Header";
+import SearchForm from "../../components/SearchForm/SearchForm";
+import Counter from "../../components/Counter/Counter";
 import Errors from "../../components/Error/Error";
-// import FilterInput from "../../components/FilterInput/FilterInput";
+
 import {
-  loadContacts,
-  fetchContacts,
-  clearContacts,
+  fetchComponent,
+  setQuery,
+  setOffset,
+  setCount
+} from "../../actions/query-actions";
+
+import {
+  setError,
+  clearError,
+  clearFormData
+} from "../../actions/common-actions";
+
+import {
+  syncContacts,
+  setContacts,
   searchContacts,
-  setContactsQuery,
-  clearError
+  clearContacts
 } from "../../actions/contact-actions";
 
-import { fetchGroups } from "../../actions/group-actions";
-
-// import { clearError } from "../../actions/common-actions";
-// import "../../components/Contacts/Contacts.css";
-
 class ContactsContainer extends React.Component {
-  constructor(props) {
-    super(props);
-    this.createNewContact = this.createNewContact.bind(this);
-    this.searchContacts = this.searchContacts.bind(this);
-    this.onScroll = this.onScroll.bind(this);
-  }
-
   componentDidMount() {
-    const {
-      fetchContacts,
-      fetchGroups,
-      limit,
-      offset,
-      contactsQuery,
-      contacts
-    } = this.props;
-
-    fetchContacts(limit, offset, contactsQuery, contacts);
-    fetchGroups();
-
+    const { fetchComponent, contacts } = this.props;
+    fetchComponent("contacts", [], setContacts, null, null);
     window.addEventListener("scroll", this.onScroll, false);
   }
 
   componentWillUnmount() {
-    const { clearError, clearContacts } = this.props;
-
+    const { clearFormData, clearContacts, setQuery, setOffset } = this.props;
     window.removeEventListener("scroll", this.onScroll, false);
-    clearError();
-    clearContacts();
+    clearFormData();
+    setQuery("");
+    setOffset(0);
   }
 
-  onScroll() {
-    const { isLoading, limit, offset, contactsQuery, contacts } = this.props;
-
+  onScroll = () => {
+    const { isLoading, offset, count, contacts, fetchComponent } = this.props;
     if (
       window.innerHeight + window.scrollY >= document.body.offsetHeight - 500 &&
-      contacts.length &&
+      count > offset &&
       !isLoading
     ) {
-      this.props.fetchContacts(limit, offset, contactsQuery, contacts);
+      fetchComponent("contacts", contacts, setContacts, null, null);
     }
-  }
-
-  searchContacts(values) {
-    const query = values.nativeEvent.target.defaultValue;
-    const {
-      setContactsQuery,
-      clearContacts,
-      searchContacts,
-      limit,
-      contacts,
-      fetchContacts
-    } = this.props;
-
-    setContactsQuery(query);
-    if (query.length < 1) clearContacts();
-    if (query.length >= 1) {
-      searchContacts(limit, 0, query, contacts);
-    }
-
-    if (!query) fetchContacts(limit, 0, query, contacts);
-  }
-
-  createNewContact() {
-    this.props.history.push("/contact/new");
-  }
+  };
 
   render() {
     const {
+      push,
+      history,
       isAuthed,
-      loadContacts,
-      limit,
-      offset,
-      contacts,
-      groups,
-      isFetching
+      isFetching,
+      syncContacts,
+      contacts
     } = this.props;
 
     return !isAuthed ? (
       <Redirect to="/" />
     ) : (
-      <div>
+      <React.Fragment>
         <Navigation />
+        <BreadCrumbs />
         <Grid>
-          <Row id="load-contacts-btn">
-            <Col sm={6}>
-              <Button
-                className="submitButton"
-                bsStyle="primary"
-                onClick={this.createNewContact}
-              >
-                <span>Create New</span>
-              </Button>
-            </Col>
-            <Col sm={6}>
-              <Button
-                className="submitButton"
-                bsStyle="primary"
-                onClick={() => loadContacts(limit, offset, contacts)}
-              >
-                <span>Sync Contacts</span>
-              </Button>
-            </Col>
-          </Row>
-          <SearchForm searchFunction={this.searchContacts} />
+          <Header
+            isVisible={true}
+            componentName="contacts"
+            headerTitle="Contacts"
+            isNew={null}
+            primaryText="Create New Contact"
+            primaryFunc={() => push("/contacts/new")}
+            primaryGlyph="plus"
+            secondaryText="Sync Contacts"
+            secondaryFunc={() => syncContacts()}
+            secondaryGlyph="refresh"
+          />
+
+          <SearchForm
+            searchFunction={searchContacts}
+            searchText="Search Contacts..."
+          />
+          <Counter />
+
+          <Contacts contacts={contacts} isFetching={isFetching} />
         </Grid>
-        <Contacts groups={groups} contacts={contacts} isFetching={isFetching} />
         {/*<Errors errorText={this.props.error} />*/}
-      </div>
+      </React.Fragment>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  isAuthed: state.authReducer.isAuthed,
   contacts: state.contactReducer.contacts,
-  contactsQuery: state.contactReducer.contactsQuery,
-  groups: state.groupReducer.groups,
-  limit: state.contactReducer.limit,
-  offset: state.contactReducer.offset,
-  isFetching: state.contactReducer.isFetching,
-  isLoading: state.contactReducer.isLoading,
-  error: state.contactReducer.error
+  isAuthed: state.authReducer.isAuthed,
+  isLoading: state.queryReducer.isLoading,
+  isFetching: state.commonReducer.isFetching,
+  error: state.commonReducer.error,
+  count: state.queryReducer.count,
+  offset: state.queryReducer.offset
 });
 
 const mapDispatchToProps = {
-  loadContacts,
-  fetchContacts,
-  fetchGroups,
-  searchContacts,
-  setContactsQuery,
-  clearContacts,
-  clearError
+  syncContacts,
+  fetchComponent,
+  clearFormData,
+  setQuery,
+  setOffset,
+  push
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContactsContainer);

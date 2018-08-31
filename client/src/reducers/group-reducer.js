@@ -2,12 +2,8 @@ import * as types from "../types";
 
 const initialState = {
   groups: [],
-  groupContacts: null,
   group: {},
-  isGroupNew: true,
-  error: "",
-  message: "",
-  isFetching: false
+  groupContacts: []
 };
 
 const groupReducer = (state = initialState, action) => {
@@ -28,32 +24,6 @@ const groupReducer = (state = initialState, action) => {
       return {
         ...state,
         groupContacts: action.payload
-      };
-
-    // ADMINISTRATIVE
-
-    case types.CLEAR_GROUP_CONTACTS:
-      return {
-        ...state,
-        groupContacts: null
-      };
-
-    case types.IS_FETCHING:
-      return {
-        ...state,
-        isFetching: action.payload
-      };
-
-    case types.SET_ERROR:
-      return {
-        ...state,
-        error: action.payload
-      };
-
-    case types.CLEAR_ERROR:
-      return {
-        ...state,
-        error: ""
       };
 
     default:

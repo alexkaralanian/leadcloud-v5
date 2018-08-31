@@ -7,13 +7,14 @@ module.exports = (sequelize, DataTypes) => {
       city: DataTypes.STRING,
       zip: DataTypes.STRING,
       images: DataTypes.JSONB,
+      description: DataTypes.TEXT,
       updated: DataTypes.STRING
     },
     {}
   );
   listings.associate = models => {
+    listings.belongsToMany(models.contacts, { through: "ListingContacts" });
     listings.belongsTo(models.users, { as: "User" });
-    listings.belongsToMany(models.contacts, { through: "ListingContact" });
   };
   return listings;
 };

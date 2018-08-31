@@ -1,180 +1,287 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Redirect } from "react-router";
-import { Route } from "react-router-dom";
+import { push } from "react-router-redux";
+import { Route, Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
+import { Grid, Col, Row } from "react-bootstrap";
 
-import ListingNav from "../../components/SingleListing/ListingNav";
-import ListingHeader from "../../components/SingleListing/ListingHeader";
 import Navigation from "../NavContainer/NavContainer";
-import SearchContacts from "../../components/SingleListing/SearchContacts";
+import BreadCrumbs from "../../components/BreadCrumbs/BreadCrumbs";
+import Header from "../../components/Header/Header";
+import ListingNav from "../../components/SingleListing/ListingNav";
+import ListingContacts from "../../components/ListingContacts/ListingContacts";
 import ListingForm from "../../components/SingleListing/ListingForm";
 import ImageCarousel from "../../components/ImageCarousel/ImageCarousel";
 import Emails from "../../components/Emails/Emails";
 
+import Modal from "../../components/Modal/Modal";
+import SearchContactsContainer from "../SearchContactsContainer/SearchContactsContainer";
+
+import OpenHouseContainer from "../OpenHouseContainer/OpenHouseContainer";
+
 import {
-  submitNewListing,
-  setIsListingNew,
   fetchListing,
-  fetchListingContacts,
+  setListing,
+  submitNewListing,
   updateListing,
   deleteListing,
-  clearListing,
-  submitListingContact,
   onDrop,
-  deleteListingImage,
-  deleteListingContact
+  deleteListingImage
 } from "../../actions/listing-actions";
 
 import {
-  searchContacts,
-  clearListingContactsSearchResults
-} from "../../actions/contact-actions";
+  setListingContacts,
+  searchListingContacts,
+  submitListingContacts,
+  deleteListingContact,
+  searchDiffedListingContacts,
+  setDiffedListingContacts
+} from "../../actions/listing-contacts-actions";
+
+import { setModalVisibility } from "../../actions/modal-actions";
+
+import {
+  fetchComponent,
+  setQuery,
+  setOffset,
+  setCount
+} from "../../actions/query-actions";
 
 class SingleListingContainer extends React.Component {
-  constructor(props) {
-    super(props);
-    this.searchContacts = this.searchContacts.bind(this);
-    this.submitListingContact = this.submitListingContact.bind(this);
-  }
+  state = {
+    activeKey: 1,
+    isContactsModalVisible: false,
+    isOpenHouseModalVisible: false
+  };
 
   componentDidMount() {
-    const { match, fetchListing, fetchListingContacts } = this.props;
+    const { match, fetchComponent, fetchListing, setOffset } = this.props;
 
-    if (match.params.id !== "new") {
+    if (match.path !== "/listings/new") {
       fetchListing(match.params.id);
-      fetchListingContacts(match.params.id);
+
+      fetchComponent(
+        "listings",
+        [],
+        setListingContacts,
+        match.params.id,
+        "contacts"
+      );
     }
   }
 
   componentWillUnmount() {
-    const { clearListing } = this.props;
-    clearListing();
+    const { setListing, setQuery, setOffset } = this.props;
+    setOffset(0);
+    setListing({});
   }
 
-  searchContacts(values) {
-    const query = values.nativeEvent.target.defaultValue;
-    const {
-      clearListingContactsSearchResults,
-      searchContacts,
-      listingContactsSearchResults
-    } = this.props;
+  onMenuSelect = (eventKey, path) => {
+    const { push, listing } = this.props;
 
-    if (query.length < 1) clearListingContactsSearchResults();
-    if (query.length >= 1) {
-      searchContacts(
-        25,
-        0,
-        query,
-        listingContactsSearchResults,
-        "listingContacts"
-      );
+    if (eventKey === 1) {
+      push(`/listings/${listing.id}`);
+      this.setState({ activeKey: 1 });
     }
 
-    if (!query) clearListingContactsSearchResults();
-  }
+    if (eventKey === 2) {
+      push(`/listings/${listing.id}/contacts`);
+      this.setState({ activeKey: 2 });
+    }
 
-  submitListingContact(contactId, listingId) {
-    const {
-      submitListingContact,
-      clearListingContactsSearchResults
-    } = this.props;
+    if (eventKey === 3) {
+      push(`/listings/${listing.id}/emails`);
+      this.setState({ activeKey: 3 });
+    }
 
-    submitListingContact(contactId, listingId);
-    clearListingContactsSearchResults();
-  }
+    if (eventKey === 4) {
+      push(`/listings/${listing.id}/media`);
+      this.setState({ activeKey: 4 });
+    }
+  };
+
+  displayOpenHouseModal = () => {
+    this.setState({
+      isOpenHouseModalVisible: true
+    });
+  };
+
+  onOpenHouseModalExit = () => {
+    this.setState({
+      isOpenHouseModalVisible: false
+    });
+  };
+
+  displayContactsModal = () => {
+    this.setState({
+      isContactsModalVisible: true
+    });
+  };
+
+  submitContacts = (selected, host) => {
+    this.props.submitListingContacts(selected, host);
+    this.setState({
+      isContactsModalVisible: false
+    });
+  };
+
+  onContactsModalExit = () => {
+    this.setState({
+      isContactsModalVisible: false
+    });
+  };
+
+  headerFunc = () => {
+    const { match, location } = this.props;
+    switch (location.pathname) {
+      case `/listings/${match.params.id}`:
+        return {
+          modalFunc: this.displayOpenHouseModal,
+          modalText: "Launch Open House",
+          isVisible: true
+        };
+
+      case `/listings/${match.params.id}/contacts`:
+        return {
+          modalFunc: this.displayContactsModal,
+          modalText: "Add Listing Contacts",
+          isVisible: true
+        };
+      default:
+        return {
+          modalFunc: null,
+          modalText: null,
+          isVisible: false
+        };
+    }
+  };
 
   render() {
     const {
       isAuthed,
-      listing,
       match,
-      images,
+
+      listing,
       submitNewListing,
       updateListing,
       deleteListing,
-      listingContactsSearchResults,
+
       listingContacts,
-      listingEmails,
-      isFetching,
+      searchListingContacts,
+      submitListingContacts,
+      deleteListingContact,
+
       onDrop,
-      deleteListingImage,
-      deleteListingContact
+      images,
+      deleteListingImage
     } = this.props;
 
     return !isAuthed ? (
       <Redirect path="/" />
     ) : (
-      <div>
+      <React.Fragment>
         <Navigation />
+        <BreadCrumbs />
 
         {/* HEADER */}
-        <ListingHeader
-          listing={listing}
-          isListingNew={match.params.id === "new"}
-          images={images}
-        />
+        <Grid>
+          <Header
+            isVisible={this.headerFunc().isVisible}
+            isNew={match.path === "/listings/new"}
+            componentName="Listing"
+            headerTitle={listing.address}
+            images={listing.images}
+            primaryFunc={() => this.headerFunc().modalFunc()}
+            primaryGlyph="plus"
+            primaryText={this.headerFunc().modalText}
+          />
+        </Grid>
 
-        {match.params.id === "new" ? null : (
-          <ListingNav listingId={listing.id} />
+        {match.path !== "/listings/new" && (
+          <Grid>
+            <ListingNav
+              activeKey={this.state.activeKey}
+              onMenuSelect={this.onMenuSelect}
+            />
+          </Grid>
         )}
 
-        {/* LISTING FORM (INFO) */}
+        {/* LISTING FORM  */}
+        <Modal
+          displayModal={this.displayOpenHouseModal}
+          onExit={this.onOpenHouseModalExit}
+          isModalVisible={this.state.isOpenHouseModalVisible}
+          title={listing.address}
+          Container={<OpenHouseContainer />}
+        />
         <Route
           exact
           path={
-            match.params.id === "new"
-              ? `/listing/new`
-              : `/listing/${listing.id}`
+            match.path === "/listings/new"
+              ? `/listings/new`
+              : `/listings/${listing.id}`
           }
           render={routeProps => (
             <ListingForm
               {...routeProps}
               onSubmit={values => {
-                match.params.id === "new"
+                match.path === "/listings/new"
                   ? submitNewListing(values)
                   : updateListing(values, listing.id);
               }}
               listing={listing}
               deleteListing={deleteListing}
-              isListingNew={match.params.id === "new"}
+              isListingNew={match.path === "/listings/new"}
             />
           )}
         />
 
         {/* LISTING CONTACTS */}
+        <Modal
+          displayModal={this.displayContactsModal}
+          onExit={this.onContactsModalExit}
+          isModalVisible={this.state.isContactsModalVisible}
+          title={listing.address}
+          Container={
+            <SearchContactsContainer
+              displayModal={this.displayContactsModal}
+              submitFunction={this.submitContacts}
+              hostComponent={listing}
+              setFunction={setDiffedListingContacts}
+              searchFunction={searchDiffedListingContacts}
+            />
+          }
+        />
         <Route
-          path={`/listing/${listing.id}/contacts`}
+          path={`/listings/${listing.id}/contacts`}
           render={routeProps => (
             <div>
-              <SearchContacts
+              <ListingContacts
                 {...routeProps}
                 listing={listing}
                 listingContacts={listingContacts}
-                searchResults={listingContactsSearchResults}
-                searchContacts={this.searchContacts}
-                submitListingContact={this.submitListingContact}
+                searchListingContacts={searchListingContacts}
                 deleteListingContact={deleteListingContact}
               />
             </div>
           )}
         />
 
-        {/* LISTING EMAILS */}
+        {/* LISTING EMAILS
         <Route
-          path={`/listing/${listing.id}/emails`}
+          path={`/listings/${listing.id}/emails`}
           render={routeProps => (
             <Emails
               {...routeProps}
-              contacts={listingEmails}
+              contacts={null}
               isFetching={isFetching}
             />
           )}
-        />
+        />*/}
 
         {/* LISTING MEDIA */}
         <Route
-          path={`/listing/${listing.id}/media`}
+          path={`/listings/${listing.id}/media`}
           render={routeProps => (
             <ImageCarousel
               {...routeProps}
@@ -185,22 +292,40 @@ class SingleListingContainer extends React.Component {
             />
           )}
         />
-      </div>
+      </React.Fragment>
     );
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    isAuthed: state.authReducer.isAuthed,
-    listing: state.listingReducer.listing,
-    listingContacts: state.listingReducer.listingContacts,
-    images: state.listingReducer.images,
-    isFetching: state.listingReducer.isFetching,
-    listingContactsSearchResults:
-      state.contactReducer.listingContactsSearchResults
-  };
-}
+const mapStateToProps = state => ({
+  isAuthed: state.authReducer.isAuthed,
+  listing: state.listingReducer.listing,
+  listingContacts: state.listingReducer.listingContacts,
+  images: state.listingReducer.images,
+  isFetching: state.commonReducer.isFetching
+});
+
+const mapDispatchToProps = {
+  push,
+  setCount,
+  setOffset,
+  setQuery,
+  fetchComponent,
+
+  fetchListing,
+  setListing,
+  submitNewListing,
+  updateListing,
+  deleteListing,
+
+  setListingContacts,
+  searchListingContacts,
+  submitListingContacts,
+  deleteListingContact,
+
+  onDrop,
+  deleteListingImage
+};
 
 SingleListingContainer.propTypes = {
   listing: PropTypes.object.isRequired,
@@ -213,18 +338,6 @@ SingleListingContainer.propTypes = {
 
 export const Unwrapped = SingleListingContainer;
 
-export default connect(mapStateToProps, {
-  submitNewListing,
-  setIsListingNew,
-  fetchListing,
-  fetchListingContacts,
-  updateListing,
-  deleteListing,
-  clearListing,
-  searchContacts,
-  clearListingContactsSearchResults,
-  submitListingContact,
-  deleteListingContact,
-  onDrop,
-  deleteListingImage
-})(SingleListingContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(
+  SingleListingContainer
+);

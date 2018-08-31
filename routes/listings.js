@@ -1,23 +1,34 @@
 const express = require("express");
 const moment = require("moment");
+const Sequelize = require("sequelize");
 
 const authCheck = require("../middlewares/authChecker");
 const Listings = require("../db/models").listings;
 const Contacts = require("../db/models").contacts;
+const ListingContacts = require("../db/models").ListingContacts;
 
 const router = express.Router();
+const Op = Sequelize.Op;
 
-// Fetch all listings
-router.get("/", async (req, res) => {
+// GET ALL LISTINGS FROM DB
+router.get("/", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
 
   try {
-    const listings = await Listings.findAll({
+    const listings = await Listings.findAndCountAll({
+      limit: req.query.limit,
+      offset: req.query.offset,
       where: {
-        UserUuid: userId
+        UserUuid: userId,
+        [Op.and]: {
+          address: {
+            [Op.iLike]: `%${req.query.query}%`
+          }
+        }
       },
-      order: [["updated", "DESC"]]
+      order: [["updatedAt", "DESC"]]
     });
+
     res.json(listings);
   } catch (err) {
     console.error(err);
@@ -41,6 +52,24 @@ router.post("/new", authCheck, async (req, res) => {
     });
 
     res.json(createdListing.dataValues);
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+// Fetch single listing
+router.get("/:id", authCheck, async (req, res) => {
+  const userId = req.session.user.toString();
+
+  try {
+    const listing = await Listings.findOne({
+      where: {
+        id: req.params.id,
+        UserUuid: userId
+      }
+    });
+
+    res.json(listing);
   } catch (err) {
     console.error(err);
   }
@@ -75,7 +104,7 @@ router.delete("/:id/delete", authCheck, async (req, res) => {
       }
     });
 
-    listing.destroy();
+    await listing.destroy();
     res.json({
       message: "Listing Deleted Successfully"
     });
@@ -84,73 +113,101 @@ router.delete("/:id/delete", authCheck, async (req, res) => {
   }
 });
 
-// Fetch single listing
-router.get("/:id", authCheck, async (req, res) => {
-  const userId = req.session.user.toString();
-
-  try {
-    const listing = await Listings.findOne({
-      where: {
-        id: req.params.id,
-        UserUuid: userId
-      }
-    });
-
-    res.json(listing);
-  } catch (err) {
-    console.error(err);
-  }
-});
-
 // LISTING CONTACTS
-router.post("/setListingContacts", authCheck, async (req, res) => {
+
+router.get("/:id/contacts", authCheck, async (req, res) => {
+  const userId = req.session.user.toString();
+  try {
+    const listingContacts = await Contacts.findAndCountAll({
+      limit: req.query.limit,
+      offset: req.query.offset,
+      where: {
+        UserUuid: userId,
+        [Op.and]: {
+          fullName: {
+            [Op.iLike]: `%${req.query.query}%`
+          }
+        }
+      },
+      include: [
+        {
+          model: Listings,
+          where: {
+            id: req.params.id
+          }
+        }
+      ],
+      order: [["updatedAt", "DESC"]]
+    });
+    res.json(listingContacts);
+  } catch (err) {
+    console.error("FETCHING LISTING CONTACTS ERROR", err);
+  }
+});
+
+// BULK ADD CONTACTS TO GROUP AND RETURN GROUP-CONTACTS
+router.post("/:id/contacts/add", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
 
   try {
-    const contact = await Contacts.findOne({
+    await ListingContacts.bulkCreate(req.body.listingContacts);
+    const listingContacts = await Contacts.findAndCountAll({
+      limit: 25,
+      offset: 0,
+      query: "",
       where: {
-        id: req.body.contactId,
         UserUuid: userId
-      }
+      },
+      include: [
+        {
+          model: Listings,
+          where: {
+            id: req.params.id
+          }
+        }
+      ]
     });
-    contact.addListing(req.body.listingId);
+    res.json(listingContacts);
+  } catch (err) {
+    console.error("ERROR ADDING CONTACTS TO LISTING", err);
+  }
+});
 
+router.post("/:id/contact/delete", authCheck, async (req, res) => {
+  const userId = req.session.user.toString();
+
+  try {
     const listing = await Listings.findOne({
       where: {
-        id: req.body.listingId,
-        UserUuid: userId
+        UserUuid: userId,
+        id: req.params.id
       }
     });
-    listing.addContact(req.body.contactId);
+    await listing.removeContact(req.body.contactId);
 
-    const contacts = await listing.getContacts();
-    res.json(contacts.map(contact => contact.dataValues));
+    const listingContacts = await Contacts.findAndCountAll({
+      limit: 25,
+      offset: 0,
+      where: {
+        UserUuid: userId
+      },
+      include: [
+        {
+          model: Listings,
+          where: {
+            id: req.params.id
+          }
+        }
+      ],
+      order: [["updatedAt", "DESC"]]
+    });
+    res.json(listingContacts);
   } catch (err) {
-    console.error(err);
+    console.error("ERROR REMOVING CONTACT FROM LISTING");
   }
 });
 
-router.post("/fetchListingContacts", authCheck, async (req, res) => {
-  try {
-    const listing = await Listings.findById(req.body.listingId);
-    const contacts = await listing.getContacts();
-    res.json(contacts.map(contact => contact.dataValues));
-  } catch (err) {
-    console.error(err);
-  }
-});
-
-router.post("/deleteListingContact", authCheck, async (req, res) => {
-  try {
-    const listing = await Listings.findById(req.body.listingId);
-    listing.removeContact(req.body.contactId);
-
-    const contacts = await listing.getContacts();
-    res.json(contacts.map(contact => contact.dataValues));
-  } catch (err) {
-    console.error(err);
-  }
-});
+///////////////////////
 
 // LISTING IMAGES
 router.post("/images", authCheck, async (req, res) => {

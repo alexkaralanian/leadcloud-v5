@@ -9,10 +9,13 @@ export const setEmails = (emails, pageToken) => ({
   pageToken
 });
 
-export const setEmail = email => ({
-  type: types.SET_EMAIL,
-  email
-});
+export const setEmail = email => {
+  console.log("SET EMAIL", email.html);
+  return {
+    type: types.SET_EMAIL,
+    email
+  };
+};
 
 // END OF TESTING FOR NOW HERE....
 

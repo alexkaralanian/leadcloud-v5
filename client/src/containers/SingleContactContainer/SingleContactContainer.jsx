@@ -1,29 +1,64 @@
 import React from "react";
-import { connect } from "react-redux";
-import { Route, Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { push } from "react-router-redux";
+import { Route, Redirect } from "react-router-dom";
+import { Grid, Col, Row } from "react-bootstrap";
 
 import Navigation from "../NavContainer/NavContainer";
-import ContactHeader from "../../components/SingleContact/ContactHeader";
+import BreadCrumbs from "../../components/BreadCrumbs/BreadCrumbs";
+import Header from "../../components/Header/Header";
 import ContactNav from "../../components/SingleContact/ContactNav";
-import SingleContact from "../../components/SingleContact/SingleContact";
+import ContactListings from "../../components/ContactListings/ContactListings";
+import ContactForm from "../../components/SingleContact/ContactForm";
 import ImageCarousel from "../../components/ImageCarousel/ImageCarousel";
-import SearchListings from "../../components/SingleContact/SearchListings";
 import SingleContactEmailsContainer from "./SingleContactEmailsContainer";
-import GroupsRow from "../../components/GroupsRow/GroupsRow";
+import ContactGroups from "../../components/ContactGroups/ContactGroups";
+import GroupsContainer from "../GroupsContainer/GroupsContainer";
+import SearchForm from "../../components/SearchForm/SearchForm";
+import Counter from "../../components/Counter/Counter";
+import Modal from "../../components/Modal/Modal";
+import SearchListingsContainer from "../SearchListingsContainer/SearchListingsContainer";
+import SearchGroupsContainer from "../SearchGroupsContainer/SearchGroupsContainer";
+
+import { clearError, isFetching } from "../../actions/common-actions";
+
+import {
+  fetchComponent,
+  setQuery,
+  setOffset,
+  setCount
+} from "../../actions/query-actions";
 
 import {
   fetchContact,
+  setContact,
   submitNewContact,
   updateContact,
   deleteContact,
-  clearContact,
-  fetchGroups,
   onDrop,
-  deleteContactImage,
-  fetchContactListings,
-  clearError
+  deleteContactImage
 } from "../../actions/contact-actions";
+
+import {
+  searchContactListings,
+  setContactListings,
+  submitContactListings,
+  deleteContactListing,
+  searchDiffedContactListings,
+  setDiffedContactListings
+} from "../../actions/contact-listings-actions";
+
+import { searchGroups } from "../../actions/group-actions";
+
+import {
+  submitContactGroups,
+  deleteContactGroup,
+  setContactGroups,
+  searchContactGroups,
+  setDiffedContactGroups,
+  searchDiffedContactGroups
+} from "../../actions/contact-groups-actions";
 
 import {
   fetchEmailsByContact,
@@ -31,175 +66,318 @@ import {
 } from "../../actions/email-actions";
 
 class SingleContactContainer extends React.Component {
-  componentDidMount() {
-    const { fetchContact, fetchContactListings, match } = this.props;
+  state = {
+    activeKey: 1,
+    isListingsModalVisible: false,
+    isGroupsModalVisible: false
+  };
 
-    if (match.params.id !== "new") {
+  componentDidMount() {
+    const {
+      match,
+      location,
+      fetchComponent,
+      fetchContact,
+      setContact,
+      setOffset
+    } = this.props;
+
+    setContact({});
+    setOffset(0);
+
+    if (match.path !== "/contacts/new") {
       fetchContact(match.params.id);
-      fetchContactListings(match.params.id);
+      fetchComponent(
+        "contacts",
+        [],
+        setContactListings,
+        match.params.id,
+        "listings"
+      );
     }
   }
 
   componentWillReceiveProps(nextProps) {
     const {
+      match,
+      location,
       contact,
       setEmailQuery,
+      maxResults,
       fetchEmailsByContact,
-      fetchGroups,
-      emailsByContact,
-      maxResults
+      emailsByContact
     } = this.props;
 
     if (contact !== nextProps.contact) {
       if (nextProps.contact.email) {
-        // Map over all contacts email addresses + create query string...
-        let request = "";
+        let query = "";
         nextProps.contact.email.forEach(email => {
-          request += `from: ${email.value.trim()} OR `;
+          query += `from: ${email.value.trim()} OR `;
         });
-        request = request.slice(0, request.length - 4);
+        query = query.slice(0, query.length - 4);
 
-        setEmailQuery(request);
+        setEmailQuery(query);
         fetchEmailsByContact(
           // args: query, maxResults, pageToken, emailsArray
-          request,
+          query,
           maxResults,
           0, // reset page token on new contact
           emailsByContact
         );
       }
-      fetchGroups(nextProps.contact.membership);
     }
   }
 
   componentWillUnmount() {
-    const { clearContact, clearError } = this.props;
-
-    clearContact();
-    clearError();
+    const { setContact, setQuery, setOffset } = this.props;
+    setOffset(0);
+    setContact({});
   }
 
-  searchListings(values) {
-    console.log("SEARCH CONTACTS VALUES", values);
-    // const query = values.nativeEvent.target.defaultValue;
-    // const {
-    //   clearListingContactsSearchResults,
-    //   searchContacts,
-    //   listingContactsSearchResults
-    // } = this.props;
+  onMenuSelect = (eventKey, path) => {
+    const { push, contact } = this.props;
 
-    // if (query.length < 1) clearListingContactsSearchResults();
-    // if (query.length >= 1) {
-    //   searchContacts(
-    //     25,
-    //     0,
-    //     query,
-    //     listingContactsSearchResults,
-    //     "listingContacts"
-    //   );
-    // }
+    if (eventKey === 1) {
+      push(`/contacts/${contact.id}`);
+      this.setState({ activeKey: 1 });
+    }
 
-    // if (!query) clearListingContactsSearchResults();
-  }
+    if (eventKey === 2) {
+      push(`/contacts/${contact.id}/listings`);
+      this.setState({ activeKey: 2 });
+    }
 
-  submitContactListing(contactId, listingId) {
-    console.log("SUBMITLISTING CONTACT", { contactId, listingId });
-    // const {
-    //   submitListingContact,
-    //   clearListingContactsSearchResults
-    // } = this.props;
-    // submitListingContact(contactId, listingId);
-    // clearListingContactsSearchResults();
-  }
+    if (eventKey === 3) {
+      push(`/contacts/${contact.id}/groups`);
+      this.setState({ activeKey: 3 });
+    }
+
+    if (eventKey === 4) {
+      push(`/contacts/${contact.id}/emails`);
+      this.setState({ activeKey: 4 });
+    }
+
+    if (eventKey === 5) {
+      push(`/contacts/${contact.id}/media`);
+      this.setState({ activeKey: 5 });
+    }
+  };
+
+  displayListingsModal = () => {
+    this.setState({
+      isListingsModalVisible: true
+    });
+  };
+
+  submitListings = (selected, host) => {
+    this.props.submitContactListings(selected, host);
+    this.setState({
+      isListingsModalVisible: false
+    });
+  };
+
+  onListingsModalExit = () => {
+    this.setState({
+      isListingsModalVisible: false
+    });
+  };
+
+  displayGroupsModal = () => {
+    this.setState({
+      isGroupsModalVisible: true
+    });
+  };
+
+  onGroupsModalExit = () => {
+    this.setState({
+      isGroupsModalVisible: false
+    });
+  };
+
+  submitGroups = (selected, host) => {
+    this.props.submitContactGroups(selected, host);
+    this.setState({
+      isGroupsModalVisible: false
+    });
+  };
+
+  // HEADER
+  headerFunc = () => {
+    const { match, location, contact } = this.props;
+    switch (location.pathname) {
+      case `/contacts/${match.params.id}/listings`:
+        return {
+          modalFunc: this.displayListingsModal,
+          modalText: "Add Listings",
+          isVisible: true
+        };
+      case `/contacts/${match.params.id}/groups`:
+        return {
+          modalFunc: this.displayGroupsModal,
+          modalText: "Add Groups",
+          isVisible: true
+        };
+      default:
+        return {
+          modalFunc: null,
+          modalText: null,
+          isVisible: false
+        };
+    }
+  };
 
   render() {
     const {
       match,
+      location,
+      push,
       isAuthed,
+      isFetching,
+
       contact,
       submitNewContact,
       updateContact,
       deleteContact,
-      groups,
+
       contactListings,
-      isFetching,
+      searchContactListings,
+      submitContactListings,
+      deleteContactListing,
+
+      contactGroups,
+      searchContactGroups,
+      submitContactGroups,
+      deleteContactGroup,
+
       emailsByContact,
       onDrop,
       deleteContactImage
     } = this.props;
 
-    return !this.props.isAuthed ? (
+    return !isAuthed ? (
       <Redirect path="/" />
     ) : (
-      <div>
+      <React.Fragment>
         <Navigation />
-
-        {/* CONTACT HEADER */}
-        <ContactHeader
-          contact={contact}
-          isContactNew={match.params.id === "new"}
-          images={contact.images}
-        />
+        <BreadCrumbs />
+        <Grid>
+          <Header
+            isVisible={this.headerFunc().isVisible}
+            componentName="Contact"
+            headerTitle={contact.fullName}
+            isNew={match.path === "/contacts/new"}
+            images={contact.images}
+            primaryFunc={() => this.headerFunc().modalFunc(true)}
+            primaryGlyph="plus"
+            primaryText={this.headerFunc().modalText}
+          />
+        </Grid>
 
         {/* CONTACT NESTED NAV */}
-        {match.params.id === "new" ? null : (
-          <ContactNav contactId={contact.id} />
+        {match.path !== "/contacts/new" && (
+          <Grid>
+            <ContactNav
+              activeKey={this.state.activeKey}
+              onMenuSelect={this.onMenuSelect}
+            />
+          </Grid>
         )}
 
         {/* CONTACT FORM */}
         <Route
           exact
           path={
-            match.params.id === "new"
-              ? `/contact/new`
-              : `/contact/${contact.id}`
+            match.path === "/contacts/new"
+              ? `/contacts/new`
+              : `/contacts/${contact.id}`
           }
           render={routeProps => (
-            <SingleContact
+            <ContactForm
               {...routeProps}
-              contact={contact}
-              isContactNew={match.params.id === "new"}
-              submitNewContact={submitNewContact}
-              updateContact={updateContact}
+              onSubmit={values => {
+                match.path === "/contacts/new"
+                  ? submitNewContact(values)
+                  : updateContact(values, contact.id);
+              }}
               deleteContact={deleteContact}
-              groups={groups}
+              isContactNew={match.path === "/contacts/new"}
+              contact={contact}
+              fetchContact={fetchContact}
             />
           )}
         />
 
         {/* CONTACT LISTINGS */}
+        <Modal
+          displayModal={this.displayListingsModal}
+          onExit={this.onListingsModalExit}
+          isModalVisible={this.state.isListingsModalVisible}
+          title={contact.fullName}
+          Container={
+            <SearchListingsContainer
+              displayModal={this.displayListingsModal}
+              submitFunction={this.submitListings}
+              hostComponent={contact}
+              setFunction={setDiffedContactListings}
+              searchFunction={searchDiffedContactListings}
+            />
+          }
+        />
         <Route
-          path={`/contact/${contact.id}/listings`}
+          path={`/contacts/${contact.id}/listings`}
           render={routeProps => (
-            <SearchListings
+            <ContactListings
               {...routeProps}
               contact={contact}
               contactListings={contactListings}
-              searchListings={this.searchListings}
-              // searchResults={contactListingSearchResults}
-              // submitContactListing={this.submitContactListing}
-              // deleteContactListing={deleteContactListing}
+              searchContactListings={searchContactListings}
+              deleteContactListing={deleteContactListing}
             />
+          )}
+        />
+
+        {/* CONTACT GROUPS */}
+        <Modal
+          displayModal={this.displayGroupsModal}
+          onExit={this.onGroupsModalExit}
+          isModalVisible={this.state.isGroupsModalVisible}
+          title={contact.fullName}
+          Container={
+            <SearchGroupsContainer
+              displayModal={this.displayGroupsModal}
+              submitFunction={this.submitGroups}
+              hostComponent={contact}
+              componentGroups={contactGroups}
+              setFunction={setDiffedContactGroups}
+              searchFunction={searchDiffedContactGroups}
+            />
+          }
+        />
+        <Route
+          path={`/contacts/${contact.id}/groups`}
+          render={routeProps => (
+            <React.Fragment>
+              <ContactGroups
+                contact={contact}
+                contactGroups={contactGroups}
+                searchContactGroups={searchContactGroups}
+                deleteContactGroup={deleteContactGroup}
+              />
+            </React.Fragment>
           )}
         />
 
         {/* CONTACT EMAILS */}
         <Route
-          path={`/contact/${contact.id}/emails`}
+          path={`/contacts/${contact.id}/emails`}
           render={routeProps => (
             <SingleContactEmailsContainer {...routeProps} />
           )}
         />
 
-        {/* CONTACT GROUPS */}
-        <Route
-          path={`/contact/${contact.id}/groups`}
-          render={routeProps => <GroupsRow {...routeProps} groups={groups} />}
-        />
-
         {/* CONTACT MEDIA */}
         <Route
-          path={`/contact/${contact.id}/media`}
+          path={`/contacts/${contact.id}/media`}
           render={routeProps => (
             <ImageCarousel
               {...routeProps}
@@ -210,39 +388,55 @@ class SingleContactContainer extends React.Component {
             />
           )}
         />
-      </div>
+      </React.Fragment>
     );
   }
 }
 
 const mapStateToProps = state => ({
+  isAuthed: state.authReducer.isAuthed,
+  isFetching: state.commonReducer.isFetching,
+  isLoading: state.commonReducer.isLoading,
+  error: state.contactReducer.error,
   contact: state.contactReducer.contact,
-  googleImages: state.contactReducer.googleImages,
+  contactGroups: state.contactReducer.contactGroups,
+  contactListings: state.contactReducer.contactListings,
   emailsByContact: state.contactReducer.emailsByContact,
+  emailQuery: state.emailReducer.emailQuery,
   maxResults: state.contactReducer.maxResults,
   pageToken: state.contactReducer.pageToken,
-  groups: state.contactReducer.groups,
-  isFetching: state.contactReducer.isFetching,
-  isLoading: state.contactReducer.isLoading,
-  error: state.contactReducer.error,
-  contactListings: state.contactReducer.contactListings,
-  isAuthed: state.authReducer.isAuthed,
-  emailQuery: state.emailReducer.emailQuery
+  path: state.router.location.pathname
 });
 
 const mapDispatchToProps = {
+  push,
+  setCount,
+  setOffset,
+  setQuery,
+  fetchComponent,
+  clearError,
+
   fetchContact,
+  setContact,
   submitNewContact,
   updateContact,
   deleteContact,
-  fetchEmailsByContact,
-  fetchGroups,
-  clearContact,
-  clearError,
-  onDrop,
+
   deleteContactImage,
-  setEmailQuery,
-  fetchContactListings
+  onDrop,
+
+  setContactListings,
+  searchContactListings,
+  submitContactListings,
+  deleteContactListing,
+
+  searchContactGroups,
+  submitContactGroups,
+  deleteContactGroup,
+  searchContactGroups,
+
+  fetchEmailsByContact,
+  setEmailQuery
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(

@@ -2,13 +2,16 @@ import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Field, reduxForm } from "redux-form";
-import { Button, Form, FormGroup, Col, Row } from "react-bootstrap";
+import { Form, FormGroup, Grid, Col, Row } from "react-bootstrap";
 
 import { contactValidate } from "../../helpers/redux-form/validate";
 import { fetchContact } from "../../actions/contact-actions";
 
-import inputField from "../InputField/InputField";
-import textAreaField from "../InputField/TextAreaField";
+import InputField from "../InputField/InputField";
+import TextAreaField from "../InputField/TextAreaField";
+import ButtonFooter from "../ButtonFooter/ButtonFooter";
+
+import "./SingleContact.css";
 
 const capitalize = word => {
   if (word) return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
@@ -25,140 +28,124 @@ ContactForm = ({
   auditClick,
   isContactNew,
   contact,
-  deleteContact,
-  groups,
-  fetchContact
+  fetchContact,
+  deleteContact
 }) => (
-  <Form onSubmit={handleSubmit}>
-    {/* *** NAMES *** */}
-    <Row>
-      <Col xs={12} sm={6}>
-        <FormGroup className="formGroup">
-          <Field
-            type="text"
-            name="firstName"
-            component={inputField}
-            label="First Name"
-          />
-        </FormGroup>
-      </Col>
-      <Col xs={12} sm={6}>
-        <FormGroup className="formGroup">
-          <Field
-            type="text"
-            name="lastName"
-            component={inputField}
-            label="Last Name"
-          />
-        </FormGroup>
-      </Col>
-    </Row>
-
-    {/* ***EMAIL ADDRESSES*** */}
-    <Row>
-      {isContactNew || !contact.email ? (
-        <Col xs={12} sm={6}>
-          <FormGroup className="formGroup">
+  <Grid>
+    <Form className="margin-top-2" onSubmit={handleSubmit}>
+      <FormGroup>
+        {/* *** NAMES *** */}
+        <Row>
+          <Col xs={12} sm={6}>
             <Field
-              type="email"
-              name={"email"}
-              component={inputField}
-              label="Email"
+              type="text"
+              name="firstName"
+              component={InputField}
+              label="First Name"
             />
-          </FormGroup>
-        </Col>
-      ) : (
-        contact.email &&
-        contact.email.map(address => {
-          return (
-            <Col xs={12} sm={6}>
-              <FormGroup className="formGroup">
-                <Field
-                  type="email"
-                  name={`email[${contact.email.indexOf(address)}].value`}
-                  component={inputField}
-                  label={`${capitalize(address.type)} Email`}
-                />
-              </FormGroup>
-            </Col>
-          );
-        })
-      )}
-    </Row>
-
-    {/* ***PHONE NUMBERS*** */}
-    <Row>
-      {isContactNew || !contact.phone ? (
-        <Col xs={12} sm={6}>
-          <FormGroup className="formGroup">
+          </Col>
+          <Col xs={12} sm={6}>
             <Field
-              type="tel"
-              name={"phone"}
-              component={inputField}
-              label="Phone"
+              type="text"
+              name="lastName"
+              component={InputField}
+              label="Last Name"
             />
-          </FormGroup>
-        </Col>
-      ) : (
-        contact.phone &&
-        contact.phone.map(number => {
-          return (
+          </Col>
+        </Row>
+
+        {/* ***EMAIL ADDRESSES*** */}
+        <Row>
+          {isContactNew || !contact.email ? (
             <Col xs={12} sm={6}>
-              <FormGroup className="formGroup">
-                <Field
-                  type="tel"
-                  name={`phone[${contact.phone.indexOf(number)}].value`}
-                  component={inputField}
-                  label={`${capitalize(number.type)} Phone`}
-                />
-              </FormGroup>
+              <Field
+                type="email"
+                name={"email"}
+                component={InputField}
+                label="Email"
+              />
             </Col>
-          );
-        })
-      )}
-    </Row>
+          ) : (
+            contact.email &&
+            contact.email.map(address => {
+              return (
+                <Col xs={12} sm={6} key={address.value}>
+                  <Field
+                    type="email"
+                    name={`email[${contact.email.indexOf(address)}].value`}
+                    component={InputField}
+                    label={`${capitalize(address.type)} Email`}
+                  />
+                </Col>
+              );
+            })
+          )}
+        </Row>
 
-    {/* *** NOTES *** */}
-    <Row>
-      <Col xs={12}>
-        <FormGroup controlId="formControlsTextarea">
-          <Field
-            type="text"
-            name="notes"
-            component={textAreaField}
-            label="Notes"
-          />
-        </FormGroup>
-      </Col>
-    </Row>
+        {/* ***PHONE NUMBERS*** */}
+        <Row>
+          {isContactNew || !contact.phone ? (
+            <Col xs={12} sm={6}>
+              <Field
+                type="tel"
+                name={"phone"}
+                component={InputField}
+                label="Phone"
+              />
+            </Col>
+          ) : (
+            contact.phone &&
+            contact.phone.map(number => {
+              return (
+                <Col xs={12} sm={6} key={number.value}>
+                  <Field
+                    type="tel"
+                    name={`phone[${contact.phone.indexOf(number)}].value`}
+                    component={InputField}
+                    label={`${capitalize(number.type)} Phone`}
+                  />
+                </Col>
+              );
+            })
+          )}
+        </Row>
 
-    {/* *** BUTTONS *** */}
-    <Row>
-      <Col xs={12}>
-        {isContactNew ? (
-          <Button
-            className="submitButton"
-            type="submit"
-            bsStyle="primary"
-            disabled={pristine || submitting}
-          >
-            <span>Submit</span>
-          </Button>
-        ) : (
-          <div>
-            <Button
-              className="submitButton"
-              type="submit"
-              bsStyle="primary"
-              disabled={pristine || submitting}
-            >
-              <span>Update</span>
-            </Button>
-          </div>
-        )}
-      </Col>
-    </Row>
-  </Form>
+        {/* *** NOTES *** */}
+        <Row>
+          <Col xs={12}>
+            <Field
+              type="text"
+              name="notes"
+              component={TextAreaField}
+              label="Notes"
+            />
+          </Col>
+        </Row>
+      </FormGroup>
+
+      {/* *** BUTTONS *** */}
+      <Row>
+        <Col xs={12}>
+          {isContactNew ? (
+            <ButtonFooter
+              primaryButtonText="Submit"
+              pristine={pristine}
+              submitting={submitting}
+            />
+          ) : (
+            <ButtonFooter
+              pristine={pristine}
+              submitting={submitting}
+              primaryButtonText="Update"
+              secondaryButtonText="Delete"
+              secondaryFunc={deleteContact}
+              component={contact}
+            />
+          )}
+        </Col>
+      </Row>
+    </Form>
+  </Grid>
 );
 
 ContactForm = reduxForm({

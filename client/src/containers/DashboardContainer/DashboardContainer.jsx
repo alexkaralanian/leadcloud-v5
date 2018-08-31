@@ -26,4 +26,6 @@ DashboardContainer.propTypes = {
   isAuthed: PropTypes.bool.isRequired
 };
 
+export const Unwrapped = DashboardContainer;
+
 export default connect(mapStateToProps, null)(DashboardContainer);

@@ -1,42 +1,76 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
-import { Grid, Row, Col } from "react-bootstrap";
+import { push } from "react-router-redux";
+import { Grid, Row, Col, Button } from "react-bootstrap";
 
 import Groups from "../../components/Groups/Groups";
-import Navigation from "../NavContainer/NavContainer";
-import { fetchGroups } from "../../actions/group-actions";
+
+import { setGroups, searchGroups } from "../../actions/group-actions";
+
+import {
+  fetchComponent,
+  setQuery,
+  setOffset
+} from "../../actions/query-actions";
 
 class GroupsContainer extends React.Component {
   componentDidMount() {
-    const { fetchGroups } = this.props;
-    fetchGroups();
+    window.addEventListener("scroll", this.onScroll, false);
+    const { fetchComponent, groups } = this.props;
+    fetchComponent("groups", [], setGroups, null, null);
   }
 
   componentWillUnmount() {
-    const {} = this.props;
+    window.removeEventListener("scroll", this.onScroll, false);
+    const { clearGroups, setQuery, setOffset } = this.props;
+    setGroups([]);
+    setQuery("");
+    setOffset(0);
   }
 
-  render() {
-    const { isAuthed, groups, isFetching } = this.props;
+  onScroll = () => {
+    const { isLoading, count, offset, fetchComponent, groups } = this.props;
+    if (
+      window.innerHeight + window.scrollY >= document.body.offsetHeight - 500 &&
+      count > offset &&
+      !isLoading
+    ) {
+      fetchComponent("groups", groups, setGroups, null, null);
+    }
+  };
 
-    return !isAuthed ? (
-      <Redirect to="/" />
-    ) : (
-      <div>
-        <Navigation />
-        <Groups isFetching={isFetching} groups={groups} />
-      </div>
+  createNewGroup = () => {
+    this.props.push("/groups/new");
+  };
+
+  render = () => {
+    const { isFetching, history, groups, component } = this.props;
+    return (
+      <Grid>
+        <Groups
+          groups={groups}
+          hostId={this.props.hostId}
+          component={this.props.component}
+          submitFunction={this.props.submitFunction}
+        />
+      </Grid>
     );
-  }
+  };
 }
 
 const mapStateToProps = state => ({
-  isAuthed: state.authReducer.isAuthed,
   groups: state.groupReducer.groups,
-  isFetching: state.groupReducer.isFetching
+  isLoading: state.queryReducer.isLoading,
+  count: state.queryReducer.count,
+  offset: state.queryReducer.offset
 });
 
-const mapDispatchToProps = { fetchGroups };
+const mapDispatchToProps = {
+  fetchComponent,
+  setGroups,
+  setQuery,
+  setOffset,
+  push
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(GroupsContainer);

@@ -34,7 +34,7 @@ const ContactTable = ({ component }) => (
             </td>
             <td className="nameDisplay">
               {contact.fullName ? (
-                <Link to={`/contact/${contact.id}`}>
+                <Link to={`/contacts/${contact.id}`}>
                   <span>{contact.fullName}</span>
                 </Link>
               ) : (
@@ -44,7 +44,7 @@ const ContactTable = ({ component }) => (
 
             <td className="emailDisplay">
               {contact.email ? (
-                <Link to={`/contact/${contact.id}`}>
+                <Link to={`/contacts/${contact.id}`}>
                   {`${contact.email[0].value}`}
                 </Link>
               ) : (

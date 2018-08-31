@@ -1,13 +1,23 @@
 import axios from "axios";
-import { push } from "react-router-redux";
 import * as types from "../types";
+import store from "../store";
 
-export const setContacts = (contacts, limit, offset, query) => ({
+import { push } from "react-router-redux";
+
+import {
+  setError,
+  clearError,
+  isFetching,
+  clearFormData
+} from "./common-actions";
+
+import { fetchComponent, setQuery, setOffset } from "./query-actions";
+
+import { setContactGroups } from "./contact-groups-actions";
+
+export const setContacts = contacts => ({
   type: types.SET_CONTACTS,
-  contacts,
-  limit,
-  offset,
-  query
+  payload: contacts
 });
 
 export const setContact = contact => ({
@@ -15,126 +25,22 @@ export const setContact = contact => ({
   contact
 });
 
-export const setContactListings = listings => ({
-  type: types.SET_CONTACT_LISTINGS,
-  payload: listings
-});
-
-export const setListingContactsSearchResults = contacts => ({
-  type: types.SET_LISTING_CONTACTS_SEARCH_RESULTS,
-  payload: contacts
-});
-
-export const clearListingContactsSearchResults = () => ({
-  type: types.CLEAR_LISTING_CONTACTS_SEARCH_RESULTS
-});
-
-export const setContactsQuery = query => ({
-  type: types.SET_CONTACTS_QUERY,
-  payload: query
-});
-
-const setGroups = groups => ({
-  type: types.SET_GROUPS,
-  groups
-});
-
-export const setContactImages = images => ({
-  type: types.SET_CONTACT_IMAGES,
-  payload: images
-});
-
-export const submitSuccess = () => ({
-  type: types.FORM_SUBMIT_SUCCESS
-});
-
-// ADMINISTRATIVE ACTIONS
-
-export const isFetching = bool => ({
-  type: types.IS_FETCHING,
-  isFetching: bool
-});
-
-export const isLoading = bool => ({
-  type: types.IS_LOADING,
-  isLoading: bool
-});
-
-export const clearContact = () => ({
-  type: types.CLEAR_CONTACT
-});
-
-export const clearContacts = () => ({
-  type: types.CLEAR_CONTACTS
-});
-
-export const setError = error => ({
-  type: types.SET_ERROR,
-  error
-});
-
-export const clearError = () => ({
-  type: types.CLEAR_ERROR
-});
-
 /* ------------       DISPATCHERS     ------------------ */
 
-// FETCH CONTACTS
-export const fetchContacts = (
-  limit,
-  offset,
-  query,
-  contactsArray
-) => async dispatch => {
-  console.log("FETCHING CONTACTS");
-  // if (!offset) dispatch(isFetching(true));
-  dispatch(isLoading(true));
-
-  const newOffset = offset + limit;
-  try {
-    const res = await axios.get(
-      `/api/contacts?limit=${limit}&offset=${offset}&query=${query}`
-    );
-    dispatch(setContacts(contactsArray.concat(res.data), limit, newOffset));
-    dispatch(isFetching(false));
-    dispatch(isLoading(false));
-  } catch (err) {
-    console.error("fetchContacts ERROR", err.response);
-    dispatch(isFetching(false));
-    dispatch(setError("ERROR FETCHING CONTACTS"));
-  }
+export const searchContacts = values => {
+  const query = values.nativeEvent.target.defaultValue;
+  store.dispatch(setQuery(query));
+  store.dispatch(setOffset(0));
+  store.dispatch(fetchComponent("contacts", [], setContacts, null, null));
 };
 
-// SEARCH CONTACTS
-export const searchContacts = (
-  limit,
-  offset,
-  query,
-  contactsArray,
-  section
-) => async dispatch => {
-  try {
-    const res = await axios.get(
-      `/api/contacts/?limit=${limit}&offset=${offset}&query=${query}`
-    );
-    if (section === "listingContacts") {
-      dispatch(setListingContactsSearchResults(res.data));
-    } else {
-      dispatch(setContacts(res.data, limit, limit));
-    }
-  } catch (err) {
-    console.error("fetchContacts ERROR", err.response);
-    dispatch(setError("ERROR FETCHING CONTACTS"));
-  }
-};
-
-// LOAD GOOGLE CONTACTS
-export const loadContacts = (limit, offset, query) => async dispatch => {
+// SYNC GOOGLE CONTACTS
+export const syncContacts = () => async dispatch => {
   dispatch(isFetching(true));
   try {
     const res = await axios.get("/api/contacts/loadcontacts");
     if (res.status === 200) {
-      dispatch(fetchContacts(limit, offset));
+      store.dispatch(fetchComponent("contacts", [], setContacts));
     }
   } catch (err) {
     console.error("Loading contacts from DB unsuccessful", err);
@@ -147,7 +53,8 @@ export const loadContacts = (limit, offset, query) => async dispatch => {
 export const fetchContact = id => async dispatch => {
   try {
     const res = await axios.get(`/api/contacts/${id}`);
-    dispatch(setContact(res.data));
+    dispatch(setContact(res.data.contact));
+    dispatch(setContactGroups(res.data.contactGroups));
     dispatch(isFetching(false));
   } catch (err) {
     console.error("Fetching contact unsuccessful", err);
@@ -163,7 +70,7 @@ export const submitNewContact = data => async dispatch => {
     const res = await axios.post("/api/contacts/new", data);
     if (res.status === 200) {
       dispatch(setContact(res.data));
-      dispatch(push(`/contact/${res.data.id}`));
+      dispatch(push(`/contacts/${res.data.id}`));
     }
     dispatch(isFetching(false));
   } catch (err) {
@@ -179,7 +86,7 @@ export const submitNewOpenHouseContact = data => async dispatch => {
   try {
     const res = await axios.post("/api/contacts/new/openhouse", data);
     if (res.status === 200) {
-      dispatch(submitSuccess());
+      dispatch(clearFormData());
       console.log("SUCCESSFULLY SUBMITTED", res.data);
     }
   } catch (err) {
@@ -208,32 +115,17 @@ export const deleteContact = id => async dispatch => {
   }
 };
 
-// FETCH CONTACT LISTINGS
-export const fetchContactListings = contactId => async dispatch => {
-  dispatch(isFetching(true));
+// CONTACT GROUPS
+export const fetchContactGroups = contactId => async dispatch => {
   try {
-    const res = await axios.post("/api/contacts/fetchContactListings", {
+    console.log("FETCHING CONTACT GROUPS", contactId);
+    const res = await axios.post(`/api/contacts/groups`, {
       contactId
     });
-    if (res.status === 200) {
-      dispatch(setContactListings(res.data));
-    }
-    dispatch(isFetching(false));
+    console.log("FETCHING RES", res.data);
+    dispatch(setContactGroups(res.data));
   } catch (err) {
-    console.error("Fetching listing contacts unsuccessful", err);
-    dispatch(isFetching(false));
-  }
-};
-
-// GROUPS
-export const fetchGroups = groups => async dispatch => {
-  try {
-    const res = await axios.post(`/api/contacts/groups`, {
-      groups
-    });
-    dispatch(setGroups(res.data));
-  } catch (err) {
-    console.error("Fetching groups from API unsuccessful", err);
+    console.error("Fetching contact groups from API unsuccessful", err);
   }
 };
 

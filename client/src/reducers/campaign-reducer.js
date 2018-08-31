@@ -1,21 +1,27 @@
 import * as types from "../types";
 
 const initialState = {
-  error: "",
-  message: "",
-  isFetching: false,
+  campaign: {},
+  campaigns: [],
   campaignGroups: [],
-  campaignListings: []
+  campaignListings: [],
+  listingData: []
 };
 
 const campaignReducer = (state = initialState, action) => {
   switch (action.type) {
-    // ADMINISTRATIVE
+    // CAMPAIGN LISTINGS
 
-    case types.SET_CAMPAIGN_GROUPS:
+    case types.SET_CAMPAIGN:
       return {
         ...state,
-        campaignGroups: action.payload
+        campaign: action.payload
+      };
+
+    case types.SET_CAMPAIGNS:
+      return {
+        ...state,
+        campaigns: action.payload
       };
 
     case types.SET_CAMPAIGN_LISTINGS:
@@ -24,23 +30,18 @@ const campaignReducer = (state = initialState, action) => {
         campaignListings: action.payload
       };
 
-    case types.IS_FETCHING:
+    case types.SET_CAMPAIGN_GROUPS:
       return {
         ...state,
-        isFetching: action.payload
+        campaignGroups: action.payload
       };
 
-    case types.SET_ERROR:
+    case types.LOAD_LISTING_DATA: {
       return {
         ...state,
-        error: action.payload
+        listingData: action.payload
       };
-
-    case types.CLEAR_ERROR:
-      return {
-        ...state,
-        error: ""
-      };
+    }
 
     default:
       return state;

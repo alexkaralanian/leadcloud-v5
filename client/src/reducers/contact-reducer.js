@@ -5,41 +5,21 @@ import * as types from "../types";
 
 const initialState = {
   contacts: [],
-  limit: 25,
-  offset: 0,
   contact: {},
   contactListings: [],
+  contactGroups: [],
   emailsByContact: [],
+
   pageToken: "",
-  maxResults: 15,
-  contactsQuery: "",
-  groups: [],
-  listingContactsSearchResults: [],
-  error: "",
-  isFetching: false,
-  isLoading: false
+  maxResults: 15
 };
 
 const contactReducer = (state = initialState, action) => {
   switch (action.type) {
-    case types.SET_LISTING_CONTACTS_SEARCH_RESULTS:
-      return {
-        ...state,
-        listingContactsSearchResults: action.payload // array of contacts
-      };
-
-    case types.CLEAR_LISTING_CONTACTS_SEARCH_RESULTS:
-      return {
-        ...state,
-        listingContactsSearchResults: [] // array of contacts
-      };
-
     case types.SET_CONTACTS:
       return {
         ...state,
-        contacts: action.contacts,
-        limit: action.limit,
-        offset: action.offset
+        contacts: action.payload
       };
 
     case types.SET_CONTACT:
@@ -48,16 +28,16 @@ const contactReducer = (state = initialState, action) => {
         contact: action.contact
       };
 
-    case types.SET_CONTACTS_QUERY:
-      return {
-        ...state,
-        contactsQuery: action.payload
-      };
-
     case types.SET_CONTACT_LISTINGS:
       return {
         ...state,
         contactListings: action.payload
+      };
+
+    case types.SET_CONTACT_GROUPS:
+      return {
+        ...state,
+        contactGroups: action.payload
       };
 
     case types.SET_EMAILS_BY_CONTACT:
@@ -66,60 +46,6 @@ const contactReducer = (state = initialState, action) => {
         emailsByContact: action.emailsByContact,
         pageToken: action.pageToken
       };
-
-    case types.SET_GROUPS:
-      return {
-        ...state,
-        groups: action.groups
-      };
-
-    case types.CLEAR_CONTACT:
-      return {
-        ...state,
-        contact: {},
-        emailsByContact: [],
-        photo: "",
-        groups: [],
-        googleImages: null
-      };
-
-    case types.CLEAR_CONTACTS:
-      return {
-        ...state,
-        contacts: [],
-        limit: 25,
-        offset: 0
-      };
-
-    case types.SET_ERROR:
-      return {
-        ...state,
-        error: action.error
-      };
-
-    case types.CLEAR_ERROR:
-      return {
-        ...state,
-        error: ""
-      };
-
-    case types.IS_FETCHING:
-      return {
-        ...state,
-        isFetching: action.isFetching
-      };
-
-    case types.IS_LOADING:
-      return {
-        ...state,
-        isLoading: action.isLoading
-      };
-
-    // case types.CLEAR_EMAILS_BY_CONTACT:
-    //   return {
-    //     ...state,
-    //     emailsByContact: []
-    //   };
 
     default:
       return state;

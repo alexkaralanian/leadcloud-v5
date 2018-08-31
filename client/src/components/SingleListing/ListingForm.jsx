@@ -2,14 +2,20 @@ import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Field, reduxForm } from "redux-form";
-import { Grid, Row, Col, Button, Form, FormGroup } from "react-bootstrap";
+import { Grid, Row, Col, Form, FormGroup } from "react-bootstrap";
 
 import { contactValidate } from "../../helpers/redux-form/validate";
 import { fetchListing } from "../../actions/listing-actions";
 
-import inputField from "../InputField/InputField";
+import InputField from "../InputField/InputField";
+import TextAreaField from "../InputField/TextAreaField";
+import ButtonFooter from "../ButtonFooter/ButtonFooter";
 
-let ListingForm = ({
+import "./SingleListing.css";
+
+let ListingForm;
+
+ListingForm = ({
   handleSubmit,
   load,
   pristine,
@@ -21,62 +27,44 @@ let ListingForm = ({
   deleteListing
 }) => (
   <Grid>
-    <Form onSubmit={handleSubmit}>
-      <FormGroup className="formGroup">
+    <Form className="margin-top-2" onSubmit={handleSubmit}>
+      <FormGroup>
         <Field
           type="text"
           name="address"
-          component={inputField}
+          component={InputField}
           label="Address"
         />
-      </FormGroup>
-      <FormGroup className="formGroup">
-        <Field type="text" name="city" component={inputField} label="City" />
-      </FormGroup>
-      <FormGroup className="formGroup">
-        <Field type="text" name="state" component={inputField} label="State" />
-      </FormGroup>
-      <FormGroup className="formGroup">
-        <Field type="text" name="zip" component={inputField} label="Zip" />
+        <Field type="text" name="city" component={InputField} label="City" />
+        <Field type="text" name="state" component={InputField} label="State" />
+        <Field type="text" name="zip" component={InputField} label="Zip" />
+        <Field
+          type="text"
+          name="description"
+          component={TextAreaField}
+          label="Description"
+        />
       </FormGroup>
 
       <Row>
-        {isListingNew ? (
-          <Col xs={12}>
-            <Button
-              className="submitButton"
-              type="submit"
-              bsStyle="primary"
-              disabled={pristine || submitting}
-            >
-              <span>Submit</span>
-            </Button>
-          </Col>
-        ) : (
-          <div>
-            <Col xs={12}>
-              <Button
-                className="submitButton"
-                type="submit"
-                bsStyle="primary"
-                disabled={pristine || submitting}
-              >
-                <span>Update</span>
-              </Button>
-            </Col>
-            <Col xs={12}>
-              <Button
-                className="submitButton"
-                onClick={() => {
-                  deleteListing(listing.id);
-                }}
-                bsStyle="danger"
-              >
-                <span>Delete</span>
-              </Button>
-            </Col>
-          </div>
-        )}
+        <Col xs={12}>
+          {isListingNew ? (
+            <ButtonFooter
+              primaryButtonText="Submit"
+              pristine={pristine}
+              submitting={submitting}
+            />
+          ) : (
+            <ButtonFooter
+              pristine={pristine}
+              submitting={submitting}
+              primaryButtonText="Update"
+              secondaryButtonText="Delete"
+              secondaryFunc={deleteListing}
+              component={listing}
+            />
+          )}
+        </Col>
       </Row>
     </Form>
   </Grid>

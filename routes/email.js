@@ -58,8 +58,7 @@ router.get("/gmail", authCheck, findUserById, (req, res) => {
             res.json(emailTransform(emails));
           });
       } else {
-        res.status(404).send({ error: "ERROR FETCHING EMAILS FROM GMAIL API" });
-        console.error(err);
+        console.error("ERROR FETCHING EMAILS", err.response.data);
       }
     }
   );
@@ -92,8 +91,7 @@ router.get("/gmail/:id", authCheck, findUserById, async (req, res) => {
     const email = await simpleParser(buff);
     res.json(email);
   } catch (err) {
-    res.status(404).send({ error: "ERROR FETCHING EMAIL FROM GMAIL API" });
-    console.error(err);
+    console.error("ERROR FETCHING EMAIL", err.response.data);
   }
 });
 

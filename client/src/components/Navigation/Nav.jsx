@@ -17,7 +17,6 @@ const Navigation = ({ isAuthed, user, logout, profile, push }) => (
       <Nav>
         <Contacts isAuthed={isAuthed} push={push} />
         <Listings isAuthed={isAuthed} push={push} />
-        {/*<Groups isAuthed={isAuthed} push={push} />*/}
         <Campaigns isAuthed={isAuthed} push={push} />
         <Emails isAuthed={isAuthed} push={push} />
       </Nav>
@@ -37,20 +36,30 @@ const Navigation = ({ isAuthed, user, logout, profile, push }) => (
 
 const Contacts = ({ isAuthed, push }) =>
   isAuthed && (
-    <MenuItem
-      className="menuItem"
-      eventKey="2"
-      onSelect={() => push("/contacts")}
-    >
-      Contacts
-    </MenuItem>
+    <NavDropdown eventKey={2} title="Contacts" id="basic-nav-dropdown">
+      <MenuItem
+        className="menuItem"
+        eventKey={2.1}
+        onSelect={() => push("/contacts")}
+      >
+        Contacts
+      </MenuItem>
+      <MenuItem divider />
+      <MenuItem
+        className="menuItem"
+        eventKey={2.2}
+        onSelect={() => push("/groups")}
+      >
+        Groups
+      </MenuItem>
+    </NavDropdown>
   );
 
 const Listings = ({ isAuthed, push }) =>
   isAuthed && (
     <MenuItem
       className="menuItem"
-      eventKey="3"
+      eventKey={3}
       onSelect={() => push("/listings")}
     >
       Listings
@@ -61,23 +70,12 @@ const Emails = ({ isAuthed, push }) =>
   isAuthed && (
     <MenuItem
       className="menuItem"
-      eventKey="1"
+      eventKey={1}
       onSelect={() => push("/emails")}
     >
       Messages
     </MenuItem>
   );
-
-// const Groups = ({ isAuthed, push }) =>
-//   isAuthed && (
-//     <MenuItem
-//       className="menuItem"
-//       eventKey="1"
-//       onSelect={() => push("/groups")}
-//     >
-//       Groups
-//     </MenuItem>
-//   );
 
 const Campaigns = ({ isAuthed, push }) =>
   isAuthed && (
@@ -94,13 +92,13 @@ const Profile = ({ isAuthed, user, logout, push }) =>
   isAuthed && (
     <NavDropdown
       className="menuItem"
-      eventKey={2}
+      eventKey={4}
       title={`Welcome, ${user.firstName}!`}
       id="basic-nav-dropdown"
     >
       <MenuItem
         className="menuItem"
-        eventKey="3"
+        eventKey={4.1}
         onSelect={() => push("/profile")}
       >
         Profile
@@ -112,7 +110,7 @@ const Profile = ({ isAuthed, user, logout, push }) =>
           push("/");
           logout();
         }}
-        eventKey={2.4}
+        eventKey={4.2}
       >
         Logout
       </MenuItem>

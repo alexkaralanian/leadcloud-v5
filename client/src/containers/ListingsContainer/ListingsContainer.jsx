@@ -1,66 +1,89 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Grid, Row, Col, Button } from "react-bootstrap";
 import { Redirect } from "react-router";
+import { push } from "react-router-redux";
+import { Grid, Row, Col, Button } from "react-bootstrap";
+
 import Listings from "../../components/Listings/Listings";
 import Navigation from "../NavContainer/NavContainer";
+import BreadCrumbs from "../../components/BreadCrumbs/BreadCrumbs";
+import Header from "../../components/Header/Header";
+import SearchForm from "../../components/SearchForm/SearchForm";
+import Counter from "../../components/Counter/Counter";
+
 import {
-  setIsListingNew,
-  fetchListings,
+  setListings,
+  searchListings,
   clearListings,
   clearError
 } from "../../actions/listing-actions";
 
+import {
+  fetchComponent,
+  setQuery,
+  setOffset,
+  setCount
+} from "../../actions/query-actions";
+
+import { clearFormData } from "../../actions/common-actions";
+
 class ListingsContainer extends React.Component {
-  constructor(props) {
-    super(props);
-    this.createNewListing = this.createNewListing.bind(this);
-  }
-
   componentDidMount() {
-    const { fetchListings } = this.props;
-
-    fetchListings();
+    const { fetchComponent, listings } = this.props;
+    fetchComponent("listings", [], setListings, null, null);
+    window.addEventListener("scroll", this.onScroll, false);
   }
 
   componentWillUnmount() {
-    const { clearListings, clearError } = this.props;
-
-    clearListings();
-    clearError();
+    const { clearFormData, setQuery, setOffset } = this.props;
+    window.removeEventListener("scroll", this.onScroll, false);
+    setQuery("");
+    setOffset(0);
+    clearFormData();
   }
 
-  createNewListing() {
-    const { history } = this.props;
+  onScroll = () => {
+    const { isLoading, offset, count, listings, fetchComponent } = this.props;
+    if (
+      window.innerHeight + window.scrollY >= document.body.offsetHeight - 500 &&
+      count > offset &&
+      !isLoading
+    ) {
+      fetchComponent("listings", listings, setListings, null, null);
+    }
+  };
 
-    history.push("/listing/new");
-  }
+  createNewListing = () => {
+    this.props.push("/listings/new");
+  };
 
   render() {
-    const { isAuthed, isFetching, listings } = this.props;
+    const { isAuthed, isFetching, listings, push } = this.props;
 
     return !isAuthed ? (
       <Redirect to="/" />
     ) : (
       <div>
         <Navigation />
+        <BreadCrumbs />
         <Grid>
-          <Row id="create-new-listing-btn">
-            <Col xs={12}>
-              <div>
-                <Button
-                  bsStyle="primary"
-                  onClick={this.createNewListing}
-                  className="submitButton"
-                >
-                  <span>Create New</span>
-                </Button>
-              </div>
-            </Col>
-          </Row>
-          <div>
-            <Listings isFetching={isFetching} listings={listings} />
-          </div>
+          <Header
+            isVisible={true}
+            componentName="listings"
+            headerTitle="Listings"
+            isNew={null}
+            primaryText="Create New Listing"
+            primaryFunc={() => push("/listings/new")}
+            primaryGlyph="plus"
+          />
+
+          <SearchForm
+            searchFunction={searchListings}
+            searchText="Search Listings..."
+          />
+          <Counter />
+          <Listings isFetching={isFetching} listings={listings} />
         </Grid>
       </div>
     );
@@ -70,15 +93,21 @@ class ListingsContainer extends React.Component {
 const mapStateToProps = state => ({
   isAuthed: state.authReducer.isAuthed,
   listings: state.listingReducer.listings,
+  limit: state.listingReducer.limit,
+  offset: state.listingReducer.offset,
+  query: state.listingReducer.query,
   isFetching: state.listingReducer.isFetching,
   error: state.listingReducer.error
 });
 
 const mapDispatchToProps = {
-  clearError,
-  setIsListingNew,
-  fetchListings,
-  clearListings
+  // fetchListings,
+  fetchComponent,
+  searchListings,
+  clearFormData,
+  setQuery,
+  setOffset,
+  push
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ListingsContainer);

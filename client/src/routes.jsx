@@ -6,7 +6,6 @@ import { Route, Switch } from "react-router-dom";
 import { ConnectedRouter } from "react-router-redux";
 import { fetchUser } from "./actions/auth-actions";
 import { history } from "./store";
-import "./index.css";
 
 // import iFrameContainer from "./containers/SingleEmailContainer/iFrameContainer";
 
@@ -72,7 +71,8 @@ const OpenHouse = Loadable({
 });
 
 const Groups = Loadable({
-  loader: () => import("./containers/GroupsContainer/GroupsContainer"),
+  loader: () =>
+    import("./containers/GroupsDashboardContainer/GroupsDashboardContainer"),
   loading: Loading
 });
 
@@ -82,8 +82,20 @@ const SingleGroup = Loadable({
   loading: Loading
 });
 
+const GroupContacts = Loadable({
+  loader: () =>
+    import("./containers/GroupContactsContainer/GroupContactsContainer"),
+  loading: Loading
+});
+
 const Campaigns = Loadable({
   loader: () => import("./containers/CampaignsContainer/CampaignsContainer"),
+  loading: Loading
+});
+
+const CreateCampaign = Loadable({
+  loader: () =>
+    import("./containers/CreateCampaignContainer/CreateCampaignContainer"),
   loading: Loading
 });
 
@@ -109,16 +121,24 @@ class App extends React.Component {
             <Route path="/emails" component={Emails} />
             <Route path="/email/:id" component={SingleEmail} />
             <Route path="/iframecontainer" component={iFrameContainer} />
-            <Route path="/contacts" component={Contacts} />
-            <Route path="/contact/:id" component={SingleContact} />
-            <Route path="/contact/new" component={SingleContact} />
-            <Route path="/listings" component={Listings} />
-            <Route path="/listing/:id" component={SingleListing} />
-            <Route path="/openhouse/:listingId" component={OpenHouse} />
-            <Route path="/groups" component={Groups} />
-            <Route path="/group/:id" component={SingleGroup} />
-            <Route path="/campaigns" component={Campaigns} />
-            <Route path="/campaign/new" component={SingleCampaign} />
+
+            <Route exact path="/contacts" component={Contacts} />
+            <Route path="/contacts/new" component={SingleContact} />
+            <Route path="/contacts/:id" component={SingleContact} />
+
+            <Route exact path="/listings" component={Listings} />
+            <Route path="/listings/new" component={SingleListing} />
+            <Route path="/listings/:id" component={SingleListing} />
+            <Route exact path="/listings/:id/openhouse" component={OpenHouse} />
+
+            <Route exact path="/groups" component={Groups} />
+            <Route path="/groups/new" component={SingleGroup} />
+            <Route path="/groups/:id" component={SingleGroup} />
+
+            <Route exact path="/campaigns" component={Campaigns} />
+            <Route path="/campaigns/new" component={CreateCampaign} />
+            <Route path="/campaigns/:id" component={CreateCampaign} />
+
             <Route
               render={() => (
                 <div>

@@ -1,28 +1,37 @@
 import { reducer } from "redux-form";
 import * as types from "../types";
 
-// Apply Custom Reducer Cases
 const formReducer = reducer.plugin({
-  // email: (state, action) => {
-  //       return undefined; // <--- blow away form data
-  //     default:
-  //       return state;
-  //   }
-  // },
+  campaignFormA: (state, action) => {
+    switch (action.type) {
+      case types.CLEAR_FORM_DATA:
+        return undefined;
+      default:
+        return state;
+    }
+  },
+
   contactForm: (state, action) => {
     switch (action.type) {
-      // case types.CONTACT_SEARCH:
-      //   return {
-      //     ...state,
-      //     input: action.change
-      //   };
+      case types.CLEAR_FORM_DATA:
+        return undefined;
       default:
         return state;
     }
   },
   listingForm: (state, action) => {
     switch (action.type) {
-      // return undefined; // <--- blow away form data
+      case types.CLEAR_FORM_DATA:
+        return undefined;
+      default:
+        return state;
+    }
+  },
+
+  groupForm: (state, action) => {
+    switch (action.type) {
+      case types.CLEAR_FORM_DATA:
+        return undefined;
       default:
         return state;
     }
@@ -30,17 +39,44 @@ const formReducer = reducer.plugin({
 
   openHouseForm: (state, action) => {
     switch (action.type) {
-      case types.FORM_SUBMIT_SUCCESS:
-        return undefined; // <--- blow away form data
+      case types.CLEAR_FORM_DATA:
+        return undefined;
       default:
         return state;
     }
   },
 
-  searchContacts: (state, action) => {
+  searchListingContacts: (state, action) => {
     switch (action.type) {
-      case types.FORM_SUBMIT_SUCCESS:
-        return undefined; // <--- blow away form data
+      case types.CLEAR_FORM_DATA:
+        return undefined;
+      default:
+        return state;
+    }
+  },
+
+  searchContactListings: (state, action) => {
+    switch (action.type) {
+      case types.CLEAR_FORM_DATA:
+        return undefined;
+      default:
+        return state;
+    }
+  },
+
+  searchContactGoups: (state, action) => {
+    switch (action.type) {
+      case types.CLEAR_FORM_DATA:
+        return undefined;
+      default:
+        return state;
+    }
+  },
+
+  searchForm: (state, action) => {
+    switch (action.type) {
+      case types.CLEAR_FORM_DATA:
+        return undefined;
       default:
         return state;
     }

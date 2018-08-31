@@ -8,14 +8,13 @@ import Navigation from "../NavContainer/NavContainer";
 
 import {
   fetchEmail,
-  clearEmail,
-  clearError
+  clearEmail
+  // clearError
 } from "../../actions/email-actions";
 
 class SingleEmailContainer extends React.Component {
-  componentWillMount() {
-    const { fetchEmail, match } = this.props;
-
+  componentDidMount() {
+    const { fetchEmail, email, match } = this.props;
     fetchEmail(match.params.id);
   }
 
@@ -31,7 +30,7 @@ class SingleEmailContainer extends React.Component {
     const { clearEmail, clearError } = this.props;
 
     clearEmail();
-    clearError();
+    // clearError();
   }
 
   render() {
@@ -71,7 +70,7 @@ class SingleEmailContainer extends React.Component {
             title="Email"
             frameBorder={1}
             src="/iframecontainer"
-            scrolling="yes"
+            // scrolling="yes"
           />
         </Grid>
       </div>
@@ -84,14 +83,14 @@ class SingleEmailContainer extends React.Component {
 const mapStateToProps = state => ({
   email: state.emailReducer.email,
   isFetching: state.emailReducer.isFetching,
-  error: state.emailReducer.error,
+  // error: state.emailReducer.error,
   isAuthed: state.authReducer.isAuthed
 });
 
 const mapDispatchToProps = {
   fetchEmail,
-  clearEmail,
-  clearError
+  clearEmail
+  // clearError
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(

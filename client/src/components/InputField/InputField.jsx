@@ -8,7 +8,7 @@ const inputField = ({
   type,
   meta: { touched, active, error }
 }) => (
-  <div>
+  <div className="input_container">
     {label && <ControlLabel>{label}</ControlLabel>}
     <FormControl
       {...input}

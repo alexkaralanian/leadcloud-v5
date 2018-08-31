@@ -8,5 +8,6 @@ module.exports = {
   DB_NAME: process.env.RDS_DB_NAME,
   DB_USERNAME: process.env.RDS_USERNAME,
   DB_PASSWORD: process.env.RDS_PASSWORD,
-  REDIS_URI: process.env.REDIS_URI
+  REDIS_URI: process.env.REDIS_URI,
+  SENDGRID_KEY: process.env.SENDGRID_KEY
 };

@@ -31,6 +31,7 @@ const ImageCarousel = ({
             images.map(image => (
               <div key={image} className="imageContainer">
                 <div
+                  role="button"
                   className="imgDelete"
                   onClick={event => {
                     event.stopPropagation();

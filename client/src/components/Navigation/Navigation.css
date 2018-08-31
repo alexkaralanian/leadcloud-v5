@@ -6,6 +6,7 @@
 .menuItem a {
   background-color: transparent !important;
   outline: none !important;
+  font-weight: 400;
 }
 
 .navProfilePic {
@@ -18,4 +19,8 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+}
+
+a.navbar-brand {
+  font-weight: 400;
 }

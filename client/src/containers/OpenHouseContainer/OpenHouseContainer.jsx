@@ -13,8 +13,8 @@ class OpenHouseContainer extends React.Component {
   render() {
     return (
       <div>
-        <Navigation />
-        <OpenHouse
+      HELLO OPEN HOUSE
+        {/*<OpenHouse
           listing={this.props.location.state.listing}
           images={this.props.location.state.images}
         />
@@ -24,7 +24,7 @@ class OpenHouseContainer extends React.Component {
             this.props.submitNewOpenHouseContact(values);
           }}
           listing={this.props.location.state.listing}
-        />
+        />*/}
       </div>
     );
   }
