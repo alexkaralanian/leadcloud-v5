@@ -9,10 +9,13 @@ export const setEmails = (emails, pageToken) => ({
   pageToken
 });
 
-export const setEmail = email => ({
-  type: types.SET_EMAIL,
-  email
-});
+export const setEmail = email => {
+  console.log("SET EMAIL", email.html);
+  return {
+    type: types.SET_EMAIL,
+    email
+  };
+};
 
 // END OF TESTING FOR NOW HERE....
 
@@ -94,27 +97,27 @@ export const fetchEmail = id => async dispatch => {
   }
 };
 
-// export const fetchEmailsByContact = (
-//   query,
-//   maxResults,
-//   pageToken,
-//   emailsArray
-// ) => async dispatch => {
-//   dispatch(isLoading(true));
-//   try {
-//     const res = await axios.get(
-//       `/api/email/gmail?maxResults=${maxResults}&pageToken=${pageToken}&q=${query}`
-//     );
-//     dispatch(
-//       setEmailsByContact(
-//         emailsArray.concat(res.data.emailArray),
-//         res.data.nextPageToken
-//       )
-//     );
-//     dispatch(isLoading(false));
-//   } catch (err) {
-//     console.error("Fetching emails by contact unsuccessful", err);
-//     dispatch(setError("ERROR FETCHING EMAILS BY CONTACT"));
-//     dispatch(isLoading(false));
-//   }
-// };
+export const fetchEmailsByContact = (
+  query,
+  maxResults,
+  pageToken,
+  emailsArray
+) => async dispatch => {
+  dispatch(isLoading(true));
+  try {
+    const res = await axios.get(
+      `/api/email/gmail?maxResults=${maxResults}&pageToken=${pageToken}&q=${query}`
+    );
+    dispatch(
+      setEmailsByContact(
+        emailsArray.concat(res.data.emailArray),
+        res.data.nextPageToken
+      )
+    );
+    dispatch(isLoading(false));
+  } catch (err) {
+    console.error("Fetching emails by contact unsuccessful", err);
+    dispatch(setError("ERROR FETCHING EMAILS BY CONTACT"));
+    dispatch(isLoading(false));
+  }
+};

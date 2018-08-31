@@ -8,30 +8,35 @@ import Navigation from "../NavContainer/NavContainer";
 
 import {
   fetchEmail,
-  clearEmail,
-  clearError
+  clearEmail
+  // clearError
 } from "../../actions/email-actions";
 
 class SingleEmailContainer extends React.Component {
-  componentWillMount() {
-    this.props.fetchEmail(this.props.match.params.id);
+  componentDidMount() {
+    const { fetchEmail, email, match } = this.props;
+    fetchEmail(match.params.id);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.email !== nextProps.email) {
+    const { email } = this.props;
+
+    if (email !== nextProps.email) {
       this.iframe.contentWindow.postMessage({ email: nextProps.email }, "*");
     }
   }
 
   componentWillUnmount() {
-    this.props.clearEmail();
-    this.props.clearError();
+    const { clearEmail, clearError } = this.props;
+
+    clearEmail();
+    // clearError();
   }
 
   render() {
-    const { email } = this.props;
+    const { isAuthed, email } = this.props;
 
-    return this.props.isAuthed ? (
+    return isAuthed ? (
       <div>
         <Navigation />
         <Grid>
@@ -65,7 +70,7 @@ class SingleEmailContainer extends React.Component {
             title="Email"
             frameBorder={1}
             src="/iframecontainer"
-            scrolling="yes"
+            // scrolling="yes"
           />
         </Grid>
       </div>
@@ -78,14 +83,14 @@ class SingleEmailContainer extends React.Component {
 const mapStateToProps = state => ({
   email: state.emailReducer.email,
   isFetching: state.emailReducer.isFetching,
-  error: state.emailReducer.error,
+  // error: state.emailReducer.error,
   isAuthed: state.authReducer.isAuthed
 });
 
 const mapDispatchToProps = {
   fetchEmail,
-  clearEmail,
-  clearError
+  clearEmail
+  // clearError
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(

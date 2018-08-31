@@ -7,7 +7,7 @@ RUN mkdir /app
 
 WORKDIR /app
 
-RUN npm i -g nodemon sequelize-cli
+RUN npm i -g nodemon sequelize-cli pm2
 
 COPY package.json package.json
 COPY package-lock.json package-lock.json

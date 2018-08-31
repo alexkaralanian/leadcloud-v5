@@ -25,6 +25,8 @@ class iFrameContainer extends React.Component {
       this.setState({
         email
       });
+    } else {
+      console.error("NO EMAIL WAS SET");
     }
   }
 

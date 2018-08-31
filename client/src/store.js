@@ -1,15 +1,26 @@
 import { createStore, applyMiddleware, combineReducers } from "redux";
-import { composeWithDevTools } from "redux-devtools-extension";
-
-// REDUCERS
-import authReducer from "./reducers/auth-reducer";
-import emailReducer from "./reducers/email-reducer";
 
 // MIDDLEWARE
 import thunkMiddleware from "redux-thunk";
 import { createLogger } from "redux-logger";
+import { composeWithDevTools } from "redux-devtools-extension";
 import createHistory from "history/createBrowserHistory";
 import { routerReducer, routerMiddleware } from "react-router-redux";
+
+// REDUCERS
+import authReducer from "./reducers/auth-reducer";
+import emailReducer from "./reducers/email-reducer";
+import contactReducer from "./reducers/contact-reducer";
+import listingReducer from "./reducers/listing-reducer";
+import listingContactsReducer from "./reducers/listing-contacts-reducer";
+import groupReducer from "./reducers/group-reducer";
+import groupContactsReducer from "./reducers/group-contacts-reducer";
+import campaignReducer from "./reducers/campaign-reducer";
+import formReducer from "./reducers/form-reducer";
+import queryReducer from "./reducers/query-reducer";
+import modalReducer from "./reducers/modal-reducer";
+import navReducer from "./reducers/nav-reducer";
+import commonReducer from "./reducers/common-reducer";
 
 // ROUTER HISTORY
 export const history = createHistory();
@@ -18,7 +29,18 @@ export const history = createHistory();
 const rootReducer = combineReducers({
   authReducer,
   emailReducer,
-  router: routerReducer
+  contactReducer,
+  listingReducer,
+  // listingContactsReducer,
+  groupReducer,
+  // groupContactsReducer,
+  campaignReducer,
+  queryReducer,
+  modalReducer,
+  navReducer,
+  commonReducer,
+  router: routerReducer,
+  form: formReducer
 });
 
 const store = createStore(

@@ -11,5 +11,7 @@
 }
 
 .ReactLoading_Icon {
-  margin-top: -50px;
+  margin-top: 0px;
+  width: 6rem;
+  height: 6rem;
 }

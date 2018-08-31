@@ -1,8 +1,7 @@
-"use strict";
-
 const fs = require("fs");
 const path = require("path");
 const Sequelize = require("sequelize");
+
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || "development";
 const config = require(__dirname + "/../config/database.js")[env];
@@ -43,13 +42,13 @@ db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
 sequelize
-  // .sync({ force: true })
-  .authenticate()
+  .sync({ force: true })
+  // .authenticate()
   .then(() => {
     console.log("Sequelize is ready.");
   })
   .catch(err => {
-    console.error("Unable to connect to the database:", err);
+    console.error("Sequelize is unable to connect:", err);
   });
 
 module.exports = db;

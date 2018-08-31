@@ -1,0 +1,13 @@
+.breadcrumb {
+  margin: 0;
+  background-color: white;
+  padding-left: 0;
+}
+
+.breadcrumb li a {
+  font-weight: 400;
+}
+
+/*.breadcrumb li a {
+  font-family: "Helvetica Neue";
+}*/

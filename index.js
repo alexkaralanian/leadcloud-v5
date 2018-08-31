@@ -33,8 +33,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // ROUTES
+app.use("/api/upload", require("./routes/upload"));
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/email", require("./routes/email"));
+app.use("/api/contacts", require("./routes/contacts"));
+app.use("/api/listings", require("./routes/listings"));
+app.use("/api/groups", require("./routes/groups"));
+app.use("/api/campaigns", require("./routes/campaigns"));
 
 app.use(express.static("client/build"));
 app.get("*", (req, res) => {
@@ -43,9 +48,9 @@ app.get("*", (req, res) => {
 
 //ERROR HANDLING MIDDLEWARE
 app.use((err, req, res, next) => {
-  console.error(err);
   console.error(err.stack);
   res.status(err.status || 500).send(err.message || "Internal Error");
+  next();
 });
 
 const PORT = process.env.PORT || 3001;

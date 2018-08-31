@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { Grid, Row, Col, Table } from "react-bootstrap";
 import moment from "moment";
 import Loading from "../Loading/Loading";
+import Errors from "../Error/Error";
 import "./Emails.css";
 
 const Emails = ({ emails, createContact, isFetching, emailError }) =>
@@ -50,14 +51,6 @@ const Emails = ({ emails, createContact, isFetching, emailError }) =>
           </Table>
         </Col>
       </Row>
-
-      {/*error ? (
-        <Row>
-          <Col xs={12}>
-            <p className={error}>{emailError}</p>
-          </Col>
-        </Row>
-      ) : null*/}
     </Grid>
   );
 

@@ -1,0 +1,3 @@
+describe("Listings Component", () => {
+  test("", () => {});
+});
