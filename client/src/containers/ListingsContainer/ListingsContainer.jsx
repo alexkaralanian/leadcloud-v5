@@ -73,7 +73,7 @@ class ListingsContainer extends React.Component {
             componentName="listings"
             headerTitle="Listings"
             isNew={null}
-            primaryText="Create Listing"
+            primaryText="Create New Listing"
             primaryFunc={() => push("/listings/new")}
             primaryGlyph="plus"
           />

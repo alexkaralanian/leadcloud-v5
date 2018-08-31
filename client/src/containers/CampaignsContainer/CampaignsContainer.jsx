@@ -48,12 +48,13 @@ class CampaignsContainer extends React.Component {
             componentName="campaigns"
             headerTitle="Campaigns"
             isNew={null}
-            primaryText="Create Campaign"
+            primaryText="Create New Campaign"
             primaryFunc={this.createNewCampaign}
             primaryGlyph="plus"
           />
+
+          <Campaigns campaigns={campaigns} />
         </Grid>
-        <Campaigns campaigns={campaigns} />
       </React.Fragment>
     );
   }

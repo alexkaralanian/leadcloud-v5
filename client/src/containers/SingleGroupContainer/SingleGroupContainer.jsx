@@ -61,14 +61,17 @@ class SingleGroupContainer extends React.Component {
   onMenuSelect = eventKey => {
     const { push, match, location } = this.props;
     const groupId = match.params.id;
+
     if (eventKey === 1) {
-      push(`/groups/${groupId}/contacts`);
+      push(`/groups/${groupId}`);
       this.setState({ activeKey: 1 });
     }
+
     if (eventKey === 2) {
-      push(`/groups/${groupId}`);
+      push(`/groups/${groupId}/contacts`);
       this.setState({ activeKey: 2 });
     }
+
     if (eventKey === 3) {
       push(`/groups/${groupId}/media`);
       this.setState({ activeKey: 3 });

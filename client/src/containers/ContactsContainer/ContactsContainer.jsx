@@ -72,7 +72,7 @@ class ContactsContainer extends React.Component {
     return !isAuthed ? (
       <Redirect to="/" />
     ) : (
-      <div>
+      <React.Fragment>
         <Navigation />
         <BreadCrumbs />
         <Grid>
@@ -81,7 +81,7 @@ class ContactsContainer extends React.Component {
             componentName="contacts"
             headerTitle="Contacts"
             isNew={null}
-            primaryText="Create Contact"
+            primaryText="Create New Contact"
             primaryFunc={() => push("/contacts/new")}
             primaryGlyph="plus"
             secondaryText="Sync Contacts"
@@ -94,10 +94,11 @@ class ContactsContainer extends React.Component {
             searchText="Search Contacts..."
           />
           <Counter />
+
+          <Contacts contacts={contacts} isFetching={isFetching} />
         </Grid>
-        <Contacts contacts={contacts} isFetching={isFetching} />
         {/*<Errors errorText={this.props.error} />*/}
-      </div>
+      </React.Fragment>
     );
   }
 }

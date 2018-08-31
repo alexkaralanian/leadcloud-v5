@@ -53,19 +53,21 @@ router.get("/google/callback", (req, res) => {
             }
           });
           const [user, created] = User;
+
           // if user already exists, update auth tokens
           if (!created) {
-            user.update({
+            await user.update({
               googleAccessToken: tokens.access_token,
               googleRefreshToken: tokens.refresh_token
             });
           }
+
           // Add session obj to req.session.user
           req.session["user"] = user.uuid;
 
           process.env.NODE_ENV === "production"
             ? res.redirect("/")
-            : res.redirect("http://localhost:3000");
+            : res.redirect("http://localhost:3001");
         }
       );
     } else {
@@ -95,7 +97,6 @@ router.get("/current-user", authCheck, async (req, res) => {
 // LOGOUT
 router.get("/logout", (req, res) => {
   req.session.destroy();
-  console.log("LOGOUT SESSION", req.session);
   res.sendStatus(200);
 });
 

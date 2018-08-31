@@ -53,13 +53,14 @@ const Header = ({
                   <Button
                     className="button-lg"
                     bsStyle="primary"
-                    // bsSize="large"
+                    bsSize="large"
                     onClick={evt => {
                       evt.stopPropagation();
                       primaryFunc();
                     }}
                   >
-                    <Glyphicon glyph={primaryGlyph} />
+                    <span>{primaryText}</span>
+                    {/*<Glyphicon glyph={primaryGlyph} />*/}
                   </Button>
                 </OverlayTrigger>
               </ButtonToolbar>
@@ -75,10 +76,11 @@ const Header = ({
                   <Button
                     className="button-lg"
                     bsStyle={secondaryStyle}
-                    // bsSize="large"
+                    bsSize="large"
                     onClick={secondaryFunc}
                   >
-                    <Glyphicon glyph={secondaryGlyph} />
+                    <span>{secondaryText}</span>
+                    {/*<Glyphicon glyph={secondaryGlyph} />*/}
                   </Button>
                 </OverlayTrigger>
               </ButtonToolbar>
