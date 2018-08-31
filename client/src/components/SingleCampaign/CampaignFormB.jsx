@@ -2,28 +2,14 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { push } from "react-router-redux";
-import Textarea from "react-autosize-textarea";
 import findIndex from "lodash.findindex";
 
 import { Field, reduxForm } from "redux-form";
-import {
-  Button,
-  Form,
-  Grid,
-  Col,
-  Row,
-  Image,
-  handleSubmit,
-  FormGroup
-} from "react-bootstrap";
+import { Button, Form, Col, Row, Image, FormGroup } from "react-bootstrap";
 
-import SearchForm from "../../components/SearchForm/SearchForm";
 import TextAreaField from "../InputField/TextAreaField";
 import InputField from "../InputField/InputField";
-
 import { contactValidate } from "../../helpers/redux-form/validate";
-import { fetchListing } from "../../actions/listing-actions";
-import { loadListingData } from "../../actions/campaign-listings-actions";
 
 import "./SingleCampaign.css";
 

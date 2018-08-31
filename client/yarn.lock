@@ -1399,8 +1399,13 @@ caniuse-db@^1.0.30000529, caniuse-db@^1.0.30000634, caniuse-db@^1.0.30000639:
   resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30000854.tgz#999c083af8cda969dc33b69e59544c3682206084"
 
 caniuse-lite@^1.0.30000748, caniuse-lite@^1.0.30000792:
+<<<<<<< HEAD
+  version "1.0.30000853"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000853.tgz#505249fc78d60e20ad47af3c13706d6f9fd209fd"
+=======
   version "1.0.30000854"
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000854.tgz#3a692706a6d9a591418dbc612d61cc412ec5989b"
+>>>>>>> b66211cd894949a08e98eaecc9b6cbb0ee4b1fcd
 
 capture-stack-trace@^1.0.0:
   version "1.0.0"
@@ -4496,10 +4501,13 @@ lodash.defaults@^4.2.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/lodash.defaults/-/lodash.defaults-4.2.0.tgz#d09178716ffea4dde9e5fb7b37f6f0802274580c"
 
+<<<<<<< HEAD
+=======
 lodash.findindex@^4.6.0:
   version "4.6.0"
   resolved "https://registry.yarnpkg.com/lodash.findindex/-/lodash.findindex-4.6.0.tgz#a3245dee61fb9b6e0624b535125624bb69c11106"
 
+>>>>>>> b66211cd894949a08e98eaecc9b6cbb0ee4b1fcd
 lodash.flattendeep@^4.4.0:
   version "4.4.0"
   resolved "https://registry.yarnpkg.com/lodash.flattendeep/-/lodash.flattendeep-4.4.0.tgz#fb030917f86a3134e5bc9bec0d69e0013ddfedb2"
@@ -5764,7 +5772,11 @@ prop-types-extra@^1.0.1:
     react-is "^16.3.2"
     warning "^3.0.0"
 
+<<<<<<< HEAD
+prop-types@^15.5.0, prop-types@^15.5.10, prop-types@^15.5.7, prop-types@^15.6.0, prop-types@^15.6.1:
+=======
 prop-types@^15.5.0, prop-types@^15.5.10, prop-types@^15.5.6, prop-types@^15.5.7, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.1:
+>>>>>>> b66211cd894949a08e98eaecc9b6cbb0ee4b1fcd
   version "15.6.1"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.1.tgz#36644453564255ddda391191fb3a125cbdf654ca"
   dependencies:
@@ -5900,6 +5912,8 @@ rc@^1.0.1, rc@^1.1.6, rc@^1.1.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
+<<<<<<< HEAD
+=======
 react-autosize-textarea@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/react-autosize-textarea/-/react-autosize-textarea-4.0.0.tgz#893d43606b1efe820c71476f25d141c6b25deaab"
@@ -5908,6 +5922,7 @@ react-autosize-textarea@^4.0.0:
     line-height "^0.3.1"
     prop-types "^15.5.6"
 
+>>>>>>> b66211cd894949a08e98eaecc9b6cbb0ee4b1fcd
 react-bootstrap@^0.32.1:
   version "0.32.1"
   resolved "https://registry.yarnpkg.com/react-bootstrap/-/react-bootstrap-0.32.1.tgz#60624c1b48a39d773ef6cce6421a4f33ecc166bb"
@@ -5968,24 +5983,30 @@ react-error-overlay@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-4.0.0.tgz#d198408a85b4070937a98667f500c832f86bd5d4"
 
+<<<<<<< HEAD
+=======
 react-html-email@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/react-html-email/-/react-html-email-3.0.0.tgz#a5a51b78271a33daf9b14638e9e4c5df93f691aa"
   dependencies:
     prop-types "^15.5.10"
 
+>>>>>>> b66211cd894949a08e98eaecc9b6cbb0ee4b1fcd
 react-html-parser@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/react-html-parser/-/react-html-parser-2.0.2.tgz#6dbe1ddd2cebc1b34ca15215158021db5fc5685e"
   dependencies:
     htmlparser2 "^3.9.0"
 
+<<<<<<< HEAD
+=======
 react-infinite-scroller@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/react-infinite-scroller/-/react-infinite-scroller-1.2.0.tgz#ea89906c5bc918dce486880b59e88847518aa538"
   dependencies:
     prop-types "^15.5.8"
 
+>>>>>>> b66211cd894949a08e98eaecc9b6cbb0ee4b1fcd
 react-is@^16.3.2, react-is@^16.4.1:
   version "16.4.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.4.1.tgz#d624c4650d2c65dbd52c72622bbf389435d9776e"
@@ -6122,12 +6143,15 @@ react-test-renderer@^16.0.0-0:
     prop-types "^15.6.0"
     react-is "^16.4.1"
 
+<<<<<<< HEAD
+=======
 react-textarea-autosize@^7.0.4:
   version "7.0.4"
   resolved "https://registry.yarnpkg.com/react-textarea-autosize/-/react-textarea-autosize-7.0.4.tgz#4e4be649b544a88713e7b5043f76950f35d3d503"
   dependencies:
     prop-types "^15.6.0"
 
+>>>>>>> b66211cd894949a08e98eaecc9b6cbb0ee4b1fcd
 react-transition-group@^2.0.0, react-transition-group@^2.2.0:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-2.3.1.tgz#31d611b33e143a5e0f2d94c348e026a0f3b474b6"
