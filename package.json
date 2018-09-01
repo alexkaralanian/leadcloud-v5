@@ -34,8 +34,6 @@
     "express-session": "^1.15.6",
     "googleapis": "^27.0.0",
     "helmet": "^3.12.0",
-    "jest-environment-puppeteer": "^3.2.1",
-    "jest-puppeteer": "^3.2.1",
     "lodash.isempty": "^4.4.0",
     "mailparser": "^2.2.0",
     "mime": "^2.3.1",

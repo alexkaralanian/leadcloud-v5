@@ -8,21 +8,18 @@ const textAreaField = ({
   placeholder,
   type,
   meta: { touched, active, error }
-}) => {
-  console.log("INPUT", input);
-  return (
-    <React.Fragment>
-      <ControlLabel>{label}</ControlLabel>
-      <FormControl
-        componentClass={Textarea}
-        {...input}
-        label={label}
-        placeholder={placeholder}
-        type={type}
-      />
-      {touched && !active && error && <div>{error}</div>}
-    </React.Fragment>
-  );
-};
+}) => (
+  <React.Fragment>
+    <ControlLabel>{label}</ControlLabel>
+    <FormControl
+      componentClass={Textarea}
+      {...input}
+      label={label}
+      placeholder={placeholder}
+      type={type}
+    />
+    {touched && !active && error && <div>{error}</div>}
+  </React.Fragment>
+);
 
 export default textAreaField;
