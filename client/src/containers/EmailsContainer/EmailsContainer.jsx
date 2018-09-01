@@ -10,18 +10,9 @@ import { fetchEmails, clearEmails } from "../../actions/email-actions";
 // import { clearError } from "../../actions/common-actions";
 
 class EmailsContainer extends React.Component {
-  constructor(props) {
-    super(props);
-    this.createContact = this.createContact.bind(this);
-    this.onScroll = this.onScroll.bind(this);
-  }
-
   componentDidMount() {
-    this.props.fetchEmails(
-      this.props.maxResults,
-      this.props.pageToken,
-      this.props.emails
-    );
+    const { fetchEmails, maxResults, pageToken, emails } = this.props;
+    fetchEmails(maxResults, pageToken, emails);
     window.addEventListener("scroll", this.onScroll, false);
   }
 
@@ -31,22 +22,26 @@ class EmailsContainer extends React.Component {
     // this.props.clearEmails();
   }
 
-  onScroll() {
+  onScroll = () => {
+    const {
+      fetchEmails,
+      maxResults,
+      pageToken,
+      emails,
+      isLoading
+    } = this.props;
+
     if (
       window.innerHeight + window.scrollY >= document.body.offsetHeight - 500 &&
-      this.props.emails.length &&
-      !this.props.isLoading
+      emails.length &&
+      !isLoading
     ) {
-      this.props.fetchEmails(
-        this.props.maxResults,
-        this.props.pageToken,
-        this.props.emails
-      );
+      fetchEmails(maxResults, pageToken, emails);
     }
-  }
+  };
 
   // Still working??? //  MOVE TO CONTACT REDUCER...
-  createContact(email, name) {
+  createContact = (email, name) => {
     return axios
       .post("api/email/gmail/fetchcontact", {
         email,
@@ -55,18 +50,19 @@ class EmailsContainer extends React.Component {
       .then(res => {
         this.props.history.push(`contact/${res.data.id}`);
       });
-  }
+  };
 
   render() {
-    return this.props.isAuthed ? (
+    const { isAuthed, emails, isFetching, error } = this.props;
+    return isAuthed ? (
       <div>
         <Navigation />
         <Emails
-          emails={this.props.emails}
-          isFetching={this.props.isFetching}
+          emails={emails}
+          isFetching={isFetching}
           createContact={this.createContact}
         />
-        <Errors errorText={this.props.error} />
+        <Errors errorText={error} />
       </div>
     ) : (
       <Redirect push to="/" />
