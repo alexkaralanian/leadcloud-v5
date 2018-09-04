@@ -16,9 +16,8 @@ const fetchGoogleGroups = syncToken =>
     if (syncToken) options["syncToken"] = syncToken;
 
     people.contactGroups.list(options, (err, response) => {
-      const { contactGroups, nextSyncToken } = response.data;
-
       if (response.data) {
+        const { contactGroups, nextSyncToken } = response.data;
         resolve([contactGroups, nextSyncToken]);
       } else {
         reject(err);
@@ -43,7 +42,7 @@ const fetchGoogleContacts = syncToken =>
       };
 
       if (syncToken) options["syncToken"] = syncToken;
-      if (!syncToken) options["requestSyncToken"] = true;
+      else options["requestSyncToken"] = true;
 
       people.people.connections.list(options, (err, response) => {
         if (response.data) {
@@ -64,6 +63,7 @@ const fetchGoogleContacts = syncToken =>
 // MAP GOOGLE CONTACTS TO DB SCHEMA
 const mapContacts = (contact, userId) => {
   const imageArray = contact.photos && contact.photos.map(photo => photo.url);
+
   const membershipArray =
     contact.memberships &&
     contact.memberships.map(

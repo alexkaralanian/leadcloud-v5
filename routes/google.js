@@ -50,8 +50,7 @@ router.get("/sync-contacts", authCheck, findUserById, async (req, res) => {
       returning: true
     });
 
-    // ASSEMBLE ARRAY OF  MEMBERSHIP IDS MAPPINGS TO CONTACT IDS
-
+    // ASSEMBLE ARRAY OF CONTACT MEMBERSHIP ID MAPPINGS TO CONTACT IDS
     const membershipMap = createdGroups.map(group => group.googleId);
 
     createdContacts.map(contact => {
@@ -59,6 +58,7 @@ router.get("/sync-contacts", authCheck, findUserById, async (req, res) => {
         contact.membership.forEach(googleId => {
           memberships.push({
             contactId: contact.id,
+            // 1:1 object mapping for optimal efficiency
             groupId: createdGroups[membershipMap.indexOf(googleId)].id
           });
         });
@@ -78,8 +78,9 @@ router.get("/sync-contacts", authCheck, findUserById, async (req, res) => {
 
   try {
     // SET SYNC TOKENS ON USER
-    const user = await Users.findById(req.session.user.toString());
     log(chalk.blue("SETTING NEXT SYNC TOKENS ON USER"));
+
+    const user = await Users.findById(req.session.user.toString());
     await user.update({
       gContactsSyncToken: contactsNextSyncToken,
       gGroupsSyncToken: groupsNextSyncToken
@@ -89,7 +90,7 @@ router.get("/sync-contacts", authCheck, findUserById, async (req, res) => {
   }
 
   try {
-    // FETCH CONTACTS ARRAY AND SEND AS REPSONSE
+    // FETCH SORTED CONTACTS ARRAY AND SEND AS REPSONSE
     log(chalk.blue("FETCHING SORTED CONTACTS FROM DB"));
     const results = await Contacts.findAndCountAll({
       limit: 25,
