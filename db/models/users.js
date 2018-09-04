@@ -22,7 +22,9 @@ module.exports = (sequelize, DataTypes) => {
       googleId: DataTypes.STRING,
       googlePhoto: DataTypes.STRING,
       googleAccessToken: DataTypes.STRING,
-      googleRefreshToken: DataTypes.STRING
+      googleRefreshToken: DataTypes.STRING,
+      gContactsSyncToken: DataTypes.STRING,
+      gGroupsSyncToken: DataTypes.STRING
     },
     {}
   );

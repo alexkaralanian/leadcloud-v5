@@ -2,8 +2,8 @@ module.exports = (sequelize, DataTypes) => {
   const ListingContacts = sequelize.define(
     "ListingContacts",
     {
-      listingId: DataTypes.STRING,
-      contactId: DataTypes.STRING
+      listingId: DataTypes.INTEGER,
+      contactId: DataTypes.INTEGER
     },
     {}
   );

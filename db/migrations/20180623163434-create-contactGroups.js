@@ -2,10 +2,10 @@ module.exports = {
   up: (queryInterface, Sequelize) =>
     queryInterface.createTable("ContactGroups", {
       contactId: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
       groupId: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,

@@ -142,7 +142,6 @@ router.get("/:id/contacts", authCheck, async (req, res) => {
       ],
       order: [["updatedAt", "DESC"]]
     });
-    console.log("GROUP CONTACTS", groupContacts);
     res.json(groupContacts);
   } catch (err) {
     console.error("FETCHING GROUP CONTACTS ERROR", err);

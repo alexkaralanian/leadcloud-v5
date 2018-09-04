@@ -20,8 +20,13 @@ module.exports = {
     dialect: "postgres",
     logging: false,
     retry: {
-      max: 10
+      max: 100
     }
+  },
+  pool: {
+    max: 5,
+    idle: 30000,
+    acquire: 60000
   },
   test: {
     username: "postgres",

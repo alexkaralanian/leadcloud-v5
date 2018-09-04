@@ -11,7 +11,7 @@ import {
   clearFormData
 } from "./common-actions";
 
-import { fetchComponent, setQuery, setOffset } from "./query-actions";
+import { fetchComponent, setQuery, setCount, setOffset } from "./query-actions";
 
 import { setContactGroups } from "./contact-groups-actions";
 
@@ -36,14 +36,22 @@ export const searchContacts = values => {
 
 // SYNC GOOGLE CONTACTS
 export const syncContacts = () => async dispatch => {
+  const state = store.getState();
+  const limit = state.queryReducer.limit;
+  const offset = state.queryReducer.offset;
+  const newOffset = offset + limit;
+
   dispatch(isFetching(true));
   try {
-    const res = await axios.get("/api/contacts/loadcontacts");
-    if (res.status === 200) {
-      store.dispatch(fetchComponent("contacts", [], setContacts));
-    }
+    const res = await axios.get("/api/google/sync-contacts");
+
+    dispatch(setContacts(res.data.rows));
+    dispatch(setCount(res.data.count));
+    dispatch(setOffset(25));
+
+    dispatch(isFetching(false));
   } catch (err) {
-    console.error("Loading contacts from DB unsuccessful", err);
+    console.error("Syncing Contacts Unsuccessful", err);
     dispatch(isFetching(false));
     dispatch(setError("ERROR LOADING CONTACTS"));
   }

@@ -17,127 +17,127 @@ const router = express.Router();
 const people = google.people("v1");
 const Op = Sequelize.Op;
 
-// FETCH, MAP, AND LOAD USER'S GROUPS AND CONTACTS TO DB
-router.get("/loadcontacts", authCheck, findUserById, async (req, res) => {
-  const userId = req.session.user.toString();
+// // FETCH, MAP, AND LOAD USER'S GROUPS AND CONTACTS TO DB
+// router.get("/loadcontacts", authCheck, findUserById, async (req, res) => {
+//   const userId = req.session.user.toString();
 
-  // FETCH, MAP, & LOAD USER'S GROUPS
-  const groups = await new Promise((resolve, reject) => {
-    people.contactGroups.list(
-      {
-        auth: oAuth2Client
-      },
-      (err, response) => {
-        if (response) {
-          resolve(response.data);
-        } else {
-          reject(err);
-        }
-      }
-    );
-  }).catch(err => {
-    console.error(err);
-  });
+//   // FETCH, MAP, & LOAD USER'S GROUPS
+//   const groups = await new Promise((resolve, reject) => {
+//     people.contactGroups.list(
+//       {
+//         auth: oAuth2Client
+//       },
+//       (err, response) => {
+//         if (response) {
+//           resolve(response.data);
+//         } else {
+//           reject(err);
+//         }
+//       }
+//     );
+//   }).catch(err => {
+//     console.error(err);
+//   });
 
-  await groups.contactGroups.map(async group => {
-    try {
-      await Groups.findOrCreate({
-        where: {
-          UserUuid: userId,
-          googleId: group.resourceName.slice(
-            group.resourceName.indexOf("/") + 1 // contactGroups/...
-          )
-        },
-        defaults: {
-          title: group.name
-        }
-      });
-    } catch (err) {
-      console.error(err);
-    }
-  });
+//   await groups.contactGroups.map(async group => {
+//     try {
+//       await Groups.findOrCreate({
+//         where: {
+//           UserUuid: userId,
+//           googleId: group.resourceName.slice(
+//             group.resourceName.indexOf("/") + 1 // contactGroups/...
+//           )
+//         },
+//         defaults: {
+//           title: group.name
+//         }
+//       });
+//     } catch (err) {
+//       console.error(err);
+//     }
+//   });
 
-  // FETCH GOOGLE CONTACTS
-  const contacts = await new Promise((resolve, reject) => {
-    let contactsArray = [];
-    const getContacts = pageToken => {
-      people.people.connections.list(
-        {
-          resourceName: "people/me",
-          personFields:
-            "metadata,names,addresses,emailAddresses,phoneNumbers,memberships,occupations,organizations,photos,birthdays",
-          auth: oAuth2Client,
-          pageSize: 2000,
-          pageToken
-        },
-        (err, response) => {
-          if (response) {
-            contactsArray = contactsArray.concat(response.data.connections);
-            if (response.data.nextPageToken) {
-              getContacts(response.data.nextPageToken);
-            } else {
-              resolve(contactsArray);
-            }
-          } else {
-            reject(err);
-          }
-        }
-      );
-    };
-    getContacts();
-  });
+//   // FETCH GOOGLE CONTACTS
+//   const contacts = await new Promise((resolve, reject) => {
+//     let contactsArray = [];
+//     const getContacts = pageToken => {
+//       people.people.connections.list(
+//         {
+//           resourceName: "people/me",
+//           personFields:
+//             "metadata,names,addresses,emailAddresses,phoneNumbers,memberships,occupations,organizations,photos,birthdays",
+//           auth: oAuth2Client,
+//           pageSize: 2000,
+//           pageToken
+//         },
+//         (err, response) => {
+//           if (response) {
+//             contactsArray = contactsArray.concat(response.data.connections);
+//             if (response.data.nextPageToken) {
+//               getContacts(response.data.nextPageToken);
+//             } else {
+//               resolve(contactsArray);
+//             }
+//           } else {
+//             reject(err);
+//           }
+//         }
+//       );
+//     };
+//     getContacts();
+//   });
 
-  // MAP & LOAD GOOGLE CONTACTS TO DB
-  await contacts.map(async contact => {
-    const imageArray = contact.photos && contact.photos.map(photo => photo.url);
+//   // MAP & LOAD GOOGLE CONTACTS TO DB
+//   await contacts.map(async contact => {
+//     const imageArray = contact.photos && contact.photos.map(photo => photo.url);
 
-    const membershipArray =
-      contact.memberships &&
-      contact.memberships.map(
-        group => group.contactGroupMembership.contactGroupId
-      );
+//     const membershipArray =
+//       contact.memberships &&
+//       contact.memberships.map(
+//         group => group.contactGroupMembership.contactGroupId
+//       );
 
-    const defaults = {
-      firstName:
-        contact.names &&
-        contact.names[0].givenName &&
-        contact.names[0].givenName,
-      lastName:
-        contact.names &&
-        contact.names[0].familyName &&
-        contact.names[0].familyName,
-      fullName:
-        contact.names &&
-        contact.names[0].displayName &&
-        contact.names[0].displayName,
-      email: contact.emailAddresses && contact.emailAddresses,
-      phone: contact.phoneNumbers && contact.phoneNumbers,
-      address: contact.addresses && contact.addresses,
-      membership: membershipArray,
-      updated: moment(contact.metadata.sources[0].updateTime).format(
-        "YYYY-MM-DD HH:mm:ss.SSS"
-      ),
-      images: imageArray
-    };
+//     const defaults = {
+//       firstName:
+//         contact.names &&
+//         contact.names[0].givenName &&
+//         contact.names[0].givenName,
+//       lastName:
+//         contact.names &&
+//         contact.names[0].familyName &&
+//         contact.names[0].familyName,
+//       fullName:
+//         contact.names &&
+//         contact.names[0].displayName &&
+//         contact.names[0].displayName,
+//       email: contact.emailAddresses && contact.emailAddresses,
+//       phone: contact.phoneNumbers && contact.phoneNumbers,
+//       address: contact.addresses && contact.addresses,
+//       membership: membershipArray,
+//       updated: moment(contact.metadata.sources[0].updateTime).format(
+//         "YYYY-MM-DD HH:mm:ss.SSS"
+//       ),
+//       images: imageArray
+//     };
 
-    const createdContact = await Contacts.findOrCreate({
-      where: {
-        googleId: contact.metadata.sources[0].id,
-        UserUuid: userId
-      },
-      defaults
-    });
+//     const createdContact = await Contacts.findOrCreate({
+//       where: {
+//         googleId: contact.metadata.sources[0].id,
+//         UserUuid: userId
+//       },
+//       defaults
+//     });
 
-    contact.memberships &&
-      contact.memberships.map(async group => {
-        const contactGroup = await Groups.findOne({
-          where: { googleId: group.contactGroupMembership.contactGroupId }
-        });
-        await contactGroup.addContact(createdContact[0].id.toString());
-      });
-  });
-  res.sendStatus(200);
-});
+//     contact.memberships &&
+//       contact.memberships.map(async group => {
+//         const contactGroup = await Groups.findOne({
+//           where: { googleId: group.contactGroupMembership.contactGroupId }
+//         });
+//         await contactGroup.addContact(createdContact[0].id.toString());
+//       });
+//   });
+//   res.sendStatus(200);
+// });
 
 // GET ALL CONTACTS FROM DB
 router.get("/", async (req, res) => {

@@ -35,8 +35,6 @@ export const fetchComponent = (
   subComponent // string, ie "groups" || null
 ) => async dispatch => {
   const state = store.getState();
-
-  const count = state.queryReducer.count;
   const limit = state.queryReducer.limit;
   const offset = state.queryReducer.offset;
   const query = state.queryReducer.query;
