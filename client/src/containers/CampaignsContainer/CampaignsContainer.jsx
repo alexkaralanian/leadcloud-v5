@@ -15,7 +15,7 @@ import { setCampaignGroups } from "../../actions/campaign-groups-actions";
 
 class CampaignsContainer extends React.Component {
   componentDidMount() {
-    const { fetchCampaigns, match } = this.props;
+    const { fetchCampaigns } = this.props;
     fetchCampaigns();
   }
 
@@ -30,12 +30,11 @@ class CampaignsContainer extends React.Component {
     setCampaign({});
     setCampaignListings([]);
     setCampaignGroups([]);
-
-    this.props.push("/campaigns/new");
+    push("/campaigns/new");
   };
 
   render() {
-    const { isAuthed, push, campaigns, createNewCampaign } = this.props;
+    const { isAuthed, campaigns } = this.props;
     return !isAuthed ? (
       <Redirect path="/" />
     ) : (

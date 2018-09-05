@@ -12,9 +12,7 @@ import authReducer from "./reducers/auth-reducer";
 import emailReducer from "./reducers/email-reducer";
 import contactReducer from "./reducers/contact-reducer";
 import listingReducer from "./reducers/listing-reducer";
-import listingContactsReducer from "./reducers/listing-contacts-reducer";
 import groupReducer from "./reducers/group-reducer";
-import groupContactsReducer from "./reducers/group-contacts-reducer";
 import campaignReducer from "./reducers/campaign-reducer";
 import formReducer from "./reducers/form-reducer";
 import queryReducer from "./reducers/query-reducer";
@@ -31,9 +29,7 @@ const rootReducer = combineReducers({
   emailReducer,
   contactReducer,
   listingReducer,
-  // listingContactsReducer,
   groupReducer,
-  // groupContactsReducer,
   campaignReducer,
   queryReducer,
   modalReducer,

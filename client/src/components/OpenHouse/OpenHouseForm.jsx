@@ -1,5 +1,4 @@
 import React from "react";
-// import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
 import {
   Grid,
@@ -11,8 +10,8 @@ import {
   FormControl,
   ControlLabel
 } from "react-bootstrap";
-import PropTypes from "prop-types";
 
+// import PropTypes from "prop-types";
 // import { contactValidate } from "../../helpers/redux-form/validate";
 
 const inputField = ({
@@ -28,7 +27,9 @@ const inputField = ({
   </div>
 );
 
-let OpenHouseForm = ({
+let OpenHouseForm;
+
+OpenHouseForm = ({
   handleSubmit,
   load,
   pristine,

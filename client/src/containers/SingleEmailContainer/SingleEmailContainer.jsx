@@ -9,12 +9,11 @@ import Navigation from "../NavContainer/NavContainer";
 import {
   fetchEmail,
   clearEmail
-  // clearError
 } from "../../actions/email-actions";
 
 class SingleEmailContainer extends React.Component {
   componentDidMount() {
-    const { fetchEmail, email, match } = this.props;
+    const { fetchEmail, match } = this.props;
     fetchEmail(match.params.id);
   }
 
@@ -27,10 +26,8 @@ class SingleEmailContainer extends React.Component {
   }
 
   componentWillUnmount() {
-    const { clearEmail, clearError } = this.props;
-
+    const { clearEmail } = this.props;
     clearEmail();
-    // clearError();
   }
 
   render() {

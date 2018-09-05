@@ -1,9 +1,9 @@
 import React from "react";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { push } from "react-router-redux";
 import { Route, Redirect } from "react-router-dom";
-import { Grid, Col, Row } from "react-bootstrap";
+import { Grid } from "react-bootstrap";
 
 import Navigation from "../NavContainer/NavContainer";
 import BreadCrumbs from "../../components/BreadCrumbs/BreadCrumbs";
@@ -14,14 +14,11 @@ import ContactForm from "../../components/SingleContact/ContactForm";
 import ImageCarousel from "../../components/ImageCarousel/ImageCarousel";
 import SingleContactEmailsContainer from "./SingleContactEmailsContainer";
 import ContactGroups from "../../components/ContactGroups/ContactGroups";
-import GroupsContainer from "../GroupsContainer/GroupsContainer";
-import SearchForm from "../../components/SearchForm/SearchForm";
-import Counter from "../../components/Counter/Counter";
 import Modal from "../../components/Modal/Modal";
 import SearchListingsContainer from "../SearchListingsContainer/SearchListingsContainer";
 import SearchGroupsContainer from "../SearchGroupsContainer/SearchGroupsContainer";
 
-import { clearError, isFetching } from "../../actions/common-actions";
+import { clearError } from "../../actions/common-actions";
 
 import {
   fetchComponent,
@@ -49,12 +46,9 @@ import {
   setDiffedContactListings
 } from "../../actions/contact-listings-actions";
 
-import { searchGroups } from "../../actions/group-actions";
-
 import {
   submitContactGroups,
   deleteContactGroup,
-  setContactGroups,
   searchContactGroups,
   setDiffedContactGroups,
   searchDiffedContactGroups
@@ -75,7 +69,6 @@ class SingleContactContainer extends React.Component {
   componentDidMount() {
     const {
       match,
-      location,
       fetchComponent,
       fetchContact,
       setContact,
@@ -99,7 +92,6 @@ class SingleContactContainer extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     const {
-      match,
       location,
       contact,
       setEmailQuery,
@@ -129,7 +121,7 @@ class SingleContactContainer extends React.Component {
   }
 
   componentWillUnmount() {
-    const { setContact, setQuery, setOffset } = this.props;
+    const { setContact, setOffset } = this.props;
     setOffset(0);
     setContact({});
   }
@@ -203,7 +195,7 @@ class SingleContactContainer extends React.Component {
 
   // HEADER
   headerFunc = () => {
-    const { match, location, contact } = this.props;
+    const { match, location } = this.props;
     switch (location.pathname) {
       case `/contacts/${match.params.id}/listings`:
         return {
@@ -229,10 +221,7 @@ class SingleContactContainer extends React.Component {
   render() {
     const {
       match,
-      location,
-      push,
       isAuthed,
-      isFetching,
 
       contact,
       submitNewContact,
@@ -241,12 +230,10 @@ class SingleContactContainer extends React.Component {
 
       contactListings,
       searchContactListings,
-      submitContactListings,
       deleteContactListing,
 
       contactGroups,
       searchContactGroups,
-      submitContactGroups,
       deleteContactGroup,
 
       emailsByContact,
@@ -430,7 +417,6 @@ const mapDispatchToProps = {
   submitContactListings,
   deleteContactListing,
 
-  searchContactGroups,
   submitContactGroups,
   deleteContactGroup,
   searchContactGroups,

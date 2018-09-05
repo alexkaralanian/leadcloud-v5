@@ -1,11 +1,10 @@
-import axios from "axios";
 import * as types from "../types";
 import store from "../store";
 
-import { searchListings, setListings } from "./listing-actions";
-import { fetchComponent, setQuery, setOffset, setCount } from "./query-actions";
+import { setListings } from "./listing-actions";
+import { fetchComponent, setQuery, setOffset } from "./query-actions";
 import { setSelected } from "./modal-actions";
-import { isFetching, clearFormData } from "./common-actions";
+// import { isFetching, clearFormData } from "./common-actions";
 
 /* ------------   ACTION CREATORS     ------------------ */
 
@@ -25,7 +24,7 @@ export const setDiffedCampaignListings = listings => dispatch => {
   listings = listings.slice();
   campaignListings.forEach(campaignListing => {
     listings.forEach(listing => {
-      if (campaignListing.id == listing.id) {
+      if (campaignListing.id === listing.id) {
         listing.disabled = true;
       }
     });
