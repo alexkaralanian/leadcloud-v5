@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  Grid,
   Row,
   Col,
   Button,
@@ -53,7 +52,7 @@ const Header = ({
                   <Button
                     className="button-lg"
                     bsStyle="primary"
-                    bsSize="large"
+                    // bsSize="large"
                     onClick={evt => {
                       evt.stopPropagation();
                       primaryFunc();
@@ -76,7 +75,7 @@ const Header = ({
                   <Button
                     className="button-lg"
                     bsStyle={secondaryStyle}
-                    bsSize="large"
+                    // bsSize="large"
                     onClick={secondaryFunc}
                   >
                     <span>{secondaryText}</span>

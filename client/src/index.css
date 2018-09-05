@@ -125,6 +125,11 @@ iframe {
   height: calc(100vh - 195px);
 }
 
+/*** PRIMARY NAVIGATION ***/
+.navbar-inverse {
+  margin-bottom: 1.25rem !important;
+}
+
 /*** SECONDARY NAVIGATION ***/
 
 .secondary_nav-container {

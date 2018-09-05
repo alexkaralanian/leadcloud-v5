@@ -5,8 +5,8 @@
   align-items: center;
   justify-content: space-between;
   background-color: #222;
-  padding: 1.5rem 2rem 1.5rem 1rem;
-  min-height: 11rem;
+  padding: 1rem;
+  min-height: 7.5rem;
   border-radius: 2px 2px 0 0;
   overflow: none;
 }

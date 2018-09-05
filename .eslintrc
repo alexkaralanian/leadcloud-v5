@@ -15,7 +15,9 @@
     }
   },
   "rules": {
-    "prettier/prettier": "error"
+    "babel/semi": 1,
+    "prettier/prettier": "error",
+
   },
 }
 

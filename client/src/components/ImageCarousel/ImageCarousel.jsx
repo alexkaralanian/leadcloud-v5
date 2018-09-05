@@ -30,7 +30,7 @@ const ImageCarousel = ({
           {images &&
             images.map(image => (
               <div key={image} className="imageContainer">
-                <div
+                <button
                   role="button"
                   className="imgDelete"
                   onClick={event => {
@@ -39,7 +39,7 @@ const ImageCarousel = ({
                   }}
                 >
                   <span>x</span>
-                </div>
+                </button>
                 <img src={image} className="imageStyle" />
               </div>
             ))}
