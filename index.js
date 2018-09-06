@@ -10,9 +10,11 @@ const helmet = require("helmet");
 const redisClient = require("./services/redisClient");
 const session = require("express-session");
 const RedisStore = require("connect-redis")(session);
+const cors = require("cors");
 
 const app = express();
 
+app.use(cors());
 app.use(helmet());
 
 // REDIS SESSION
