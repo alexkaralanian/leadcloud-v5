@@ -5,8 +5,8 @@
   align-items: center;
   justify-content: space-between;
   background-color: #222;
-  padding: 1rem;
-  min-height: 7.5rem;
+  padding: 1.5rem;
+  min-height: 10rem;
   border-radius: 2px 2px 0 0;
   overflow: none;
 }
@@ -27,7 +27,7 @@ h1.header_text {
 }
 
 .header_button-row {
-  margin-top: 1rem;
+  margin-top: 1.4rem;
   display: flex;
   flex-wrap: wrap;
 }

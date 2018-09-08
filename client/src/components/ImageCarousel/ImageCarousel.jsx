@@ -14,7 +14,7 @@ const ImageCarousel = ({
   <Grid>
     <Row>
       <Col xs={12}>
-        <div className="carousel">
+        <div className="carousel  margin-top-2">
           <Dropzone
             className="dropZone"
             accept="image/*"

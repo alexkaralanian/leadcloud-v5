@@ -10,16 +10,16 @@
   align-items: center;*/
   /*overflow: scroll;*/
   margin-bottom: 15px;
-  border: 1px solid lightgrey;
-  border-radius: 1px;
+  border: 1px dotted lightgrey;
+  border-radius: 2px;
 }
 
 .dropZone {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 120px;
-  padding: 10px;
+  height: 12rem;
+  padding: 1rem;
   /* margin-bottom: 15px;*/
 }
 
@@ -32,14 +32,12 @@
   background-color: gray;
   border: 1px solid black;
   border-radius: 100%;
-  padding: 10px;
+  /* padding: 10px;*/
   font-size: 50px;
-  margin-top: -10px;
 }
 
 .dropButton span {
   font-size: 50px;
-  margin-top: -10px;
 }
 
 .imagesContainer {
@@ -82,10 +80,10 @@
 
 .imgDelete {
   position: absolute;
+  display: flex;
   border: 1px dotted lightgrey;
   background-color: white;
   border-radius: 100%;
-  display: flex;
   justify-content: center;
   align-items: center;
   width: 20px;
@@ -99,8 +97,8 @@
 
 .imgDelete span {
   font-weight: 500;
-  font-size: 12px;
-  margin-bottom: 2px;
+  font-size: 1.4rem;
+  margin-top: -0.25rem;
   color: lightgrey;
 }
 
