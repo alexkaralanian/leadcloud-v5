@@ -48,6 +48,7 @@ router.post("/new", authCheck, async (req, res) => {
       city: req.body.city,
       state: req.body.state,
       zip: req.body.zip,
+      description: req.body.description,
       updated: moment(Date.now()).toISOString(),
       listingContacts: []
     });
