@@ -2,35 +2,28 @@ import React from "react";
 import { connect } from "react-redux";
 import OpenHouse from "../../components/OpenHouse/OpenHouse";
 import OpenHouseForm from "../../components/OpenHouse/OpenHouseForm";
-import { submitNewOpenHouseContact } from "../../actions/contact-actions";
-import Navigation from "../NavContainer/NavContainer";
+import { submitNewOpenHouseContact } from "../../actions/open-house-actions";
 
 class OpenHouseContainer extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
+    const { listing, submitNewOpenHouseContact } = this.props;
     return (
       <div>
-      HELLO OPEN HOUSE
-        {/*<OpenHouse
-          listing={this.props.location.state.listing}
-          images={this.props.location.state.images}
-        />
+        <OpenHouse listing={listing} />
         <OpenHouseForm
           onSubmit={values => {
-            values["listingId"] = this.props.location.state.listing.id;
-            this.props.submitNewOpenHouseContact(values);
+            submitNewOpenHouseContact(values, listing.id);
           }}
-          listing={this.props.location.state.listing}
-        />*/}
+          listing={listing}
+        />
       </div>
     );
   }
 }
 
-const mapsStateToProps = state => ({});
+const mapsStateToProps = state => ({
+  listing: state.listingReducer.listing
+});
 
 const mapDispatchToProps = {
   submitNewOpenHouseContact

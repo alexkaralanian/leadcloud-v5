@@ -1,5 +1,5 @@
 /*** MODAL ***/
-
+/*
 .modal_bg {
   height: 100vh;
   width: 100vw;
@@ -41,7 +41,7 @@
 
 .modal_header {
   text-align: left;
-}
+}*/
 
 .modal_search-container {
   display: flex;
@@ -58,4 +58,9 @@
 .modal_footer-container {
   position: absolute;
   bottom: 0;
+}
+
+.modal-backdrop__color {
+  background-color: #222 !important;
+  opacity: 1 !important;
 }

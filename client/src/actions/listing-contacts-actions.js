@@ -2,10 +2,9 @@ import axios from "axios";
 import * as types from "../types";
 import store from "../store";
 
-import { isFetching, clearFormData } from "./common-actions";
 import { fetchComponent, setQuery, setOffset, setCount } from "./query-actions";
 import { setSelected } from "./modal-actions";
-import { searchContacts, setContacts } from "./contact-actions";
+import { setContacts } from "./contact-actions";
 
 export const setListingContacts = listingContacts => ({
   type: types.SET_LISTING_CONTACTS,

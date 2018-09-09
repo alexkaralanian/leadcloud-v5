@@ -1,15 +1,10 @@
 import axios from "axios";
+import { push } from "react-router-redux";
+
 import * as types from "../types";
 import store from "../store";
 
-import { push } from "react-router-redux";
-
-import {
-  setError,
-  clearError,
-  isFetching,
-  clearFormData
-} from "./common-actions";
+import { setError, isFetching } from "./common-actions";
 
 import { fetchComponent, setQuery, setCount, setOffset } from "./query-actions";
 
@@ -84,21 +79,6 @@ export const submitNewContact = data => async dispatch => {
   } catch (err) {
     console.error("Submitting new contact unsuccessful", err);
     dispatch(isFetching(false));
-    dispatch(setError("ERROR SUBMITTING NEW CONTACT"));
-  }
-};
-
-// CREATE NEW OPEN HOUSE CONTACT
-export const submitNewOpenHouseContact = data => async dispatch => {
-  console.log("DATA", data);
-  try {
-    const res = await axios.post("/api/contacts/new/openhouse", data);
-    if (res.status === 200) {
-      dispatch(clearFormData());
-      console.log("SUCCESSFULLY SUBMITTED", res.data);
-    }
-  } catch (err) {
-    console.error("Submitting new contact unsuccessful", err);
     dispatch(setError("ERROR SUBMITTING NEW CONTACT"));
   }
 };
