@@ -38,45 +38,43 @@ OpenHouseForm = ({
   auditClick,
   listing
 }) => (
-  <Grid className="marginTop20">
-    <Form onSubmit={handleSubmit}>
-      <FormGroup className="formGroup">
-        <Field
-          type="text"
-          name="firstName"
-          component={inputField}
-          label="First Name"
-        />
-      </FormGroup>
-      <FormGroup className="formGroup">
-        <Field
-          type="text"
-          name="lastName"
-          component={inputField}
-          label="Last Name"
-        />
-      </FormGroup>
-      <FormGroup className="formGroup">
-        <Field type="email" name="email" component={inputField} label="Email" />
-      </FormGroup>
-      <FormGroup className="formGroup">
-        <Field type="tel" name="phone" component={inputField} label="Phone" />
-      </FormGroup>
+  <Form className="margin-top-2" onSubmit={handleSubmit}>
+    <h2>Please Sign-In...</h2>
+    <div className="margin-top-2">
+    <FormGroup className="formGroup">
+      <Field
+        type="text"
+        name="firstName"
+        component={inputField}
+        label="First Name"
+      />
+    </FormGroup>
+    <FormGroup className="formGroup">
+      <Field
+        type="text"
+        name="lastName"
+        component={inputField}
+        label="Last Name"
+      />
+    </FormGroup>
+    <FormGroup className="formGroup">
+      <Field type="email" name="email" component={inputField} label="Email" />
+    </FormGroup>
+    <FormGroup className="formGroup">
+      <Field type="tel" name="phone" component={inputField} label="Phone" />
+    </FormGroup>
 
-      <Row>
-        <Col xs={12}>
-          <Button
-            className="submitButton"
-            type="submit"
-            bsStyle="primary"
-            disabled={pristine || submitting}
-          >
-            <span>Submit</span>
-          </Button>
-        </Col>
-      </Row>
-    </Form>
-  </Grid>
+    <Button
+      className="submitButton"
+      type="submit"
+      bsSize="lg"
+      bsStyle="primary"
+      disabled={pristine || submitting}
+    >
+      <span>Submit</span>
+    </Button>
+    </div>
+  </Form>
 );
 
 OpenHouseForm = reduxForm({

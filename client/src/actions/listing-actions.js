@@ -96,9 +96,6 @@ export const onDrop = (files, componentId) => async dispatch => {
     ],
     componentId
   });
-
-  console.log("RES", res.data);
-
   dispatch(setListing(res.data));
 };
 

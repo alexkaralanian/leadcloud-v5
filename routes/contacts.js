@@ -2,145 +2,20 @@ const express = require("express");
 const moment = require("moment");
 const Sequelize = require("sequelize");
 const isEmpty = require("lodash.isempty");
-const { google } = require("googleapis");
 
-const { oAuth2Client } = require("../services/googleapis");
-const findUserById = require("../middlewares/findUserById");
-const authCheck = require("../middlewares/authChecker");
 const Contacts = require("../db/models").contacts;
 const Listings = require("../db/models").listings;
 const Groups = require("../db/models").groups;
 const ListingContacts = require("../db/models").ListingContacts;
 const ContactGroups = require("../db/models").ContactGroups;
 
+const authCheck = require("../middlewares/authChecker");
+
 const router = express.Router();
-const people = google.people("v1");
 const Op = Sequelize.Op;
 
-// // FETCH, MAP, AND LOAD USER'S GROUPS AND CONTACTS TO DB
-// router.get("/loadcontacts", authCheck, findUserById, async (req, res) => {
-//   const userId = req.session.user.toString();
-
-//   // FETCH, MAP, & LOAD USER'S GROUPS
-//   const groups = await new Promise((resolve, reject) => {
-//     people.contactGroups.list(
-//       {
-//         auth: oAuth2Client
-//       },
-//       (err, response) => {
-//         if (response) {
-//           resolve(response.data);
-//         } else {
-//           reject(err);
-//         }
-//       }
-//     );
-//   }).catch(err => {
-//     console.error(err);
-//   });
-
-//   await groups.contactGroups.map(async group => {
-//     try {
-//       await Groups.findOrCreate({
-//         where: {
-//           UserUuid: userId,
-//           googleId: group.resourceName.slice(
-//             group.resourceName.indexOf("/") + 1 // contactGroups/...
-//           )
-//         },
-//         defaults: {
-//           title: group.name
-//         }
-//       });
-//     } catch (err) {
-//       console.error(err);
-//     }
-//   });
-
-//   // FETCH GOOGLE CONTACTS
-//   const contacts = await new Promise((resolve, reject) => {
-//     let contactsArray = [];
-//     const getContacts = pageToken => {
-//       people.people.connections.list(
-//         {
-//           resourceName: "people/me",
-//           personFields:
-//             "metadata,names,addresses,emailAddresses,phoneNumbers,memberships,occupations,organizations,photos,birthdays",
-//           auth: oAuth2Client,
-//           pageSize: 2000,
-//           pageToken
-//         },
-//         (err, response) => {
-//           if (response) {
-//             contactsArray = contactsArray.concat(response.data.connections);
-//             if (response.data.nextPageToken) {
-//               getContacts(response.data.nextPageToken);
-//             } else {
-//               resolve(contactsArray);
-//             }
-//           } else {
-//             reject(err);
-//           }
-//         }
-//       );
-//     };
-//     getContacts();
-//   });
-
-//   // MAP & LOAD GOOGLE CONTACTS TO DB
-//   await contacts.map(async contact => {
-//     const imageArray = contact.photos && contact.photos.map(photo => photo.url);
-
-//     const membershipArray =
-//       contact.memberships &&
-//       contact.memberships.map(
-//         group => group.contactGroupMembership.contactGroupId
-//       );
-
-//     const defaults = {
-//       firstName:
-//         contact.names &&
-//         contact.names[0].givenName &&
-//         contact.names[0].givenName,
-//       lastName:
-//         contact.names &&
-//         contact.names[0].familyName &&
-//         contact.names[0].familyName,
-//       fullName:
-//         contact.names &&
-//         contact.names[0].displayName &&
-//         contact.names[0].displayName,
-//       email: contact.emailAddresses && contact.emailAddresses,
-//       phone: contact.phoneNumbers && contact.phoneNumbers,
-//       address: contact.addresses && contact.addresses,
-//       membership: membershipArray,
-//       updated: moment(contact.metadata.sources[0].updateTime).format(
-//         "YYYY-MM-DD HH:mm:ss.SSS"
-//       ),
-//       images: imageArray
-//     };
-
-//     const createdContact = await Contacts.findOrCreate({
-//       where: {
-//         googleId: contact.metadata.sources[0].id,
-//         UserUuid: userId
-//       },
-//       defaults
-//     });
-
-//     contact.memberships &&
-//       contact.memberships.map(async group => {
-//         const contactGroup = await Groups.findOne({
-//           where: { googleId: group.contactGroupMembership.contactGroupId }
-//         });
-//         await contactGroup.addContact(createdContact[0].id.toString());
-//       });
-//   });
-//   res.sendStatus(200);
-// });
-
 // GET ALL CONTACTS FROM DB
-router.get("/", async (req, res) => {
+router.get("/", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
 
   try {
@@ -532,63 +407,6 @@ router.post("/images/delete", authCheck, async (req, res) => {
     });
 
     res.json(updatedContact);
-  } catch (err) {
-    console.error(err);
-  }
-});
-
-//////////// OPEN HOUSE  ////////////
-
-// LAUNCH OPEN HOUSE FORM LISTING
-router.post("/new/openhouse", authCheck, async (req, res) => {
-  const userId = req.session.user.toString();
-
-  try {
-    const contact = await Contacts.findAll({
-      where: {
-        UserUuid: userId,
-        email: {
-          $contains: [
-            {
-              address: req.body.email
-            }
-          ]
-        }
-      }
-    });
-
-    // query return an array
-    if (isEmpty(contact)) {
-      const createdContact = await Contacts.create({
-        UserUuid: userId,
-        email: [
-          {
-            value: req.body.email,
-            type: null
-          }
-        ],
-        phone: [
-          {
-            value: req.body.phone,
-            type: null
-          }
-        ],
-        fullName: `${req.body.firstName ? req.body.firstName.trim() : ""} ${
-          req.body.lastName ? req.body.lastName.trim() : ""
-        }`,
-        firstName: req.body.firstName && req.body.firstName.trim(),
-        lastName: req.body.lastName && req.body.lastName.trim(),
-        notes: req.body.notes,
-        updated: moment(Date.now()).toISOString()
-      });
-
-      const listing = await Listings.findById(req.body.listingId);
-      listing.addContact(createdContact.id);
-      createdContact.addListing(req.body.listingId);
-      res.json(createdContact.dataValues);
-    } else {
-      res.json(contact[0].dataValues);
-    }
   } catch (err) {
     console.error(err);
   }

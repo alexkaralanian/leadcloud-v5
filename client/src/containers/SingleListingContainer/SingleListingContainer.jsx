@@ -15,6 +15,7 @@ import ImageCarousel from "../../components/ImageCarousel/ImageCarousel";
 import Emails from "../../components/Emails/Emails";
 
 import Modal from "../../components/Modal/Modal";
+import OpenHouseModal from "../../components/Modal/OpenHouseModal";
 import SearchContactsContainer from "../SearchContactsContainer/SearchContactsContainer";
 
 import OpenHouseContainer from "../OpenHouseContainer/OpenHouseContainer";
@@ -207,7 +208,7 @@ class SingleListingContainer extends React.Component {
         )}
 
         {/* LISTING FORM  */}
-        <Modal
+        <OpenHouseModal
           displayModal={this.displayOpenHouseModal}
           onExit={this.onOpenHouseModalExit}
           isModalVisible={this.state.isOpenHouseModalVisible}
