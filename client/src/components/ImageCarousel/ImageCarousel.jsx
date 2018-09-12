@@ -1,6 +1,6 @@
 import React from "react";
 import Dropzone from "react-dropzone";
-import { Grid, Row, Col } from "react-bootstrap";
+import { Grid, Row, Col, Image, Button } from "react-bootstrap";
 import PropTypes from "prop-types";
 import "./ImageCarousel.css";
 
@@ -14,25 +14,24 @@ const ImageCarousel = ({
   <Grid>
     <Row>
       <Col xs={12}>
-        <div className="carousel  margin-top-2">
+        <div className="margin-top-2">
           <Dropzone
-            className="dropZone"
+            className="dropzone"
             accept="image/*"
             onDrop={files => onDrop(files, component.id)}
           >
-            <div className="dropButton">
+            <Button bsStyle="primary" className="dropzone__button">
               <span>+</span>
-            </div>
+            </Button>
           </Dropzone>
         </div>
 
-        <div className="imagesContainer">
+        <div className="carousel">
           {images &&
             images.map(image => (
-              <div key={image} className="imageContainer">
+              <div key={image} className="carousel__img-container">
                 <button
                   role="button"
-                  className="imgDelete"
                   onClick={event => {
                     event.stopPropagation();
                     deleteImg(image, component.id);
@@ -40,7 +39,7 @@ const ImageCarousel = ({
                 >
                   <span>x</span>
                 </button>
-                <img src={image} className="imageStyle" />
+                <Image src={image} responsive />
               </div>
             ))}
         </div>

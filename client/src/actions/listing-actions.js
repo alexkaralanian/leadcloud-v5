@@ -77,6 +77,8 @@ export const deleteListing = id => async dispatch => {
 // LISTING IMAGES
 
 export const onDrop = (files, componentId) => async dispatch => {
+  console.log("FILES", files);
+
   const uploadConfig = await axios.post("/api/upload", {
     componentType: "listing",
     componentId

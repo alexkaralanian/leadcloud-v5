@@ -139,7 +139,7 @@ router.get("/:id/contacts", authCheck, async (req, res) => {
           }
         }
       ],
-      order: [["updatedAt", "DESC"]]
+      order: [[Listings, ListingContacts, "createdAt", "DESC"]]
     });
     res.json(listingContacts);
   } catch (err) {
@@ -318,7 +318,7 @@ router.post("/:id/open-house", authCheck, async (req, res) => {
           }
         }
       ],
-      order: [["updatedAt", "DESC"]]
+      order: [[Listings, ListingContacts, "createdAt", "DESC"]]
     });
     res.json(listingContacts);
   } catch (err) {

@@ -32,13 +32,13 @@ body {
   height: 40px;
   border-radius: 2px;
   font-size: 1.6rem !important;
-  font-weight: 200;
+  font-weight: 300;
 }
 
 .form-group textarea {
   border-radius: 2px;
   font-size: 1.6rem !important;
-  font-weight: 200;
+  font-weight: 300;
   min-height: 80px;
   max-width: 100% !important;
 }

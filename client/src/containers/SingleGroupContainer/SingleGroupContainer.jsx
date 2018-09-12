@@ -1,8 +1,8 @@
 import React from "react";
 import { push } from "react-router-redux";
 import { connect } from "react-redux";
-import { Route, Redirect } from "react-router-dom";
-import { Grid, Row, Col, Button, Glyphicon } from "react-bootstrap";
+import { Route } from "react-router-dom";
+import { Grid } from "react-bootstrap";
 import Navigation from "../NavContainer/NavContainer";
 import BreadCrumbs from "../../components/BreadCrumbs/BreadCrumbs";
 import Header from "../../components/Header/Header";
@@ -27,13 +27,8 @@ import {
   setGroup
 } from "../../actions/group-actions";
 
-import { setModalVisibility } from "../../actions/modal-actions";
-
 import {
-  // searchGroupContacts,
-  setGroupContacts,
   submitGroupContacts,
-  // deleteGroupContacts,
   searchDiffedGroupContacts,
   setDiffedGroupContacts
 } from "../../actions/group-contacts-actions";
@@ -45,14 +40,14 @@ class SingleGroupContainer extends React.Component {
   };
 
   componentDidMount() {
-    const { match, fetchGroup, location } = this.props;
+    const { match, fetchGroup } = this.props;
     if (match.path !== "/groups/new") {
       fetchGroup(match.params.id);
     }
   }
 
   componentWillUnmount() {
-    const { setGroup, setQuery, setOffset } = this.props;
+    const { setGroup, setOffset } = this.props;
     setOffset(0);
     setGroup({});
   }
@@ -120,15 +115,12 @@ class SingleGroupContainer extends React.Component {
 
   render() {
     const {
-      isAuthed,
+      // isAuthed,
       match,
-
       group,
       submitNewGroup,
       updateGroup,
-      deleteGroup,
-      groupContacts,
-      submitGroupContacts
+      deleteGroup
     } = this.props;
 
     return (
@@ -220,7 +212,6 @@ const mapDispatchToProps = {
   submitNewGroup,
   updateGroup,
   deleteGroup,
-
   submitGroupContacts
 };
 

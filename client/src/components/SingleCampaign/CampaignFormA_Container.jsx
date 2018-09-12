@@ -1,31 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Field, reduxForm } from "redux-form";
-import {
-  Button,
-  Form,
-  FormGroup,
-  Grid,
-  Col,
-  Row,
-  Panel
-} from "react-bootstrap";
+import { Button, Col, Row, Panel } from "react-bootstrap";
 
-import InputField from "../InputField/InputField";
-import TextAreaField from "../InputField/TextAreaField";
 import Modal from "../../components/Modal/Modal";
 import SearchListingsContainer from "../../containers/SearchListingsContainer/SearchListingsContainer";
 import SearchGroupsContainer from "../../containers/SearchGroupsContainer/SearchGroupsContainer";
 import TableRow from "../TableRow/TableRow";
-import ButtonFooter from "../ButtonFooter/ButtonFooter";
-import CampaignFormA from "./CampaignFormA";
 
-import {
-  fetchComponent,
-  setCount,
-  setOffset,
-  setQuery
-} from "../../actions/query-actions";
+import { setOffset } from "../../actions/query-actions";
 
 import { createCampaign } from "../../actions/campaign-actions";
 
@@ -111,15 +93,7 @@ class CampaignFormA_Container extends React.Component {
   };
 
   render() {
-    const {
-      createCampaign,
-      campaignListings,
-      campaignGroups,
-      pristine,
-      submitting
-    } = this.props;
-
-    const { page } = this.state;
+    const { campaignListings, campaignGroups } = this.props;
 
     return (
       <React.Fragment>
@@ -254,8 +228,7 @@ const mapDispatchToProps = {
   deleteCampaignGroup,
   searchDiffedCampaignListings,
   searchDiffedCampaignGroups,
-  setOffset,
-  setQuery
+  setOffset
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(
