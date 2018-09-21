@@ -27,20 +27,12 @@ const Header = ({
 }) => (
   <Row>
     <Col xs={12}>
-      <div className="header_container">
-        <div className="header_container-inner">
-          {images && (
-            <img
-              className="header_image"
-              alt="Contact"
-              src={images && images[0]}
-            />
-          )}
-          <h1 className="header_text">
-            {isNew ? `New ${componentName}` : headerTitle}
-          </h1>
+      <div className="header">
+        <div className="header__content">
+          {images && <img alt="Contact" src={images && images[0]} />}
+          <h1>{isNew ? `New ${componentName}` : headerTitle}</h1>
         </div>
-        <div className="header_button-row">
+        <div className="header__button-row">
           {primaryFunc &&
             isVisible &&
             !isNew && (
@@ -50,7 +42,7 @@ const Header = ({
                   overlay={<Tooltip id="tooltip">{primaryText}</Tooltip>}
                 >
                   <Button
-                    className="button-lg"
+                    // className="button-lg"
                     bsStyle="primary"
                     // bsSize="large"
                     onClick={evt => {

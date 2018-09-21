@@ -139,7 +139,7 @@ router.get("/:id/contacts", authCheck, async (req, res) => {
           }
         }
       ],
-      order: [[Listings, ListingContacts, "createdAt", "DESC"]]
+      order: [["updatedAt", "DESC"]]
     });
     res.json(listingContacts);
   } catch (err) {
@@ -214,7 +214,6 @@ router.post("/:id/contact/delete", authCheck, async (req, res) => {
 // LISTING IMAGES
 router.post("/images", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
-
   try {
     const listing = await Listings.findOne({
       where: {
@@ -228,7 +227,6 @@ router.post("/images", authCheck, async (req, res) => {
     } else {
       images = images.concat(req.body.images);
     }
-
     const updatedListing = await listing.update({
       images
     });
@@ -318,7 +316,7 @@ router.post("/:id/open-house", authCheck, async (req, res) => {
           }
         }
       ],
-      order: [[Listings, ListingContacts, "createdAt", "DESC"]]
+      order: [["updatedAt", "DESC"]]
     });
     res.json(listingContacts);
   } catch (err) {
