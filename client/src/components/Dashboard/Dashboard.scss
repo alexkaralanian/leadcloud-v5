@@ -1,11 +1,9 @@
 .dashboard {
   &__content {
-    padding-top: 1rem;
-
     &-card {
       background-color: #4a90e2;
       padding: 1rem;
-      margin: 1rem 0;
+      margin-bottom: 1rem;
       border: 1px solid grey;
       border-radius: 2px;
     }
@@ -22,4 +20,3 @@
     }
   }
 }
-

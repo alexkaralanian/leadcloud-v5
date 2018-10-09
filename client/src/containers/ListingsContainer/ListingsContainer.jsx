@@ -61,11 +61,8 @@ class ListingsContainer extends React.Component {
   render() {
     const { isAuthed, isFetching, listings, push } = this.props;
 
-    return !isAuthed ? (
-      <Redirect to="/" />
-    ) : (
+    return (
       <div>
-        <Navigation />
         <BreadCrumbs />
         <Grid>
           <Header

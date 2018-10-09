@@ -7,7 +7,7 @@
 }
 
 html {
-  font-size: 62.5%;
+  /*font-size: 62.5%;*/
   /* 1 rem = 10px but bad practice to use px
   default browser font size is 16px
   useing would break user font-sizes (accessibility)
@@ -44,9 +44,9 @@ body {
 }
 
 .background {
-  margin-top: -20px;
+  /*  margin-top: -20px;
   height: calc(100vh - 52px);
-  background-image: url("./images/mountain.jpg");
+  background-image: url("./images/mountain.jpg");*/
   background-repeat: no-repeat;
   background-position: top;
   background-size: cover;
@@ -123,14 +123,14 @@ td {
 /***********/
 
 .table_img img {
-  width: 3.7rem;
-  height: 3.7rem;
+  width: 2.5rem;
+  height: 2.5rem;
   border-radius: 2px;
 }
 
 .table_img-null {
-  width: 3.7rem;
-  height: 3.7rem;
+  width: 2.5rem;
+  height: 2.5rem;
   border-radius: 2px;
   border: 1px solid lightgrey;
   display: flex;

@@ -56,7 +56,6 @@ class EmailsContainer extends React.Component {
     const { isAuthed, emails, isFetching, error } = this.props;
     return isAuthed ? (
       <div>
-        <Navigation />
         <Emails
           emails={emails}
           isFetching={isFetching}

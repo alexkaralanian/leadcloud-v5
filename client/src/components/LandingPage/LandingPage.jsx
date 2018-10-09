@@ -1,14 +1,14 @@
 import React from "react";
 import GoogleButton from "../GoogleButton/GoogleButton";
-import "./LandingPage.css";
+import "./LandingPage.scss";
 
 const LandingPage = () => (
-  <div className="LandingPageContainer">
-    <div className="LandingPage">
-      <div className="ContentBox">
-        <div className="PrimaryHeading">
-          <h1 className="PrimaryHeading_Main">Tempo</h1>
-          <h2 className="PrimaryHeading_Sub">by LeadCloud</h2>
+  <div className="landing-page__bg-img">
+    <div className="landing-page__container">
+      <div className="login__container">
+        <div className="login__text-box">
+          {/*<h1 className="login__heading">Tempo</h1>*/}
+          <h2 className="login__sub-heading">LeadCloud</h2>
         </div>
         <GoogleButton />
       </div>

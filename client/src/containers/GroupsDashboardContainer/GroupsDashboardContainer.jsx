@@ -27,7 +27,6 @@ class GroupsDashboardContainer extends React.Component {
       <Redirect to="/" />
     ) : (
       <React.Fragment>
-        <Navigation />
         <BreadCrumbs />
         <Grid>
           <Header

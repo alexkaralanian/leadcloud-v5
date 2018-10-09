@@ -7,13 +7,11 @@ import Navigation from "../NavContainer/NavContainer";
 
 class DashboardContainer extends React.Component {
   render() {
-    return this.props.isAuthed ? (
+    return (
       <div>
-        <Navigation />
+        {/*<Navigation />*/}
         <Dashboard />
       </div>
-    ) : (
-      <Redirect push to="/" />
     );
   }
 }
