@@ -8,7 +8,7 @@ import { Grid } from "react-bootstrap";
 import Contacts from "../../components/Contacts/Contacts";
 import Navigation from "../NavContainer/NavContainer";
 import BreadCrumbs from "../../components/BreadCrumbs/BreadCrumbs";
-import Header from "../../components/Header/Header";
+import Header from "../../components/Header/Header-old";
 import SearchForm from "../../components/SearchForm/SearchForm";
 import Counter from "../../components/Counter/Counter";
 
@@ -61,7 +61,7 @@ class ContactsContainer extends React.Component {
     ) : (
       <React.Fragment>
         <BreadCrumbs />
-        <Grid>
+
           <Header
             isVisible={true}
             componentName="contacts"
@@ -82,7 +82,7 @@ class ContactsContainer extends React.Component {
           <Counter />
 
           <Contacts contacts={contacts} isFetching={isFetching} />
-        </Grid>
+
         {/*<Errors errorText={this.props.error} />*/}
       </React.Fragment>
     );

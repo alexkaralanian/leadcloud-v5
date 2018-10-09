@@ -1,13 +1,19 @@
 .breadcrumb {
   margin: 0;
-  background-color: white;
   padding-left: 0;
 }
 
-.breadcrumb li a {
-  font-weight: 400;
+.breadcrumb-item:hover {
+  cursor: pointer;
 }
 
-/*.breadcrumb li a {
-  font-family: "Helvetica Neue";
-}*/
+.breadcrumb li {
+  color: #20a8d8;
+}
+
+.breadcrumb li:last-child {
+  color: #9fa1a3;
+  list-style: none;
+  cursor: default;
+}
+

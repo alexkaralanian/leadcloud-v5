@@ -8,7 +8,7 @@ import {
   OverlayTrigger,
   Tooltip
 } from "react-bootstrap";
-// import "./Header.css";
+import "./Header-old.css";
 
 const Header = ({
   images,
@@ -25,8 +25,8 @@ const Header = ({
   secondaryStyle,
   isVisible
 }) => (
-  <Row>
-    <Col xs={12}>
+  <div className="row">
+    <div className="col-sm">
       <div className="header">
         <div className="header__content">
           {images && <img alt="Contact" src={images && images[0]} />}
@@ -78,8 +78,8 @@ const Header = ({
             )}
         </div>
       </div>
-    </Col>
-  </Row>
+    </div>
+  </div>
 );
 
 export default Header;

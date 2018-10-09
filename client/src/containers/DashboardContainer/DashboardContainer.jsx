@@ -9,7 +9,6 @@ class DashboardContainer extends React.Component {
   render() {
     return (
       <div>
-        {/*<Navigation />*/}
         <Dashboard />
       </div>
     );

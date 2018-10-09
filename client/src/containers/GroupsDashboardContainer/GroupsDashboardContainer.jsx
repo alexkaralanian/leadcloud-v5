@@ -7,7 +7,7 @@ import { Grid, Row, Col, Button } from "react-bootstrap";
 import Navigation from "../NavContainer/NavContainer";
 import BreadCrumbs from "../../components/BreadCrumbs/BreadCrumbs";
 import GroupsContainer from "../GroupsContainer/GroupsContainer";
-import Header from "../../components/Header/Header";
+import Header from "../../components/Header/Header-old";
 import SearchForm from "../../components/SearchForm/SearchForm";
 import Counter from "../../components/Counter/Counter";
 

@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { push } from "react-router-redux";
-import { Grid, Col, Row, Breadcrumb } from "react-bootstrap";
+import { Breadcrumb, BreadcrumbItem } from "reactstrap";
 import "./BreadCrumbs.css";
 
 class BreadCrumbs extends React.Component {
@@ -16,28 +16,27 @@ class BreadCrumbs extends React.Component {
         .toUpperCase() + word.slice(1).toLowerCase();
 
     return (
-      <Grid>
-        <Row>
-          <Col xs={12}>
+        <div className="row">
+          <div className="col-sm">
             <Breadcrumb>
-              <Breadcrumb.Item onClick={() => this.props.push(`/dashboard`)}>
+              <BreadcrumbItem onClick={() => this.props.push(`/dashboard`)}>
                 Dashboard
-              </Breadcrumb.Item>
+              </BreadcrumbItem>
               {location &&
                 location.map(path => {
                   const url = location
                     .slice(0, location.indexOf(path) + 1)
-                    .join("/");
+
                   return (
-                    <Breadcrumb.Item onClick={() => this.props.push(`/${url}`)}>
+                    <BreadcrumbItem onClick={() => this.props.push(`/${url}`)}>
                       {capitalize(path)}
-                    </Breadcrumb.Item>
+                    </BreadcrumbItem>
                   );
                 })}
             </Breadcrumb>
-          </Col>
-        </Row>
-      </Grid>
+          </div>
+        </div>
+
     );
   }
 }
