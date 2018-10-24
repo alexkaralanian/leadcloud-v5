@@ -1,13 +1,14 @@
 import React from "react";
 import {
-  Row,
-  Col,
-  Button,
+
   Glyphicon,
   ButtonToolbar,
   OverlayTrigger,
   Tooltip
 } from "react-bootstrap";
+
+import { Button } from "reactstrap"
+
 import "./Header-old.css";
 
 const Header = ({
@@ -43,7 +44,7 @@ const Header = ({
                 >
                   <Button
                     // className="button-lg"
-                    bsStyle="primary"
+                    color="primary"
                     // bsSize="large"
                     onClick={evt => {
                       evt.stopPropagation();
@@ -66,8 +67,7 @@ const Header = ({
                 >
                   <Button
                     className="button-lg"
-                    bsStyle={secondaryStyle}
-                    // bsSize="large"
+                    color={secondaryStyle}
                     onClick={secondaryFunc}
                   >
                     <span>{secondaryText}</span>

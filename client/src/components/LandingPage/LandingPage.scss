@@ -8,11 +8,11 @@
 
 .landing-page {
   &__bg-img {
-    background-image: url(../../images/mountain.jpg);
+    /*   background-image: url(../../images/mountain.jpg);*/
     background-position: top;
     background-size: cover;
     height: calc(100vh - 3.45rem);
-    /*clip-path: polygon(0 0, 100% 0, 100% 87%, 0 100%);*/
+    clip-path: polygon(0 0, 100% 0, 100% 87%, 0 100%);
   }
 
   &__container {

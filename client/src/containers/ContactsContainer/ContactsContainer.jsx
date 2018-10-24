@@ -59,32 +59,32 @@ class ContactsContainer extends React.Component {
     return !isAuthed ? (
       <Redirect to="/" />
     ) : (
-      <React.Fragment>
+      <div className="component">
         <BreadCrumbs />
 
-          <Header
-            isVisible={true}
-            componentName="contacts"
-            headerTitle="Contacts"
-            isNew={null}
-            primaryText="Create New Contact"
-            primaryFunc={() => push("/contacts/new")}
-            primaryGlyph="plus"
-            secondaryText="Sync Contacts"
-            secondaryFunc={() => syncContacts()}
-            secondaryGlyph="refresh"
-          />
+        <Header
+          isVisible={true}
+          componentName="contacts"
+          headerTitle="Contacts"
+          isNew={null}
+          primaryText="Create New Contact"
+          primaryFunc={() => push("/contacts/new")}
+          primaryGlyph="plus"
+          secondaryText="Sync Contacts"
+          secondaryFunc={() => syncContacts()}
+          secondaryGlyph="refresh"
+        />
 
-          <SearchForm
-            searchFunction={searchContacts}
-            searchText="Search Contacts..."
-          />
-          <Counter />
+        <SearchForm
+          searchFunction={searchContacts}
+          searchText="Search Contacts..."
+        />
+        <Counter />
 
-          <Contacts contacts={contacts} isFetching={isFetching} />
+        <Contacts contacts={contacts} isFetching={isFetching} />
 
         {/*<Errors errorText={this.props.error} />*/}
-      </React.Fragment>
+      </div>
     );
   }
 }

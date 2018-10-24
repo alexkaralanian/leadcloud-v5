@@ -1,10 +1,10 @@
-*,
+/**,
 *::after,
 *::before {
   margin: 0px;
   padding: 0px;
   box-sizing: inherit;
-}
+}*/
 
 html {
   /*font-size: 62.5%;*/
@@ -16,7 +16,7 @@ html {
  */
 }
 
-@media only screen and (max-width: 575px) {
+/*@media only screen and (max-width: 575px) {
   body,
   button span,
   .btn span,
@@ -33,15 +33,15 @@ html {
     font-size: 14px;
   }
 }
-
-body {
+*/
+/*body {
   box-sizing: border-box;
   font-family: "Roboto", "Helvetica", "Arial", sans-serif;
   font-weight: 400;
   line-height: 1.7;
   color: #444;
   overflow-y: scroll;
-}
+}*/
 
 .background {
   /*  margin-top: -20px;
@@ -55,7 +55,7 @@ body {
 /*** FORMS ***/
 
 .form-group input {
-  height: 4rem;
+  height: 2.5rem;
   border-radius: 2px;
   /*font-size: 1.6rem !important;*/
   font-weight: 300;
@@ -79,6 +79,14 @@ body {
 
 /*** FORMATTING ***/
 
+/*.container {
+  overflow: none;
+}
+
+.component {
+  overflow: scroll;
+}
+*/
 .margin-top-2 {
   margin-top: 2rem;
 }
@@ -183,6 +191,10 @@ iframe {
   padding-bottom: 0.9rem;
   font-weight: 400;
   /*font-family: "Helvetica Neue";*/
+}
+
+.navbar-toggler {
+  border-radius: 0;
 }
 
 /* COMPONENT FOOTER BUTTONS */

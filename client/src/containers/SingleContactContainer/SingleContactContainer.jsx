@@ -7,7 +7,7 @@ import { Grid } from "react-bootstrap";
 
 import Navigation from "../NavContainer/NavContainer";
 import BreadCrumbs from "../../components/BreadCrumbs/BreadCrumbs";
-import Header from "../../components/Header/Header";
+import Header from "../../components/Header/Header-old";
 import ContactNav from "../../components/SingleContact/ContactNav";
 import ContactListings from "../../components/ContactListings/ContactListings";
 import ContactForm from "../../components/SingleContact/ContactForm";
@@ -245,29 +245,24 @@ class SingleContactContainer extends React.Component {
       <Redirect path="/" />
     ) : (
       <React.Fragment>
-        <Navigation />
         <BreadCrumbs />
-        <Grid>
-          <Header
-            isVisible={this.headerFunc().isVisible}
-            componentName="Contact"
-            headerTitle={contact.fullName}
-            isNew={match.path === "/contacts/new"}
-            images={contact.images}
-            primaryFunc={() => this.headerFunc().modalFunc(true)}
-            primaryGlyph="plus"
-            primaryText={this.headerFunc().modalText}
-          />
-        </Grid>
+        <Header
+          isVisible={this.headerFunc().isVisible}
+          componentName="Contact"
+          headerTitle={contact.fullName}
+          isNew={match.path === "/contacts/new"}
+          images={contact.images}
+          primaryFunc={() => this.headerFunc().modalFunc(true)}
+          primaryGlyph="plus"
+          primaryText={this.headerFunc().modalText}
+        />
 
         {/* CONTACT NESTED NAV */}
         {match.path !== "/contacts/new" && (
-          <Grid>
-            <ContactNav
-              activeKey={this.state.activeKey}
-              onMenuSelect={this.onMenuSelect}
-            />
-          </Grid>
+          <ContactNav
+            activeKey={this.state.activeKey}
+            onMenuSelect={this.onMenuSelect}
+          />
         )}
 
         {/* CONTACT FORM */}

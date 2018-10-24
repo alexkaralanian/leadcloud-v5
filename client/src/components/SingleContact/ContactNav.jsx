@@ -1,9 +1,9 @@
 import React from "react";
-import { Grid, Col, Row, Nav, NavItem } from "react-bootstrap";
+import { Nav, NavItem } from "reactstrap";
 
 const ContactNav = ({ onMenuSelect, activeKey }) => (
   <div className="secondary_nav-container">
-    <Nav bsStyle="pills" activeKey={activeKey}>
+    <Nav pills activeKey={activeKey}>
       <NavItem eventKey={1} onSelect={() => onMenuSelect(1)}>
         Info
       </NavItem>
