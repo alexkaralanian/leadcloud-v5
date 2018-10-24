@@ -2,15 +2,16 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  min-height: 3rem;
-  background-color: #eee;
-  padding: 0 1.5rem;
-  margin-bottom: 2rem;
-  border-radius: 0 0 2px 2px;
+  /*min-height: 3rem;*/
+  /*background-color: #eee;*/
+  /*padding: 0 1.5rem;*/
+  margin-top: 0.25rem;
+  margin-bottom: 1rem;
+  /*border-radius: 0 0 2px 2px;*/
   /*  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.14);*/
 }
 
 .counter_text {
-  font-size: 1.3rem;
+  font-size: 0.75rem;
   font-weight: 400;
 }

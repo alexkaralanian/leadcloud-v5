@@ -1,13 +1,12 @@
 import React from "react";
 import {
-
   Glyphicon,
   ButtonToolbar,
   OverlayTrigger,
   Tooltip
 } from "react-bootstrap";
 
-import { Button } from "reactstrap"
+import { Button } from "reactstrap";
 
 import "./Header-old.css";
 
@@ -43,16 +42,13 @@ const Header = ({
                   overlay={<Tooltip id="tooltip">{primaryText}</Tooltip>}
                 >
                   <Button
-                    // className="button-lg"
                     color="primary"
-                    // bsSize="large"
                     onClick={evt => {
                       evt.stopPropagation();
                       primaryFunc();
                     }}
                   >
                     <span>{primaryText}</span>
-                    {/*<Glyphicon glyph={primaryGlyph} />*/}
                   </Button>
                 </OverlayTrigger>
               </ButtonToolbar>
@@ -65,13 +61,8 @@ const Header = ({
                   placement="bottom"
                   overlay={<Tooltip id="tooltip">{secondaryText}</Tooltip>}
                 >
-                  <Button
-                    className="button-lg"
-                    color={secondaryStyle}
-                    onClick={secondaryFunc}
-                  >
+                  <Button color={secondaryStyle} onClick={secondaryFunc}>
                     <span>{secondaryText}</span>
-                    {/*<Glyphicon glyph={secondaryGlyph} />*/}
                   </Button>
                 </OverlayTrigger>
               </ButtonToolbar>

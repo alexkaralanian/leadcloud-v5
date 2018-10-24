@@ -30,9 +30,9 @@ const inputField = ({
         label={label}
         type={type}
       />
-      <InputGroup.Addon>
+      {/*<InputGroup.Addon>
         <Glyphicon glyph="search" />
-      </InputGroup.Addon>
+      </InputGroup.Addon>*/}
     </InputGroup>
 
     {touched && !active && error && <div>{error}</div>}

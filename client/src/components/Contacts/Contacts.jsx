@@ -1,7 +1,6 @@
 import React from "react";
 import moment from "moment";
 import { Link } from "react-router-dom";
-// import { Grid, Row, Col, Table } from "react-bootstrap";
 
 import { Row, Col, Card, CardHeader, CardBody, Table } from "reactstrap";
 
@@ -21,9 +20,9 @@ const Contacts = ({ contacts, groups, isFetching }) =>
           <Row>
             <Col xs="12">
               <Card>
-                <CardHeader>
+                {/*<CardHeader>
                   <i className="fa fa-align-justify" /> Contacts
-                </CardHeader>
+                </CardHeader>*/}
                 <CardBody>
                   <Table responsive striped>
                     <thead>

@@ -67,19 +67,16 @@ class ContactsContainer extends React.Component {
           componentName="contacts"
           headerTitle="Contacts"
           isNew={null}
-          primaryText="Create New Contact"
+          primaryText="Create New"
           primaryFunc={() => push("/contacts/new")}
           primaryGlyph="plus"
-          secondaryText="Sync Contacts"
-          secondaryFunc={() => syncContacts()}
-          secondaryGlyph="refresh"
+          // secondaryText="Sync"
+          // secondaryFunc={() => syncContacts()}
+          // secondaryGlyph="refresh"
         />
 
-        <SearchForm
-          searchFunction={searchContacts}
-          searchText="Search Contacts..."
-        />
-        <Counter />
+        <SearchForm searchFunction={searchContacts} searchText="Search..." />
+        {/*<Counter />*/}
 
         <Contacts contacts={contacts} isFetching={isFetching} />
 
