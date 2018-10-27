@@ -16,37 +16,7 @@ html {
  */
 }
 
-/*@media only screen and (max-width: 575px) {
-  body,
-  button span,
-  .btn span,
-  .button_inner-text {
-    font-size: 12px;
-  }
-}
-
-@media only screen and (min-width: 576px) {
-  body,
-  button span,
-  .btn span,
-  .button_inner-text {
-    font-size: 14px;
-  }
-}
-*/
-/*body {
-  box-sizing: border-box;
-  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-  font-weight: 400;
-  line-height: 1.7;
-  color: #444;
-  overflow-y: scroll;
-}*/
-
 .background {
-  /*  margin-top: -20px;
-  height: calc(100vh - 52px);
-  background-image: url("./images/mountain.jpg");*/
   background-repeat: no-repeat;
   background-position: top;
   background-size: cover;
@@ -57,8 +27,7 @@ html {
 .form-group input {
   height: 2.5rem;
   border-radius: 2px;
-  /*font-size: 1.6rem !important;*/
-  font-weight: 300;
+  margin-bottom: 1rem;
 }
 
 .form-group textarea {
@@ -69,24 +38,6 @@ html {
   max-width: 100% !important;
 }
 
-.group-form_container {
-  margin-top: 2rem;
-}
-
-.input_container {
-  margin-bottom: 1rem;
-}
-
-/*** FORMATTING ***/
-
-/*.container {
-  overflow: none;
-}
-
-.component {
-  overflow: scroll;
-}
-*/
 .margin-top-2 {
   margin-top: 2rem;
 }
@@ -100,35 +51,6 @@ html {
   border-radius: 3px;
   float: left;
 }
-
-/*** TABLES ***/
-
-tbody {
-  text-align: left;
-}
-
-th {
-  text-transform: uppercase;
-  border-bottom: 1px !important;
-  font-weight: 400;
-}
-
-tr {
-  border: 1px;
-  font-weight: 400;
-}
-
-td {
-  padding: 7px !important;
-}
-
-.table_container {
-  padding: 1rem;
-  border: 1px solid #eee;
-  border-radius: 2px;
-  overflow: auto;
-}
-/***********/
 
 .table_img img {
   width: 2.5rem;
@@ -164,37 +86,13 @@ iframe {
   margin-bottom: 1.25rem !important;
 }
 
-/*** SECONDARY NAVIGATION ***/
-
-.secondary_nav-container {
-  margin: 0rem;
-  background-color: #white;
-  padding: 0rem 0;
-  padding-left: 0 !important;
-  border: 1px solid #eee;
-  border-top: none;
-  border-radius: 0 0 2px 2px;
-}
-
-.secondary_nav-container .container {
-  padding-left: 0;
-}
-
-.nav-pills {
-  border-color: #eee;
-}
-
-.nav-pills li a {
-  border-radius: 0px;
-  border-color: #eee;
-  padding-top: 0.9rem;
-  padding-bottom: 0.9rem;
-  font-weight: 400;
-  /*font-family: "Helvetica Neue";*/
-}
-
 .navbar-toggler {
   border-radius: 0;
+}
+
+.nav-item:hover {
+  cursor: pointer;
+  color: blue;
 }
 
 /* COMPONENT FOOTER BUTTONS */

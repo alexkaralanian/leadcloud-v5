@@ -2,7 +2,15 @@ import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Field, reduxForm } from "redux-form";
-import { Grid, Row, Col, Form, FormGroup } from "react-bootstrap";
+import {
+  Form,
+  FormGroup,
+  Row,
+  Col,
+  Card,
+  CardHeader,
+  CardBody
+} from "reactstrap";
 
 import { contactValidate } from "../../helpers/redux-form/validate";
 import { fetchListing } from "../../actions/listing-actions";
@@ -26,28 +34,50 @@ ListingForm = ({
   listing,
   deleteListing
 }) => (
-  <Grid>
-    <Form className="margin-top-2" onSubmit={handleSubmit}>
-      <FormGroup>
-        <Field
-          type="text"
-          name="address"
-          component={InputField}
-          label="Address"
-        />
-        <Field type="text" name="city" component={InputField} label="City" />
-        <Field type="text" name="state" component={InputField} label="State" />
-        <Field type="text" name="zip" component={InputField} label="Zip" />
-        <Field
-          type="text"
-          name="description"
-          component={TextAreaField}
-          label="Description"
-        />
-      </FormGroup>
+  <div className="animated fadeIn">
+    <Row>
+      <Col xs="12">
+        <Form className="margin-top-2" onSubmit={handleSubmit}>
+          <Card>
+            <CardHeader>
+              <strong>Listing Info</strong>
+            </CardHeader>
+            <CardBody>
+              <FormGroup>
+                <Field
+                  type="text"
+                  name="address"
+                  component={InputField}
+                  label="Address"
+                />
+                <Field
+                  type="text"
+                  name="city"
+                  component={InputField}
+                  label="City"
+                />
+                <Field
+                  type="text"
+                  name="state"
+                  component={InputField}
+                  label="State"
+                />
+                <Field
+                  type="text"
+                  name="zip"
+                  component={InputField}
+                  label="Zip"
+                />
+                <Field
+                  type="text"
+                  name="description"
+                  component={TextAreaField}
+                  label="Description"
+                />
+              </FormGroup>
+            </CardBody>
+          </Card>
 
-      <Row>
-        <Col xs={12}>
           {isListingNew ? (
             <ButtonFooter
               primaryButtonText="Submit"
@@ -64,10 +94,10 @@ ListingForm = ({
               component={listing}
             />
           )}
-        </Col>
-      </Row>
-    </Form>
-  </Grid>
+        </Form>
+      </Col>
+    </Row>
+  </div>
 );
 
 ListingForm = reduxForm({

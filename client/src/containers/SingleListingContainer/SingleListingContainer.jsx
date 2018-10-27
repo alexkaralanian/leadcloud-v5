@@ -7,7 +7,7 @@ import { Grid, Col, Row } from "react-bootstrap";
 
 import Navigation from "../NavContainer/NavContainer";
 import BreadCrumbs from "../../components/BreadCrumbs/BreadCrumbs";
-import Header from "../../components/Header/Header";
+import Header from "../../components/Header/Header-old";
 import ListingNav from "../../components/SingleListing/ListingNav";
 import ListingContacts from "../../components/ListingContacts/ListingContacts";
 import ListingForm from "../../components/SingleListing/ListingForm";
@@ -181,30 +181,26 @@ class SingleListingContainer extends React.Component {
       <Redirect path="/" />
     ) : (
       <React.Fragment>
-        <Navigation />
         <BreadCrumbs />
 
         {/* HEADER */}
-        <Grid>
-          <Header
-            isVisible={this.headerFunc().isVisible}
-            isNew={match.path === "/listings/new"}
-            componentName="Listing"
-            headerTitle={listing.address}
-            images={listing.images}
-            primaryFunc={() => this.headerFunc().modalFunc()}
-            primaryGlyph="plus"
-            primaryText={this.headerFunc().modalText}
-          />
-        </Grid>
+
+        <Header
+          isVisible={this.headerFunc().isVisible}
+          isNew={match.path === "/listings/new"}
+          componentName="Listing"
+          headerTitle={listing.address}
+          images={listing.images}
+          primaryFunc={() => this.headerFunc().modalFunc()}
+          primaryGlyph="plus"
+          primaryText={this.headerFunc().modalText}
+        />
 
         {match.path !== "/listings/new" && (
-          <Grid>
-            <ListingNav
-              activeKey={this.state.activeKey}
-              onMenuSelect={this.onMenuSelect}
-            />
-          </Grid>
+          <ListingNav
+            activeKey={this.state.activeKey}
+            onMenuSelect={this.onMenuSelect}
+          />
         )}
 
         {/* LISTING FORM  */}

@@ -19,10 +19,7 @@ const ButtonFooter = ({
         bsSize="large"
         disabled={pristine || submitting}
       >
-        <div className="button_inner">
-          <span className="button_inner-text">{primaryButtonText}</span>
-          <Glyphicon glyph="floppy-disk" />
-        </div>
+        <span>{primaryButtonText}</span>
       </Button>
 
       {secondaryFunc && (
@@ -34,10 +31,7 @@ const ButtonFooter = ({
           bsSize="large"
           color="danger"
         >
-          <div className="button_inner">
-            <span className="button_inner-text">{secondaryButtonText}</span>
-            <Glyphicon glyph="trash" />
-          </div>
+          <span>{secondaryButtonText}</span>
         </Button>
       )}
     </div>

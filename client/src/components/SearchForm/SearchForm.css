@@ -1,32 +1,6 @@
-.search-form,
-.search-form .input_container {
-  margin-bottom: 0;
-  margin-top: 0rem;
-}
-
 .search-form .input_container input {
   border-radius: 0 0 0 0;
-  border-color: #eee;
-  box-shadow: none;
-  font-weight: 400;
-  font-size: 1rem !important;
-  border-right: none;
-  margin-bottom: 1rem;
-}
-
-.search-form .input_container input::placeholder {
-  font-weight: 400;
-  font-size: 1rem;
-}
-
-/*.input-group-addon {
-  background-color: white;
-  border-radius: 0 0 0 0;
   border: none;
-  border-right: 1px solid #eee;
-  border-top: 1px solid #eee;
-  border-bottom: 1px solid #eee;
   box-shadow: none;
-  height: 3rem !important;
+  padding-left: 1.25rem;
 }
-*/

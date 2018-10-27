@@ -62,27 +62,24 @@ class ListingsContainer extends React.Component {
     const { isAuthed, isFetching, listings, push } = this.props;
 
     return (
-      <div>
+      <React.Fragment>
         <BreadCrumbs />
-        <Grid>
-          <Header
-            isVisible={true}
-            componentName="listings"
-            headerTitle="Listings"
-            isNew={null}
-            primaryText="Create New Listing"
-            primaryFunc={() => push("/listings/new")}
-            primaryGlyph="plus"
-          />
+        <Header
+          isVisible={true}
+          componentName="listings"
+          headerTitle="Listings"
+          isNew={null}
+          primaryText="Create New Listing"
+          primaryFunc={() => push("/listings/new")}
+          primaryGlyph="plus"
+        />
 
-          <SearchForm
-            searchFunction={searchListings}
-            searchText="Search Listings..."
-          />
-          <Counter />
-          <Listings isFetching={isFetching} listings={listings} />
-        </Grid>
-      </div>
+        <SearchForm
+          searchFunction={searchListings}
+          searchText="Search Listings..."
+        />
+        <Listings isFetching={isFetching} listings={listings} />
+      </React.Fragment>
     );
   }
 }

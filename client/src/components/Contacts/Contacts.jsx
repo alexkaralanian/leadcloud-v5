@@ -20,18 +20,18 @@ const Contacts = ({ contacts, groups, isFetching }) =>
           <Row>
             <Col xs="12">
               <Card>
-                {/*<CardHeader>
-                  <i className="fa fa-align-justify" /> Contacts
-                </CardHeader>*/}
+               <CardHeader>
+                <i className="fa fa-align-justify"></i> All Contacts
+              </CardHeader>
                 <CardBody>
                   <Table responsive striped>
                     <thead>
                       <tr>
                         <th />
                         <th>Name</th>
-                        <th className="emailDisplay">Email</th>
+                        <th>Email</th>
                         <th>Phone</th>
-                        {/*<th className="dateDisplay">Updated</th>*/}
+                        <th className="dateDisplay">Updated</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -82,9 +82,11 @@ const Contacts = ({ contacts, groups, isFetching }) =>
                               )}
                             </td>
 
-                            {/*<td className="dateDisplay">
-                        {moment(contact.updated).format("ddd, M/D/YY h:mma") || null}
-                      </td>*/}
+                            <td className="dateDisplay">
+                              {moment(contact.updated).format(
+                                "ddd, M/D/YY h:mma"
+                              ) || null}
+                            </td>
                           </tr>
                         ))}
                     </tbody>

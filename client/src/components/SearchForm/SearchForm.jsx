@@ -1,13 +1,7 @@
 import React from "react";
 import debounce from "lodash.debounce";
 import { Grid, Row, Col, Field, reduxForm } from "redux-form";
-import {
-  FormGroup,
-  InputGroup,
-  FormControl,
-  ControlLabel,
-  Glyphicon
-} from "react-bootstrap";
+import { FormGroup, InputGroup, Input, Label } from "reactstrap";
 
 // import inputField from "../InputField/InputField";
 import "./SearchForm.css";
@@ -22,14 +16,9 @@ const inputField = ({
   meta: { touched, active, error }
 }) => (
   <div className="input_container">
-    {label && <ControlLabel>{label}</ControlLabel>}
+    {label && <Label>{label}</Label>}
     <InputGroup className="search-form_input">
-      <FormControl
-        {...input}
-        placeholder={placeholder}
-        label={label}
-        type={type}
-      />
+      <Input {...input} placeholder={placeholder} label={label} type={type} />
       {/*<InputGroup.Addon>
         <Glyphicon glyph="search" />
       </InputGroup.Addon>*/}

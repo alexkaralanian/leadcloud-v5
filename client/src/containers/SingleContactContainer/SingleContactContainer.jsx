@@ -126,35 +126,6 @@ class SingleContactContainer extends React.Component {
     setContact({});
   }
 
-  onMenuSelect = (eventKey, path) => {
-    const { push, contact } = this.props;
-
-    if (eventKey === 1) {
-      push(`/contacts/${contact.id}`);
-      this.setState({ activeKey: 1 });
-    }
-
-    if (eventKey === 2) {
-      push(`/contacts/${contact.id}/listings`);
-      this.setState({ activeKey: 2 });
-    }
-
-    if (eventKey === 3) {
-      push(`/contacts/${contact.id}/groups`);
-      this.setState({ activeKey: 3 });
-    }
-
-    if (eventKey === 4) {
-      push(`/contacts/${contact.id}/emails`);
-      this.setState({ activeKey: 4 });
-    }
-
-    if (eventKey === 5) {
-      push(`/contacts/${contact.id}/media`);
-      this.setState({ activeKey: 5 });
-    }
-  };
-
   displayListingsModal = () => {
     this.setState({
       isListingsModalVisible: true
@@ -222,6 +193,7 @@ class SingleContactContainer extends React.Component {
     const {
       match,
       isAuthed,
+      push,
 
       contact,
       submitNewContact,
@@ -257,12 +229,9 @@ class SingleContactContainer extends React.Component {
           primaryText={this.headerFunc().modalText}
         />
 
-        {/* CONTACT NESTED NAV */}
+        {/* CONTACT NAV */}
         {match.path !== "/contacts/new" && (
-          <ContactNav
-            activeKey={this.state.activeKey}
-            onMenuSelect={this.onMenuSelect}
-          />
+          <ContactNav push={push} contact={contact} />
         )}
 
         {/* CONTACT FORM */}
