@@ -16,27 +16,25 @@ class BreadCrumbs extends React.Component {
         .toUpperCase() + word.slice(1).toLowerCase();
 
     return (
-        <div className="row">
-          <div className="col-sm">
-            <Breadcrumb>
-              <BreadcrumbItem onClick={() => this.props.push(`/dashboard`)}>
-                Dashboard
-              </BreadcrumbItem>
-              {location &&
-                location.map(path => {
-                  const url = location
-                    .slice(0, location.indexOf(path) + 1)
+      <div className="row">
+        <div className="col-sm">
+          <Breadcrumb>
+            <BreadcrumbItem onClick={() => this.props.push(`/`)}>
+              Dashboard
+            </BreadcrumbItem>
+            {location &&
+              location.map(path => {
+                const url = location.slice(0, location.indexOf(path) + 1);
 
-                  return (
-                    <BreadcrumbItem onClick={() => this.props.push(`/${url}`)}>
-                      {capitalize(path)}
-                    </BreadcrumbItem>
-                  );
-                })}
-            </Breadcrumb>
-          </div>
+                return (
+                  <BreadcrumbItem onClick={() => this.props.push(`/${url}`)}>
+                    {capitalize(path)}
+                  </BreadcrumbItem>
+                );
+              })}
+          </Breadcrumb>
         </div>
-
+      </div>
     );
   }
 }

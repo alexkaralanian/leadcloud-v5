@@ -4,13 +4,18 @@ import { Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
 import Dashboard from "../../components/Dashboard/Dashboard";
 import Navigation from "../NavContainer/NavContainer";
+import BreadCrumbs from "../../components/BreadCrumbs/BreadCrumbs";
 
 class DashboardContainer extends React.Component {
   render() {
-    return (
-      <div>
+    const { isAuthed } = this.props;
+    return !isAuthed ? (
+      <Redirect to="/auth" />
+    ) : (
+      <React.Fragment>
+        <BreadCrumbs />
         <Dashboard />
-      </div>
+      </React.Fragment>
     );
   }
 }

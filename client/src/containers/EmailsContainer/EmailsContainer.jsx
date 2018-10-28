@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Redirect } from "react-router-dom";
 import axios from "axios";
+import Header from "../../components/Header/Header-old";
+import BreadCrumbs from "../../components/BreadCrumbs/BreadCrumbs";
 import Emails from "../../components/Emails/Emails";
 import Errors from "../../components/Error/Error";
 import Navigation from "../NavContainer/NavContainer";
@@ -54,17 +56,28 @@ class EmailsContainer extends React.Component {
 
   render() {
     const { isAuthed, emails, isFetching, error } = this.props;
-    return isAuthed ? (
-      <div>
-        <Emails
-          emails={emails}
-          isFetching={isFetching}
-          createContact={this.createContact}
-        />
-        <Errors errorText={error} />
-      </div>
+    return !isAuthed ? (
+      <Redirect to="/auth" />
     ) : (
-      <Redirect push to="/" />
+      <React.Fragment>
+        <BreadCrumbs />
+        <div className="animated fadeIn">
+          <Header
+            isVisible={true}
+            componentName="emails"
+            headerTitle="Emails"
+            isNew={null}
+            primaryText="Create New"
+            primaryFunc={() => push("/contacts/new")}
+          />
+          <Emails
+            emails={emails}
+            isFetching={isFetching}
+            createContact={this.createContact}
+          />
+          <Errors errorText={error} />
+        </div>
+      </React.Fragment>
     );
   }
 }

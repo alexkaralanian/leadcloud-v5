@@ -10,11 +10,11 @@ class LandingPageContainer extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.isAuthed) this.props.history.push("/dashboard");
+    if (nextProps.isAuthed) this.props.history.push("/");
   }
 
   componentDidMount() {
-    if (this.props.isAuthed) this.props.history.push("/dashboard");
+    if (this.props.isAuthed) this.props.history.push("/");
   }
 
   render() {

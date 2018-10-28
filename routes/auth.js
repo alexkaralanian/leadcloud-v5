@@ -81,17 +81,21 @@ router.get("/google/callback", (req, res) => {
 
 // GET CURRENT USER
 router.get("/current-user", authCheck, async (req, res) => {
-  const user = await Users.findById(req.session.user);
-  const userMap = {
-    googleId: user.googleId,
-    createdAt: user.createdAt,
-    username: user.username,
-    firstName: user.firstName,
-    lastName: user.lastName,
-    email: user.email,
-    googlePhoto: user.googlePhoto
-  };
-  res.json(userMap);
+  try {
+    const user = await Users.findById(req.session.user);
+    const userMap = {
+      googleId: user.googleId,
+      createdAt: user.createdAt,
+      username: user.username,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      googlePhoto: user.googlePhoto
+    };
+    res.json(userMap);
+  } catch (err) {
+    res.sendStatus(401);
+  }
 });
 
 // LOGOUT

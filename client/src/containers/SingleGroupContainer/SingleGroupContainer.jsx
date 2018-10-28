@@ -2,10 +2,9 @@ import React from "react";
 import { push } from "react-router-redux";
 import { connect } from "react-redux";
 import { Route } from "react-router-dom";
-import { Grid } from "react-bootstrap";
 import Navigation from "../NavContainer/NavContainer";
 import BreadCrumbs from "../../components/BreadCrumbs/BreadCrumbs";
-import Header from "../../components/Header/Header";
+import Header from "../../components/Header/Header-old";
 import GroupForm from "../../components/SingleGroup/GroupForm";
 import GroupContactsContainer from "../GroupContactsContainer/GroupContactsContainer";
 import GroupNav from "../../components/SingleGroup/GroupNav";
@@ -117,6 +116,7 @@ class SingleGroupContainer extends React.Component {
     const {
       // isAuthed,
       match,
+      push,
       group,
       submitNewGroup,
       updateGroup,
@@ -125,27 +125,19 @@ class SingleGroupContainer extends React.Component {
 
     return (
       <React.Fragment>
-        <Navigation />
         <BreadCrumbs />
-        <Grid>
-          <Header
-            isVisible={this.headerFunc().isVisible}
-            isNew={match.path === "/groups/new"}
-            componentName="Group"
-            headerTitle={group.title}
-            primaryFunc={() => this.headerFunc().modalFunc()}
-            primaryGlyph="plus"
-            primaryText={this.headerFunc().modalText}
-          />
+        <Header
+          isVisible={this.headerFunc().isVisible}
+          isNew={match.path === "/groups/new"}
+          componentName="Group"
+          headerTitle={group.title}
+          primaryFunc={() => this.headerFunc().modalFunc()}
+          primaryGlyph="plus"
+          primaryText={this.headerFunc().modalText}
+        />
 
-          {/* GROUP NESTED NAV */}
-          {match.path !== "/groups/new" && (
-            <GroupNav
-              activeKey={this.state.activeKey}
-              onMenuSelect={this.onMenuSelect}
-            />
-          )}
-        </Grid>
+        {/* GROUP NESTED NAV */}
+        {match.path !== "/groups/new" && <GroupNav push={push} group={group} />}
 
         {/* GROUP CONTACTS*/}
         <Modal

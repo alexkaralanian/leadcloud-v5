@@ -7,7 +7,7 @@ import { Route, Redirect } from "react-router-dom";
 import Navigation from "../NavContainer/NavContainer";
 import BreadCrumbs from "../../components/BreadCrumbs/BreadCrumbs";
 import CreateCampaignNav from "../../components/SingleCampaign/CreateCampaignNav";
-import Header from "../../components/Header/Header";
+import Header from "../../components/Header/Header-old";
 import CampaignFormA from "../../components/SingleCampaign/CampaignFormA";
 import CampaignFormB from "../../components/SingleCampaign/CampaignFormB";
 import CampaignFormC from "../../components/SingleCampaign/CampaignFormC";
@@ -86,16 +86,18 @@ class CreateCampaignContainer extends React.Component {
       campaignGroups,
       createCampaign,
       updateCampaign,
-      submitCampaign
+      submitCampaign,
+      isAuthed
     } = this.props;
 
     const { page } = this.state;
 
-    return (
+    return !isAuthed ? (
+      <Redirect to="/auth" />
+    ) : (
       <React.Fragment>
-        <Navigation />
         <BreadCrumbs />
-        <Grid>
+        <div className="animated fadeIn">
           <Header
             isVisible={true}
             componentName="Campaigns"
@@ -164,13 +166,14 @@ class CreateCampaignContainer extends React.Component {
               />
             )}
           />*/}
-        </Grid>
+        </div>
       </React.Fragment>
     );
   }
 }
 
 const mapStateToProps = state => ({
+  isAuthed: state.authReducer.isAuthed,
   campaign: state.campaignReducer.campaign,
   campaignListings: state.campaignReducer.campaignListings,
   campaignGroups: state.campaignReducer.campaignGroups

@@ -46,14 +46,12 @@ class GroupsContainer extends React.Component {
   render = () => {
     const { isFetching, history, groups, component } = this.props;
     return (
-      <Grid>
-        <Groups
-          groups={groups}
-          hostId={this.props.hostId}
-          component={this.props.component}
-          submitFunction={this.props.submitFunction}
-        />
-      </Grid>
+      <Groups
+        groups={groups}
+        hostId={this.props.hostId}
+        component={this.props.component}
+        submitFunction={this.props.submitFunction}
+      />
     );
   };
 }

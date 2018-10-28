@@ -57,31 +57,26 @@ class ContactsContainer extends React.Component {
     const { push, isAuthed, isFetching, syncContacts, contacts } = this.props;
 
     return !isAuthed ? (
-      <Redirect to="/" />
+      <Redirect to="/auth" />
     ) : (
-      <div className="component">
+      <React.Fragment>
         <BreadCrumbs />
+        <div className="animated fadeIn">
+          <Header
+            isVisible={true}
+            componentName="contacts"
+            headerTitle="Contacts"
+            isNew={null}
+            primaryText="Create New"
+            primaryFunc={() => push("/contacts/new")}
+            primaryGlyph="plus"
+          />
 
-        <Header
-          isVisible={true}
-          componentName="contacts"
-          headerTitle="Contacts"
-          isNew={null}
-          primaryText="Create New"
-          primaryFunc={() => push("/contacts/new")}
-          primaryGlyph="plus"
-          // secondaryText="Sync"
-          // secondaryFunc={() => syncContacts()}
-          // secondaryGlyph="refresh"
-        />
+          <SearchForm searchFunction={searchContacts} searchText="Search..." />
 
-        <SearchForm searchFunction={searchContacts} searchText="Search..." />
-        {/*<Counter />*/}
-
-        <Contacts contacts={contacts} isFetching={isFetching} />
-
-        {/*<Errors errorText={this.props.error} />*/}
-      </div>
+          <Contacts contacts={contacts} isFetching={isFetching} />
+        </div>
+      </React.Fragment>
     );
   }
 }

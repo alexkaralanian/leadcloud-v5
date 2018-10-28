@@ -181,90 +181,91 @@ class SingleListingContainer extends React.Component {
       <Redirect path="/" />
     ) : (
       <React.Fragment>
-        <BreadCrumbs />
+        <div className="animated fadeIn">
+          <BreadCrumbs />
 
-        {/* HEADER */}
+          {/* HEADER */}
 
-        <Header
-          isVisible={this.headerFunc().isVisible}
-          isNew={match.path === "/listings/new"}
-          componentName="Listing"
-          headerTitle={listing.address}
-          images={listing.images}
-          primaryFunc={() => this.headerFunc().modalFunc()}
-          primaryGlyph="plus"
-          primaryText={this.headerFunc().modalText}
-        />
-
-        {match.path !== "/listings/new" && (
-          <ListingNav
-            activeKey={this.state.activeKey}
-            onMenuSelect={this.onMenuSelect}
+          <Header
+            isVisible={this.headerFunc().isVisible}
+            isNew={match.path === "/listings/new"}
+            componentName="Listing"
+            headerTitle={listing.address}
+            images={listing.images}
+            primaryFunc={() => this.headerFunc().modalFunc()}
+            primaryGlyph="plus"
+            primaryText={this.headerFunc().modalText}
           />
-        )}
 
-        {/* LISTING FORM  */}
-        <OpenHouseModal
-          displayModal={this.displayOpenHouseModal}
-          onExit={this.onOpenHouseModalExit}
-          isModalVisible={this.state.isOpenHouseModalVisible}
-          title={listing.address}
-          Container={<OpenHouseContainer />}
-        />
-        <Route
-          exact
-          path={
-            match.path === "/listings/new"
-              ? `/listings/new`
-              : `/listings/${listing.id}`
-          }
-          render={routeProps => (
-            <ListingForm
-              {...routeProps}
-              onSubmit={values => {
-                match.path === "/listings/new"
-                  ? submitNewListing(values)
-                  : updateListing(values, listing.id);
-              }}
-              listing={listing}
-              deleteListing={deleteListing}
-              isListingNew={match.path === "/listings/new"}
+          {match.path !== "/listings/new" && (
+            <ListingNav
+              activeKey={this.state.activeKey}
+              onMenuSelect={this.onMenuSelect}
             />
           )}
-        />
 
-        {/* LISTING CONTACTS */}
-        <Modal
-          displayModal={this.displayContactsModal}
-          onExit={this.onContactsModalExit}
-          isModalVisible={this.state.isContactsModalVisible}
-          title={listing.address}
-          Container={
-            <SearchContactsContainer
-              displayModal={this.displayContactsModal}
-              submitFunction={this.submitContacts}
-              hostComponent={listing}
-              setFunction={setDiffedListingContacts}
-              searchFunction={searchDiffedListingContacts}
-            />
-          }
-        />
-        <Route
-          path={`/listings/${listing.id}/contacts`}
-          render={routeProps => (
-            <div>
-              <ListingContacts
+          {/* LISTING FORM  */}
+          <OpenHouseModal
+            displayModal={this.displayOpenHouseModal}
+            onExit={this.onOpenHouseModalExit}
+            isModalVisible={this.state.isOpenHouseModalVisible}
+            title={listing.address}
+            Container={<OpenHouseContainer />}
+          />
+          <Route
+            exact
+            path={
+              match.path === "/listings/new"
+                ? `/listings/new`
+                : `/listings/${listing.id}`
+            }
+            render={routeProps => (
+              <ListingForm
                 {...routeProps}
+                onSubmit={values => {
+                  match.path === "/listings/new"
+                    ? submitNewListing(values)
+                    : updateListing(values, listing.id);
+                }}
                 listing={listing}
-                listingContacts={listingContacts}
-                searchListingContacts={searchListingContacts}
-                deleteListingContact={deleteListingContact}
+                deleteListing={deleteListing}
+                isListingNew={match.path === "/listings/new"}
               />
-            </div>
-          )}
-        />
+            )}
+          />
 
-        {/* LISTING EMAILS
+          {/* LISTING CONTACTS */}
+          <Modal
+            displayModal={this.displayContactsModal}
+            onExit={this.onContactsModalExit}
+            isModalVisible={this.state.isContactsModalVisible}
+            title={listing.address}
+            Container={
+              <SearchContactsContainer
+                displayModal={this.displayContactsModal}
+                submitFunction={this.submitContacts}
+                hostComponent={listing}
+                setFunction={setDiffedListingContacts}
+                searchFunction={searchDiffedListingContacts}
+              />
+            }
+          />
+          <Route
+            path={`/listings/${listing.id}/contacts`}
+            render={routeProps => (
+              <div>
+                <ListingContacts
+                  {...routeProps}
+                  listing={listing}
+                  listingContacts={listingContacts}
+                  searchListingContacts={searchListingContacts}
+                  deleteListingContact={deleteListingContact}
+                />
+              </div>
+            )}
+          />
+
+          {/* LISTING EMAILS
         <Route
           path={`/listings/${listing.id}/emails`}
           render={routeProps => (
@@ -276,19 +277,20 @@ class SingleListingContainer extends React.Component {
           )}
         />*/}
 
-        {/* LISTING MEDIA */}
-        <Route
-          path={`/listings/${listing.id}/media`}
-          render={routeProps => (
-            <ImageCarousel
-              {...routeProps}
-              component={listing}
-              onDrop={onDrop}
-              images={images}
-              deleteImg={deleteListingImage}
-            />
-          )}
-        />
+          {/* LISTING MEDIA */}
+          <Route
+            path={`/listings/${listing.id}/media`}
+            render={routeProps => (
+              <ImageCarousel
+                {...routeProps}
+                component={listing}
+                onDrop={onDrop}
+                images={images}
+                deleteImg={deleteListingImage}
+              />
+            )}
+          />
+        </div>
       </React.Fragment>
     );
   }

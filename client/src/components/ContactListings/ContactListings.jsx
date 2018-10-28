@@ -15,15 +15,12 @@ const ContactListings = ({
 }) => (
   <Row>
     <Col xs={12}>
-      <div>
-        <div className="margin-top-2">
-          <SearchForm
-            searchFunction={searchContactListings}
-            searchText="Search Contact Listings..."
-            form="searchContactListings"
-          />
-        </div>
-        <Counter />
+      <div className="margin-top-2">
+        <SearchForm
+          searchFunction={searchContactListings}
+          searchText="Search Contact Listings..."
+          form="searchContactListings"
+        />
       </div>
       {contactListings.length > 0 && (
         <TableRow

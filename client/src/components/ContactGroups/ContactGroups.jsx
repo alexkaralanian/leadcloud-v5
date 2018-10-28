@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { reduxForm } from "redux-form";
-import { Grid, Row, Col, Button } from "react-bootstrap";
+import { Row, Col, Button } from "reactstrap";
 
 import SearchForm from "../SearchForm/SearchForm";
 import Counter from "../../components/Counter/Counter";
@@ -18,31 +18,29 @@ const ContactGroups = ({
   searchContactGroups
 }) => {
   return (
-    <Grid>
-      <Row>
-        <Col xs={12}>
-          <div className="margin-top-2">
-            <SearchForm
-              searchFunction={searchContactGroups}
-              searchText="Search Contact Groups..."
-              form="searchContactGroups"
-            />
-          </div>
-          <Counter />
-          {contactGroups.length > 0 && (
-            <TableRow
-              componentName="groups"
-              rowText="title"
-              collection={contactGroups}
-              submitFunction={deleteContactGroup}
-              hostComponent={contact}
-              buttonText="Remove Group"
-              buttonStyle="danger"
-            />
-          )}
-        </Col>
-      </Row>
-    </Grid>
+    <Row>
+      <Col xs="12">
+        <div className="margin-top-2">
+          <SearchForm
+            searchFunction={searchContactGroups}
+            searchText="Search Contact Groups..."
+            form="searchContactGroups"
+          />
+        </div>
+        {contactGroups.length > 0 && (
+          <TableRow
+            cardHeaderText="Contact Groups"
+            componentName="groups"
+            rowText="title"
+            collection={contactGroups}
+            submitFunction={deleteContactGroup}
+            hostComponent={contact}
+            buttonText="Remove Group"
+            buttonStyle="danger"
+          />
+        )}
+      </Col>
+    </Row>
   );
 };
 

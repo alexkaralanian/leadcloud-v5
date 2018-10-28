@@ -6,7 +6,7 @@ import { Grid } from "react-bootstrap";
 
 import Navigation from "../NavContainer/NavContainer";
 import BreadCrumbs from "../../components/BreadCrumbs/BreadCrumbs";
-import Header from "../../components/Header/Header";
+import Header from "../../components/Header/Header-old";
 import Campaigns from "../../components/Campaigns/Campaigns";
 
 import { fetchCampaigns, setCampaign } from "../../actions/campaign-actions";
@@ -36,12 +36,11 @@ class CampaignsContainer extends React.Component {
   render() {
     const { isAuthed, campaigns } = this.props;
     return !isAuthed ? (
-      <Redirect path="/" />
+      <Redirect to="/auth" />
     ) : (
       <React.Fragment>
-        <Navigation />
         <BreadCrumbs />
-        <Grid>
+        <div className="animated fadeIn">
           <Header
             isVisible={true}
             componentName="campaigns"
@@ -51,9 +50,8 @@ class CampaignsContainer extends React.Component {
             primaryFunc={this.createNewCampaign}
             primaryGlyph="plus"
           />
-
           <Campaigns campaigns={campaigns} />
-        </Grid>
+        </div>
       </React.Fragment>
     );
   }

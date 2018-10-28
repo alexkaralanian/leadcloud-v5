@@ -17,13 +17,11 @@ class ProfileContainer extends React.Component {
   }
 
   render() {
-    return this.props.isAuthed ? (
-      <div>
-        <Navigation />
-        <Profile logout={this.handleLogout} user={this.props.user} />
-      </div>
+    const { isAuthed } = this.props;
+    return !isAuthed ? (
+      <Redirect to="/auth" />
     ) : (
-      <Redirect push to="/" />
+      <Profile logout={this.handleLogout} user={this.props.user} />
     );
   }
 }

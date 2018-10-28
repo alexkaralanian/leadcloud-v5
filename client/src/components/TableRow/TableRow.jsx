@@ -11,6 +11,8 @@ import {
 } from "reactstrap";
 
 const TableRow = ({
+  CardHeaderCta,
+  cardHeaderText,
   componentName,
   collection,
   submitFunction,
@@ -25,6 +27,11 @@ const TableRow = ({
       <Row>
         <Col xs="12">
           <Card>
+            <CardHeader>
+              <i className="fa fa-align-justify" />
+              {cardHeaderText}
+              <div className="card-header-cta">{CardHeaderCta}</div>
+            </CardHeader>
             <CardBody>
               <Table responsive striped>
                 <tbody>

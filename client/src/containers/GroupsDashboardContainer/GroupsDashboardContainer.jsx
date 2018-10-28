@@ -5,7 +5,7 @@ import { Redirect } from "react-router-dom";
 import { Grid, Row, Col, Button } from "react-bootstrap";
 
 import Navigation from "../NavContainer/NavContainer";
-import BreadCrumbs from "../../components/BreadCrumbs/BreadCrumbs";
+import Breadcrumbs from "../../components/BreadCrumbs/BreadCrumbs";
 import GroupsContainer from "../GroupsContainer/GroupsContainer";
 import Header from "../../components/Header/Header-old";
 import SearchForm from "../../components/SearchForm/SearchForm";
@@ -24,11 +24,11 @@ class GroupsDashboardContainer extends React.Component {
     const { isAuthed, match, isFetching } = this.props;
 
     return !isAuthed ? (
-      <Redirect to="/" />
+      <Redirect to="/auth" />
     ) : (
       <React.Fragment>
-        <BreadCrumbs />
-        <Grid>
+        <Breadcrumbs />
+        <div className="animated fadeIn">
           <Header
             isVisible={true}
             componentName="groups"
@@ -43,10 +43,8 @@ class GroupsDashboardContainer extends React.Component {
             searchText="Search Groups..."
             searchFunction={searchGroups}
           />
-          <Counter />
-        </Grid>
-
-        <GroupsContainer />
+          <GroupsContainer />
+        </div>
       </React.Fragment>
     );
   }

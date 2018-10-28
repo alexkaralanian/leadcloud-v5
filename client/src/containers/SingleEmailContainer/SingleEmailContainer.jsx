@@ -1,15 +1,14 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Redirect } from "react-router";
+import { Redirect, Route } from "react-router-dom";
 import ReactHtmlParser from "react-html-parser";
-import { Grid, Row, Col } from "react-bootstrap";
+import { Row, Col } from "reactstrap";
 
-import Navigation from "../NavContainer/NavContainer";
+import BreadCrumbs from "../../components/BreadCrumbs/BreadCrumbs";
 
-import {
-  fetchEmail,
-  clearEmail
-} from "../../actions/email-actions";
+import { fetchEmail, clearEmail } from "../../actions/email-actions";
+
+import iFrameContainer from "./iFrameContainer";
 
 class SingleEmailContainer extends React.Component {
   componentDidMount() {
@@ -33,46 +32,45 @@ class SingleEmailContainer extends React.Component {
   render() {
     const { isAuthed, email } = this.props;
 
-    return isAuthed ? (
-      <div>
-        <Navigation />
-        <Grid>
-          <Row>
-            <Col xs={12}>
-              <h4>Subject: {email && email.subject}</h4>
-              <h4>
-                To:{" "}
-                {email.to &&
-                  ReactHtmlParser(
-                    email.to.html
-                      .replace(/&#x27;/g, "'")
-                      .replace(/&lt;/g, "")
-                      .replace(/&gt;/g, "")
-                  )}
-              </h4>
-              <h4>
-                From:{" "}
-                {email.from &&
-                  ReactHtmlParser(
-                    email.from.html
-                      .replace(/&#x27;/g, "'")
-                      .replace(/&lt;/g, "")
-                      .replace(/&gt;/g, "")
-                  )}
-              </h4>
-            </Col>
-          </Row>
-          <iframe
-            ref={el => (this.iframe = el)}
-            title="Email"
-            frameBorder={1}
-            src="/iframecontainer"
-            // scrolling="yes"
-          />
-        </Grid>
-      </div>
+    return !isAuthed ? (
+      <Redirect to="/auth" />
     ) : (
-      <Redirect push to="/" />
+      <React.Fragment>
+        <BreadCrumbs />
+        <Row className="animated fadeIn">
+          <Col xs={12}>
+            <h4>Subject: {email && email.subject}</h4>
+            <h4>
+              To:{" "}
+              {email.to &&
+                ReactHtmlParser(
+                  email.to.html
+                    .replace(/&#x27;/g, "'")
+                    .replace(/&lt;/g, "")
+                    .replace(/&gt;/g, "")
+                )}
+            </h4>
+            <h4>
+              From:{" "}
+              {email.from &&
+                ReactHtmlParser(
+                  email.from.html
+                    .replace(/&#x27;/g, "'")
+                    .replace(/&lt;/g, "")
+                    .replace(/&gt;/g, "")
+                )}
+            </h4>
+          </Col>
+        </Row>
+
+        <iframe
+          ref={el => (this.iframe = el)}
+          title="Email"
+          frameBorder={1}
+          src="/iframecontainer"
+          scrolling="yes"
+        />
+      </React.Fragment>
     );
   }
 }

@@ -180,7 +180,6 @@ class Sidebar extends Component {
     // sidebar-nav root
     return (
       <div className="sidebar">
-
         <SidebarForm />
         <nav className="sidebar-nav">
           <Nav>{navList(nav.items)}</Nav>

@@ -214,131 +214,131 @@ class SingleContactContainer extends React.Component {
     } = this.props;
 
     return !isAuthed ? (
-      <Redirect path="/" />
+      <Redirect path="/auth" />
     ) : (
       <React.Fragment>
         <BreadCrumbs />
-        <Header
-          isVisible={this.headerFunc().isVisible}
-          componentName="Contact"
-          headerTitle={contact.fullName}
-          isNew={match.path === "/contacts/new"}
-          images={contact.images}
-          primaryFunc={() => this.headerFunc().modalFunc(true)}
-          primaryGlyph="plus"
-          primaryText={this.headerFunc().modalText}
-        />
+        <div className="animated fadeIn">
+          <Header
+            isVisible={this.headerFunc().isVisible}
+            componentName="Contact"
+            headerTitle={contact.fullName}
+            isNew={match.path === "/contacts/new"}
+            images={contact.images}
+            primaryFunc={() => this.headerFunc().modalFunc(true)}
+            primaryGlyph="plus"
+            primaryText={this.headerFunc().modalText}
+          />
 
-        {/* CONTACT NAV */}
-        {match.path !== "/contacts/new" && (
-          <ContactNav push={push} contact={contact} />
-        )}
-
-        {/* CONTACT FORM */}
-        <Route
-          exact
-          path={
-            match.path === "/contacts/new"
-              ? `/contacts/new`
-              : `/contacts/${contact.id}`
-          }
-          render={routeProps => (
-            <ContactForm
-              {...routeProps}
-              onSubmit={values => {
-                match.path === "/contacts/new"
-                  ? submitNewContact(values)
-                  : updateContact(values, contact.id);
-              }}
-              deleteContact={deleteContact}
-              isContactNew={match.path === "/contacts/new"}
-              contact={contact}
-              fetchContact={fetchContact}
-            />
+          {/* CONTACT NAV */}
+          {match.path !== "/contacts/new" && (
+            <ContactNav push={push} contact={contact} />
           )}
-        />
 
-        {/* CONTACT LISTINGS */}
-        <Modal
-          displayModal={this.displayListingsModal}
-          onExit={this.onListingsModalExit}
-          isModalVisible={this.state.isListingsModalVisible}
-          title={contact.fullName}
-          Container={
-            <SearchListingsContainer
-              displayModal={this.displayListingsModal}
-              submitFunction={this.submitListings}
-              hostComponent={contact}
-              setFunction={setDiffedContactListings}
-              searchFunction={searchDiffedContactListings}
-            />
-          }
-        />
-        <Route
-          path={`/contacts/${contact.id}/listings`}
-          render={routeProps => (
-            <ContactListings
-              {...routeProps}
-              contact={contact}
-              contactListings={contactListings}
-              searchContactListings={searchContactListings}
-              deleteContactListing={deleteContactListing}
-            />
-          )}
-        />
+          {/* CONTACT FORM */}
+          <Route
+            exact
+            path={
+              match.path === "/contacts/new"
+                ? `/contacts/new`
+                : `/contacts/${contact.id}`
+            }
+            render={routeProps => (
+              <ContactForm
+                {...routeProps}
+                onSubmit={values => {
+                  match.path === "/contacts/new"
+                    ? submitNewContact(values)
+                    : updateContact(values, contact.id);
+                }}
+                deleteContact={deleteContact}
+                isContactNew={match.path === "/contacts/new"}
+                contact={contact}
+                fetchContact={fetchContact}
+              />
+            )}
+          />
 
-        {/* CONTACT GROUPS */}
-        <Modal
-          displayModal={this.displayGroupsModal}
-          onExit={this.onGroupsModalExit}
-          isModalVisible={this.state.isGroupsModalVisible}
-          title={contact.fullName}
-          Container={
-            <SearchGroupsContainer
-              displayModal={this.displayGroupsModal}
-              submitFunction={this.submitGroups}
-              hostComponent={contact}
-              componentGroups={contactGroups}
-              setFunction={setDiffedContactGroups}
-              searchFunction={searchDiffedContactGroups}
-            />
-          }
-        />
-        <Route
-          path={`/contacts/${contact.id}/groups`}
-          render={routeProps => (
-            <React.Fragment>
+          {/* CONTACT LISTINGS */}
+          <Modal
+            displayModal={this.displayListingsModal}
+            onExit={this.onListingsModalExit}
+            isModalVisible={this.state.isListingsModalVisible}
+            title={contact.fullName}
+            Container={
+              <SearchListingsContainer
+                displayModal={this.displayListingsModal}
+                submitFunction={this.submitListings}
+                hostComponent={contact}
+                setFunction={setDiffedContactListings}
+                searchFunction={searchDiffedContactListings}
+              />
+            }
+          />
+          <Route
+            path={`/contacts/${contact.id}/listings`}
+            render={routeProps => (
+              <ContactListings
+                {...routeProps}
+                contact={contact}
+                contactListings={contactListings}
+                searchContactListings={searchContactListings}
+                deleteContactListing={deleteContactListing}
+              />
+            )}
+          />
+
+          {/* CONTACT GROUPS */}
+          <Modal
+            displayModal={this.displayGroupsModal}
+            onExit={this.onGroupsModalExit}
+            isModalVisible={this.state.isGroupsModalVisible}
+            title={contact.fullName}
+            Container={
+              <SearchGroupsContainer
+                displayModal={this.displayGroupsModal}
+                submitFunction={this.submitGroups}
+                hostComponent={contact}
+                componentGroups={contactGroups}
+                setFunction={setDiffedContactGroups}
+                searchFunction={searchDiffedContactGroups}
+              />
+            }
+          />
+          <Route
+            path={`/contacts/${contact.id}/groups`}
+            render={routeProps => (
               <ContactGroups
                 contact={contact}
                 contactGroups={contactGroups}
                 searchContactGroups={searchContactGroups}
                 deleteContactGroup={deleteContactGroup}
               />
-            </React.Fragment>
-          )}
-        />
+            )}
+          />
 
-        {/* CONTACT EMAILS */}
-        <Route
-          path={`/contacts/${contact.id}/emails`}
-          render={routeProps => (
-            <SingleContactEmailsContainer {...routeProps} />
-          )}
-        />
+          {/* CONTACT EMAILS */}
+          <Route
+            path={`/contacts/${contact.id}/emails`}
+            render={routeProps => (
+              <SingleContactEmailsContainer {...routeProps} />
+            )}
+          />
 
-        {/* CONTACT MEDIA */}
-        <Route
-          path={`/contacts/${contact.id}/media`}
-          render={routeProps => (
-            <ImageCarousel
-              {...routeProps}
-              onDrop={onDrop}
-              component={contact}
-              images={contact.images}
-              deleteImg={deleteContactImage}
-            />
-          )}
-        />
+          {/* CONTACT MEDIA */}
+          <Route
+            path={`/contacts/${contact.id}/media`}
+            render={routeProps => (
+              <ImageCarousel
+                {...routeProps}
+                onDrop={onDrop}
+                component={contact}
+                images={contact.images}
+                deleteImg={deleteContactImage}
+              />
+            )}
+          />
+        </div>
       </React.Fragment>
     );
   }

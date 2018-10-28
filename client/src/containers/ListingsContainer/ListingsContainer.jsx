@@ -61,24 +61,28 @@ class ListingsContainer extends React.Component {
   render() {
     const { isAuthed, isFetching, listings, push } = this.props;
 
-    return (
+    return !isAuthed ? (
+      <Redirect to="/auth" />
+    ) : (
       <React.Fragment>
         <BreadCrumbs />
-        <Header
-          isVisible={true}
-          componentName="listings"
-          headerTitle="Listings"
-          isNew={null}
-          primaryText="Create New Listing"
-          primaryFunc={() => push("/listings/new")}
-          primaryGlyph="plus"
-        />
+        <div className="animated fadeIn">
+          <Header
+            isVisible={true}
+            componentName="listings"
+            headerTitle="Listings"
+            isNew={null}
+            primaryText="Create New Listing"
+            primaryFunc={() => push("/listings/new")}
+            primaryGlyph="plus"
+          />
 
-        <SearchForm
-          searchFunction={searchListings}
-          searchText="Search Listings..."
-        />
-        <Listings isFetching={isFetching} listings={listings} />
+          <SearchForm
+            searchFunction={searchListings}
+            searchText="Search Listings..."
+          />
+          <Listings isFetching={isFetching} listings={listings} />
+        </div>
       </React.Fragment>
     );
   }
@@ -95,7 +99,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  // fetchListings,
   fetchComponent,
   searchListings,
   clearFormData,
