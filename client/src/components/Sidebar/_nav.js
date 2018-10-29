@@ -3,38 +3,38 @@ export default {
     {
       name: "Dashboard",
       url: "/",
-      icon: "icon-puzzle"
+      icon: "fa fa-tachometer"
     },
 
     {
       name: "Contacts",
       url: "/contacts",
-      icon: "icon-puzzle"
+      icon: "fa fa-id-card"
     },
     {
       name: "Groups",
       url: "/groups",
-      icon: "fa fa-code"
+      icon: "fa fa-users"
     },
     {
       name: "Listings",
       url: "/listings",
-      icon: "icon-cursor"
+      icon: "fa fa-building"
     },
     {
       name: "Email",
       url: "/emails",
-      icon: "icon-pie-chart"
+      icon: "fa fa-envelope"
     },
     {
-      name: "Marketing",
+      name: "Campaigns",
       url: "/campaigns",
-      icon: "fa fa-code"
+      icon: "fa fa-bullhorn"
     },
     {
       name: "Profile",
       url: "/profile",
-      icon: "fa fa-code"
+      icon: "fa fa-user"
     }
   ]
 };
