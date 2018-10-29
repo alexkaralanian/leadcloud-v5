@@ -1,9 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
 import { push } from "react-router-redux";
-import { Grid, Row, Col, Button } from "react-bootstrap";
 
 import Groups from "../../components/Groups/Groups";
+import SearchForm from "../../components/SearchForm/SearchForm";
 
 import { setGroups, searchGroups } from "../../actions/group-actions";
 
@@ -44,14 +44,22 @@ class GroupsContainer extends React.Component {
   };
 
   render = () => {
-    const { isFetching, history, groups, component } = this.props;
+    const { isFetching, history, groups, component, searchGroups } = this.props;
     return (
-      <Groups
-        groups={groups}
-        hostId={this.props.hostId}
-        component={this.props.component}
-        submitFunction={this.props.submitFunction}
-      />
+      <React.Fragment>
+        <Groups
+          SearchForm={
+            <SearchForm
+              searchText="Search..."
+              searchFunction={searchGroups}
+            />
+          }
+          groups={groups}
+          hostId={this.props.hostId}
+          component={this.props.component}
+          submitFunction={this.props.submitFunction}
+        />
+      </React.Fragment>
     );
   };
 }
@@ -65,6 +73,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   fetchComponent,
+  searchGroups,
   setGroups,
   setQuery,
   setOffset,

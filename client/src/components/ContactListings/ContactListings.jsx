@@ -15,24 +15,24 @@ const ContactListings = ({
 }) => (
   <Row>
     <Col xs={12}>
-      <div className="margin-top-2">
-        <SearchForm
-          searchFunction={searchContactListings}
-          searchText="Search Contact Listings..."
-          form="searchContactListings"
-        />
-      </div>
-      {contactListings.length > 0 && (
-        <TableRow
-          componentName="listings"
-          rowText="address"
-          collection={contactListings}
-          submitFunction={deleteContactListing}
-          hostComponent={contact}
-          buttonText="Remove"
-          buttonStyle="danger"
-        />
-      )}
+      <div className="margin-top-2" />
+      <TableRow
+        SearchForm={
+          <SearchForm
+            searchFunction={searchContactListings}
+            searchText="Search..."
+            form="searchContactListings"
+          />
+        }
+        cardHeaderText="Contact Listings"
+        componentName="listings"
+        rowText="address"
+        collection={contactListings}
+        submitFunction={deleteContactListing}
+        hostComponent={contact}
+        buttonText="Remove"
+        buttonStyle="danger"
+      />
     </Col>
   </Row>
 );

@@ -85,21 +85,18 @@ class GroupContactsContainer extends React.Component {
     ) : (
       <Row>
         <Col xs={12}>
-          <div className="margin-top-2">
-            <SearchForm searchFunction={searchGroupContacts} />
-          </div>
-          {groupContacts.length > 0 && (
-            <TableRow
-              cardHeaderText="Group Contacts"
-              componentName="contacts"
-              rowText="fullName"
-              collection={groupContacts}
-              submitFunction={deleteGroupContact}
-              buttonText={"Remove"}
-              buttonStyle={"danger"}
-              hostComponent={group}
-            />
-          )}
+          <div className="margin-top-2" s />
+          <TableRow
+            cardHeaderText="Group Contacts"
+            SearchForm={<SearchForm searchFunction={searchGroupContacts} />}
+            componentName="contacts"
+            rowText="fullName"
+            collection={groupContacts}
+            submitFunction={deleteGroupContact}
+            buttonText={"Remove"}
+            buttonStyle={"danger"}
+            hostComponent={group}
+          />
         </Col>
       </Row>
     );

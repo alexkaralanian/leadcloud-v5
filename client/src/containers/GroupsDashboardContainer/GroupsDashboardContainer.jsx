@@ -8,10 +8,9 @@ import Navigation from "../NavContainer/NavContainer";
 import Breadcrumbs from "../../components/BreadCrumbs/BreadCrumbs";
 import GroupsContainer from "../GroupsContainer/GroupsContainer";
 import Header from "../../components/Header/Header-old";
-import SearchForm from "../../components/SearchForm/SearchForm";
 import Counter from "../../components/Counter/Counter";
 
-import { setGroup, searchGroups } from "../../actions/group-actions";
+import { setGroup } from "../../actions/group-actions";
 
 class GroupsDashboardContainer extends React.Component {
   groupsPrimaryFunc = () => {
@@ -37,11 +36,6 @@ class GroupsDashboardContainer extends React.Component {
             primaryText="Create New Group"
             primaryFunc={this.groupsPrimaryFunc}
             primaryGlyph="plus"
-          />
-
-          <SearchForm
-            searchText="Search Groups..."
-            searchFunction={searchGroups}
           />
           <GroupsContainer />
         </div>

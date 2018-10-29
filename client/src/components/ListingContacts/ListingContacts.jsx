@@ -15,27 +15,25 @@ const ListingContacts = ({
   deleteListingContact
 }) => {
   return (
-    <Row>
+    <Row className="margin-top-2">
       <Col xs={12}>
-        <div className="margin-top-2">
-          <SearchForm
-            searchFunction={searchListingContacts}
-            searchText="Search Listing Contacts..."
-            form="searchListingContacts"
-          />
-          <Counter />
-        </div>
-        {listingContacts.length > 0 && (
-          <TableRow
-            componentName="contacts"
-            rowText="fullName"
-            collection={listingContacts}
-            submitFunction={deleteListingContact}
-            hostComponent={listing}
-            buttonText="Delete Contact"
-            buttonStyle="danger"
-          />
-        )}
+        <TableRow
+          cardHeaderText="Listing Contacts"
+          SearchForm={
+            <SearchForm
+              searchFunction={searchListingContacts}
+              searchText="Search..."
+              form="searchListingContacts"
+            />
+          }
+          componentName="contacts"
+          rowText="fullName"
+          collection={listingContacts}
+          submitFunction={deleteListingContact}
+          hostComponent={listing}
+          buttonText="Delete Contact"
+          buttonStyle="danger"
+        />
       </Col>
     </Row>
   );

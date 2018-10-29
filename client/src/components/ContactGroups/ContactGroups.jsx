@@ -9,8 +9,6 @@ import TableRow from "../TableRow/TableRow";
 
 import "./ContactGroups.css";
 
-// ContactGroups renders a pills / tag view of all of a user's contact's group memberships and a delte button.
-
 const ContactGroups = ({
   contact,
   contactGroups,
@@ -20,25 +18,24 @@ const ContactGroups = ({
   return (
     <Row>
       <Col xs="12">
-        <div className="margin-top-2">
-          <SearchForm
-            searchFunction={searchContactGroups}
-            searchText="Search Contact Groups..."
-            form="searchContactGroups"
-          />
-        </div>
-        {contactGroups.length > 0 && (
-          <TableRow
-            cardHeaderText="Contact Groups"
-            componentName="groups"
-            rowText="title"
-            collection={contactGroups}
-            submitFunction={deleteContactGroup}
-            hostComponent={contact}
-            buttonText="Remove Group"
-            buttonStyle="danger"
-          />
-        )}
+        <div className="margin-top-2" />
+        <TableRow
+          SearchForm={
+            <SearchForm
+              searchFunction={searchContactGroups}
+              searchText="Search..."
+              form="searchContactGroups"
+            />
+          }
+          cardHeaderText="Contact Groups"
+          componentName="groups"
+          rowText="title"
+          collection={contactGroups}
+          submitFunction={deleteContactGroup}
+          hostComponent={contact}
+          buttonText="Remove Group"
+          buttonStyle="danger"
+        />
       </Col>
     </Row>
   );

@@ -77,11 +77,11 @@ class ListingsContainer extends React.Component {
             primaryGlyph="plus"
           />
 
-          <SearchForm
+
+          <Listings isFetching={isFetching} listings={listings} SearchForm={<SearchForm
             searchFunction={searchListings}
-            searchText="Search Listings..."
-          />
-          <Listings isFetching={isFetching} listings={listings} />
+            searchText="Search..."
+          />}/>
         </div>
       </React.Fragment>
     );

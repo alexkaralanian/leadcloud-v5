@@ -11,6 +11,7 @@ import {
 } from "reactstrap";
 
 const TableRow = ({
+  SearchForm,
   CardHeaderCta,
   cardHeaderText,
   componentName,
@@ -33,6 +34,7 @@ const TableRow = ({
               <div className="card-header-cta">{CardHeaderCta}</div>
             </CardHeader>
             <CardBody>
+              <div>{SearchForm}</div>
               <Table responsive striped>
                 <tbody>
                   {collection &&

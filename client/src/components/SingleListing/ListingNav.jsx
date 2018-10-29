@@ -1,21 +1,26 @@
 import React from "react";
-import { Grid, Col, Row, Nav, NavItem } from "react-bootstrap";
+import { Nav, NavItem, NavLink } from "reactstrap";
 
-const ListingNav = ({ onMenuSelect, activeKey }) => (
+const ListingNav = ({ push, listing }) => (
   <div className="secondary_nav-container">
-    <Nav bsStyle="pills" activeKey={activeKey}>
-      <NavItem eventKey={1} onSelect={() => onMenuSelect(1)}>
-        Info
+    <Nav>
+      <NavItem>
+        <NavLink onClick={() => push(`/listings/${listing.id}`)}>Info</NavLink>
       </NavItem>
-      <NavItem eventKey={2} onSelect={() => onMenuSelect(2)}>
-        Contacts
+      <NavItem>
+        <NavLink onClick={() => push(`/listings/${listing.id}/contacts`)}>
+          Contacts
+        </NavLink>
       </NavItem>
-      <NavItem eventKey={3} onSelect={() => onMenuSelect(3)}>
-        Emails
+      <NavItem>
+        <NavLink onClick={() => push(`/listings/${listing.id}/emails`)}>
+          Emails
+        </NavLink>
       </NavItem>
-
-      <NavItem eventKey={4} onSelect={() => onMenuSelect(4)}>
-        Media
+      <NavItem>
+        <NavLink onClick={() => push(`/listings/${listing.id}/media`)}>
+          Media
+        </NavLink>
       </NavItem>
     </Nav>
   </div>

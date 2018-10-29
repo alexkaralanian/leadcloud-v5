@@ -45,6 +45,7 @@ ContactForm = ({
         <Form className="margin-top-2" onSubmit={handleSubmit}>
           <Card>
             <CardHeader>
+              <i className="fa fa-align-justify" />
               <strong>Contact Info</strong>
             </CardHeader>
             <CardBody>

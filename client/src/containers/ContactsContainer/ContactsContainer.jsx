@@ -72,9 +72,16 @@ class ContactsContainer extends React.Component {
             primaryGlyph="plus"
           />
 
-          <SearchForm searchFunction={searchContacts} searchText="Search..." />
-
-          <Contacts contacts={contacts} isFetching={isFetching} />
+          <Contacts
+            contacts={contacts}
+            isFetching={isFetching}
+            SearchForm={
+              <SearchForm
+                searchFunction={searchContacts}
+                searchText="Search..."
+              />
+            }
+          />
         </div>
       </React.Fragment>
     );

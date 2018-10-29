@@ -59,28 +59,10 @@ class CreateCampaignContainer extends React.Component {
     this.setState({ page: this.state.page - 1 });
   };
 
-  onMenuSelect = (eventKey, path) => {
-    const { push, campaign } = this.props;
-
-    if (eventKey === 1) {
-      push(`/campaigns/${campaign.id}`);
-      this.setState({ activeKey: 1 });
-    }
-
-    if (eventKey === 2) {
-      push(`/campaigns/${campaign.id}/edit`);
-      this.setState({ activeKey: 2 });
-    }
-
-    if (eventKey === 3) {
-      push(`/campaigns/${campaign.id}/review`);
-      this.setState({ activeKey: 3 });
-    }
-  };
-
   render() {
     const {
       match,
+      push,
       campaign,
       campaignListings,
       campaignGroups,
@@ -106,10 +88,7 @@ class CreateCampaignContainer extends React.Component {
           />
 
           {match.path !== "/campaigns/new" && (
-            <CreateCampaignNav
-              activeKey={this.state.activeKey}
-              onMenuSelect={this.onMenuSelect}
-            />
+            <CreateCampaignNav push={push} campaign={campaign} />
           )}
 
           <Route

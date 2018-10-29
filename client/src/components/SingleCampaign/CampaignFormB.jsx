@@ -53,9 +53,9 @@ CampaignFormB = ({
                   label="Subject"
                 />
                 <Field
-                  type="text"
+                  type="textarea"
                   name="body"
-                  component={TextAreaField}
+                  component={InputField}
                   label="Body"
                 />
               </FormGroup>

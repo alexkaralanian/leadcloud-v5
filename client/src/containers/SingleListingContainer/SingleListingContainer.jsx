@@ -77,30 +77,6 @@ class SingleListingContainer extends React.Component {
     setListing({});
   }
 
-  onMenuSelect = (eventKey, path) => {
-    const { push, listing } = this.props;
-
-    if (eventKey === 1) {
-      push(`/listings/${listing.id}`);
-      this.setState({ activeKey: 1 });
-    }
-
-    if (eventKey === 2) {
-      push(`/listings/${listing.id}/contacts`);
-      this.setState({ activeKey: 2 });
-    }
-
-    if (eventKey === 3) {
-      push(`/listings/${listing.id}/emails`);
-      this.setState({ activeKey: 3 });
-    }
-
-    if (eventKey === 4) {
-      push(`/listings/${listing.id}/media`);
-      this.setState({ activeKey: 4 });
-    }
-  };
-
   displayOpenHouseModal = () => {
     this.setState({
       isOpenHouseModalVisible: true
@@ -161,6 +137,7 @@ class SingleListingContainer extends React.Component {
     const {
       isAuthed,
       match,
+      push,
 
       listing,
       submitNewListing,
@@ -185,7 +162,6 @@ class SingleListingContainer extends React.Component {
           <BreadCrumbs />
 
           {/* HEADER */}
-
           <Header
             isVisible={this.headerFunc().isVisible}
             isNew={match.path === "/listings/new"}
@@ -198,10 +174,7 @@ class SingleListingContainer extends React.Component {
           />
 
           {match.path !== "/listings/new" && (
-            <ListingNav
-              activeKey={this.state.activeKey}
-              onMenuSelect={this.onMenuSelect}
-            />
+            <ListingNav push={push} listing={listing} />
           )}
 
           {/* LISTING FORM  */}
@@ -265,17 +238,11 @@ class SingleListingContainer extends React.Component {
             )}
           />
 
-          {/* LISTING EMAILS
-        <Route
-          path={`/listings/${listing.id}/emails`}
-          render={routeProps => (
-            <Emails
-              {...routeProps}
-              contacts={null}
-              isFetching={isFetching}
-            />
-          )}
-        />*/}
+          {/* LISTING EMAILS */}
+          <Route
+            path={`/listings/${listing.id}/emails`}
+            render={routeProps => <Emails {...routeProps} contacts={null} />}
+          />
 
           {/* LISTING MEDIA */}
           <Route
