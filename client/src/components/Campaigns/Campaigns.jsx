@@ -11,7 +11,7 @@ const Campaigns = ({ campaigns }) => (
         <Col xs="12">
           <Card>
             <CardHeader>
-              <i className="fa fa-align-justify" /> All Campiagns
+              <i className="fa fa-align-justify" /> All Campaigns
             </CardHeader>
             <CardBody>
               <Table responsive striped>
