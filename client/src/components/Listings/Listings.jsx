@@ -15,7 +15,8 @@ const Listings = ({ listings, isFetching, isListingNew, SearchForm }) =>
       <Col xs="12">
         <Card>
           <CardHeader>
-            <i className="fa fa-align-justify" /> All Listings
+            <i className="fa fa-align-justify" />
+            <strong>All Listings</strong>
           </CardHeader>
           <CardBody>
             <div>{SearchForm}</div>

@@ -16,6 +16,11 @@ html {
  */
 }
 
+.flex-1 {
+  display: flex;
+  align-items: center;
+}
+
 .background {
   background-repeat: no-repeat;
   background-position: top;

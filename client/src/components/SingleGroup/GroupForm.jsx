@@ -37,6 +37,7 @@ let GroupForm = ({
     <Form onSubmit={handleSubmit}>
       <Card>
         <CardHeader>
+          <i className="fa fa-align-justify" />
           <strong>Group Info</strong>
         </CardHeader>
         <CardBody>

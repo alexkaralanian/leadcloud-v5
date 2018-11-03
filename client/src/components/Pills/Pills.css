@@ -1,7 +1,7 @@
 .pills_list {
   list-style: none;
   padding-left: 0px;
-  margin-bottom: 2rem;
+  margin-bottom: 0.625rem;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -34,12 +34,17 @@
   z-index: 5;
 }
 
+.pills_button:hover {
+  cursor: pointer;
+  /*background-color: #bbb;*/
+}
+
 .pills_button span {
   margin-top: -1px;
 }
 
 .pills_link {
-  font-size: 1.3rem;
+  font-size: 1rem;
   /*font-weight: 200;*/
   padding: 0.4rem 0;
 }

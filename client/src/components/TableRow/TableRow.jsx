@@ -30,8 +30,7 @@ const TableRow = ({
           <Card>
             <CardHeader>
               <i className="fa fa-align-justify" />
-              {cardHeaderText}
-              <div className="card-header-cta">{CardHeaderCta}</div>
+              <strong>{cardHeaderText}</strong>
             </CardHeader>
             <CardBody>
               <div>{SearchForm}</div>

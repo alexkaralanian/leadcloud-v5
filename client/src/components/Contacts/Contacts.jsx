@@ -19,7 +19,8 @@ const Contacts = ({ contacts, groups, SearchForm, isFetching }) =>
         <Col xs="12">
           <Card>
             <CardHeader>
-              <i className="fa fa-align-justify" /> All Contacts
+              <i className="fa fa-align-justify" />
+              <strong>All Contacts</strong>
             </CardHeader>
             <CardBody>
               <div>{SearchForm}</div>

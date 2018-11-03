@@ -31,7 +31,8 @@ CampaignFormA = ({
   <Form className="margin-top-2" onSubmit={handleSubmit}>
     <Card>
       <CardHeader>
-        <i className="fa fa-align-justify" /> Initialze Campaign
+        <i className="fa fa-align-justify" />
+        <strong>Initialze Campaign</strong>
       </CardHeader>
       <CardBody>
         <FormGroup>

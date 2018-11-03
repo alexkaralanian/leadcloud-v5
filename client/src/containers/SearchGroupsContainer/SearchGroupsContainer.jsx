@@ -40,6 +40,8 @@ class SearchGroupsContainer extends React.Component {
       hostComponent
     } = this.props;
 
+    console.log("Selected", selected);
+
     return (
       <React.Fragment>
         <div className="modal_search-container">
@@ -60,15 +62,18 @@ class SearchGroupsContainer extends React.Component {
           </Button>
         </div>
         <div className="modal_pills-container">
-          <Pills
-            hostComponent={hostComponent}
-            component={selected}
-            componentName="groups"
-            submitFunction={deleteSelected}
-            displayValue="title"
-          />
+          {selected.length > 0 && (
+            <Pills
+              hostComponent={hostComponent}
+              component={selected}
+              componentName="groups"
+              submitFunction={deleteSelected}
+              displayValue="title"
+            />
+          )}
         </div>
         <TableRow
+          cardHeaderText="All Groups"
           componentName="groups"
           rowText="title"
           collection={groups}

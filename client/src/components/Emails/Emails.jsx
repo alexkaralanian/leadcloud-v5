@@ -15,7 +15,8 @@ const Emails = ({ emails, createContact, isFetching, emailError }) =>
       <Col xs={12}>
         <Card>
           <CardHeader>
-            <i className="fa fa-align-justify" /> Emails
+            <i className="fa fa-align-justify" />
+            <strong>Emails</strong>
           </CardHeader>
           <CardBody>
             <Table responsive striped>

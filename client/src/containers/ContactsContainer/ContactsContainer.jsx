@@ -11,6 +11,7 @@ import BreadCrumbs from "../../components/BreadCrumbs/BreadCrumbs";
 import Header from "../../components/Header/Header-old";
 import SearchForm from "../../components/SearchForm/SearchForm";
 import Counter from "../../components/Counter/Counter";
+import Loading from "../../components/Loading/Loading";
 
 import {
   fetchComponent,
@@ -72,16 +73,20 @@ class ContactsContainer extends React.Component {
             primaryGlyph="plus"
           />
 
-          <Contacts
-            contacts={contacts}
-            isFetching={isFetching}
-            SearchForm={
-              <SearchForm
-                searchFunction={searchContacts}
-                searchText="Search..."
-              />
-            }
-          />
+          {isFetching ? (
+            <Loading />
+          ) : (
+            <Contacts
+              contacts={contacts}
+              isFetching={isFetching}
+              SearchForm={
+                <SearchForm
+                  searchFunction={searchContacts}
+                  searchText="Search..."
+                />
+              }
+            />
+          )}
         </div>
       </React.Fragment>
     );

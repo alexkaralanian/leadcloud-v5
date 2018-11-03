@@ -5,7 +5,7 @@ import { Button, Col, Row, Collapse } from "reactstrap";
 import Modal from "../../components/Modal/Modal";
 import SearchListingsContainer from "../../containers/SearchListingsContainer/SearchListingsContainer";
 import SearchGroupsContainer from "../../containers/SearchGroupsContainer/SearchGroupsContainer";
-import TableRow from "../TableRow/TableRow";
+import TableRow2 from "../TableRow/TableRow2";
 
 import { setOffset } from "../../actions/query-actions";
 
@@ -114,8 +114,7 @@ class CampaignFormA_Container extends React.Component {
                 />
               }
             />
-
-            <TableRow
+            <TableRow2
               CardHeaderCta={
                 <Button
                   color="primary"
@@ -135,6 +134,7 @@ class CampaignFormA_Container extends React.Component {
               hostComponent={null}
               buttonText="Remove"
               buttonStyle="danger"
+              icon="fa fa-users"
             />
           </Col>
 
@@ -156,7 +156,7 @@ class CampaignFormA_Container extends React.Component {
               }
             />
 
-            <TableRow
+            <TableRow2
               CardHeaderCta={
                 <Button
                   color="primary"
@@ -176,6 +176,7 @@ class CampaignFormA_Container extends React.Component {
               hostComponent={null}
               buttonText="Remove"
               buttonStyle="danger"
+              icon="fa fa-building"
             />
           </Col>
         </Row>

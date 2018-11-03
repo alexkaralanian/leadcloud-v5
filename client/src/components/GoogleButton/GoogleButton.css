@@ -1,10 +1,9 @@
 .googleButton {
   display: block;
-  margin-top: 2.5rem;
-  width: 18.5rem;
-  height: 3.25rem;
+  /*  margin-top: 2.5rem;*/
+  width: 13rem;
+  height: 2.75rem;
   border-radius: 3rem;
-  margin-bottom: 14px;
   outline: none;
   transition: all 0.2s;
   background-color: white;
@@ -19,15 +18,13 @@
 
 .googleButton_text {
   color: black;
-  font-size: 1.25rem;
+  font-size: 1rem;
   font-weight: 300;
-  letter-spacing: 0.125rem;
-  margin-right: -0.125rem;
   text-decoration: none;
 }
 
 .googleButton:hover {
-  transform: translateY(-0.2rem);
+  transform: translateY(-0.1rem);
   box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
 }
 

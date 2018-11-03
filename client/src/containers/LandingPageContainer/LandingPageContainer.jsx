@@ -1,20 +1,18 @@
 import React from "react";
+import { push } from "react-router-redux";
 import { connect } from "react-redux";
-import { Redirect } from "react-router";
 
 import LandingPage from "../../components/LandingPage/LandingPage";
 
 class LandingPageContainer extends React.Component {
-  constructor(props) {
-    super(props);
+  componentDidMount() {
+    const { isAuthed, push } = this.props;
+    if (isAuthed) push("/");
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.isAuthed) this.props.history.push("/");
-  }
-
-  componentDidMount() {
-    if (this.props.isAuthed) this.props.history.push("/");
+    const { push } = this.props;
+    if (nextProps.isAuthed) push("/");
   }
 
   render() {
@@ -26,4 +24,4 @@ const mapStateToProps = state => ({
   isAuthed: state.authReducer.isAuthed
 });
 
-export default connect(mapStateToProps, null)(LandingPageContainer);
+export default connect(mapStateToProps, { push })(LandingPageContainer);
