@@ -2,6 +2,8 @@ import React from "react";
 import { connect } from "react-redux";
 
 import Emails from "../../components/Emails/Emails";
+import Placeholder from "../../components/Placeholder/Placeholder";
+
 import { fetchEmailsByContact, clearEmails } from "../../actions/email-actions";
 
 class SingleContactEmailsContainer extends React.Component {
@@ -38,12 +40,21 @@ class SingleContactEmailsContainer extends React.Component {
   }
 
   render() {
-    const { emailsByContact, isFetching } = this.props;
-    return <Emails emails={emailsByContact} isFetching={isFetching} />;
+    const { emailsByContact, contact, isFetching } = this.props;
+    return emailsByContact.length > 0 ? (
+      <Emails emails={emailsByContact} isFetching={isFetching} />
+    ) : (
+      <Placeholder
+        headerText={`You and ${contact.fullName} don't have any emails yet...`}
+        ctaText="Create email"
+        ctaFunc={() => console.log("hi")}
+      />
+    );
   }
 }
 
 const mapStateToProps = state => ({
+  contact: state.contactReducer.contact,
   isFetching: state.emailReducer.isFetching,
   isLoading: state.emailReducer.isLoading,
   emailsByContact: state.contactReducer.emailsByContact,

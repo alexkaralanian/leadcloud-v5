@@ -115,12 +115,14 @@ export const fetchEmailsByContact = (
     const res = await axios.get(
       `/api/email/gmail?maxResults=${maxResults}&pageToken=${pageToken}&q=${query}`
     );
-    dispatch(
-      setEmailsByContact(
-        emailsArray.concat(res.data.emailArray),
-        res.data.nextPageToken
-      )
-    );
+    if (res.data.emailArray) {
+      dispatch(
+        setEmailsByContact(
+          emailsArray.concat(res.data.emailArray),
+          res.data.nextPageToken
+        )
+      );
+    }
     dispatch(isLoading(false));
   } catch (err) {
     console.error("Fetching emails by contact unsuccessful", err);

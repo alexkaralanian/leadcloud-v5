@@ -13,6 +13,8 @@ const gmail = google.gmail("v1");
 const router = express.Router();
 
 router.get("/gmail", authCheck, findUserById, (req, res) => {
+  console.log("FETCHING GMAIL EMAILS");
+  console.log("REQ.QUERY", req.query);
   gmail.users.messages.list(
     {
       userId: "me",
@@ -23,39 +25,43 @@ router.get("/gmail", authCheck, findUserById, (req, res) => {
     },
     (err, response) => {
       if (!err) {
-        const messageIDs = response.data.messages;
-        const nextPageToken = response.data.nextPageToken;
-
-        // Return an array of email promises
-        const emailPromises = messageIDs.map(
-          message =>
-            new Promise((resolve, reject) => {
-              // Fetch individual email messages
-              gmail.users.messages.get(
-                {
-                  userId: "me",
-                  id: message.id,
-                  format: "metadata",
-                  auth: oAuth2Client
-                },
-                (error, email) => {
-                  if (email) {
-                    resolve(email.data);
-                  } else {
-                    reject(error);
+        if (response.data.resultSizeEstimate > 0) {
+          const messageIDs = response.data.messages;
+          const nextPageToken = response.data.nextPageToken;
+          // Return an array of email promises
+          const emailPromises = messageIDs.map(
+            message =>
+              new Promise((resolve, reject) => {
+                // Fetch individual email messages
+                gmail.users.messages.get(
+                  {
+                    userId: "me",
+                    id: message.id,
+                    format: "metadata",
+                    auth: oAuth2Client
+                  },
+                  (error, email) => {
+                    if (email) {
+                      resolve(email.data);
+                    } else {
+                      reject(error);
+                    }
                   }
-                }
-              );
-            })
-        );
-        // Resolve all email promises
-        Promise.all(emailPromises)
-          .then(values => [nextPageToken, values])
-          .then(emails => {
-            // Custom helper to transform / map email array
-            res.json(emailTransform(emails));
-          });
+                );
+              })
+          );
+          // Resolve all email promises
+          Promise.all(emailPromises)
+            .then(values => [nextPageToken, values])
+            .then(emails => {
+              // Custom helper to transform / map email array
+              res.json(emailTransform(emails));
+            });
+        } else {
+          res.json(null);
+        }
       } else {
+        console.log("ERROR", err);
         console.error("ERROR FETCHING EMAILS", err.response);
         res.status(err.response.status).send(err.response.data);
       }
