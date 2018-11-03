@@ -15,6 +15,11 @@ export const setContacts = contacts => ({
   payload: contacts
 });
 
+export const setIsSearching = bool => ({
+  type: types.SET_IS_SEARCHING,
+  payload: bool
+});
+
 export const setContact = contact => ({
   type: types.SET_CONTACT,
   contact
@@ -24,9 +29,15 @@ export const setContact = contact => ({
 
 export const searchContacts = values => {
   const query = values.nativeEvent.target.defaultValue;
+  store.dispatch(setIsSearching(true));
   store.dispatch(setQuery(query));
   store.dispatch(setOffset(0));
   store.dispatch(fetchComponent("contacts", [], setContacts, null, null));
+  if (!query.length) {
+    setTimeout(() => {
+      store.dispatch(setIsSearching(false));
+    }, 1000);
+  }
 };
 
 // SYNC GOOGLE CONTACTS

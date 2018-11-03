@@ -11,7 +11,7 @@ import "./Contacts.css";
 
 const Contacts = ({ contacts, groups, SearchForm }) => (
   <React.Fragment>
-    <Row className=" animated fadeIn margin-top-2">
+    <Row className="margin-top-2">
       <Col xs="12">
         <Card>
           <CardHeader>

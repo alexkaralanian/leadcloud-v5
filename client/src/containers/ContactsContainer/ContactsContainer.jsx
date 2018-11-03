@@ -56,14 +56,22 @@ class ContactsContainer extends React.Component {
   };
 
   render() {
-    const { push, isAuthed, isFetching, syncContacts, contacts } = this.props;
+    const {
+      push,
+      isAuthed,
+      isFetching,
+      syncContacts,
+      contacts,
+      isSearching
+    } = this.props;
+
+    console.log("IS SEARCHING", isSearching);
 
     return !isAuthed ? (
       <Redirect to="/auth" />
     ) : (
       <React.Fragment>
         <BreadCrumbs />
-
         <Header
           isVisible={true}
           componentName="contacts"
@@ -73,10 +81,9 @@ class ContactsContainer extends React.Component {
           primaryFunc={() => push("/contacts/new")}
           primaryGlyph="plus"
         />
-
         {isFetching ? (
           <Loading />
-        ) : contacts.length > 0 ? (
+        ) : contacts.length > 0 || isSearching ? (
           <Contacts
             contacts={contacts}
             isFetching={isFetching}
@@ -100,6 +107,7 @@ class ContactsContainer extends React.Component {
 }
 
 const mapStateToProps = state => ({
+  isSearching: state.contactReducer.isSearching,
   contacts: state.contactReducer.contacts,
   isAuthed: state.authReducer.isAuthed,
   isLoading: state.queryReducer.isLoading,

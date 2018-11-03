@@ -52,3 +52,5 @@ export const SET_EMAIL_QUERY = "SET_EMAIL_QUERY";
 export const CLEAR_EMAILS = "CLEAR_EMAILS";
 export const CLEAR_EMAIL = "CLEAR_EMAIL";
 export const SET_EMAIL_SEARCH = "SET_EMAIL_SEARCH";
+
+export const SET_IS_SEARCHING = "SET_IS_SEARCHING";
