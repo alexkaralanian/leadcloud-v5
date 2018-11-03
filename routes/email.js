@@ -9,11 +9,9 @@ const findUserById = require("../middlewares/findUserById");
 
 // const moment = require("moment");
 // const Contacts = require("../../db/models/contacts");
-
 const gmail = google.gmail("v1");
 const router = express.Router();
 
-// FETCH ALL EMAILS
 router.get("/gmail", authCheck, findUserById, (req, res) => {
   gmail.users.messages.list(
     {
@@ -58,13 +56,13 @@ router.get("/gmail", authCheck, findUserById, (req, res) => {
             res.json(emailTransform(emails));
           });
       } else {
-        console.error("ERROR FETCHING EMAILS", err.response.data);
+        console.error("ERROR FETCHING EMAILS", err.response);
+        res.status(err.response.status).send(err.response.data);
       }
     }
   );
 });
 
-// /GET SINGLE EMAIL BY ID / VIEW EMAIL MESSAGE
 router.get("/gmail/:id", authCheck, findUserById, async (req, res) => {
   try {
     const response = await new Promise((resolve, reject) => {
@@ -84,10 +82,8 @@ router.get("/gmail/:id", authCheck, findUserById, async (req, res) => {
         }
       );
     });
-
     const body = response.data.raw;
     const buff = Buffer.from(body, "base64").toString("utf8");
-
     const email = await simpleParser(buff);
     res.json(email);
   } catch (err) {

@@ -79,7 +79,14 @@ export const fetchEmails = (
     dispatch(isFetching(false));
     dispatch(isLoading(false));
   } catch (err) {
-    console.error("Fetching emails from gmail unsuccessful", err);
+    console.error("Fetching emails from gmail unsuccessful", err.response.data);
+    dispatch(
+      setError(
+        `Fetching emails from Gmail unsuccessful: (${
+          err.response.data.error.code
+        }, ${err.response.data.error.errors[0].message})`
+      )
+    );
     dispatch(isFetching(false));
   }
 };
