@@ -17,6 +17,8 @@ import ContactGroups from "../../components/ContactGroups/ContactGroups";
 import Modal from "../../components/Modal/Modal";
 import SearchListingsContainer from "../SearchListingsContainer/SearchListingsContainer";
 import SearchGroupsContainer from "../SearchGroupsContainer/SearchGroupsContainer";
+import Loading from "../../components/Loading/Loading";
+import Placeholder from "../../components/Placeholder/Placeholder";
 
 import { clearError } from "../../actions/common-actions";
 
@@ -277,15 +279,25 @@ class SingleContactContainer extends React.Component {
           />
           <Route
             path={`/contacts/${contact.id}/listings`}
-            render={routeProps => (
-              <ContactListings
-                {...routeProps}
-                contact={contact}
-                contactListings={contactListings}
-                searchContactListings={searchContactListings}
-                deleteContactListing={deleteContactListing}
-              />
-            )}
+            render={routeProps =>
+              contactListings.length > 0 ? (
+                <ContactListings
+                  {...routeProps}
+                  contact={contact}
+                  contactListings={contactListings}
+                  searchContactListings={searchContactListings}
+                  deleteContactListing={deleteContactListing}
+                />
+              ) : (
+                <Placeholder
+                  headerText={`${
+                    contact.fullName
+                  } doesn't have any listings yet...`}
+                  ctaText="Add Listings"
+                  ctaFunc={this.displayListingsModal}
+                />
+              )
+            }
           />
 
           {/* CONTACT GROUPS */}
@@ -307,14 +319,24 @@ class SingleContactContainer extends React.Component {
           />
           <Route
             path={`/contacts/${contact.id}/groups`}
-            render={routeProps => (
-              <ContactGroups
-                contact={contact}
-                contactGroups={contactGroups}
-                searchContactGroups={searchContactGroups}
-                deleteContactGroup={deleteContactGroup}
-              />
-            )}
+            render={routeProps =>
+              contactGroups.length > 0 ? (
+                <ContactGroups
+                  contact={contact}
+                  contactGroups={contactGroups}
+                  searchContactGroups={searchContactGroups}
+                  deleteContactGroup={deleteContactGroup}
+                />
+              ) : (
+                <Placeholder
+                  headerText={`${
+                    contact.fullName
+                  } doesn't have any groups yet...`}
+                  ctaText="Add Groups"
+                  ctaFunc={this.displayGroupsModal}
+                />
+              )
+            }
           />
 
           {/* CONTACT EMAILS */}

@@ -122,7 +122,7 @@ ContactForm = ({
                   <Field
                     type="textarea"
                     name="notes"
-                    component={TextAreaField}
+                    component={InputField}
                     label="Notes"
                     placeholder="Add your notes here..."
                   />

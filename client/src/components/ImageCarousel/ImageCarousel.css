@@ -4,26 +4,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px dotted lightgrey;
+  border: 1px dotted #20a8d8;
   border-radius: 2px;
-  height: 12rem;
+  height: 8rem;
   padding: 1rem;
   margin-bottom: 2rem;
 }
 
 .dropzone__button {
-  padding: 0 !important;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 7.5rem;
-  width: 7.5rem;
+  height: 4.5rem;
+  width: 4.5rem;
   border-radius: 100%;
-  font-size: 50px;
-}
-
-.dropzone__button span {
-  font-size: 5rem;
+  font-size: 1.75rem;
 }
 
 .carousel {
@@ -33,43 +25,37 @@
   justify-content: space-around;
 }
 
-.carousel__img-container {
-  display: flex;
+.carousel__img-card {
+  /*display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: center;*/
   position: relative;
-  padding: 1rem;
-  width: 24rem;
-  height: 24rem;
-  border: 1px dotted lightgrey;
+  /* padding: 1rem;*/
+  width: 14rem;
+  /*height: 14rem;*/
+  /* border: 1px dotted #20a8d8;
   border-radius: 3px;
-  margin: 0 1rem 2rem;
+  margin: 0 1rem 2rem;*/
 }
 
 .carousel__img-container img {
   border-radius: 3px;
 }
 
-.carousel__img-container button {
+.carousel__img-container i {
   position: absolute;
-  display: flex;
-  border: 1px dotted lightgrey;
-  background-color: white;
+  margin-top: -4px;
+  margin-right: -4px;
+  background-color: none !important;
   border-radius: 100%;
-  justify-content: center;
-  align-items: center;
-  width: 2rem;
-  height: 2rem;
   z-index: 5;
   top: 0px;
   right: 0px;
-  margin-top: -4px;
-  margin-right: -4px;
+  font-size: 1.3rem;
+  color: #20a8d8;
 }
 
-.carousel__img-container span {
-  font-weight: 500;
-  font-size: 1.4rem;
-  margin-top: -0.25rem;
-  color: lightgrey;
+.carousel__img-container i:hover {
+  color: #1b8eb7;
+  cursor: pointer;
 }

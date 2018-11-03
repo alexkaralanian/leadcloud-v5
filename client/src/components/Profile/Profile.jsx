@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import { Col, Row, Button, Card, CardHeader, CardBody } from "reactstrap";
 import "./Profile.css";
 
-const Profile = ({ logout, syncContacts, user }) => (
-  <Row className="margin-top-2">
+const Profile = ({ logout, user }) => (
+  <Row className="animated fadeIn margin-top-2">
     <Col xs={12}>
       <Card>
         <CardHeader>
@@ -13,7 +13,11 @@ const Profile = ({ logout, syncContacts, user }) => (
         </CardHeader>
         <CardBody>
           <h1 className="headerText">Welcome, {user.firstName}!</h1>
-          <img src={user.googlePhoto} className="img-fluid profilePic" />
+          <img
+            src={user.googlePhoto}
+            className="img-fluid profilePic"
+            alt="user-profile-pic"
+          />
           <div>
             <Button color="primary" onClick={logout}>
               <span>LOGOUT</span>
@@ -28,11 +32,6 @@ const Profile = ({ logout, syncContacts, user }) => (
 Profile.propTypes = {
   logout: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired
-};
-
-Profile.defaultProps = {
-  user: {},
-  logout: () => {}
 };
 
 export default Profile;

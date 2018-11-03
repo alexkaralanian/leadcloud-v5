@@ -14,13 +14,10 @@ const authCheck = require("../middlewares/authChecker");
 const router = express.Router();
 const Op = Sequelize.Op;
 
-// GET ALL CONTACTS FROM DB
 router.get("/", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
-
   try {
     let contacts;
-
     if (req.query.query) {
       contacts = await Contacts.findAndCountAll({
         limit: req.query.limit,
@@ -45,14 +42,12 @@ router.get("/", authCheck, async (req, res) => {
         order: [["updatedAt", "DESC"]]
       });
     }
-
     res.json(contacts);
   } catch (err) {
     console.error("FETCHING CONTACTS ERROR", err);
   }
 });
 
-// GET SINGLE CONTACT
 router.get("/:id", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
   try {
@@ -77,10 +72,8 @@ router.get("/:id", authCheck, async (req, res) => {
   }
 });
 
-// CREATE NEW CONTACT
-router.post("/new", authCheck, async (req, res) => {
+router.post("/", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
-
   try {
     const contacts = await Contacts.findAll({
       where: {
@@ -94,7 +87,6 @@ router.post("/new", authCheck, async (req, res) => {
         }
       }
     });
-
     if (isEmpty(contacts)) {
       const createdContact = await Contacts.create({
         UserUuid: userId,
@@ -127,10 +119,8 @@ router.post("/new", authCheck, async (req, res) => {
   }
 });
 
-// UPDATE CONACT
-router.patch("/:id/update", authCheck, async (req, res) => {
+router.patch("/:id", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
-
   try {
     const contact = await Contacts.findOne({
       where: {
@@ -138,7 +128,6 @@ router.patch("/:id/update", authCheck, async (req, res) => {
         UserUuid: userId
       }
     });
-
     req.body.updated = moment(Date.now()).toISOString();
     req.body.fullName = `${
       req.body.firstName ? req.body.firstName.trim() : ""
@@ -151,10 +140,8 @@ router.patch("/:id/update", authCheck, async (req, res) => {
   }
 });
 
-// DELETE CONTACT
-router.delete("/:id/delete", authCheck, async (req, res) => {
+router.delete("/:id", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
-
   try {
     const contact = await Contacts.findOne({
       where: {
@@ -203,15 +190,12 @@ router.get("/:id/listings", authCheck, async (req, res) => {
   }
 });
 
-// BULK ADD LISTINGS TO CONTACT AND RETURN LISTING-CONTACTS
-router.post("/:id/listings/add", authCheck, async (req, res) => {
+router.post("/:id/listings", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
-
   try {
     await ListingContacts.bulkCreate(req.body.contactListings, {
       validate: false
     });
-
     const contactListings = await Listings.findAndCountAll({
       limit: 25,
       offset: 0,
@@ -234,9 +218,8 @@ router.post("/:id/listings/add", authCheck, async (req, res) => {
   }
 });
 
-router.post("/:id/listing/delete", authCheck, async (req, res) => {
+router.delete("/:id/listing", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
-
   try {
     const contact = await Contacts.findOne({
       where: {
@@ -244,8 +227,7 @@ router.post("/:id/listing/delete", authCheck, async (req, res) => {
         id: req.params.id
       }
     });
-    await contact.removeListing(req.body.listingId);
-
+    await contact.removeListing(req.query.listingId);
     const contactListings = await Listings.findAndCountAll({
       limit: 25,
       offset: 0,
@@ -299,12 +281,10 @@ router.get("/:id/groups", authCheck, async (req, res) => {
   }
 });
 
-router.post("/:id/groups/add", authCheck, async (req, res) => {
+router.post("/:id/groups", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
-
   try {
     await ContactGroups.bulkCreate(req.body.contactGroups);
-
     const contactGroups = await Groups.findAndCountAll({
       limit: 25,
       offset: 0,
@@ -328,10 +308,8 @@ router.post("/:id/groups/add", authCheck, async (req, res) => {
   }
 });
 
-// REMOVE GROUP FROM CONTACT AND RETURN CONTACT-GROUPS
-router.post("/:id/group/delete", authCheck, async (req, res) => {
+router.delete("/:id/group", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
-  console.log("REQ.bODY", req.body);
   try {
     const contact = await Contacts.findOne({
       where: {
@@ -339,7 +317,7 @@ router.post("/:id/group/delete", authCheck, async (req, res) => {
         id: req.params.id
       }
     });
-    await contact.removeGroup(req.body.groupId);
+    await contact.removeGroup(req.query.groupId);
     const contactGroups = await Groups.findAndCountAll({
       limit: 25,
       offset: 0,
@@ -363,8 +341,6 @@ router.post("/:id/group/delete", authCheck, async (req, res) => {
 });
 
 //////////// CONTACT IMAGES  ////////////
-
-// ADD NEW IMAGES
 router.post("/images", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
 
@@ -375,7 +351,6 @@ router.post("/images", authCheck, async (req, res) => {
         UserUuid: userId
       }
     });
-
     let images = contact.images;
     if (!images || images.length === 0) {
       images = req.body.images;
@@ -389,23 +364,21 @@ router.post("/images", authCheck, async (req, res) => {
   }
 });
 
-// DELETE IMAGES
-router.post("/images/delete", authCheck, async (req, res) => {
+router.delete("/:id/image", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
   try {
     const contact = await Contacts.findOne({
       where: {
         UserUuid: userId,
-        id: req.body.contactId
+        id: req.params.id
       }
     });
     const imageArray = contact.images;
-    imageArray.splice(imageArray.indexOf(req.body.image), 1);
+    imageArray.splice(imageArray.indexOf(req.query.imageURI), 1);
 
-    const updatedContact = contact.update({
+    const updatedContact = await contact.update({
       images: imageArray.length === 0 ? null : imageArray
     });
-
     res.json(updatedContact);
   } catch (err) {
     console.error(err);

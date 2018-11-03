@@ -70,7 +70,7 @@ export const fetchContact = id => async dispatch => {
 export const submitNewContact = data => async dispatch => {
   dispatch(isFetching(true));
   try {
-    const res = await axios.post("/api/contacts/new", data);
+    const res = await axios.post("/api/contacts", data);
     if (res.status === 200) {
       dispatch(setContact(res.data));
       dispatch(push(`/contacts/${res.data.id}`));
@@ -86,7 +86,7 @@ export const submitNewContact = data => async dispatch => {
 // UPDATE CONTACT
 export const updateContact = (values, id) => async dispatch => {
   try {
-    const res = await axios.patch(`/api/contacts/${id}/update`, values);
+    const res = await axios.patch(`/api/contacts/${id}`, values);
     dispatch(setContact(res.data));
   } catch (err) {
     console.error("Updating Contact Unsuccessful", err);
@@ -95,7 +95,7 @@ export const updateContact = (values, id) => async dispatch => {
 
 export const deleteContact = id => async dispatch => {
   try {
-    const res = await axios.delete(`/api/contacts/${id}/delete`);
+    const res = await axios.delete(`/api/contacts/${id}`);
     dispatch(setContact(res.data));
     dispatch(push("/contacts"));
   } catch (err) {
@@ -106,11 +106,9 @@ export const deleteContact = id => async dispatch => {
 // CONTACT GROUPS
 export const fetchContactGroups = contactId => async dispatch => {
   try {
-    console.log("FETCHING CONTACT GROUPS", contactId);
     const res = await axios.post(`/api/contacts/groups`, {
       contactId
     });
-    console.log("FETCHING RES", res.data);
     dispatch(setContactGroups(res.data));
   } catch (err) {
     console.error("Fetching contact groups from API unsuccessful", err);
@@ -119,35 +117,37 @@ export const fetchContactGroups = contactId => async dispatch => {
 
 // CONTACT IMAGES
 export const onDrop = (files, componentId) => async dispatch => {
-  const uploadConfig = await axios.post("/api/upload", {
-    componentType: "contact",
-    componentId
-  });
+  try {
+    const uploadConfig = await axios.post("/api/upload", {
+      componentType: "contact",
+      componentId
+    });
 
-  await axios.put(uploadConfig.data.url, files[0], {
-    headers: {
-      "Content-Type": files[0].type
-    }
-  });
+    await axios.put(uploadConfig.data.url, files[0], {
+      headers: {
+        "Content-Type": files[0].type
+      }
+    });
 
-  const res = await axios.post("/api/contacts/images", {
-    images: [
-      `https://s3.amazonaws.com/leadcloud-v5-user-images/${
-        uploadConfig.data.key
-      }`
-    ],
-    componentId
-  });
-
-  dispatch(setContact(res.data));
+    const res = await axios.post("/api/contacts/images", {
+      images: [
+        `https://s3.amazonaws.com/leadcloud-v5-user-images/${
+          uploadConfig.data.key
+        }`
+      ],
+      componentId
+    });
+    dispatch(setContact(res.data));
+  } catch (err) {
+    console.error("Error Uploading Image", err);
+  }
 };
 
 export const deleteContactImage = (image, contactId) => async dispatch => {
   try {
-    const res = await axios.post("/api/contacts/images/delete", {
-      contactId,
-      image
-    });
+    const res = await axios.delete(
+      `/api/contacts/${contactId}/image?imageURI=${encodeURIComponent(image)}`
+    );
     dispatch(setContact(res.data));
   } catch (err) {
     console.error(err);
