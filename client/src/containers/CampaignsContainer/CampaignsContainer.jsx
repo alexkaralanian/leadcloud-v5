@@ -4,10 +4,11 @@ import { push } from "react-router-redux";
 import { connect } from "react-redux";
 import { Grid } from "react-bootstrap";
 
-import Navigation from "../NavContainer/NavContainer";
 import BreadCrumbs from "../../components/BreadCrumbs/BreadCrumbs";
 import Header from "../../components/Header/Header-old";
 import Campaigns from "../../components/Campaigns/Campaigns";
+import Loading from "../../components/Loading/Loading";
+import Placeholder from "../../components/Placeholder/Placeholder";
 
 import { fetchCampaigns, setCampaign } from "../../actions/campaign-actions";
 import { setCampaignListings } from "../../actions/campaign-listings-actions";
@@ -34,24 +35,33 @@ class CampaignsContainer extends React.Component {
   };
 
   render() {
-    const { isAuthed, campaigns } = this.props;
+    const { isAuthed, campaigns, isFetching } = this.props;
     return !isAuthed ? (
       <Redirect to="/auth" />
     ) : (
       <React.Fragment>
         <BreadCrumbs />
-        <div className="animated fadeIn">
-          <Header
-            isVisible={true}
-            componentName="campaigns"
-            headerTitle="Campaigns"
-            isNew={null}
-            primaryText="Create New Campaign"
-            primaryFunc={this.createNewCampaign}
-            primaryGlyph="plus"
-          />
+        <Header
+          isVisible={true}
+          componentName="campaigns"
+          headerTitle="Campaigns"
+          isNew={null}
+          primaryText="Create New Campaign"
+          primaryFunc={this.createNewCampaign}
+          primaryGlyph="plus"
+        />
+
+        {isFetching ? (
+          <Loading />
+        ) : campaigns.length > 0 ? (
           <Campaigns campaigns={campaigns} />
-        </div>
+        ) : (
+          <Placeholder
+            headerText="You Dont Have Any Campaigns Yet..."
+            ctaText="Create New Campaign"
+            ctaFunc={this.createNewCampaign}
+          />
+        )}
       </React.Fragment>
     );
   }

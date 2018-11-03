@@ -18,9 +18,6 @@ const Profile = ({ logout, syncContacts, user }) => (
             <Button color="primary" onClick={logout}>
               <span>LOGOUT</span>
             </Button>
-            <Button color="primary" onClick={syncContacts}>
-              <span>SYNC GOOGLE CONTACTS</span>
-            </Button>
           </div>
         </CardBody>
       </Card>

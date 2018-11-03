@@ -40,8 +40,6 @@ class SearchGroupsContainer extends React.Component {
       hostComponent
     } = this.props;
 
-    console.log("Selected", selected);
-
     return (
       <React.Fragment>
         <div className="modal_search-container">

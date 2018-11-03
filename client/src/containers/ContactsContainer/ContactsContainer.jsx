@@ -12,6 +12,7 @@ import Header from "../../components/Header/Header-old";
 import SearchForm from "../../components/SearchForm/SearchForm";
 import Counter from "../../components/Counter/Counter";
 import Loading from "../../components/Loading/Loading";
+import Placeholder from "../../components/Placeholder/Placeholder";
 
 import {
   fetchComponent,
@@ -62,32 +63,37 @@ class ContactsContainer extends React.Component {
     ) : (
       <React.Fragment>
         <BreadCrumbs />
-        <div className="animated fadeIn">
-          <Header
-            isVisible={true}
-            componentName="contacts"
-            headerTitle="Contacts"
-            isNew={null}
-            primaryText="Create New"
-            primaryFunc={() => push("/contacts/new")}
-            primaryGlyph="plus"
-          />
 
-          {isFetching ? (
-            <Loading />
-          ) : (
-            <Contacts
-              contacts={contacts}
-              isFetching={isFetching}
-              SearchForm={
-                <SearchForm
-                  searchFunction={searchContacts}
-                  searchText="Search..."
-                />
-              }
-            />
-          )}
-        </div>
+        <Header
+          isVisible={true}
+          componentName="contacts"
+          headerTitle="Contacts"
+          isNew={null}
+          primaryText="Create New"
+          primaryFunc={() => push("/contacts/new")}
+          primaryGlyph="plus"
+        />
+
+        {isFetching ? (
+          <Loading />
+        ) : contacts.length > 0 ? (
+          <Contacts
+            contacts={contacts}
+            isFetching={isFetching}
+            SearchForm={
+              <SearchForm
+                searchFunction={searchContacts}
+                searchText="Search..."
+              />
+            }
+          />
+        ) : (
+          <Placeholder
+            headerText="You Dont Have Any Contacts Yet..."
+            ctaText="Sync Google Contacts"
+            ctaFunc={syncContacts}
+          />
+        )}
       </React.Fragment>
     );
   }

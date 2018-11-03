@@ -16,9 +16,11 @@ html {
  */
 }
 
-.flex-1 {
+.flex-container-column {
   display: flex;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
 }
 
 .background {

@@ -20,32 +20,34 @@ class GroupsDashboardContainer extends React.Component {
   };
 
   render() {
-    const { isAuthed, match, isFetching } = this.props;
+    const { isAuthed, match, isFetching, groups } = this.props;
+
+    console.log("GROUPS", groups);
 
     return !isAuthed ? (
       <Redirect to="/auth" />
     ) : (
       <React.Fragment>
         <Breadcrumbs />
-        <div className="animated fadeIn">
-          <Header
-            isVisible={true}
-            componentName="groups"
-            headerTitle="Groups"
-            isNew={null}
-            primaryText="Create New Group"
-            primaryFunc={this.groupsPrimaryFunc}
-            primaryGlyph="plus"
-          />
-          <GroupsContainer />
-        </div>
+        <Header
+          isVisible={true}
+          componentName="groups"
+          headerTitle="Groups"
+          isNew={null}
+          primaryText="Create New Group"
+          primaryFunc={this.groupsPrimaryFunc}
+          primaryGlyph="plus"
+        />
+
+        <GroupsContainer />
       </React.Fragment>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  isAuthed: state.authReducer.isAuthed
+  isAuthed: state.authReducer.isAuthed,
+  groups: state.groupReducer.groups
 });
 
 const mapDispatchToProps = {

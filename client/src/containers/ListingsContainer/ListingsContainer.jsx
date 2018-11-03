@@ -11,6 +11,8 @@ import BreadCrumbs from "../../components/BreadCrumbs/BreadCrumbs";
 import Header from "../../components/Header/Header-old";
 import SearchForm from "../../components/SearchForm/SearchForm";
 import Counter from "../../components/Counter/Counter";
+import Loading from "../../components/Loading/Loading";
+import Placeholder from "../../components/Placeholder/Placeholder";
 
 import {
   setListings,
@@ -66,23 +68,36 @@ class ListingsContainer extends React.Component {
     ) : (
       <React.Fragment>
         <BreadCrumbs />
-        <div className="animated fadeIn">
-          <Header
-            isVisible={true}
-            componentName="listings"
-            headerTitle="Listings"
-            isNew={null}
-            primaryText="Create New Listing"
-            primaryFunc={() => push("/listings/new")}
-            primaryGlyph="plus"
+        <Header
+          isVisible={true}
+          componentName="listings"
+          headerTitle="Listings"
+          isNew={null}
+          primaryText="Create New Listing"
+          primaryFunc={() => push("/listings/new")}
+          primaryGlyph="plus"
+        />
+
+        {isFetching ? (
+          <Loading />
+        ) : listings.length > 0 ? (
+          <Listings
+            isFetching={isFetching}
+            listings={listings}
+            SearchForm={
+              <SearchForm
+                searchFunction={searchListings}
+                searchText="Search..."
+              />
+            }
           />
-
-
-          <Listings isFetching={isFetching} listings={listings} SearchForm={<SearchForm
-            searchFunction={searchListings}
-            searchText="Search..."
-          />}/>
-        </div>
+        ) : (
+          <Placeholder
+            headerText="You Dont Have Any Listings Yet..."
+            ctaText="Create New Listing"
+            ctaFunc={() => push("/listings/new")}
+          />
+        )}
       </React.Fragment>
     );
   }

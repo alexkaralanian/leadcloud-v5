@@ -8,6 +8,7 @@ import {
   Row,
   Col,
   Button,
+  ButtonGroup,
   Card,
   CardHeader,
   CardBody
@@ -46,19 +47,17 @@ CampaignFormA = ({
       </CardBody>
     </Card>
     <CampaignFormAContainer />
-    <Row>
-      <Col xs={12}>
-        <div className="button_footer-container">
-          <Button
-            type="submit"
-            color="primary"
-            // disabled={!campaign.title && (pristine || submitting)}
-          >
-            <span>Next</span>
-          </Button>
-        </div>
-      </Col>
-    </Row>
+    <div className="button_footer-container">
+      <ButtonGroup>
+        <Button
+          type="submit"
+          color="primary"
+          // disabled={!campaign.title && (pristine || submitting)}
+        >
+          <span>Next</span>
+        </Button>
+      </ButtonGroup>
+    </div>
   </Form>
 );
 

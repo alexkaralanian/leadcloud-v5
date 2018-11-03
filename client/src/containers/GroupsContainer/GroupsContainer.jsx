@@ -4,6 +4,8 @@ import { push } from "react-router-redux";
 
 import Groups from "../../components/Groups/Groups";
 import SearchForm from "../../components/SearchForm/SearchForm";
+import Loading from "../../components/Loading/Loading";
+import Placeholder from "../../components/Placeholder/Placeholder";
 
 import { setGroups, searchGroups } from "../../actions/group-actions";
 
@@ -47,18 +49,28 @@ class GroupsContainer extends React.Component {
     const { isFetching, history, groups, component, searchGroups } = this.props;
     return (
       <React.Fragment>
-        <Groups
-          SearchForm={
-            <SearchForm
-              searchText="Search..."
-              searchFunction={searchGroups}
-            />
-          }
-          groups={groups}
-          hostId={this.props.hostId}
-          component={this.props.component}
-          submitFunction={this.props.submitFunction}
-        />
+        {isFetching ? (
+          <Loading />
+        ) : groups.length > 0 ? (
+          <Groups
+            SearchForm={
+              <SearchForm
+                searchText="Search..."
+                searchFunction={searchGroups}
+              />
+            }
+            groups={groups}
+            hostId={this.props.hostId}
+            component={this.props.component}
+            submitFunction={this.props.submitFunction}
+          />
+        ) : (
+          <Placeholder
+            headerText="You Dont Have Any Groups Yet..."
+            ctaText="Create New Group"
+            ctaFunc={this.groupsPrimaryFunc}
+          />
+        )}
       </React.Fragment>
     );
   };

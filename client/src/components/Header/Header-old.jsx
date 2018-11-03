@@ -6,7 +6,7 @@ import {
   Tooltip
 } from "react-bootstrap";
 
-import { Button } from "reactstrap";
+import { Button, Row, Col } from "reactstrap";
 
 import "./Header-old.css";
 
@@ -25,9 +25,9 @@ const Header = ({
   secondaryStyle,
   isVisible
 }) => (
-  <div className="row">
-    <div className="col-sm">
-      <div className="header">
+  <Row>
+    <Col xs="12">
+      <div className="header animated fadeIn">
         <div className="header__content">
           {images && <img alt="Contact" src={images && images[0]} />}
           <h1>{isNew ? `New ${componentName}` : headerTitle}</h1>
@@ -69,8 +69,8 @@ const Header = ({
             )}
         </div>
       </div>
-    </div>
-  </div>
+    </Col>
+  </Row>
 );
 
 export default Header;

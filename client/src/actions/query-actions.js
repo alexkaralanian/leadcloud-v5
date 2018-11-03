@@ -54,8 +54,10 @@ export const fetchComponent = (
     dispatch(setCount(res.data.count));
     dispatch(setOffset(newOffset));
     dispatch(isLoading(false));
+    dispatch(isFetching(false));
   } catch (err) {
     dispatch(isLoading(false));
+    dispatch(isFetching(false));
     console.error(
       id
         ? `Fetching ${componentName} ${subComponent} Unsuccessful`
