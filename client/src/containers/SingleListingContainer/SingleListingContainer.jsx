@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { push } from "react-router-redux";
 import { Route, Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
-import { Grid, Col, Row } from "react-bootstrap";
 
 import Navigation from "../NavContainer/NavContainer";
 import BreadCrumbs from "../../components/BreadCrumbs/BreadCrumbs";
@@ -13,12 +12,12 @@ import ListingContacts from "../../components/ListingContacts/ListingContacts";
 import ListingForm from "../../components/SingleListing/ListingForm";
 import ImageCarousel from "../../components/ImageCarousel/ImageCarousel";
 import Emails from "../../components/Emails/Emails";
-
 import Modal from "../../components/Modal/Modal";
 import OpenHouseModal from "../../components/Modal/OpenHouseModal";
 import SearchContactsContainer from "../SearchContactsContainer/SearchContactsContainer";
-
 import OpenHouseContainer from "../OpenHouseContainer/OpenHouseContainer";
+import Loading from "../../components/Loading/Loading";
+import Placeholder from "../../components/Placeholder/Placeholder";
 
 import {
   fetchListing,
@@ -225,8 +224,8 @@ class SingleListingContainer extends React.Component {
           />
           <Route
             path={`/listings/${listing.id}/contacts`}
-            render={routeProps => (
-              <div>
+            render={routeProps =>
+              listingContacts.length > 0 ? (
                 <ListingContacts
                   {...routeProps}
                   listing={listing}
@@ -234,8 +233,16 @@ class SingleListingContainer extends React.Component {
                   searchListingContacts={searchListingContacts}
                   deleteListingContact={deleteListingContact}
                 />
-              </div>
-            )}
+              ) : (
+                <Placeholder
+                  headerText={`${
+                    listing.address
+                  } doesn't have any contacts yet...`}
+                  ctaText="Add Listing Contacts"
+                  ctaFunc={this.displayContactsModal}
+                />
+              )
+            }
           />
 
           {/* LISTING EMAILS */}
