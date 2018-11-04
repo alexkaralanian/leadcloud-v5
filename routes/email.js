@@ -13,8 +13,6 @@ const gmail = google.gmail("v1");
 const router = express.Router();
 
 router.get("/gmail", authCheck, findUserById, (req, res) => {
-  console.log("FETCHING GMAIL EMAILS");
-  console.log("REQ.QUERY", req.query);
   gmail.users.messages.list(
     {
       userId: "me",
@@ -58,10 +56,9 @@ router.get("/gmail", authCheck, findUserById, (req, res) => {
               res.json(emailTransform(emails));
             });
         } else {
-          res.json(null);
+          res.json([]);
         }
       } else {
-        console.log("ERROR", err);
         console.error("ERROR FETCHING EMAILS", err.response);
         res.status(err.response.status).send(err.response.data);
       }

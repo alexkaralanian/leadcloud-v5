@@ -9,13 +9,10 @@ export const setEmails = (emails, pageToken) => ({
   pageToken
 });
 
-export const setEmail = email => {
-  console.log("SET EMAIL", email.html);
-  return {
-    type: types.SET_EMAIL,
-    email
-  };
-};
+export const setEmail = email => ({
+  type: types.SET_EMAIL,
+  email
+});
 
 // END OF TESTING FOR NOW HERE....
 
@@ -91,19 +88,6 @@ export const fetchEmails = (
   }
 };
 
-export const fetchEmail = id => async dispatch => {
-  dispatch(isFetching(true));
-  try {
-    const res = await axios.get(`/api/email/gmail/${id}`);
-    dispatch(setEmail(res.data));
-    dispatch(isFetching(false));
-    // dispatch(getNextPageToken(res.data.nextPageToken))
-  } catch (err) {
-    console.error("Fetching single email unsuccessful", err);
-    dispatch(isFetching(false));
-  }
-};
-
 export const fetchEmailsByContact = (
   query,
   maxResults,
@@ -126,7 +110,26 @@ export const fetchEmailsByContact = (
     dispatch(isLoading(false));
   } catch (err) {
     console.error("Fetching emails by contact unsuccessful", err);
-    dispatch(setError("ERROR FETCHING EMAILS BY CONTACT"));
+    dispatch(
+      setError(
+        `Fetching Contact Emails from Gmail unsuccessful: (${
+          err.response.data.error.code
+        }, ${err.response.data.error.errors[0].message})`
+      )
+    );
     dispatch(isLoading(false));
+  }
+};
+
+export const fetchEmail = id => async dispatch => {
+  dispatch(isFetching(true));
+  try {
+    const res = await axios.get(`/api/email/gmail/${id}`);
+    dispatch(setEmail(res.data));
+    dispatch(isFetching(false));
+    // dispatch(getNextPageToken(res.data.nextPageToken))
+  } catch (err) {
+    console.error("Fetching single email unsuccessful", err);
+    dispatch(isFetching(false));
   }
 };

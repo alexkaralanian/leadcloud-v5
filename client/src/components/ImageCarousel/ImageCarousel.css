@@ -1,14 +1,17 @@
 /*CAROUSEL*/
 
+.dropzone__card-container {
+  border: 1px dotted #20a8d8;
+}
+
 .dropzone {
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px dotted #20a8d8;
-  border-radius: 2px;
-  height: 8rem;
-  padding: 1rem;
-  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.75rem;
 }
 
 .dropzone__button {

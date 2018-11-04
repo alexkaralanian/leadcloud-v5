@@ -1,6 +1,6 @@
 import React from "react";
 import Dropzone from "react-dropzone";
-import { Row, Col, Button, Card, CardImg, CardBody } from "reactstrap";
+import { Row, Col, Button, Card, CardImg } from "reactstrap";
 import PropTypes from "prop-types";
 import "./ImageCarousel.css";
 
@@ -13,7 +13,7 @@ const ImageCarousel = ({
 }) => (
   <Row>
     <Col xs={12}>
-      <div className="margin-top-2">
+      <Card className="dropzone__card-container margin-top-2">
         <Dropzone
           className="dropzone"
           accept="image/*"
@@ -23,25 +23,24 @@ const ImageCarousel = ({
             <i className="fa fa-plus" />
           </Button>
         </Dropzone>
-      </div>
-
-      <div className="carousel">
-        {images &&
-          images.map(image => (
-            <Card className="carousel__img-card">
-              <CardImg top width="100%" src={image} />
-              <Button
-                color="danger"
-                onClick={event => {
-                  event.stopPropagation();
-                  deleteImg(image, component.id);
-                }}
-              >
-                <span>Delete</span>
-              </Button>
-            </Card>
-          ))}
-      </div>
+      </Card>
+    </Col>
+    <Col className="carousel">
+      {images &&
+        images.map(image => (
+          <Card className="carousel__img-card">
+            <CardImg top width="100%" src={image} />
+            <Button
+              color="danger"
+              onClick={event => {
+                event.stopPropagation();
+                deleteImg(image, component.id);
+              }}
+            >
+              <span>Delete</span>
+            </Button>
+          </Card>
+        ))}
     </Col>
   </Row>
 );

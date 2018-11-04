@@ -36,7 +36,7 @@ export const searchContacts = values => {
   if (!query.length) {
     setTimeout(() => {
       store.dispatch(setIsSearching(false));
-    }, 1000);
+    }, 100);
   }
 };
 
