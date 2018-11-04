@@ -101,9 +101,13 @@ iframe {
   border-radius: 0;
 }
 
+.nav-item {
+  color: #20a8d8;
+}
+
 .nav-item:hover {
   cursor: pointer;
-  color: blue;
+  color: #1b8eb7;
 }
 
 /* COMPONENT FOOTER BUTTONS */

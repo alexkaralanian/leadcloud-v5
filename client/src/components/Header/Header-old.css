@@ -6,8 +6,8 @@
   justify-content: space-between;
   background-color: #333;
   padding: 1rem;
-  border-radius: 2px 2px 0 0;
-  overflow: none;
+  border-radius: 2px;
+  overflow: hidden;
 }
 
 .header__content {
