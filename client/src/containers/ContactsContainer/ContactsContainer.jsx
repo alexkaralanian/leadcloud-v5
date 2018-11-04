@@ -65,8 +65,6 @@ class ContactsContainer extends React.Component {
       isSearching
     } = this.props;
 
-    console.log("IS SEARCHING", isSearching);
-
     return !isAuthed ? (
       <Redirect to="/auth" />
     ) : (
