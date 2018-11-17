@@ -138,8 +138,8 @@ class App extends React.Component {
                     <Route exact path="/" component={Dashboard} />
                     <Route path="/profile" component={Profile} />
                     <Route path="/calendar" component={CalendarContainer} />
-                    <Route exact path="/emails" component={Emails} />
-                    <Route path="/emails/:id" component={SingleEmail} />
+                    <Route path="/emails" component={Emails} />
+                    {/*<Route path="/emails/:id" component={SingleEmail} />*/}
                     <Route exact path="/contacts" component={Contacts} />
                     <Route path="/contacts/new" component={SingleContact} />
                     <Route path="/contacts/:id" component={SingleContact} />
