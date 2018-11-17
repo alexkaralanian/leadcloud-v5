@@ -6,6 +6,7 @@ import axios from "axios";
 import Header from "../../components/Header/Header-old";
 import BreadCrumbs from "../../components/BreadCrumbs/BreadCrumbs";
 import Emails from "../../components/Emails/Emails";
+import Inbox from "../../components/Email/Inbox";
 import Errors from "../../components/Error/Error";
 import Navigation from "../NavContainer/NavContainer";
 import { fetchEmails, clearEmails } from "../../actions/email-actions";
@@ -62,7 +63,8 @@ class EmailsContainer extends React.Component {
       <React.Fragment>
         <BreadCrumbs />
         <div className="animated fadeIn">
-          <Header
+          <Inbox />
+          {/*<Header
             isVisible={true}
             componentName="emails"
             headerTitle="Emails"
@@ -70,12 +72,14 @@ class EmailsContainer extends React.Component {
             primaryText="Create New"
             primaryFunc={() => push("/contacts/new")}
           />
+
+
           <Emails
             emails={emails}
             isFetching={isFetching}
             createContact={this.createContact}
           />
-          <Errors errorText={error} />
+          <Errors errorText={error} />*/}
         </div>
       </React.Fragment>
     );

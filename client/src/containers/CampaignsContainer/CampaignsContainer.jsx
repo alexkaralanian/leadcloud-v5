@@ -2,7 +2,6 @@ import React from "react";
 import { Redirect } from "react-router-dom";
 import { push } from "react-router-redux";
 import { connect } from "react-redux";
-import { Grid } from "react-bootstrap";
 
 import BreadCrumbs from "../../components/BreadCrumbs/BreadCrumbs";
 import Header from "../../components/Header/Header-old";
@@ -27,7 +26,6 @@ class CampaignsContainer extends React.Component {
       setCampaignGroups,
       push
     } = this.props;
-
     setCampaign({});
     setCampaignListings([]);
     setCampaignGroups([]);

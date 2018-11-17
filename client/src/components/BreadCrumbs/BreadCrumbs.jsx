@@ -20,7 +20,7 @@ class BreadCrumbs extends React.Component {
         <div className="col-sm">
           <Breadcrumb>
             <BreadcrumbItem onClick={() => this.props.push(`/`)}>
-              Dashboard
+              Home
             </BreadcrumbItem>
             {location &&
               location.map(path => {

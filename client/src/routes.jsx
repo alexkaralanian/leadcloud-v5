@@ -13,6 +13,8 @@ import { fetchUser } from "./actions/auth-actions";
 
 // import iFrameContainer from "./containers/SingleEmailContainer/iFrameContainer";
 
+import CalendarContainer from "./containers/CalendarContainer/CalendarContainer";
+
 import Loading from "./components/Loading/Loading";
 
 const LandingPage = Loadable({
@@ -28,6 +30,11 @@ const Dashboard = Loadable({
 
 const Profile = Loadable({
   loader: () => import("./containers/ProfileContainer/ProfileContainer"),
+  loading: Loading
+});
+
+const Calendar = Loadable({
+  loader: () => import("./containers/CalendarContainer/CalendarContainer"),
   loading: Loading
 });
 
@@ -130,6 +137,7 @@ class App extends React.Component {
                     <Route path="/auth" component={LandingPage} />
                     <Route exact path="/" component={Dashboard} />
                     <Route path="/profile" component={Profile} />
+                    <Route path="/calendar" component={CalendarContainer} />
                     <Route exact path="/emails" component={Emails} />
                     <Route path="/emails/:id" component={SingleEmail} />
                     <Route exact path="/contacts" component={Contacts} />

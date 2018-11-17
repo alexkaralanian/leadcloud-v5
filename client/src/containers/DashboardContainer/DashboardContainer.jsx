@@ -14,7 +14,7 @@ class DashboardContainer extends React.Component {
     ) : (
       <React.Fragment>
         <BreadCrumbs />
-         <Header
+        {/*<Header
           isVisible={true}
           componentName="dashboard"
           headerTitle="Dashboard"
@@ -22,7 +22,7 @@ class DashboardContainer extends React.Component {
           // primaryText="Create New"
           // primaryFunc={() => push("/contacts/new")}
           // primaryGlyph="plus"
-        />
+        />*/}
         <Dashboard />
       </React.Fragment>
     );

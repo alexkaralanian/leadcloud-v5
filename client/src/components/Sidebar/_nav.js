@@ -5,16 +5,21 @@ export default {
       url: "/",
       icon: "fa fa-tachometer"
     },
-
     {
       name: "Contacts",
       url: "/contacts",
-      icon: "fa fa-id-card"
+      icon: "fa fa-id-card",
+
     },
     {
       name: "Groups",
       url: "/groups",
       icon: "fa fa-users"
+    },
+    {
+      name: "Calendar",
+      url: "/calendar",
+      icon: "fa fa-calendar"
     },
     {
       name: "Listings",

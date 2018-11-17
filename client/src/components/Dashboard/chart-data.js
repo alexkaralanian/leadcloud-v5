@@ -5,16 +5,29 @@ const brandWarning = "#f8cb00";
 const brandDanger = "#f86c6b";
 
 export const bar = {
-  labels: ["January", "February", "March", "April", "May", "June", "July"],
+  labels: [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+  ],
   datasets: [
     {
-      label: "My First dataset",
+      label: "Closed Units",
       backgroundColor: "rgba(255,99,132,0.2)",
       borderColor: "rgba(255,99,132,1)",
       borderWidth: 1,
       hoverBackgroundColor: "rgba(255,99,132,0.4)",
       hoverBorderColor: "rgba(255,99,132,1)",
-      data: [65, 59, 80, 81, 56, 55, 40]
+      data: [6, 8, 12, 10, 18, 10, 8, 8, 10, 15, 20]
     }
   ]
 };
@@ -36,7 +49,7 @@ export const line = {
   ],
   datasets: [
     {
-      label: "Gross Closed Income (Revenue)",
+      label: "Gross Closed Income",
       fill: false,
       lineTension: 0.1,
       backgroundColor: "rgba(75,192,192,0.4)",

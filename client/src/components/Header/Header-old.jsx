@@ -1,10 +1,4 @@
 import React from "react";
-import {
-  Glyphicon,
-  ButtonToolbar,
-  OverlayTrigger,
-  Tooltip
-} from "react-bootstrap";
 
 import { Button, Row, Col } from "reactstrap";
 
@@ -27,7 +21,7 @@ const Header = ({
 }) => (
   <Row>
     <Col xs="12">
-      <div className="header animated fadeIn">
+      <div className="header-old animated fadeIn">
         <div className="header__content">
           {images && <img alt="Contact" src={images && images[0]} />}
           <h1>{isNew ? `New ${componentName}` : headerTitle}</h1>
@@ -36,36 +30,22 @@ const Header = ({
           {primaryFunc &&
             isVisible &&
             !isNew && (
-              <ButtonToolbar>
-                <OverlayTrigger
-                  placement="bottom"
-                  overlay={<Tooltip id="tooltip">{primaryText}</Tooltip>}
-                >
-                  <Button
-                    color="primary"
-                    onClick={evt => {
-                      evt.stopPropagation();
-                      primaryFunc();
-                    }}
-                  >
-                    <span>{primaryText}</span>
-                  </Button>
-                </OverlayTrigger>
-              </ButtonToolbar>
+              <Button
+                color="primary"
+                onClick={evt => {
+                  evt.stopPropagation();
+                  primaryFunc();
+                }}
+              >
+                <span>{primaryText}</span>
+              </Button>
             )}
           {secondaryFunc &&
             isVisible &&
             !isNew && (
-              <ButtonToolbar>
-                <OverlayTrigger
-                  placement="bottom"
-                  overlay={<Tooltip id="tooltip">{secondaryText}</Tooltip>}
-                >
-                  <Button color={secondaryStyle} onClick={secondaryFunc}>
-                    <span>{secondaryText}</span>
-                  </Button>
-                </OverlayTrigger>
-              </ButtonToolbar>
+              <Button color={secondaryStyle} onClick={secondaryFunc}>
+                <span>{secondaryText}</span>
+              </Button>
             )}
         </div>
       </div>
