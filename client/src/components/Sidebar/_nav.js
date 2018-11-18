@@ -8,8 +8,7 @@ export default {
     {
       name: "Contacts",
       url: "/contacts",
-      icon: "fa fa-id-card",
-
+      icon: "fa fa-id-card"
     },
     {
       name: "Groups",

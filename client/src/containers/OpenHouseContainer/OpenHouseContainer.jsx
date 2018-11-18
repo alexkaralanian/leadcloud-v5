@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import OpenHouse from "../../components/OpenHouse/OpenHouse";
 import OpenHouseForm from "../../components/OpenHouse/OpenHouseForm";
-import { submitNewOpenHouseContact } from "../../actions/open-house-actions";
+import submitNewOpenHouseContact from "../../actions/open-house-actions";
 
 class OpenHouseContainer extends React.Component {
   render() {

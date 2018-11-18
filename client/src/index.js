@@ -7,8 +7,9 @@ import "font-awesome/css/font-awesome.min.css";
 import "simple-line-icons/css/simple-line-icons.css";
 import "./scss/style.scss";
 
-import "./index.css";
 import App from "./routes";
+import "./index.css";
+
 import store from "./store";
 // Temp fix for reactstrap
 import "./scss/core/_dropdown-menu-right.scss";

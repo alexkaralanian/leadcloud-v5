@@ -7,10 +7,7 @@ import { setCount } from "./query-actions";
 import { setError, clearFormData } from "./common-actions";
 
 // CREATE NEW OPEN HOUSE CONTACT
-export const submitNewOpenHouseContact = (
-  values,
-  listingId
-) => async dispatch => {
+const submitNewOpenHouseContact = (values, listingId) => async dispatch => {
   try {
     const res = await axios.post(
       `/api/listings/${listingId}/open-house`,
@@ -34,3 +31,5 @@ export const submitNewOpenHouseContact = (
     dispatch(setError("ERROR SUBMITTING NEW CONTACT"));
   }
 };
+
+export default submitNewOpenHouseContact;
