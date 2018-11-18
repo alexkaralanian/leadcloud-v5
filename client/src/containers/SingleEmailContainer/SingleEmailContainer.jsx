@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-
+import moment from "moment";
 import {
   ButtonDropdown,
   DropdownToggle,
@@ -13,18 +13,12 @@ import {
   Input
 } from "reactstrap";
 
-import BreadCrumbs from "../../components/BreadCrumbs/BreadCrumbs";
 import { fetchEmail, clearEmail } from "../../actions/email-actions";
 
 class SingleEmailContainer extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.toggle = this.toggle.bind(this);
-    this.state = {
-      dropdownOpen: false
-    };
-  }
+  state = {
+    dropdownOpen: false
+  };
 
   componentDidMount() {
     const { fetchEmail, match } = this.props;
@@ -43,14 +37,15 @@ class SingleEmailContainer extends React.Component {
     clearEmail();
   }
 
-  toggle() {
+  toggle = () => {
     this.setState({
       dropdownOpen: !this.state.dropdownOpen
     });
-  }
+  };
 
   render() {
-    const { isAuthed, email, emails } = this.props;
+    const { isAuthed, email } = this.props;
+    console.log("EMAIL", email);
     return (
       <React.Fragment>
         <main className="message">
@@ -104,18 +99,15 @@ class SingleEmailContainer extends React.Component {
             </ButtonDropdown>
           </div>
           <div className="details">
-            <div className="title">
-              Neque porro quisquam est qui dolorem ipsum quia dolor sit amet,
-              consectetur, adipisci velit.
-            </div>
+            <div className="title">{email && email.subject}</div>
             <div className="header">
-              <img className="avatar" src="img/avatars/7.jpg" />
+              {/*<img className="avatar" src="img/avatars/7.jpg" />*/}
               <div className="from">
-                <span>Lukasz Holeczek</span>
-                lukasz@bootstrapmaster.com
+                <span>{email.from && email.from.value[0].name}</span>
+                {email.from && email.from.value[0].address}
               </div>
               <div className="date">
-                Today, <b>3:47 PM</b>
+                {email && moment(email.date).format("ddd, M/D/YY h:mma")}
               </div>
             </div>
             <div className="content">
@@ -180,16 +172,13 @@ class SingleEmailContainer extends React.Component {
 
 const mapStateToProps = state => ({
   email: state.emailReducer.email,
-  emails: state.emailReducer.emails,
-  isFetching: state.emailReducer.isFetching,
+  isFetching: state.emailReducer.isFetching
   // error: state.emailReducer.error,
-  isAuthed: state.authReducer.isAuthed
 });
 
 const mapDispatchToProps = {
   fetchEmail,
   clearEmail
-  // clearError
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(
