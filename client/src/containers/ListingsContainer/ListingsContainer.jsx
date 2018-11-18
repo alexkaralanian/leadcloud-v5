@@ -8,9 +8,11 @@ import { Grid, Row, Col, Button } from "react-bootstrap";
 import Listings from "../../components/Listings/Listings";
 import Navigation from "../NavContainer/NavContainer";
 import BreadCrumbs from "../../components/BreadCrumbs/BreadCrumbs";
-import Header from "../../components/Header/Header";
+import Header from "../../components/Header/Header-old";
 import SearchForm from "../../components/SearchForm/SearchForm";
 import Counter from "../../components/Counter/Counter";
+import Loading from "../../components/Loading/Loading";
+import Placeholder from "../../components/Placeholder/Placeholder";
 
 import {
   setListings,
@@ -62,30 +64,41 @@ class ListingsContainer extends React.Component {
     const { isAuthed, isFetching, listings, push } = this.props;
 
     return !isAuthed ? (
-      <Redirect to="/" />
+      <Redirect to="/auth" />
     ) : (
-      <div>
-        <Navigation />
+      <React.Fragment>
         <BreadCrumbs />
-        <Grid>
-          <Header
-            isVisible={true}
-            componentName="listings"
-            headerTitle="Listings"
-            isNew={null}
-            primaryText="Create New Listing"
-            primaryFunc={() => push("/listings/new")}
-            primaryGlyph="plus"
-          />
+        <Header
+          isVisible={true}
+          componentName="listings"
+          headerTitle="Listings"
+          isNew={null}
+          primaryText="Create New Listing"
+          primaryFunc={() => push("/listings/new")}
+          primaryGlyph="plus"
+        />
 
-          <SearchForm
-            searchFunction={searchListings}
-            searchText="Search Listings..."
+        {isFetching ? (
+          <Loading />
+        ) : listings.length > 0 ? (
+          <Listings
+            isFetching={isFetching}
+            listings={listings}
+            SearchForm={
+              <SearchForm
+                searchFunction={searchListings}
+                searchText="Search..."
+              />
+            }
           />
-          <Counter />
-          <Listings isFetching={isFetching} listings={listings} />
-        </Grid>
-      </div>
+        ) : (
+          <Placeholder
+            headerText="You Dont Have Any Listings Yet..."
+            ctaText="Create New Listing"
+            ctaFunc={() => push("/listings/new")}
+          />
+        )}
+      </React.Fragment>
     );
   }
 }
@@ -101,7 +114,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  // fetchListings,
   fetchComponent,
   searchListings,
   clearFormData,

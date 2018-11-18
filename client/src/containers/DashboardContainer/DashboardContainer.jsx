@@ -3,17 +3,28 @@ import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
 import Dashboard from "../../components/Dashboard/Dashboard";
-import Navigation from "../NavContainer/NavContainer";
+import BreadCrumbs from "../../components/BreadCrumbs/BreadCrumbs";
+import Header from "../../components/Header/Header-old";
 
 class DashboardContainer extends React.Component {
   render() {
-    return this.props.isAuthed ? (
-      <div>
-        <Navigation />
-        <Dashboard />
-      </div>
+    const { isAuthed } = this.props;
+    return !isAuthed ? (
+      <Redirect to="/auth" />
     ) : (
-      <Redirect push to="/" />
+      <React.Fragment>
+        <BreadCrumbs />
+        {/*<Header
+          isVisible={true}
+          componentName="dashboard"
+          headerTitle="Dashboard"
+          isNew={null}
+          // primaryText="Create New"
+          // primaryFunc={() => push("/contacts/new")}
+          // primaryGlyph="plus"
+        />*/}
+        <Dashboard />
+      </React.Fragment>
     );
   }
 }

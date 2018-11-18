@@ -25,6 +25,8 @@ router.get("/sync-contacts", authCheck, findUserById, async (req, res) => {
 
   const [contactGroups, groupsNextSyncToken] = await fetchGoogleGroups();
 
+  console.log(contactGroups, groupsNextSyncToken);
+
   const mappedGroups = contactGroups.map(group => ({
     UserUuid: userId,
     googleId: group.resourceName.slice(group.resourceName.indexOf("/") + 1),

@@ -2,19 +2,21 @@ import React from "react";
 import { Link } from "react-router-dom";
 import moment from "moment";
 import PropTypes from "prop-types";
-import { Table } from "react-bootstrap";
+import { Row, Col, Card, CardHeader, CardBody, Table } from "reactstrap";
 
-import Loading from "../Loading/Loading";
 import "./Listings.css";
 
-const Listings = ({ listings, isFetching, isListingNew }) =>
-  isFetching ? (
-    <Loading />
-  ) : (
-    <React.Fragment>
-      {listings.length > 0 && (
-        <div className="table_container">
-          <Table striped>
+const Listings = ({ listings, isFetching, isListingNew, SearchForm }) => (
+  <Row className="margin-top-2">
+    <Col xs="12">
+      <Card>
+        <CardHeader>
+          <i className="fa fa-align-justify" />
+          <strong>All Listings</strong>
+        </CardHeader>
+        <CardBody>
+          <div>{SearchForm}</div>
+          <Table responsive striped>
             <thead>
               <tr>
                 <th />
@@ -62,9 +64,10 @@ const Listings = ({ listings, isFetching, isListingNew }) =>
                 ))}
             </tbody>
           </Table>
-        </div>
-      )}
-    </React.Fragment>
-  );
+        </CardBody>
+      </Card>
+    </Col>
+  </Row>
+);
 
 export default Listings;

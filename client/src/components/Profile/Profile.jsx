@@ -1,34 +1,37 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Grid, Col, Row, Image, Button } from "react-bootstrap";
+import { Col, Row, Button, Card, CardHeader, CardBody } from "reactstrap";
 import "./Profile.css";
 
 const Profile = ({ logout, user }) => (
-  <Grid>
-    <Row>
-      <Col xs={12}>
-        <div>
+  <Row className="animated fadeIn margin-top-2">
+    <Col xs={12}>
+      <Card>
+        <CardHeader>
+          <i className="fa fa-align-justify" />
+          <strong>Profile Details</strong>
+        </CardHeader>
+        <CardBody>
           <h1 className="headerText">Welcome, {user.firstName}!</h1>
-          <Image src={user.googlePhoto} className="profilePic" />
+          <img
+            src={user.googlePhoto}
+            className="img-fluid profilePic"
+            alt="user-profile-pic"
+          />
           <div>
-            <Button className="logoutBtn" bsStyle="primary" onClick={logout}>
+            <Button color="primary" onClick={logout}>
               <span>LOGOUT</span>
             </Button>
           </div>
-        </div>
-      </Col>
-    </Row>
-  </Grid>
+        </CardBody>
+      </Card>
+    </Col>
+  </Row>
 );
 
 Profile.propTypes = {
   logout: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired
-};
-
-Profile.defaultProps = {
-  user: {},
-  logout: () => {}
 };
 
 export default Profile;

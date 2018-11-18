@@ -54,7 +54,7 @@ export const submitContactListings = (
   }));
   dispatch(setSelected([]));
   try {
-    const res = await axios.post(`/api/contacts/${contact.id}/listings/add`, {
+    const res = await axios.post(`/api/contacts/${contact.id}/listings`, {
       contactListings
     });
     dispatch(setContactListings(res.data.rows));
@@ -66,9 +66,9 @@ export const submitContactListings = (
 
 export const deleteContactListing = (listing, contact) => async dispatch => {
   try {
-    const res = await axios.post(`/api/contacts/${contact.id}/listing/delete`, {
-      listingId: listing.id
-    });
+    const res = await axios.delete(
+      `/api/contacts/${contact.id}/listing?listingId=${listing.id}`
+    );
     dispatch(setContactListings(res.data.rows));
     dispatch(setCount(res.data.count));
   } catch (err) {

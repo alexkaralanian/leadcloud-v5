@@ -1,19 +1,23 @@
 import React from "react";
+import { Row, Col } from "reactstrap";
+
 import GoogleButton from "../GoogleButton/GoogleButton";
-import "./LandingPage.css";
+import "./LandingPage.scss";
 
 const LandingPage = () => (
-  <div className="LandingPageContainer">
-    <div className="LandingPage">
-      <div className="ContentBox">
-        <div className="PrimaryHeading">
-          <h1 className="PrimaryHeading_Main">Tempo</h1>
-          <h2 className="PrimaryHeading_Sub">by LeadCloud</h2>
+  <Row>
+    <Col xs={12}>
+      <div className="landing-page__container">
+        <div className="login__container">
+          <div className="login__text-box">
+            <h2 className="login__heading">Welcome to LeadCloud</h2>
+            {/*<h4 className="login__sub-heading">Please login...</h4>*/}
+          </div>
+          <GoogleButton />
         </div>
-        <GoogleButton />
       </div>
-    </div>
-  </div>
+    </Col>
+  </Row>
 );
 
 export default LandingPage;

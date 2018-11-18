@@ -58,7 +58,7 @@ export const submitContactGroups = (
   dispatch(setSelected([]));
   dispatch(setQuery(""));
   try {
-    const res = await axios.post(`/api/contacts/${contact.id}/groups/add`, {
+    const res = await axios.post(`/api/contacts/${contact.id}/groups`, {
       contactGroups
     });
     dispatch(setContactGroups(res.data.rows));
@@ -70,9 +70,9 @@ export const submitContactGroups = (
 
 export const deleteContactGroup = (group, contact) => async dispatch => {
   try {
-    const res = await axios.post(`/api/contacts/${contact.id}/group/delete`, {
-      groupId: group.id
-    });
+    const res = await axios.delete(
+      `/api/contacts/${contact.id}/group?groupId=${group.id}`
+    );
     dispatch(setContactGroups(res.data.rows));
     dispatch(setCount(res.data.count));
   } catch (err) {

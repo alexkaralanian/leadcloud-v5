@@ -40,11 +40,8 @@ export const fetchComponent = (
   const query = state.queryReducer.query;
   const newOffset = offset + limit;
 
-  console.log("FETCH COMPONENT");
-
   try {
     dispatch(isLoading(true));
-
     const res = id
       ? await axios.get(
           `/api/${componentName}/${id}/${subComponent}/?limit=${limit}&offset=${offset}&query=${query}`

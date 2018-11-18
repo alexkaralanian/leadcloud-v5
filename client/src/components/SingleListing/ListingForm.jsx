@@ -2,7 +2,15 @@ import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Field, reduxForm } from "redux-form";
-import { Grid, Row, Col, Form, FormGroup } from "react-bootstrap";
+import {
+  Form,
+  FormGroup,
+  Row,
+  Col,
+  Card,
+  CardHeader,
+  CardBody
+} from "reactstrap";
 
 import { contactValidate } from "../../helpers/redux-form/validate";
 import { fetchListing } from "../../actions/listing-actions";
@@ -26,27 +34,79 @@ ListingForm = ({
   listing,
   deleteListing
 }) => (
-  <Grid>
+  <React.Fragment>
     <Form className="margin-top-2" onSubmit={handleSubmit}>
-      <FormGroup>
-        <Field
-          type="text"
-          name="address"
-          component={InputField}
-          label="Address"
-        />
-        <Field type="text" name="city" component={InputField} label="City" />
-        <Field type="text" name="state" component={InputField} label="State" />
-        <Field type="text" name="zip" component={InputField} label="Zip" />
-        <Field
-          type="text"
-          name="description"
-          component={TextAreaField}
-          label="Description"
-        />
-      </FormGroup>
-
       <Row>
+        <Col sm="12" md="6">
+          <Card>
+            <CardHeader>
+              <i className="fa fa-align-justify" />
+              <strong>Listing Address</strong>
+            </CardHeader>
+            <CardBody>
+              <FormGroup>
+                <Field
+                  type="text"
+                  name="address"
+                  component={InputField}
+                  label="Address"
+                />
+                <Field
+                  type="text"
+                  name="city"
+                  component={InputField}
+                  label="City"
+                />
+                <Field
+                  type="text"
+                  name="state"
+                  component={InputField}
+                  label="State"
+                />
+                <Field
+                  type="text"
+                  name="zip"
+                  component={InputField}
+                  label="Zip"
+                />
+              </FormGroup>
+            </CardBody>
+          </Card>
+        </Col>
+        <Col sm="12" md="6">
+          <Card>
+            <CardHeader>
+              <strong>Listing Details</strong>
+            </CardHeader>
+            <CardBody>
+              <FormGroup>
+                <Field
+                  type="price"
+                  name="price"
+                  component={InputField}
+                  label="Price"
+                />
+              </FormGroup>
+            </CardBody>
+          </Card>
+        </Col>
+        <Col sm="12" md="6">
+          <Card>
+            <CardHeader>
+              <strong>Listing Description</strong>
+            </CardHeader>
+            <CardBody>
+              <FormGroup>
+                <Field
+                  type="textarea"
+                  name="description"
+                  component={InputField}
+                  label="Description"
+                />
+              </FormGroup>
+            </CardBody>
+          </Card>
+        </Col>
         <Col xs={12}>
           {isListingNew ? (
             <ButtonFooter
@@ -67,7 +127,7 @@ ListingForm = ({
         </Col>
       </Row>
     </Form>
-  </Grid>
+  </React.Fragment>
 );
 
 ListingForm = reduxForm({

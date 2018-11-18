@@ -9,11 +9,9 @@ const findUserById = require("../middlewares/findUserById");
 
 // const moment = require("moment");
 // const Contacts = require("../../db/models/contacts");
-
 const gmail = google.gmail("v1");
 const router = express.Router();
 
-// FETCH ALL EMAILS
 router.get("/gmail", authCheck, findUserById, (req, res) => {
   gmail.users.messages.list(
     {
@@ -25,46 +23,49 @@ router.get("/gmail", authCheck, findUserById, (req, res) => {
     },
     (err, response) => {
       if (!err) {
-        const messageIDs = response.data.messages;
-        const nextPageToken = response.data.nextPageToken;
-
-        // Return an array of email promises
-        const emailPromises = messageIDs.map(
-          message =>
-            new Promise((resolve, reject) => {
-              // Fetch individual email messages
-              gmail.users.messages.get(
-                {
-                  userId: "me",
-                  id: message.id,
-                  format: "metadata",
-                  auth: oAuth2Client
-                },
-                (error, email) => {
-                  if (email) {
-                    resolve(email.data);
-                  } else {
-                    reject(error);
+        if (response.data.resultSizeEstimate > 0) {
+          const messageIDs = response.data.messages;
+          const nextPageToken = response.data.nextPageToken;
+          // Return an array of email promises
+          const emailPromises = messageIDs.map(
+            message =>
+              new Promise((resolve, reject) => {
+                // Fetch individual email messages
+                gmail.users.messages.get(
+                  {
+                    userId: "me",
+                    id: message.id,
+                    format: "metadata",
+                    auth: oAuth2Client
+                  },
+                  (error, email) => {
+                    if (email) {
+                      resolve(email.data);
+                    } else {
+                      reject(error);
+                    }
                   }
-                }
-              );
-            })
-        );
-        // Resolve all email promises
-        Promise.all(emailPromises)
-          .then(values => [nextPageToken, values])
-          .then(emails => {
-            // Custom helper to transform / map email array
-            res.json(emailTransform(emails));
-          });
+                );
+              })
+          );
+          // Resolve all email promises
+          Promise.all(emailPromises)
+            .then(values => [nextPageToken, values])
+            .then(emails => {
+              // Custom helper to transform / map email array
+              res.json(emailTransform(emails));
+            });
+        } else {
+          res.json([]);
+        }
       } else {
-        console.error("ERROR FETCHING EMAILS", err.response.data);
+        console.error("ERROR FETCHING EMAILS", err.response);
+        res.status(err.response.status).send(err.response.data);
       }
     }
   );
 });
 
-// /GET SINGLE EMAIL BY ID / VIEW EMAIL MESSAGE
 router.get("/gmail/:id", authCheck, findUserById, async (req, res) => {
   try {
     const response = await new Promise((resolve, reject) => {
@@ -84,10 +85,8 @@ router.get("/gmail/:id", authCheck, findUserById, async (req, res) => {
         }
       );
     });
-
     const body = response.data.raw;
     const buff = Buffer.from(body, "base64").toString("utf8");
-
     const email = await simpleParser(buff);
     res.json(email);
   } catch (err) {

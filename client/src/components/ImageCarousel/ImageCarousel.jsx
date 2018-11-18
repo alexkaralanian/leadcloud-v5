@@ -1,6 +1,6 @@
 import React from "react";
 import Dropzone from "react-dropzone";
-import { Grid, Row, Col, Image, Button } from "react-bootstrap";
+import { Row, Col, Button, Card, CardImg } from "reactstrap";
 import PropTypes from "prop-types";
 import "./ImageCarousel.css";
 
@@ -11,41 +11,38 @@ const ImageCarousel = ({
   googleImages,
   deleteImg
 }) => (
-  <Grid>
-    <Row>
-      <Col xs={12}>
-        <div className="margin-top-2">
-          <Dropzone
-            className="dropzone"
-            accept="image/*"
-            onDrop={files => onDrop(files, component.id)}
-          >
-            <Button bsStyle="primary" className="dropzone__button">
-              <span>+</span>
+  <Row>
+    <Col xs={12}>
+      <Card className="dropzone__card-container margin-top-2">
+        <Dropzone
+          className="dropzone"
+          accept="image/*"
+          onDrop={files => onDrop(files, component.id)}
+        >
+          <Button color="primary" className="dropzone__button">
+            <i className="fa fa-plus" />
+          </Button>
+        </Dropzone>
+      </Card>
+    </Col>
+    <Col className="carousel">
+      {images &&
+        images.map(image => (
+          <Card className="carousel__img-card">
+            <CardImg top width="100%" src={image} />
+            <Button
+              color="danger"
+              onClick={event => {
+                event.stopPropagation();
+                deleteImg(image, component.id);
+              }}
+            >
+              <span>Delete</span>
             </Button>
-          </Dropzone>
-        </div>
-
-        <div className="carousel">
-          {images &&
-            images.map(image => (
-              <div key={image} className="carousel__img-container">
-                <button
-                  role="button"
-                  onClick={event => {
-                    event.stopPropagation();
-                    deleteImg(image, component.id);
-                  }}
-                >
-                  <span>x</span>
-                </button>
-                <Image src={image} responsive />
-              </div>
-            ))}
-        </div>
-      </Col>
-    </Row>
-  </Grid>
+          </Card>
+        ))}
+    </Col>
+  </Row>
 );
 
 export default ImageCarousel;

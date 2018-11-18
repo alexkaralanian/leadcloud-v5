@@ -2,12 +2,15 @@ import React from "react";
 import Loadable from "react-loadable";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import { ConnectedRouter } from "react-router-redux";
-import { fetchUser } from "./actions/auth-actions";
-import { history } from "./store";
+import { Container } from "reactstrap";
 
-// import iFrameContainer from "./containers/SingleEmailContainer/iFrameContainer";
+import Header from "./components/Header/Header";
+import Sidebar from "./components/Sidebar/Sidebar";
+import { history } from "./store";
+import { fetchUser } from "./actions/auth-actions";
+import CalendarContainer from "./containers/CalendarContainer/CalendarContainer";
 
 import Loading from "./components/Loading/Loading";
 
@@ -27,6 +30,11 @@ const Profile = Loadable({
   loading: Loading
 });
 
+const Calendar = Loadable({
+  loader: () => import("./containers/CalendarContainer/CalendarContainer"),
+  loading: Loading
+});
+
 const Emails = Loadable({
   loader: () => import("./containers/EmailsContainer/EmailsContainer"),
   loading: Loading
@@ -35,11 +43,6 @@ const Emails = Loadable({
 const SingleEmail = Loadable({
   loader: () =>
     import("./containers/SingleEmailContainer/SingleEmailContainer"),
-  loading: Loading
-});
-
-const iFrameContainer = Loadable({
-  loader: () => import("./containers/SingleEmailContainer/iFrameContainer"),
   loading: Loading
 });
 
@@ -111,49 +114,67 @@ class App extends React.Component {
   }
 
   render() {
+    const { isAuthed } = this.props;
     return (
       <ConnectedRouter history={history}>
         <div>
-          <Switch>
-            <Route exact path="/" component={LandingPage} />
-            <Route path="/dashboard" component={Dashboard} />
-            <Route path="/profile" component={Profile} />
-            <Route path="/emails" component={Emails} />
-            <Route path="/email/:id" component={SingleEmail} />
-            <Route path="/iframecontainer" component={iFrameContainer} />
-
-            <Route exact path="/contacts" component={Contacts} />
-            <Route path="/contacts/new" component={SingleContact} />
-            <Route path="/contacts/:id" component={SingleContact} />
-
-            <Route exact path="/listings" component={Listings} />
-            <Route path="/listings/new" component={SingleListing} />
-            <Route path="/listings/:id" component={SingleListing} />
-            <Route exact path="/listings/:id/openhouse" component={OpenHouse} />
-
-            <Route exact path="/groups" component={Groups} />
-            <Route path="/groups/new" component={SingleGroup} />
-            <Route path="/groups/:id" component={SingleGroup} />
-
-            <Route exact path="/campaigns" component={Campaigns} />
-            <Route path="/campaigns/new" component={CreateCampaign} />
-            <Route path="/campaigns/:id" component={CreateCampaign} />
-
-            <Route
-              render={() => (
-                <div>
-                  <p>NOT FOUND!</p>
-                </div>
-              )}
-            />
-          </Switch>
+          <div className="app">
+            <Header />
+            <div className="app-body">
+              <Sidebar {...this.props} />
+              <main className="main">
+                <Container fluid>
+                  <Switch>
+                    <Route path="/auth" component={LandingPage} />
+                    <Route exact path="/" component={Dashboard} />
+                    <Route path="/profile" component={Profile} />
+                    <Route path="/calendar" component={CalendarContainer} />
+                    <Route path="/emails" component={Emails} />
+                    <Route exact path="/contacts" component={Contacts} />
+                    <Route path="/contacts/new" component={SingleContact} />
+                    <Route path="/contacts/:id" component={SingleContact} />
+                    <Route exact path="/listings" component={Listings} />
+                    <Route path="/listings/new" component={SingleListing} />
+                    <Route path="/listings/:id" component={SingleListing} />
+                    <Route
+                      exact
+                      path="/listings/:id/openhouse"
+                      component={OpenHouse}
+                    />
+                    <Route exact path="/groups" component={Groups} />
+                    <Route path="/groups/new" component={SingleGroup} />
+                    <Route path="/groups/:id" component={SingleGroup} />
+                    <Route exact path="/campaigns" component={Campaigns} />
+                    <Route path="/campaigns/new" component={CreateCampaign} />
+                    <Route path="/campaigns/:id" component={CreateCampaign} />
+                    )
+                    <Route
+                      render={() => (
+                        <div>
+                          <p>NOT FOUND!</p>
+                        </div>
+                      )}
+                    />
+                  </Switch>
+                </Container>
+              </main>
+            </div>
+          </div>
         </div>
       </ConnectedRouter>
     );
   }
 }
 
-export default connect(null, { fetchUser })(App);
+const mapStateToProps = state => ({
+  isAuthed: state.authReducer.isAuthed
+});
+
+const mapDispatchToProps = {
+  fetchUser
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
 
 App.propTypes = {
   fetchUser: PropTypes.func.isRequired

@@ -1,19 +1,25 @@
 import React from "react";
-import { Nav, NavItem } from "react-bootstrap";
+import { Nav, NavItem, NavLink } from "reactstrap";
 
-const CreateCampaignNav = ({ onMenuSelect, activeKey }) => (
-  <div className="secondary_nav-container">
-    <Nav bsStyle="pills" activeKey={activeKey}>
-      <NavItem eventKey={1} onSelect={() => onMenuSelect(1)}>
-        Initialize
+const CreateCampaignNav = ({ push, campaign }) => (
+  <div>
+    <Nav>
+      <NavItem>
+        <NavLink onClick={() => push(`/campaigns/${campaign.id}`)}>
+          Initialize
+        </NavLink>
       </NavItem>
 
-      <NavItem eventKey={2} onSelect={() => onMenuSelect(2)}>
-        Edit
+      <NavItem>
+        <NavLink onClick={() => push(`/campaigns/${campaign.id}/edit`)}>
+          Edit
+        </NavLink>
       </NavItem>
 
-      {/*<NavItem eventKey={3} onSelect={() => onMenuSelect(3)}>
-        Review
+      {/*<NavItem>
+        <NavLink onClick={() => push(`/campaigns/${campaign.id}/review`)}>
+          Edit
+        </NavLink>
       </NavItem>*/}
     </Nav>
   </div>

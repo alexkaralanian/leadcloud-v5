@@ -1,5 +1,6 @@
 import React from "react";
-import { Glyphicon, Button } from "react-bootstrap";
+import { Glyphicon } from "react-bootstrap";
+import { Button } from "reactstrap";
 
 const ButtonFooter = ({
   pristine,
@@ -14,14 +15,11 @@ const ButtonFooter = ({
       <Button
         className="button-lg"
         type="submit"
-        bsStyle="primary"
+        color="primary"
         bsSize="large"
         disabled={pristine || submitting}
       >
-        <div className="button_inner">
-          <span className="button_inner-text">{primaryButtonText}</span>
-          <Glyphicon glyph="floppy-disk" />
-        </div>
+        <span>{primaryButtonText}</span>
       </Button>
 
       {secondaryFunc && (
@@ -31,12 +29,9 @@ const ButtonFooter = ({
             secondaryFunc(component.id);
           }}
           bsSize="large"
-          bsStyle="danger"
+          color="danger"
         >
-          <div className="button_inner">
-            <span className="button_inner-text">{secondaryButtonText}</span>
-            <Glyphicon glyph="trash" />
-          </div>
+          <span>{secondaryButtonText}</span>
         </Button>
       )}
     </div>

@@ -1,17 +1,14 @@
 .LoadingContainer {
-  height: 100vh;
-  width: 100vw;
-  top: 0;
-  left: 0;
-  position: fixed;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
+  margin-top: 2.5rem;
 }
 
 .ReactLoading_Icon {
   margin-top: 0px;
-  width: 6rem;
-  height: 6rem;
+  width: 2rem;
+  height: 2rem;
 }

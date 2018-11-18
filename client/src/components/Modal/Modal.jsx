@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal, Button, Glyphicon } from "react-bootstrap";
+import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from "reactstrap";
 import SearchContactsContainer from "../../containers/SearchContactsContainer/SearchContactsContainer";
 import "./Modal.css";
 
@@ -12,14 +12,12 @@ const Modal1 = ({
   hostComponent,
   Container
 }) => (
-  <Modal show={isModalVisible} onHide={onExit}>
-    <Modal.Header closeButton>
-      <Modal.Title>{title}</Modal.Title>
-    </Modal.Header>
-    <Modal.Body>{Container}</Modal.Body>
-    <Modal.Footer>
+  <Modal isOpen={isModalVisible} toggle={onExit}>
+    <ModalHeader>{title}</ModalHeader>
+    <ModalBody>{Container}</ModalBody>
+    <ModalFooter>
       <Button onClick={onExit}>Close</Button>
-    </Modal.Footer>
+    </ModalFooter>
   </Modal>
 );
 

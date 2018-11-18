@@ -5,7 +5,8 @@ const initialState = {
   limit: 25,
   offset: 0,
   query: "",
-  isLoading: false
+  isLoading: false,
+  isSearching: false
 };
 
 const queryReducer = (state = initialState, action) => {

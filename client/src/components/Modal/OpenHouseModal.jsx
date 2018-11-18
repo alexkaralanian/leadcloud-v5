@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal, Button } from "react-bootstrap";
+import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from "reactstrap";
 
 import "./Modal.css";
 
@@ -12,20 +12,12 @@ const Modal1 = ({
   hostComponent,
   Container
 }) => (
-  <Modal
-    backdrop="true"
-    backdropClassName="modal-backdrop__color"
-    bsSize="large"
-    show={isModalVisible}
-    onHide={onExit}
-  >
-    <Modal.Header closeButton>
-      <Modal.Title componentClass="h1">Welcome to {title}!</Modal.Title>
-    </Modal.Header>
-    <Modal.Body>{Container}</Modal.Body>
-    <Modal.Footer>
+  <Modal isOpen={isModalVisible} toggle={onExit}>
+    <ModalHeader>Welcome to {title}!</ModalHeader>
+    <ModalBody>{Container}</ModalBody>
+    <ModalFooter>
       <Button onClick={onExit}>Close</Button>
-    </Modal.Footer>
+    </ModalFooter>
   </Modal>
 );
 

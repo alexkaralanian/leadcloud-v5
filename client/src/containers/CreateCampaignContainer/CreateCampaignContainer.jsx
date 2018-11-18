@@ -7,7 +7,7 @@ import { Route, Redirect } from "react-router-dom";
 import Navigation from "../NavContainer/NavContainer";
 import BreadCrumbs from "../../components/BreadCrumbs/BreadCrumbs";
 import CreateCampaignNav from "../../components/SingleCampaign/CreateCampaignNav";
-import Header from "../../components/Header/Header";
+import Header from "../../components/Header/Header-old";
 import CampaignFormA from "../../components/SingleCampaign/CampaignFormA";
 import CampaignFormB from "../../components/SingleCampaign/CampaignFormB";
 import CampaignFormC from "../../components/SingleCampaign/CampaignFormC";
@@ -59,43 +59,27 @@ class CreateCampaignContainer extends React.Component {
     this.setState({ page: this.state.page - 1 });
   };
 
-  onMenuSelect = (eventKey, path) => {
-    const { push, campaign } = this.props;
-
-    if (eventKey === 1) {
-      push(`/campaigns/${campaign.id}`);
-      this.setState({ activeKey: 1 });
-    }
-
-    if (eventKey === 2) {
-      push(`/campaigns/${campaign.id}/edit`);
-      this.setState({ activeKey: 2 });
-    }
-
-    if (eventKey === 3) {
-      push(`/campaigns/${campaign.id}/review`);
-      this.setState({ activeKey: 3 });
-    }
-  };
-
   render() {
     const {
       match,
+      push,
       campaign,
       campaignListings,
       campaignGroups,
       createCampaign,
       updateCampaign,
-      submitCampaign
+      submitCampaign,
+      isAuthed
     } = this.props;
 
     const { page } = this.state;
 
-    return (
+    return !isAuthed ? (
+      <Redirect to="/auth" />
+    ) : (
       <React.Fragment>
-        <Navigation />
         <BreadCrumbs />
-        <Grid>
+        <div className="animated fadeIn">
           <Header
             isVisible={true}
             componentName="Campaigns"
@@ -104,10 +88,7 @@ class CreateCampaignContainer extends React.Component {
           />
 
           {match.path !== "/campaigns/new" && (
-            <CreateCampaignNav
-              activeKey={this.state.activeKey}
-              onMenuSelect={this.onMenuSelect}
-            />
+            <CreateCampaignNav push={push} campaign={campaign} />
           )}
 
           <Route
@@ -164,13 +145,14 @@ class CreateCampaignContainer extends React.Component {
               />
             )}
           />*/}
-        </Grid>
+        </div>
       </React.Fragment>
     );
   }
 }
 
 const mapStateToProps = state => ({
+  isAuthed: state.authReducer.isAuthed,
   campaign: state.campaignReducer.campaign,
   campaignListings: state.campaignReducer.campaignListings,
   campaignGroups: state.campaignReducer.campaignGroups

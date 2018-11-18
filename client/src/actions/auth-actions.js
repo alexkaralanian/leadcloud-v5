@@ -17,10 +17,8 @@ export const fetchUser = () => async dispatch => {
     const res = await axios.get("/api/auth/current-user");
     const user = res.data;
     dispatch(authUser(user));
-    dispatch(isFetching(false));
   } catch (err) {
-    console.error(err.response.statusText);
-    dispatch(isFetching(false));
+    dispatch(unauthUser());
   }
 };
 

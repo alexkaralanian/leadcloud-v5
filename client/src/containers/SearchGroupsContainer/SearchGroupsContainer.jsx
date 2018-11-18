@@ -60,15 +60,18 @@ class SearchGroupsContainer extends React.Component {
           </Button>
         </div>
         <div className="modal_pills-container">
-          <Pills
-            hostComponent={hostComponent}
-            component={selected}
-            componentName="groups"
-            submitFunction={deleteSelected}
-            displayValue="title"
-          />
+          {selected.length > 0 && (
+            <Pills
+              hostComponent={hostComponent}
+              component={selected}
+              componentName="groups"
+              submitFunction={deleteSelected}
+              displayValue="title"
+            />
+          )}
         </div>
         <TableRow
+          cardHeaderText="All Groups"
           componentName="groups"
           rowText="title"
           collection={groups}

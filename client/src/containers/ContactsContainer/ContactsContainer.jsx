@@ -1,4 +1,4 @@
-import React from "react";
+ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
@@ -8,9 +8,11 @@ import { Grid } from "react-bootstrap";
 import Contacts from "../../components/Contacts/Contacts";
 import Navigation from "../NavContainer/NavContainer";
 import BreadCrumbs from "../../components/BreadCrumbs/BreadCrumbs";
-import Header from "../../components/Header/Header";
+import Header from "../../components/Header/Header-old";
 import SearchForm from "../../components/SearchForm/SearchForm";
 import Counter from "../../components/Counter/Counter";
+import Loading from "../../components/Loading/Loading";
+import Placeholder from "../../components/Placeholder/Placeholder";
 
 import {
   fetchComponent,
@@ -54,43 +56,56 @@ class ContactsContainer extends React.Component {
   };
 
   render() {
-    const { push, isAuthed, isFetching, syncContacts, contacts } = this.props;
+    const {
+      push,
+      isAuthed,
+      isFetching,
+      syncContacts,
+      contacts,
+      isSearching
+    } = this.props;
 
     return !isAuthed ? (
-      <Redirect to="/" />
+      <Redirect to="/auth" />
     ) : (
       <React.Fragment>
-        <Navigation />
         <BreadCrumbs />
-        <Grid>
-          <Header
-            isVisible={true}
-            componentName="contacts"
-            headerTitle="Contacts"
-            isNew={null}
-            primaryText="Create New Contact"
-            primaryFunc={() => push("/contacts/new")}
-            primaryGlyph="plus"
-            secondaryText="Sync Contacts"
-            secondaryFunc={() => syncContacts()}
-            secondaryGlyph="refresh"
+        <Header
+          isVisible={true}
+          componentName="contacts"
+          headerTitle="Contacts"
+          isNew={null}
+          primaryText="Create New"
+          primaryFunc={() => push("/contacts/new")}
+          primaryGlyph="plus"
+        />
+        {isFetching ? (
+          <Loading />
+        ) : contacts.length > 0 || isSearching ? (
+          <Contacts
+            contacts={contacts}
+            isFetching={isFetching}
+            SearchForm={
+              <SearchForm
+                searchFunction={searchContacts}
+                searchText="Search..."
+              />
+            }
           />
-
-          <SearchForm
-            searchFunction={searchContacts}
-            searchText="Search Contacts..."
+        ) : (
+          <Placeholder
+            headerText="You Dont Have Any Contacts Yet..."
+            ctaText="Sync Google Contacts"
+            ctaFunc={syncContacts}
           />
-          <Counter />
-
-          <Contacts contacts={contacts} isFetching={isFetching} />
-        </Grid>
-        {/*<Errors errorText={this.props.error} />*/}
+        )}
       </React.Fragment>
     );
   }
 }
 
 const mapStateToProps = state => ({
+  isSearching: state.contactReducer.isSearching,
   contacts: state.contactReducer.contacts,
   isAuthed: state.authReducer.isAuthed,
   isLoading: state.queryReducer.isLoading,

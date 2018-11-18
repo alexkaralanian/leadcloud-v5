@@ -2,7 +2,15 @@ import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Field, reduxForm } from "redux-form";
-import { Form, FormGroup, Grid, Col, Row } from "react-bootstrap";
+import {
+  Form,
+  FormGroup,
+  Row,
+  Col,
+  Card,
+  CardHeader,
+  CardBody
+} from "reactstrap";
 
 import { contactValidate } from "../../helpers/redux-form/validate";
 import { fetchGroup } from "../../actions/group-actions";
@@ -25,26 +33,34 @@ let GroupForm = ({
   group,
   deleteGroup
 }) => (
-  <Grid className="margin-top-2">
+  <div className="margin-top-2">
     <Form onSubmit={handleSubmit}>
-      <FormGroup>
-        <Row>
-          <Col xs={12}>
-            <Field
-              type="text"
-              name="title"
-              component={InputField}
-              label="Group Title"
-            />
-            <Field
-              type="text"
-              name="description"
-              component={TextAreaField}
-              label="Description"
-            />
-          </Col>
-        </Row>
-      </FormGroup>
+      <Card>
+        <CardHeader>
+          <i className="fa fa-align-justify" />
+          <strong>Group Info</strong>
+        </CardHeader>
+        <CardBody>
+          <FormGroup>
+            <Row>
+              <Col xs={12}>
+                <Field
+                  type="text"
+                  name="title"
+                  component={InputField}
+                  label="Group Title"
+                />
+                <Field
+                  type="textarea"
+                  name="description"
+                  component={TextAreaField}
+                  label="Description"
+                />
+              </Col>
+            </Row>
+          </FormGroup>
+        </CardBody>
+      </Card>
       <Row>
         <Col xs={12}>
           {isGroupNew ? (
@@ -66,7 +82,7 @@ let GroupForm = ({
         </Col>
       </Row>
     </Form>
-  </Grid>
+  </div>
 );
 
 GroupForm = reduxForm({

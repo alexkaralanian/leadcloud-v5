@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
-import { Grid, Row, Col } from "react-bootstrap";
+import { Row, Col } from "reactstrap";
 import SearchForm from "../../components/SearchForm/SearchForm";
 import SearchToggle from "../../components/SearchToggle/SearchToggle";
 import TableRow from "../../components/TableRow/TableRow";
@@ -83,27 +83,22 @@ class GroupContactsContainer extends React.Component {
     return !isAuthed ? (
       <Redirect to="/" />
     ) : (
-      <Grid>
-        <Row>
-          <Col xs={12}>
-            <div className="margin-top-2">
-              <SearchForm searchFunction={searchGroupContacts} />
-              <Counter />
-            </div>
-            {groupContacts.length > 0 && (
-              <TableRow
-                componentName="contacts"
-                rowText="fullName"
-                collection={groupContacts}
-                submitFunction={deleteGroupContact}
-                buttonText={"Remove"}
-                buttonStyle={"danger"}
-                hostComponent={group}
-              />
-            )}
-          </Col>
-        </Row>
-      </Grid>
+      <Row>
+        <Col xs={12}>
+          <div className="margin-top-2" s />
+          <TableRow
+            cardHeaderText="Group Contacts"
+            SearchForm={<SearchForm searchFunction={searchGroupContacts} />}
+            componentName="contacts"
+            rowText="fullName"
+            collection={groupContacts}
+            submitFunction={deleteGroupContact}
+            buttonText={"Remove"}
+            buttonStyle={"danger"}
+            hostComponent={group}
+          />
+        </Col>
+      </Row>
     );
   }
 }

@@ -7,7 +7,10 @@ const OpenHouse = ({ listing }) => (
   <Row>
     <Col xs={12}>
       <div className="OpenHouseContainer">
-        <img className="OpenHouseImg" src={listing.images[0]} />
+        <img
+          className="OpenHouseImg"
+          src={listing.images && listing.images[0]}
+        />
       </div>
     </Col>
   </Row>

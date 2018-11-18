@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import "./SingleEmail.css";
 
 const SingleEmail = ({ email }) => {
+  console.log("EMAIL BODY", email);
   return (
     <div>
       <base target="_blank" />

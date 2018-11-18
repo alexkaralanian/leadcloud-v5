@@ -2,7 +2,15 @@ import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Field, reduxForm } from "redux-form";
-import { Form, FormGroup, Grid, Col, Row } from "react-bootstrap";
+import {
+  Form,
+  FormGroup,
+  Row,
+  Col,
+  Card,
+  CardHeader,
+  CardBody
+} from "reactstrap";
 
 import { contactValidate } from "../../helpers/redux-form/validate";
 import { fetchContact } from "../../actions/contact-actions";
@@ -31,101 +39,99 @@ ContactForm = ({
   fetchContact,
   deleteContact
 }) => (
-  <Grid>
-    <Form className="margin-top-2" onSubmit={handleSubmit}>
-      <FormGroup>
-        {/* *** NAMES *** */}
-        <Row>
-          <Col xs={12} sm={6}>
-            <Field
-              type="text"
-              name="firstName"
-              component={InputField}
-              label="First Name"
-            />
-          </Col>
-          <Col xs={12} sm={6}>
-            <Field
-              type="text"
-              name="lastName"
-              component={InputField}
-              label="Last Name"
-            />
-          </Col>
-        </Row>
+  <div className="animated fadeIn">
+    <Row>
+      <Col xs="12">
+        <Form className="margin-top-2" onSubmit={handleSubmit}>
+          <Card>
+            <CardHeader>
+              <i className="fa fa-align-justify" />
+              <strong>Contact Info</strong>
+            </CardHeader>
+            <CardBody>
+              <FormGroup>
+                {/* *** NAMES *** */}
+                <Field
+                  type="text"
+                  name="firstName"
+                  component={InputField}
+                  label="First Name"
+                />
 
-        {/* ***EMAIL ADDRESSES*** */}
-        <Row>
-          {isContactNew || !contact.email ? (
-            <Col xs={12} sm={6}>
-              <Field
-                type="email"
-                name={"email"}
-                component={InputField}
-                label="Email"
-              />
-            </Col>
-          ) : (
-            contact.email &&
-            contact.email.map(address => {
-              return (
-                <Col xs={12} sm={6} key={address.value}>
+                <Field
+                  type="text"
+                  name="lastName"
+                  component={InputField}
+                  label="Last Name"
+                />
+
+                {/* ***EMAIL ADDRESSES*** */}
+                {isContactNew || !contact.email ? (
                   <Field
                     type="email"
-                    name={`email[${contact.email.indexOf(address)}].value`}
+                    name={"email"}
                     component={InputField}
-                    label={`${capitalize(address.type)} Email`}
+                    label="Email"
                   />
-                </Col>
-              );
-            })
-          )}
-        </Row>
+                ) : (
+                  contact.email &&
+                  contact.email.map(address => {
+                    return (
+                      <div key={address.value}>
+                        <Field
+                          type="email"
+                          name={`email[${contact.email.indexOf(
+                            address
+                          )}].value`}
+                          component={InputField}
+                          label={`${capitalize(address.type)} Email`}
+                        />
+                      </div>
+                    );
+                  })
+                )}
 
-        {/* ***PHONE NUMBERS*** */}
-        <Row>
-          {isContactNew || !contact.phone ? (
-            <Col xs={12} sm={6}>
-              <Field
-                type="tel"
-                name={"phone"}
-                component={InputField}
-                label="Phone"
-              />
-            </Col>
-          ) : (
-            contact.phone &&
-            contact.phone.map(number => {
-              return (
-                <Col xs={12} sm={6} key={number.value}>
+                {/* ***PHONE NUMBERS*** */}
+                {isContactNew || !contact.phone ? (
+                  <div>
+                    <Field
+                      type="tel"
+                      name={"phone"}
+                      component={InputField}
+                      label="Phone"
+                    />
+                  </div>
+                ) : (
+                  contact.phone &&
+                  contact.phone.map(number => {
+                    return (
+                      <div key={number.value}>
+                        <Field
+                          type="tel"
+                          name={`phone[${contact.phone.indexOf(number)}].value`}
+                          component={InputField}
+                          label={`${capitalize(number.type)} Phone`}
+                        />
+                      </div>
+                    );
+                  })
+                )}
+
+                {/* *** NOTES *** */}
+                <div>
                   <Field
-                    type="tel"
-                    name={`phone[${contact.phone.indexOf(number)}].value`}
+                    type="textarea"
+                    name="notes"
                     component={InputField}
-                    label={`${capitalize(number.type)} Phone`}
+                    label="Notes"
+                    placeholder="Add your notes here..."
                   />
-                </Col>
-              );
-            })
-          )}
-        </Row>
+                </div>
+              </FormGroup>
+            </CardBody>
+          </Card>
 
-        {/* *** NOTES *** */}
-        <Row>
-          <Col xs={12}>
-            <Field
-              type="text"
-              name="notes"
-              component={TextAreaField}
-              label="Notes"
-            />
-          </Col>
-        </Row>
-      </FormGroup>
-
-      {/* *** BUTTONS *** */}
-      <Row>
-        <Col xs={12}>
+          {/* *** BUTTONS *** */}
           {isContactNew ? (
             <ButtonFooter
               primaryButtonText="Submit"
@@ -142,10 +148,10 @@ ContactForm = ({
               component={contact}
             />
           )}
-        </Col>
-      </Row>
-    </Form>
-  </Grid>
+        </Form>
+      </Col>
+    </Row>
+  </div>
 );
 
 ContactForm = reduxForm({

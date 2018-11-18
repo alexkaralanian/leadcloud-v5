@@ -1,0 +1,22 @@
+.dashboard {
+  &__content {
+    &-card {
+      background-color: #4a90e2;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border: 1px solid grey;
+      border-radius: 2px;
+    }
+
+    &-text {
+      font-weight: 100;
+      font-size: 2.5rem;
+      color: white;
+      font-family: "Helvetica Neue";
+    }
+
+    &-link {
+      text-decoration: none !important;
+    }
+  }
+}

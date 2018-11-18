@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 
 import Navigation from "../NavContainer/NavContainer";
-import EditCampaign from "../../components/SingleCampaign/SingleCampaign";
+import SingleCampaign from "../../components/SingleCampaign/SingleCampaign";
 import CampaignStats from "../../components/SingleCampaign/CampaignFormB";
 
 import { fetchCampaign } from "../../actions/campaign-actions";
@@ -22,7 +22,7 @@ class SingleCampaignContainer extends React.Component {
     return (
       <React.Fragment>
         <Navigation />
-        <EditCampaign campaign={campaign} />
+        <SingleCampaign campaign={campaign} />
       </React.Fragment>
     );
   }

@@ -1,5 +1,5 @@
 import React from "react";
-import { FormControl, ControlLabel } from "react-bootstrap";
+import { Input, Label } from "reactstrap";
 
 const inputField = ({
   input,
@@ -8,16 +8,12 @@ const inputField = ({
   type,
   meta: { touched, active, error }
 }) => (
-  <div className="input_container">
-    {label && <ControlLabel>{label}</ControlLabel>}
-    <FormControl
-      {...input}
-      placeholder={placeholder}
-      label={label}
-      type={type}
-    />
+  <React.Fragment>
+    <Label>{label}</Label>
+    <Input {...input} label={label} placeholder={placeholder} type={type} />
+
     {touched && !active && error && <div>{error}</div>}
-  </div>
+  </React.Fragment>
 );
 
 export default inputField;

@@ -1,11 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Button, Col, Row, Panel } from "react-bootstrap";
+import { Button, Col, Row, Collapse } from "reactstrap";
 
 import Modal from "../../components/Modal/Modal";
 import SearchListingsContainer from "../../containers/SearchListingsContainer/SearchListingsContainer";
 import SearchGroupsContainer from "../../containers/SearchGroupsContainer/SearchGroupsContainer";
-import TableRow from "../TableRow/TableRow";
+import TableRow2 from "../TableRow/TableRow2";
 
 import { setOffset } from "../../actions/query-actions";
 
@@ -99,115 +99,85 @@ class CampaignFormA_Container extends React.Component {
       <React.Fragment>
         {/* CAMPAIGN GROUPS / RECIPIENTS */}
         <Row>
-          <Col xs={12}>
-            <Button
-              bsSize="xsmall"
-              onClick={() => this.displayRecipientsPanel()}
-            >
-              Collapse
-            </Button>
-            <div className="header_secondary">
-              <div className="header_3">Recipients</div>
-
-              <Button
-                className="button_width"
-                // bsStyle="primary"
-                onClick={evt => {
-                  evt.stopPropagation();
-                  this.displayGroupsModal();
-                }}
-              >
-                <span>Add Groups</span>
-              </Button>
-
-              <Modal
-                displayModal={this.displayGroupsModal}
-                onExit={this.onGroupsModalExit}
-                isModalVisible={this.state.isGroupsModalVisible}
-                title={"Campaign Listings"}
-                Container={
-                  <SearchGroupsContainer
-                    displayModal={this.displayGroupsModal}
-                    submitFunction={this.submitGroups}
-                    setFunction={setDiffedCampaignGroups}
-                    searchFunction={searchDiffedCampaignGroups}
-                  />
-                }
-              />
-            </div>
-            <Panel
-              id="collapsible-panel-example-1"
-              expanded={this.state.isRecipientsPanelOpen}
-            >
-              <Panel.Collapse>
-                <Panel.Body>
-                  <TableRow
-                    componentName="groups"
-                    rowText="title"
-                    collection={campaignGroups}
-                    submitFunction={deleteCampaignGroup}
-                    hostComponent={null}
-                    buttonText="Remove"
-                    buttonStyle="danger"
-                  />
-                </Panel.Body>
-              </Panel.Collapse>
-            </Panel>
+          <Col sm={12} md={6}>
+            <Modal
+              displayModal={this.displayGroupsModal}
+              onExit={this.onGroupsModalExit}
+              isModalVisible={this.state.isGroupsModalVisible}
+              title={"Campaign Listings"}
+              Container={
+                <SearchGroupsContainer
+                  displayModal={this.displayGroupsModal}
+                  submitFunction={this.submitGroups}
+                  setFunction={setDiffedCampaignGroups}
+                  searchFunction={searchDiffedCampaignGroups}
+                />
+              }
+            />
+            <TableRow2
+              CardHeaderCta={
+                <Button
+                  color="primary"
+                  onClick={evt => {
+                    evt.stopPropagation();
+                    this.displayGroupsModal();
+                  }}
+                >
+                  <span>Add</span>
+                </Button>
+              }
+              cardHeaderText="Campaign Groups"
+              componentName="groups"
+              rowText="title"
+              collection={campaignGroups}
+              submitFunction={deleteCampaignGroup}
+              hostComponent={null}
+              buttonText="Remove"
+              buttonStyle="danger"
+              icon="fa fa-users"
+            />
           </Col>
-        </Row>
 
-        {/* CAMPAIGN LISTINGS */}
-        <Row>
-          <Col xs={12}>
-            <Button bsSize="xsmall" onClick={() => this.displayListingPanel()}>
-              Collapse
-            </Button>
-            <div className="header_secondary">
-              <div className="header_3">Listings</div>
-              <Button
-                className="button_width"
-                onClick={evt => {
-                  evt.stopPropagation();
-                  this.displayListingsModal();
-                }}
-              >
-                <span>Add Listings</span>
-              </Button>
+          {/* CAMPAIGN LISTINGS */}
+          <Col sm={12} md={6}>
+            <Modal
+              displayModal={this.displayListingsModal}
+              onExit={this.onListingsModalExit}
+              isModalVisible={this.state.isListingsModalVisible}
+              title={"Campaign Listings"}
+              Container={
+                <SearchListingsContainer
+                  displayModal={this.displayListingsModal}
+                  submitFunction={this.submitListings}
+                  hostComponent={null}
+                  setFunction={setDiffedCampaignListings}
+                  searchFunction={searchDiffedCampaignListings}
+                />
+              }
+            />
 
-              <Modal
-                displayModal={this.displayListingsModal}
-                onExit={this.onListingsModalExit}
-                isModalVisible={this.state.isListingsModalVisible}
-                title={"Campaign Listings"}
-                Container={
-                  <SearchListingsContainer
-                    displayModal={this.displayListingsModal}
-                    submitFunction={this.submitListings}
-                    hostComponent={null}
-                    setFunction={setDiffedCampaignListings}
-                    searchFunction={searchDiffedCampaignListings}
-                  />
-                }
-              />
-            </div>
-            <Panel
-              id="collapsible-panel-example-1"
-              expanded={this.state.isListingsPanelOpen}
-            >
-              <Panel.Collapse>
-                <Panel.Body>
-                  <TableRow
-                    componentName="listings"
-                    rowText="address"
-                    collection={campaignListings}
-                    submitFunction={deleteCampaignListing}
-                    hostComponent={null}
-                    buttonText="Remove"
-                    buttonStyle="danger"
-                  />
-                </Panel.Body>
-              </Panel.Collapse>
-            </Panel>
+            <TableRow2
+              CardHeaderCta={
+                <Button
+                  color="primary"
+                  onClick={evt => {
+                    evt.stopPropagation();
+                    this.displayListingsModal();
+                  }}
+                >
+                  <span>Add</span>
+                </Button>
+              }
+              cardHeaderText="Campaign Listings"
+              componentName="listings"
+              rowText="address"
+              collection={campaignListings}
+              submitFunction={deleteCampaignListing}
+              hostComponent={null}
+              buttonText="Remove"
+              buttonStyle="danger"
+              icon="fa fa-building"
+            />
           </Col>
         </Row>
       </React.Fragment>
