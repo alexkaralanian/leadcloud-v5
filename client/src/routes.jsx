@@ -10,9 +10,6 @@ import Header from "./components/Header/Header";
 import Sidebar from "./components/Sidebar/Sidebar";
 import { history } from "./store";
 import { fetchUser } from "./actions/auth-actions";
-
-// import iFrameContainer from "./containers/SingleEmailContainer/iFrameContainer";
-
 import CalendarContainer from "./containers/CalendarContainer/CalendarContainer";
 
 import Loading from "./components/Loading/Loading";
@@ -46,11 +43,6 @@ const Emails = Loadable({
 const SingleEmail = Loadable({
   loader: () =>
     import("./containers/SingleEmailContainer/SingleEmailContainer"),
-  loading: Loading
-});
-
-const iFrameContainer = Loadable({
-  loader: () => import("./containers/SingleEmailContainer/iFrameContainer"),
   loading: Loading
 });
 
@@ -126,7 +118,6 @@ class App extends React.Component {
     return (
       <ConnectedRouter history={history}>
         <div>
-          <Route path="/iframecontainer" component={iFrameContainer} />
           <div className="app">
             <Header />
             <div className="app-body">
@@ -139,7 +130,6 @@ class App extends React.Component {
                     <Route path="/profile" component={Profile} />
                     <Route path="/calendar" component={CalendarContainer} />
                     <Route path="/emails" component={Emails} />
-                    {/*<Route path="/emails/:id" component={SingleEmail} />*/}
                     <Route exact path="/contacts" component={Contacts} />
                     <Route path="/contacts/new" component={SingleContact} />
                     <Route path="/contacts/:id" component={SingleContact} />

@@ -1,11 +1,4 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import moment from "moment";
-
-import EmailNav from "./EmailNav";
-import { fetchEmails, clearEmails } from "../../actions/email-actions";
-
+import React from "react";
 import {
   ButtonDropdown,
   DropdownToggle,
@@ -15,47 +8,97 @@ import {
   Button,
   ButtonGroup
 } from "reactstrap";
+import moment from "moment";
+import { Link } from "react-router-dom";
 
-class Inbox extends Component {
-  state = {
-    dropdownOpen: false
-  };
+const Inbox = ({ emails, isOpen, toggle }) => (
+  <main className="inbox">
+    <div className="toolbar">
+      <ButtonGroup>
+        <Button color="light">
+          <span className="fa fa-envelope" />
+        </Button>
+        <Button color="light">
+          <span className="fa fa-star" />
+        </Button>
+        <Button color="light">
+          <span className="fa fa-star-o" />
+        </Button>
+        <Button color="light">
+          <span className="fa fa-bookmark-o" />
+        </Button>
+      </ButtonGroup>
+      <ButtonGroup>
+        <Button color="light">
+          <span className="fa fa-mail-reply" />
+        </Button>
+        <Button color="light">
+          <span className="fa fa-mail-reply-all" />
+        </Button>
+        <Button color="light">
+          <span className="fa fa-mail-forward" />
+        </Button>
+      </ButtonGroup>
+      <Button color="light">
+        <span className="fa fa-trash-o" />
+      </Button>
+      <ButtonDropdown isOpen={isOpen} toggle={toggle}>
+        <DropdownToggle caret color="light">
+          <span className="fa fa-tags" />
+        </DropdownToggle>
+        <DropdownMenu>
+          <DropdownItem>
+            add label<Badge color="danger">Home</Badge>
+          </DropdownItem>
+          <DropdownItem>
+            add label<Badge color="info">Job</Badge>
+          </DropdownItem>
+          <DropdownItem>
+            add label<Badge color="success">Clients</Badge>
+          </DropdownItem>
+          <DropdownItem>
+            add label<Badge color="warning">News</Badge>
+          </DropdownItem>
+        </DropdownMenu>
+      </ButtonDropdown>
+      <ButtonGroup className="float-right">
+        <Button color="light">
+          <span className="fa fa-chevron-left" />
+        </Button>
+        <Button color="light">
+          <span className="fa fa-chevron-right" />
+        </Button>
+      </ButtonGroup>
+    </div>
+    <ul className="messages">
+      {emails &&
+        emails.map(email => {
+          return (
+            <li className="message unread">
+              <Link to={`/emails/${email.id}`}>
+                <div className="actions">
+                  <span className="action">
+                    <i className="fa fa-square-o" />
+                  </span>
+                  <span className="action">
+                    <i className="fa fa-star-o" />
+                  </span>
+                </div>
+                <div className="header">
+                  <span className="from">{email.name}</span>
+                  <span className="date">
+                    <span className="fa fa-paper-clip" />{" "}
+                    {moment(email.date).format("ddd, M/D/YY h:mma")}
+                  </span>
+                </div>
+                <div className="title">{email.subject}</div>
+                <div className="description">{email.snippet}...</div>
+              </Link>
+            </li>
+          );
+        })}
+    </ul>
+  </main>
+);
 
-  componentDidMount() {
-    const { fetchEmails, maxResults, pageToken, emails } = this.props;
-    fetchEmails(maxResults, pageToken, emails);
-    window.addEventListener("scroll", this.onScroll, false);
-  }
-
-  toggle = () => {
-    this.setState({
-      dropdownOpen: !this.state.dropdownOpen
-    });
-  };
-
-  render() {
-    const { emails } = this.props;
-    return (
-      <div className="animated fadeIn">
-        <div className="email-app mb-4">
-          <EmailNav/>
-
-        </div>
-      </div>
-    );
-  }
-}
-
-const mapStateToProps = state => ({
-  isAuthed: state.authReducer.isAuthed,
-  emails: state.emailReducer.emails,
-  maxResults: state.emailReducer.maxResults,
-  pageToken: state.emailReducer.pageToken,
-  isFetching: state.emailReducer.isFetching,
-  isLoading: state.emailReducer.isLoading,
-  error: state.emailReducer.error
-});
-
-const mapDispatchToProps = { fetchEmails, clearEmails };
-
-export default connect(mapStateToProps, mapDispatchToProps)(Inbox);
+export default Inbox;

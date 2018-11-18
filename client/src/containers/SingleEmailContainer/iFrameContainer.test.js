@@ -1,3 +1,0 @@
-describe("iFrame Container", () => {
-  test("", () => {});
-});
