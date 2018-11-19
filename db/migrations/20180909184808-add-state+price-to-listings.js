@@ -38,7 +38,7 @@ module.exports = {
     }),
     queryInterface.addColumn("listings", "exclusive_start", {
       type: Sequelize.DATE
-    })
+    }),
     queryInterface.addColumn("listings", "exclusive_end", {
       type: Sequelize.DATE
     })
@@ -56,6 +56,6 @@ module.exports = {
     queryInterface.removeColumn("listings", "listing_type"),
     queryInterface.removeColumn("listings", "property_type"),
     queryInterface.removeColumn("listings", "exclusive_start"),
-    queryInterface.removeColumn("listings", "exclusive_end"),
+    queryInterface.removeColumn("listings", "exclusive_end")
   ]
 };
