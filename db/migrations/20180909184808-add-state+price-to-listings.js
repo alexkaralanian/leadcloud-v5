@@ -1,5 +1,8 @@
 module.exports = {
   up: (queryInterface, Sequelize) => [
+    queryInterface.addColumn("listings", "title", {
+      type: Sequelize.STRING
+    }),
     queryInterface.addColumn("listings", "house_number", {
       type: Sequelize.STRING
     }),
@@ -28,13 +31,7 @@ module.exports = {
       type: Sequelize.ENUM("open", "exclusive", "co-broke", "off-market")
     }),
     queryInterface.addColumn("listings", "property_type", {
-      type: Sequelize.ENUM(
-        "condo",
-        "co-op",
-        "townhome",
-        "single-family",
-        "multi-family"
-      )
+      type: Sequelize.ENUM("condo", "co-op", "single-family", "multi-family")
     }),
     queryInterface.addColumn("listings", "exclusive_start", {
       type: Sequelize.DATE
