@@ -19,13 +19,13 @@ class EmailsContainer extends React.Component {
         <div className="animated fadeIn">
           <div className="email-app mb-4">
             <EmailNav />
+            {/* INBOX */}
             <Route
               exact
               path="/emails"
               render={routeProps => <Inbox {...routeProps} />}
             />
-
-            {/* SINGLE EMAIL */}
+            {/* EMAIL MESSAGE */}
             <Route
               path="/emails/:id"
               render={routeProps => <SingleEmailContainer {...routeProps} />}
