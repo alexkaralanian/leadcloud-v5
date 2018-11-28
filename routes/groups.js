@@ -12,7 +12,6 @@ const Op = Sequelize.Op;
 // GET ALL GROUPS
 router.get("/", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
-
   try {
     const groups = await Groups.findAndCountAll({
       limit: req.query.limit,
@@ -36,7 +35,6 @@ router.get("/", authCheck, async (req, res) => {
 // GET SINGLE GROUP
 router.get("/:id", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
-
   try {
     const group = await Groups.findOne({
       where: {
@@ -53,7 +51,6 @@ router.get("/:id", authCheck, async (req, res) => {
 // CREATE NEW GROUP
 router.post("/new", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
-
   try {
     const groups = await Groups.findAll({
       where: {
@@ -80,7 +77,6 @@ router.post("/new", authCheck, async (req, res) => {
 // UPDATE GROUP
 router.patch("/:id/update", authCheck, async (req, res) => {
   const userId = req.session.user.toString();
-
   try {
     const group = await Groups.findOne({
       where: {

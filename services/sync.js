@@ -12,9 +12,7 @@ const fetchGoogleGroups = syncToken =>
     const options = {
       auth: oAuth2Client
     };
-
     if (syncToken) options["syncToken"] = syncToken;
-
     people.contactGroups.list(options, (err, response) => {
       if (response.data) {
         const { contactGroups, nextSyncToken } = response.data;
@@ -28,10 +26,8 @@ const fetchGoogleGroups = syncToken =>
 const fetchGoogleContacts = syncToken =>
   new Promise((resolve, reject) => {
     let contactsArray = [];
-
     const recursiveFetchContacts = pageToken => {
       log(chalk.blue("NEXT PAGE TOKEN", pageToken));
-
       const options = {
         resourceName: "people/me",
         personFields:
@@ -40,10 +36,8 @@ const fetchGoogleContacts = syncToken =>
         pageSize: 2000,
         pageToken
       };
-
       if (syncToken) options["syncToken"] = syncToken;
       else options["requestSyncToken"] = true;
-
       people.people.connections.list(options, (err, response) => {
         if (response.data) {
           contactsArray = contactsArray.concat(response.data.connections);
@@ -63,7 +57,6 @@ const fetchGoogleContacts = syncToken =>
 // MAP GOOGLE CONTACTS TO DB SCHEMA
 const mapContacts = (contact, userId) => {
   const imageArray = contact.photos && contact.photos.map(photo => photo.url);
-
   const membershipArray =
     contact.memberships &&
     contact.memberships.map(

@@ -17,33 +17,24 @@ const log = console.log;
 
 router.get("/sync-contacts", authCheck, findUserById, async (req, res) => {
   const userId = req.session.user.toString();
-
   log(chalk.blue("AUTO-SEQUENCE SYNC STARTING"));
 
   // MAP GOOGLE GROUPS TO DB
   log(chalk.blue("MAPPING GROUPS TO DB"));
-
   const [contactGroups, groupsNextSyncToken] = await fetchGoogleGroups();
-
-  console.log(contactGroups, groupsNextSyncToken);
-
   const mappedGroups = contactGroups.map(group => ({
     UserUuid: userId,
     googleId: group.resourceName.slice(group.resourceName.indexOf("/") + 1),
     title: group.name
   }));
-
   const createdGroups = await Groups.bulkCreate(mappedGroups, {
     returning: true
   });
 
   // MAP GOOGLE CONTACTS TO DB
   log(chalk.blue("FETCHING GOOGLE CONTACTS"));
-
   const [contacts, contactsNextSyncToken] = await fetchGoogleContacts();
-
   const memberships = [];
-
   try {
     log(chalk.blue("MAPPING CONTACTS TO DB"));
     const mappedContacts = contacts.map(contact =>
@@ -56,7 +47,6 @@ router.get("/sync-contacts", authCheck, findUserById, async (req, res) => {
     // ASSEMBLE ARRAY OF CONTACT MEMBERSHIP ID MAPPINGS TO CONTACT IDS
     log(chalk.blue("MAPPING MEMBERSHIPS..."));
     const membershipMap = createdGroups.map(group => group.googleId);
-
     createdContacts.map(contact => {
       if (contact.membership) {
         contact.membership.forEach(googleId => {
@@ -83,7 +73,6 @@ router.get("/sync-contacts", authCheck, findUserById, async (req, res) => {
   try {
     // SET SYNC TOKENS ON USER
     log(chalk.blue("SETTING NEXT SYNC TOKENS ON USER"));
-
     const user = await Users.findById(req.session.user.toString());
     await user.update({
       gContactsSyncToken: contactsNextSyncToken,
