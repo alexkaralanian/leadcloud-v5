@@ -9,9 +9,9 @@ const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const path = require("path");
 const helmet = require("helmet");
-const redisClient = require("./services/redisClient");
-const session = require("express-session");
-const RedisStore = require("connect-redis")(session);
+// const redisClient = require("./services/redisClient");
+// const session = require("express-session");
+// const RedisStore = require("connect-redis")(session);
 const cors = require("cors");
 
 const app = express();
@@ -19,18 +19,18 @@ const app = express();
 app.use(cors());
 app.use(helmet());
 
-// REDIS SESSION
-app.use(
-  session({
-    store: new RedisStore({
-      client: redisClient
-    }),
-    cookie: { maxAge: 30 * 24 * 60 * 60 * 1000, secure: false }, // 30 days
-    secret: keys.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: true
-  })
-);
+// // REDIS SESSION
+// app.use(
+//   session({
+//     store: new RedisStore({
+//       client: redisClient
+//     }),
+//     cookie: { maxAge: 30 * 24 * 60 * 60 * 1000, secure: false }, // 30 days
+//     secret: keys.SESSION_SECRET,
+//     resave: false,
+//     saveUninitialized: true
+//   })
+// );
 
 app.use(morgan("dev"));
 app.use(bodyParser.urlencoded({ extended: true }));
