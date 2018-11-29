@@ -18,7 +18,7 @@ module.exports = {
     database: keys.DB_NAME,
     host: keys.DB_HOST,
     dialect: "postgres",
-    logging: false,
+    logging: true,
     retry: {
       max: 100
     }
