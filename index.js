@@ -1,9 +1,8 @@
 console.log("NODE_ENV=" + process.env.NODE_ENV);
-const keys = require("./config/keys");
 if (process.env.NODE_ENV !== "production") {
-  console.log("REQUIRING .env");
   require("dotenv").config();
 }
+const keys = require("./config/keys");
 
 const express = require("express");
 const morgan = require("morgan");
