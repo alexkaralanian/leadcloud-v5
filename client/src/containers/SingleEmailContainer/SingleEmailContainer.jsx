@@ -45,7 +45,6 @@ class SingleEmailContainer extends React.Component {
 
   render() {
     const { isAuthed, email } = this.props;
-    console.log("EMAIL", email);
     return (
       <React.Fragment>
         <main className="message">
@@ -114,9 +113,10 @@ class SingleEmailContainer extends React.Component {
               <iframe
                 ref={el => (this.iframe = el)}
                 title="Email"
-                frameBorder={1}
+                frameBorder={0}
                 src="about:blank"
                 scrolling="yes"
+                width="100%"
               />
             </div>
             <div className="attachments">

@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { push } from "react-router-redux";
 import { Breadcrumb, BreadcrumbItem } from "reactstrap";
-import "./BreadCrumbs.css";
+import "./BreadCrumbs.scss";
 
 class BreadCrumbs extends React.Component {
   render() {
@@ -16,7 +16,7 @@ class BreadCrumbs extends React.Component {
         .toUpperCase() + word.slice(1).toLowerCase();
 
     return (
-      <div className="row">
+      <div id="breadcrumb_component" className="row">
         <div className="col-sm">
           <Breadcrumb>
             <BreadcrumbItem onClick={() => this.props.push(`/`)}>

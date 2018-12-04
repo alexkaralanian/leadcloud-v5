@@ -1,12 +1,13 @@
 import React from "react";
 import { Nav, NavItem, NavLink, Badge } from "reactstrap";
+import "./email.scss";
 
 const EmailNav = () => (
   <nav>
     <a href="#/ui-kits/email/compose" className="btn btn-danger btn-block">
       New Email
     </a>
-    <Nav>
+    <Nav id="email_nav">
       <NavItem>
         <NavLink href="#/ui-kits/email/inbox">
           <i className="fa fa-inbox" /> Inbox <Badge color="danger">4</Badge>

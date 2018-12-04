@@ -16,6 +16,12 @@ html {
  */
 }
 
+@media screen and (min-width: 0px) and (max-width: 587px) {
+  .container-fluid {
+    padding: 0px !important;
+  }
+}
+
 .flex-container-column {
   display: flex;
   flex-direction: column;
