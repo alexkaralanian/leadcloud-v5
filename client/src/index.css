@@ -1,24 +1,6 @@
-/**,
-*::after,
-*::before {
-  margin: 0px;
-  padding: 0px;
-  box-sizing: inherit;
-}*/
-
-html {
-  /*font-size: 62.5%;*/
-  /* 1 rem = 10px but bad practice to use px
-  default browser font size is 16px
-  useing would break user font-sizes (accessibility)
-  100% is 16px
-  to covert, we calculate 10/16 = 62.5%
- */
-}
-
 @media screen and (min-width: 0px) and (max-width: 587px) {
   .container-fluid {
-    padding: 0px !important;
+    padding: 5px !important;
   }
 }
 
