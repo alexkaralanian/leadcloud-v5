@@ -1,5 +1,5 @@
 const express = require("express");
-const { cleanString, cleanContacts } = require("../helpers/helpers");
+const cleanContacts = require("../helpers/sendgrid").cleanContacts;
 
 const Campaigns = require("../db/models").campaigns;
 const Contacts = require("../db/models").contacts;

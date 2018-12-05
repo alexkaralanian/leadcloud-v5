@@ -3,7 +3,7 @@ const simpleParser = require("mailparser").simpleParser;
 const { google } = require("googleapis");
 
 const { oAuth2Client } = require("../services/googleapis");
-const emailTransform = require("../services/emailTransform");
+const emailTransform = require("../helpers/email").transform;
 const authCheck = require("../middlewares/authChecker");
 const findUserById = require("../middlewares/findUserById");
 

@@ -1,4 +1,4 @@
-const emailTransform = emailsArray => {
+exports.transform = emailsArray => {
   const nextPageToken = emailsArray[0];
   const emailArray = emailsArray[1].map(email => {
     const findSender = array => array.name === "From" || "";
@@ -12,10 +12,7 @@ const emailTransform = emailsArray => {
 
     const headers = email.payload.headers;
     const senderEmail = headers.find(findSender).value.trim();
-    const emailAddress = senderEmail.slice(
-      senderEmail.indexOf("<") + 1,
-      senderEmail.length - 1
-    );
+    const emailAddress = senderEmail.slice(senderEmail.indexOf("<") + 1, senderEmail.length - 1);
 
     const senderName = headers.find(findSender).value.trim();
     const name = senderName
@@ -51,5 +48,3 @@ const emailTransform = emailsArray => {
     emailArray
   };
 };
-
-module.exports = emailTransform;
