@@ -49,7 +49,7 @@ app.use("/api/campaigns", require("./routes/campaigns"));
 
 app.use(express.static("client/build"));
 app.get("*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  res.sendFile(path.resolve(__dirname, "../client", "build", "index.html"));
 });
 
 //ERROR HANDLING MIDDLEWARE

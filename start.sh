@@ -7,4 +7,4 @@
 # pm2-runtime index.js -i max
 
 echo "STARTING SERVER 2"
-node index.js
+node server

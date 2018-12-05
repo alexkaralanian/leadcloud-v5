@@ -8,8 +8,8 @@
   },
   "scripts": {
     "start": "sh start.sh",
-    "server": "node index.sjs",
-    "dev:server": "nodemon index.js",
+    "server": "node server",
+    "dev:server": "nodemon server",
     "dev:client": "npm start --prefix client",
     "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
     "build": "npm run build --prefix client",
