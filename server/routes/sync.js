@@ -1,10 +1,10 @@
 const express = require("express");
-const googleController = require("../controllers/google");
+const syncController = require("../controllers/sync");
 const findUserById = require("../middlewares/findUserById");
 const authCheck = require("../middlewares/authChecker");
 
 const router = express.Router();
 
-router.get("/sync-contacts", authCheck, findUserById, googleController.syncContacts);
+router.get("/google-contacts", authCheck, findUserById, syncController.syncGoogleContacts);
 
 module.exports = router;

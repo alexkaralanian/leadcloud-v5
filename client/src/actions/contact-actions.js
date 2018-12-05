@@ -3,11 +3,8 @@ import { push } from "react-router-redux";
 
 import * as types from "../types";
 import store from "../store";
-
 import { setError, isFetching } from "./common-actions";
-
 import { fetchComponent, setQuery, setCount, setOffset } from "./query-actions";
-
 import { setContactGroups } from "./contact-groups-actions";
 
 export const setContacts = contacts => ({
@@ -49,7 +46,7 @@ export const syncContacts = () => async dispatch => {
 
   dispatch(isFetching(true));
   try {
-    const res = await axios.get("/api/google/sync-contacts");
+    const res = await axios.get("/api/sync/google-contacts");
 
     dispatch(setContacts(res.data.rows));
     dispatch(setCount(res.data.count));
@@ -141,11 +138,7 @@ export const onDrop = (files, componentId) => async dispatch => {
     });
 
     const res = await axios.post("/api/contacts/images", {
-      images: [
-        `https://s3.amazonaws.com/leadcloud-v5-user-images/${
-          uploadConfig.data.key
-        }`
-      ],
+      images: [`https://s3.amazonaws.com/leadcloud-v5-user-images/${uploadConfig.data.key}`],
       componentId
     });
     dispatch(setContact(res.data));

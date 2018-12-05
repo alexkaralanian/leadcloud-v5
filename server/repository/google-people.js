@@ -52,3 +52,5 @@ exports.fetchUserContacts = syncToken =>
     };
     recursiveFetchContacts();
   });
+
+

@@ -1,7 +1,9 @@
 const express = require("express");
 
 const authCheck = require("../middlewares/authChecker");
+const findUserById = require("../middlewares/findUserById");
 const contactsController = require("../controllers/contacts");
+const syncController = require("../controllers/sync");
 const contactListingsController = require("../controllers/contact-listings");
 const contactGroupsController = require("../controllers/contact-groups");
 const contactImagesController = require("../controllers/contact-images");

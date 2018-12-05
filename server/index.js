@@ -41,7 +41,7 @@ app.use(bodyParser.json());
 app.use("/api/upload", require("./routes/upload"));
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/email", require("./routes/email"));
-app.use("/api/google", require("./routes/google"));
+app.use("/api/sync", require("./routes/sync"));
 app.use("/api/contacts", require("./routes/contacts"));
 app.use("/api/listings", require("./routes/listings"));
 app.use("/api/groups", require("./routes/groups"));

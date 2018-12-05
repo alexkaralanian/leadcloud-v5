@@ -4,12 +4,12 @@ const Contacts = require("../db/models").contacts;
 const Users = require("../db/models").users;
 const Groups = require("../db/models").groups;
 const ContactGroups = require("../db/models").ContactGroups;
-const google = require("../repository/google");
+const google = require("../repository/google-people");
 const mapGoogleContacts = require("../helpers/google").mapGoogleContacts;
 
 const log = console.log;
 
-exports.syncContacts = async (req, res) => {
+exports.syncGoogleContacts = async (req, res) => {
   const userId = req.session.user.toString();
   log(chalk.blue("AUTO-SEQUENCE SYNC STARTING"));
 
