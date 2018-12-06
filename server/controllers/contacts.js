@@ -6,7 +6,7 @@ const Contacts = require("../db/models").contacts;
 
 const Op = Sequelize.Op;
 
-exports.getContacts = async (req, res) => {
+exports.getAll = async (req, res) => {
   const userId = req.session.user.toString();
   try {
     let contacts;
@@ -40,7 +40,7 @@ exports.getContacts = async (req, res) => {
   }
 };
 
-exports.getContact = async (req, res) => {
+exports.getOne = async (req, res) => {
   const userId = req.session.user.toString();
   try {
     const contact = await Contacts.findOne({
@@ -64,7 +64,7 @@ exports.getContact = async (req, res) => {
   }
 };
 
-exports.createContact = async (req, res) => {
+exports.create = async (req, res) => {
   const userId = req.session.user.toString();
   try {
     const contacts = await Contacts.findAll({
@@ -111,7 +111,7 @@ exports.createContact = async (req, res) => {
   }
 };
 
-exports.updateContact = async (req, res) => {
+exports.update = async (req, res) => {
   const userId = req.session.user.toString();
   try {
     const contact = await Contacts.findOne({
@@ -121,10 +121,9 @@ exports.updateContact = async (req, res) => {
       }
     });
     req.body.updated = moment(Date.now()).toISOString();
-    req.body.fullName = `${
-      req.body.firstName ? req.body.firstName.trim() : ""
-    } ${req.body.lastName ? req.body.lastName.trim() : ""}`;
-
+    req.body.fullName = `${req.body.firstName ? req.body.firstName.trim() : ""} ${
+      req.body.lastName ? req.body.lastName.trim() : ""
+    }`;
     const updatedContact = await contact.update(req.body);
     res.json(updatedContact);
   } catch (err) {
@@ -132,7 +131,7 @@ exports.updateContact = async (req, res) => {
   }
 };
 
-exports.deleteContact = async (req, res) => {
+exports.delete = async (req, res) => {
   const userId = req.session.user.toString();
   try {
     const contact = await Contacts.findOne({
@@ -141,7 +140,6 @@ exports.deleteContact = async (req, res) => {
         UserUuid: userId
       }
     });
-
     contact.destroy();
     res.json({
       message: "Listing Deleted Successfully"

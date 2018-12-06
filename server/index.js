@@ -1,6 +1,5 @@
 console.log("NODE_ENV=" + process.env.NODE_ENV);
 if (process.env.NODE_ENV !== "production") {
-  console.log("REQUIRING .env");
   require("dotenv").config();
 }
 const keys = require("./config/keys");
@@ -10,7 +9,7 @@ const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const path = require("path");
 const helmet = require("helmet");
-const redisClient = require("./services/redisClient");
+const redisClient = require("./services/redis");
 const session = require("express-session");
 const RedisStore = require("connect-redis")(session);
 const cors = require("cors");
@@ -20,7 +19,6 @@ const app = express();
 app.use(cors());
 app.use(helmet());
 
-// REDIS SESSION
 app.use(
   session({
     store: new RedisStore({
@@ -37,7 +35,6 @@ app.use(morgan("dev"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// ROUTES
 app.use("/api/upload", require("./routes/upload"));
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/email", require("./routes/email"));
@@ -52,7 +49,6 @@ app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "../client", "build", "index.html"));
 });
 
-//ERROR HANDLING MIDDLEWARE
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(err.status || 500).send(err.message || "Internal Error");

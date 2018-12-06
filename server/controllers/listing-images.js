@@ -1,44 +1,46 @@
-const Contacts = require("../db/models").contacts;
+const Listings = require("../db/models").listings;
 
-exports.create = async (req, res) => {
+exports.add = async (req, res) => {
   const userId = req.session.user.toString();
-
   try {
-    const contact = await Contacts.findOne({
+    const listing = await Listings.findOne({
       where: {
-        id: req.body.componentId,
+        id: req.params.id,
         UserUuid: userId
       }
     });
-    let images = contact.images;
+    let images = listing.images;
     if (!images || images.length === 0) {
       images = req.body.images;
     } else {
       images = images.concat(req.body.images);
     }
-    const updatedContact = await contact.update({ images });
-    res.json(updatedContact);
+    const updatedListing = await listing.update({
+      images
+    });
+    res.json(updatedListing);
   } catch (err) {
     console.error(err);
   }
 };
 
-exports.delete = async (req, res) => {
+exports.remove = async (req, res) => {
   const userId = req.session.user.toString();
+
   try {
-    const contact = await Contacts.findOne({
+    const listing = await Listings.findOne({
       where: {
         UserUuid: userId,
         id: req.params.id
       }
     });
-    const imageArray = contact.images;
+    const imageArray = listing.images;
     imageArray.splice(imageArray.indexOf(req.query.imageURI), 1);
 
-    const updatedContact = await contact.update({
+    const updatedListing = await listing.update({
       images: imageArray.length === 0 ? null : imageArray
     });
-    res.json(updatedContact);
+    res.json(updatedListing);
   } catch (err) {
     console.error(err);
   }

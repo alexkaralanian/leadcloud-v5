@@ -2,9 +2,10 @@ const Sequelize = require("sequelize");
 const Contacts = require("../db/models").contacts;
 const Groups = require("../db/models").groups;
 const ContactGroups = require("../db/models").ContactGroups;
+
 const Op = Sequelize.Op;
 
-exports.getContactGroups = async (req, res) => {
+exports.getAll = async (req, res) => {
   const userId = req.session.user.toString();
   try {
     const contactGroups = await Groups.findAndCountAll({
@@ -34,7 +35,7 @@ exports.getContactGroups = async (req, res) => {
   }
 };
 
-exports.addContactGroups = async (req, res) => {
+exports.add = async (req, res) => {
   const userId = req.session.user.toString();
   try {
     await ContactGroups.bulkCreate(req.body.contactGroups);
@@ -61,7 +62,7 @@ exports.addContactGroups = async (req, res) => {
   }
 };
 
-exports.removeContactGroup = async (req, res) => {
+exports.remove = async (req, res) => {
   const userId = req.session.user.toString();
   try {
     const contact = await Contacts.findOne({

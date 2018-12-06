@@ -1,15 +1,9 @@
 import axios from "axios";
+import { push } from "react-router-redux";
+
 import * as types from "../types";
 import store from "../store";
-
-import { push } from "react-router-redux";
-import {
-  isFetching,
-  setError,
-  clearError,
-  clearFormData
-} from "./common-actions";
-
+import { isFetching, setError } from "./common-actions";
 import { fetchComponent, setQuery, setOffset } from "./query-actions";
 
 export const setGroups = groups => ({
@@ -43,11 +37,11 @@ export const searchGroups = values => {
   store.dispatch(fetchComponent("groups", [], setGroups, null, null));
 };
 
-// CREATE NEW GROUP
+// CREATE GROUP
 export const submitNewGroup = data => async dispatch => {
   dispatch(isFetching(true));
   try {
-    const res = await axios.post("/api/groups/new", data);
+    const res = await axios.post("/api/groups", data);
     dispatch(setGroup(res.data));
     dispatch(isFetching(false));
     dispatch(push(`/groups/${res.data.id}`));
@@ -61,7 +55,7 @@ export const submitNewGroup = data => async dispatch => {
 // UPDATE GROUP
 export const updateGroup = (values, id) => async dispatch => {
   try {
-    const res = await axios.patch(`/api/groups/${id}/update`, values);
+    const res = await axios.patch(`/api/groups/${id}`, values);
     dispatch(setGroup(res.data));
   } catch (err) {
     console.error("Updating Group Unsuccessful", err);
@@ -71,7 +65,7 @@ export const updateGroup = (values, id) => async dispatch => {
 // DELETE GROUP
 export const deleteGroup = id => async dispatch => {
   try {
-    const res = await axios.delete(`/api/groups/${id}/delete`);
+    const res = await axios.delete(`/api/groups/${id}`);
     dispatch(setGroup(res.data));
     dispatch(push("/groups"));
   } catch (err) {

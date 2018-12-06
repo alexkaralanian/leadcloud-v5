@@ -1,34 +1,32 @@
 const express = require("express");
 
 const authCheck = require("../middlewares/authChecker");
-const findUserById = require("../middlewares/findUserById");
-const contactsController = require("../controllers/contacts");
-const syncController = require("../controllers/sync");
-const contactListingsController = require("../controllers/contact-listings");
-const contactGroupsController = require("../controllers/contact-groups");
-const contactImagesController = require("../controllers/contact-images");
+const contacts = require("../controllers/contacts");
+const contactListings = require("../controllers/contact-listings");
+const contactGroups = require("../controllers/contact-groups");
+const contactImages = require("../controllers/contact-images");
 
 const router = express.Router();
 
 // CONTACTS
-router.get("/", authCheck, contactsController.getContacts);
-router.get("/:id", authCheck, contactsController.getContact);
-router.post("/", authCheck, contactsController.createContact);
-router.patch("/:id", authCheck, contactsController.updateContact);
-router.delete("/:id", authCheck, contactsController.deleteContact);
+router.get("/", authCheck, contacts.getAll);
+router.get("/:id", authCheck, contacts.getOne);
+router.post("/", authCheck, contacts.create);
+router.patch("/:id", authCheck, contacts.update);
+router.delete("/:id", authCheck, contacts.delete);
 
 // CONTACT LISTINGS
-router.get("/:id/listings", authCheck, contactListingsController.getContactListings);
-router.post("/:id/listings", authCheck, contactListingsController.addContactListings);
-router.delete("/:id/listing", authCheck, contactListingsController.removeContactListing);
+router.get("/:id/listings", authCheck, contactListings.getAll);
+router.post("/:id/listings", authCheck, contactListings.add);
+router.delete("/:id/listing", authCheck, contactListings.remove);
 
 // CONTACT GROUPS
-router.get("/:id/groups", authCheck, contactGroupsController.getContactGroups);
-router.post("/:id/groups", authCheck, contactGroupsController.addContactGroups);
-router.delete("/:id/group", authCheck, contactGroupsController.removeContactGroup);
+router.get("/:id/groups", authCheck, contactGroups.getAll);
+router.post("/:id/groups", authCheck, contactGroups.add);
+router.delete("/:id/group", authCheck, contactGroups.remove);
 
 // CONTACT IMAGES
-router.post("/images", authCheck, contactImagesController.addContactImage);
-router.delete("/:id/image", authCheck, contactImagesController.deleteContactImage);
+router.post("/images", authCheck, contactImages.create);
+router.delete("/:id/image", authCheck, contactImages.delete);
 
 module.exports = router;

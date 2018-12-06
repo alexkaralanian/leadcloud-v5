@@ -3,9 +3,7 @@ import { push } from "react-router-redux";
 import store from "../store";
 import * as types from "../types";
 
-import { isFetching, setError, clearError } from "./common-actions";
-import { setContactListingsSearchResults } from "./contact-listings-actions";
-import { setCampaignListingsSearchResults } from "./campaign-listings-actions";
+import { isFetching, setError } from "./common-actions";
 import { fetchComponent, setQuery, setOffset } from "./query-actions";
 
 export const setListings = listings => ({
@@ -42,7 +40,7 @@ export const fetchListing = id => async dispatch => {
 export const submitNewListing = data => async dispatch => {
   dispatch(isFetching(true));
   try {
-    const res = await axios.post("/api/listings/new", data);
+    const res = await axios.post("/api/listings", data);
 
     dispatch(setListing(res.data));
     dispatch(push(`/listings/${res.data.id}`));
@@ -57,7 +55,7 @@ export const submitNewListing = data => async dispatch => {
 
 export const updateListing = (values, id) => async dispatch => {
   try {
-    const res = await axios.patch(`/api/listings/${id}/update`, values);
+    const res = await axios.patch(`/api/listings/${id}`, values);
     dispatch(setListing(res.data));
   } catch (err) {
     console.error("Updating Listing Unsuccessful", err);
@@ -66,7 +64,7 @@ export const updateListing = (values, id) => async dispatch => {
 
 export const deleteListing = id => async dispatch => {
   try {
-    const res = await axios.delete(`/api/listings/${id}/delete`);
+    const res = await axios.delete(`/api/listings/${id}`);
     dispatch(setListing(res.data));
     dispatch(push("/listings"));
   } catch (err) {
@@ -77,25 +75,17 @@ export const deleteListing = id => async dispatch => {
 // LISTING IMAGES
 
 export const onDrop = (files, componentId) => async dispatch => {
-  console.log("FILES", files);
-
   const uploadConfig = await axios.post("/api/upload", {
     componentType: "listing",
     componentId
   });
-
   await axios.put(uploadConfig.data.url, files[0], {
     headers: {
       "Content-Type": files[0].type
     }
   });
-
   const res = await axios.post("/api/listings/images", {
-    images: [
-      `https://s3.amazonaws.com/leadcloud-v5-user-images/${
-        uploadConfig.data.key
-      }`
-    ],
+    images: [`https://s3.amazonaws.com/leadcloud-v5-user-images/${uploadConfig.data.key}`],
     componentId
   });
   dispatch(setListing(res.data));
@@ -103,10 +93,9 @@ export const onDrop = (files, componentId) => async dispatch => {
 
 export const deleteListingImage = (image, listingId) => async dispatch => {
   try {
-    const res = await axios.post("/api/listings/images/delete", {
-      listingId,
-      image
-    });
+    const res = await axios.delete(
+      `/api/listings/${listingId}/images?imageURI=${encodeURIComponent(image)}`
+    );
     dispatch(setListing(res.data));
   } catch (err) {
     console.error(err);

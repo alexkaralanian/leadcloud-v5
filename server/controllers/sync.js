@@ -9,7 +9,7 @@ const mapGoogleContacts = require("../helpers/google").mapGoogleContacts;
 
 const log = console.log;
 
-exports.syncGoogleContacts = async (req, res) => {
+exports.googleContacts = async (req, res) => {
   const userId = req.session.user.toString();
   log(chalk.blue("AUTO-SEQUENCE SYNC STARTING"));
 

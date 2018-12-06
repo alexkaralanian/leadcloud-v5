@@ -1,26 +1,28 @@
 const Sequelize = require("sequelize");
+
+const ContactGroups = require("../db/models").ContactGroups;
 const Contacts = require("../db/models").contacts;
-const Listings = require("../db/models").listings;
-const ListingContacts = require("../db/models").ListingContacts;
+const Groups = require("../db/models").groups;
+
 const Op = Sequelize.Op;
 
 exports.getAll = async (req, res) => {
   const userId = req.session.user.toString();
   try {
-    const contactListings = await Listings.findAndCountAll({
+    const groupContacts = await Contacts.findAndCountAll({
       limit: req.query.limit,
       offset: req.query.offset,
       where: {
         UserUuid: userId,
         [Op.and]: {
-          address: {
+          fullName: {
             [Op.iLike]: `%${req.query.query}%`
           }
         }
       },
       include: [
         {
-          model: Contacts,
+          model: Groups,
           where: {
             id: req.params.id
           }
@@ -28,19 +30,17 @@ exports.getAll = async (req, res) => {
       ],
       order: [["updatedAt", "DESC"]]
     });
-    res.json(contactListings);
+    res.json(groupContacts);
   } catch (err) {
-    console.error("FETCHING CONTACT LISTINGS ERROR", err);
+    console.error("FETCHING GROUP CONTACTS ERROR", err);
   }
 };
 
-exports.add = async (req, res) => {
+exports.create = async (req, res) => {
   const userId = req.session.user.toString();
   try {
-    await ListingContacts.bulkCreate(req.body.contactListings, {
-      validate: false
-    });
-    const contactListings = await Listings.findAndCountAll({
+    await ContactGroups.bulkCreate(req.body.groupContacts);
+    const groupContacts = await Contacts.findAndCountAll({
       limit: 25,
       offset: 0,
       query: "",
@@ -49,38 +49,7 @@ exports.add = async (req, res) => {
       },
       include: [
         {
-          model: Contacts,
-          where: {
-            id: req.params.id
-          }
-        }
-      ]
-    });
-    res.json(contactListings);
-  } catch (err) {
-    console.error("ERROR ADDING LISTINGS TO CONTACT", err);
-  }
-};
-
-exports.remove = async (req, res) => {
-  const userId = req.session.user.toString();
-  try {
-    const contact = await Contacts.findOne({
-      where: {
-        UserUuid: userId,
-        id: req.params.id
-      }
-    });
-    await contact.removeListing(req.query.listingId);
-    const contactListings = await Listings.findAndCountAll({
-      limit: 25,
-      offset: 0,
-      where: {
-        UserUuid: userId
-      },
-      include: [
-        {
-          model: Contacts,
+          model: Groups,
           where: {
             id: req.params.id
           }
@@ -88,8 +57,40 @@ exports.remove = async (req, res) => {
       ],
       order: [["updatedAt", "DESC"]]
     });
-    res.json(contactListings);
+    res.json(groupContacts);
   } catch (err) {
-    console.error("ERROR REMOVING LISTING FROM CONTACT", err);
+    console.error("ERROR ADDING CONTACTS TO GROUP", err);
+  }
+};
+
+exports.delete = async (req, res) => {
+  const userId = req.session.user.toString();
+  try {
+    const group = await Groups.findOne({
+      where: {
+        UserUuid: userId,
+        id: req.params.id
+      }
+    });
+    await group.removeContact(req.query.contactId);
+    const groupContacts = await Contacts.findAndCountAll({
+      limit: 25,
+      offset: 0,
+      where: {
+        UserUuid: userId
+      },
+      include: [
+        {
+          model: Groups,
+          where: {
+            id: req.params.id
+          }
+        }
+      ],
+      order: [["updatedAt", "DESC"]]
+    });
+    res.json(groupContacts);
+  } catch (err) {
+    console.error("ERROR REMOVING CONTACT FROM GROUP");
   }
 };
