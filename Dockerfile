@@ -1,4 +1,4 @@
-FROM node:9.10.0-alpine
+FROM node:10.14.2-alpine
 
 LABEL maintainer="Alex Karalanian <alex.karalanian@gmail.com>" \
       version="1.0"
@@ -12,7 +12,7 @@ RUN npm i -g nodemon sequelize-cli pm2
 COPY package.json package.json
 COPY package-lock.json package-lock.json
 
-RUN npm install && mv node_modules /node_modules
+RUN npm i && mv node_modules /node_modules
 
 COPY . .
 

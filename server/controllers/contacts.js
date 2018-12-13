@@ -8,6 +8,7 @@ const Op = Sequelize.Op;
 
 exports.getAll = async (req, res) => {
   const userId = req.session.user.toString();
+  console.log("USER ID", userId);
   try {
     let contacts;
     if (req.query.query) {
