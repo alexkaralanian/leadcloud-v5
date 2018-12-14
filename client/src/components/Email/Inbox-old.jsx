@@ -36,10 +36,9 @@ class Inbox extends Component {
   render() {
     const { emails } = this.props;
     return (
-      <div className="animated fadeIn">
+      <div>
         <div className="email-app mb-4">
-          <EmailNav/>
-
+          <EmailNav />
         </div>
       </div>
     );

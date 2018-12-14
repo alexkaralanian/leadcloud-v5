@@ -11,20 +11,14 @@ import Inbox from "../../components/Email/Inbox";
 class EmailsContainer extends React.Component {
   render() {
     const { isAuthed } = this.props;
-    return !isAuthed ? (
-      <Redirect to="/auth" />
-    ) : (
+    return (
       <React.Fragment>
         <BreadCrumbs />
-        <div className="animated fadeIn">
+        <div>
           <div className="email-app mb-4">
             <EmailNav />
             {/* INBOX */}
-            <Route
-              exact
-              path="/emails"
-              render={routeProps => <Inbox {...routeProps} />}
-            />
+            <Route exact path="/emails" render={routeProps => <Inbox {...routeProps} />} />
             {/* EMAIL MESSAGE */}
             <Route
               path="/emails/:id"
@@ -37,14 +31,8 @@ class EmailsContainer extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  isAuthed: state.authReducer.isAuthed
-});
+const mapStateToProps = state => ({});
 
 const mapDispatchToProps = {};
-
-EmailsContainer.propTypes = {
-  isAuthed: PropTypes.bool.isRequired
-};
 
 export default connect(mapStateToProps, mapDispatchToProps)(EmailsContainer);

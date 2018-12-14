@@ -2,15 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Field, reduxForm } from "redux-form";
-import {
-  Form,
-  FormGroup,
-  Row,
-  Col,
-  Card,
-  CardHeader,
-  CardBody
-} from "reactstrap";
+import { Form, FormGroup, Row, Col, Card, CardHeader, CardBody } from "reactstrap";
 
 import { contactValidate } from "../../helpers/redux-form/validate";
 import { fetchContact } from "../../actions/contact-actions";
@@ -39,7 +31,7 @@ ContactForm = ({
   fetchContact,
   deleteContact
 }) => (
-  <div className="animated fadeIn">
+  <div>
     <Row>
       <Col xs="12">
         <Form className="margin-top-2" onSubmit={handleSubmit}>
@@ -51,28 +43,13 @@ ContactForm = ({
             <CardBody>
               <FormGroup>
                 {/* *** NAMES *** */}
-                <Field
-                  type="text"
-                  name="firstName"
-                  component={InputField}
-                  label="First Name"
-                />
+                <Field type="text" name="firstName" component={InputField} label="First Name" />
 
-                <Field
-                  type="text"
-                  name="lastName"
-                  component={InputField}
-                  label="Last Name"
-                />
+                <Field type="text" name="lastName" component={InputField} label="Last Name" />
 
                 {/* ***EMAIL ADDRESSES*** */}
                 {isContactNew || !contact.email ? (
-                  <Field
-                    type="email"
-                    name={"email"}
-                    component={InputField}
-                    label="Email"
-                  />
+                  <Field type="email" name={"email"} component={InputField} label="Email" />
                 ) : (
                   contact.email &&
                   contact.email.map(address => {
@@ -80,9 +57,7 @@ ContactForm = ({
                       <div key={address.value}>
                         <Field
                           type="email"
-                          name={`email[${contact.email.indexOf(
-                            address
-                          )}].value`}
+                          name={`email[${contact.email.indexOf(address)}].value`}
                           component={InputField}
                           label={`${capitalize(address.type)} Email`}
                         />
@@ -94,12 +69,7 @@ ContactForm = ({
                 {/* ***PHONE NUMBERS*** */}
                 {isContactNew || !contact.phone ? (
                   <div>
-                    <Field
-                      type="tel"
-                      name={"phone"}
-                      component={InputField}
-                      label="Phone"
-                    />
+                    <Field type="tel" name={"phone"} component={InputField} label="Phone" />
                   </div>
                 ) : (
                   contact.phone &&
@@ -133,11 +103,7 @@ ContactForm = ({
 
           {/* *** BUTTONS *** */}
           {isContactNew ? (
-            <ButtonFooter
-              primaryButtonText="Submit"
-              pristine={pristine}
-              submitting={submitting}
-            />
+            <ButtonFooter primaryButtonText="Submit" pristine={pristine} submitting={submitting} />
           ) : (
             <ButtonFooter
               pristine={pristine}

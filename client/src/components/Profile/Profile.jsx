@@ -4,7 +4,7 @@ import { Col, Row, Button, Card, CardHeader, CardBody } from "reactstrap";
 import "./Profile.css";
 
 const Profile = ({ logout, user }) => (
-  <Row className="animated fadeIn margin-top-2">
+  <Row className="margin-top-2">
     <Col xs={12}>
       <Card>
         <CardHeader>

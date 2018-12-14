@@ -2,7 +2,7 @@ import React from "react";
 import { Row, Col, Button, Card, CardBody } from "reactstrap";
 
 const Placeholder = ({ headerText, ctaFunc, ctaText }) => (
-  <Row className="animated fadeIn margin-top-2">
+  <Row className="margin-top-2">
     <Col xs="12">
       <Card>
         <CardBody>

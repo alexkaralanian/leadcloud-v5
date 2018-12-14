@@ -12,12 +12,7 @@ import CampaignFormA from "../../components/SingleCampaign/CampaignFormA";
 import CampaignFormB from "../../components/SingleCampaign/CampaignFormB";
 import CampaignFormC from "../../components/SingleCampaign/CampaignFormC";
 
-import {
-  fetchComponent,
-  setQuery,
-  setOffset,
-  setCount
-} from "../../actions/query-actions";
+import { fetchComponent, setQuery, setOffset, setCount } from "../../actions/query-actions";
 
 import {
   fetchCampaign,
@@ -34,14 +29,7 @@ class CreateCampaignContainer extends React.Component {
   };
 
   componentDidMount() {
-    const {
-      match,
-      location,
-      fetchComponent,
-      fetchCampaign,
-      setContact,
-      setOffset
-    } = this.props;
+    const { match, location, fetchComponent, fetchCampaign, setContact, setOffset } = this.props;
 
     setCampaign({});
     setOffset(0);
@@ -74,12 +62,10 @@ class CreateCampaignContainer extends React.Component {
 
     const { page } = this.state;
 
-    return !isAuthed ? (
-      <Redirect to="/auth" />
-    ) : (
+    return (
       <React.Fragment>
         <BreadCrumbs />
-        <div className="animated fadeIn">
+        <div>
           <Header
             isVisible={true}
             componentName="Campaigns"
@@ -87,28 +73,17 @@ class CreateCampaignContainer extends React.Component {
             isNew={match.path === "/campaigns/new"}
           />
 
-          {match.path !== "/campaigns/new" && (
-            <CreateCampaignNav push={push} campaign={campaign} />
-          )}
+          {match.path !== "/campaigns/new" && <CreateCampaignNav push={push} campaign={campaign} />}
 
           <Route
             exact
-            path={
-              match.path === "/campaigns/new"
-                ? `/campaigns/new`
-                : `/campaigns/${campaign.id}`
-            }
+            path={match.path === "/campaigns/new" ? `/campaigns/new` : `/campaigns/${campaign.id}`}
             render={routeProps => (
               <CampaignFormA
                 onSubmit={values => {
                   match.path === "/campaigns/new"
                     ? createCampaign(values, campaignListings, campaignGroups)
-                    : updateCampaign(
-                        values,
-                        campaignListings,
-                        campaignGroups,
-                        2
-                      );
+                    : updateCampaign(values, campaignListings, campaignGroups, 2);
                 }}
               />
             )}
@@ -152,7 +127,6 @@ class CreateCampaignContainer extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  isAuthed: state.authReducer.isAuthed,
   campaign: state.campaignReducer.campaign,
   campaignListings: state.campaignReducer.campaignListings,
   campaignGroups: state.campaignReducer.campaignGroups
@@ -169,6 +143,4 @@ const mapDispatchToProps = {
   push
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  CreateCampaignContainer
-);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateCampaignContainer);

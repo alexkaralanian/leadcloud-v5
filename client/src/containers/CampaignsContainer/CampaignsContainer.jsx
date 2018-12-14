@@ -20,12 +20,7 @@ class CampaignsContainer extends React.Component {
   }
 
   createNewCampaign = () => {
-    const {
-      setCampaign,
-      setCampaignListings,
-      setCampaignGroups,
-      push
-    } = this.props;
+    const { setCampaign, setCampaignListings, setCampaignGroups, push } = this.props;
     setCampaign({});
     setCampaignListings([]);
     setCampaignGroups([]);
@@ -33,10 +28,8 @@ class CampaignsContainer extends React.Component {
   };
 
   render() {
-    const { isAuthed, campaigns, isFetching } = this.props;
-    return !isAuthed ? (
-      <Redirect to="/auth" />
-    ) : (
+    const { campaigns, isFetching } = this.props;
+    return (
       <React.Fragment>
         <BreadCrumbs />
         <Header
@@ -66,7 +59,6 @@ class CampaignsContainer extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  isAuthed: state.authReducer.isAuthed,
   campaigns: state.campaignReducer.campaigns
 });
 
