@@ -26,7 +26,7 @@ router.post("/:id/groups", authCheck, contactGroups.add);
 router.delete("/:id/group", authCheck, contactGroups.remove);
 
 // CONTACT IMAGES
-router.post("/images", authCheck, contactImages.create);
-router.delete("/:id/image", authCheck, contactImages.delete);
+router.post("/:id/images", authCheck, contactImages.add);
+router.delete("/:id/image", authCheck, contactImages.remove);
 
 module.exports = router;

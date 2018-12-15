@@ -1,4 +1,6 @@
 module.exports = campaign => {
+  console.log("CAMPAIGN", campaign.listings);
+
   return `
     <html>
       <body>
@@ -9,7 +11,7 @@ module.exports = campaign => {
           campaign.listings.map(listing => {
             return `<div>
           <h2>${listing.address}</h2>
-          <img src=${listing.images[0]} style="height:400px;">
+          <img src=${listing.images && listing.images[0]} style="height:400px;">
           <p max-width:600px;>${listing.description}</p>
         </div>`;
           })}

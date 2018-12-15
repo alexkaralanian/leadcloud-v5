@@ -84,9 +84,8 @@ export const onDrop = (files, componentId) => async dispatch => {
       "Content-Type": files[0].type
     }
   });
-  const res = await axios.post("/api/listings/images", {
-    images: [`https://s3.amazonaws.com/leadcloud-v5-user-images/${uploadConfig.data.key}`],
-    componentId
+  const res = await axios.post(`/api/listings/${componentId}/images`, {
+    images: [`https://s3.amazonaws.com/leadcloud-v5-user-images/${uploadConfig.data.key}`]
   });
   dispatch(setListing(res.data));
 };

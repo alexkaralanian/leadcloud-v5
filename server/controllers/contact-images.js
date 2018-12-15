@@ -1,12 +1,12 @@
 const Contacts = require("../db/models").contacts;
 
-exports.create = async (req, res) => {
+exports.add = async (req, res) => {
   const userId = req.session.user.toString();
 
   try {
     const contact = await Contacts.findOne({
       where: {
-        id: req.body.componentId,
+        id: req.params.id,
         UserUuid: userId
       }
     });
@@ -23,7 +23,7 @@ exports.create = async (req, res) => {
   }
 };
 
-exports.delete = async (req, res) => {
+exports.remove = async (req, res) => {
   const userId = req.session.user.toString();
   try {
     const contact = await Contacts.findOne({
