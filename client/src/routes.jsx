@@ -3,20 +3,18 @@ import Loadable from "react-loadable";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Route, Switch, Redirect } from "react-router-dom";
-import { ConnectedRouter } from "react-router-redux";
 import { Container } from "reactstrap";
-
+import { history } from "./store";
+import { ConnectedRouter } from "react-router-redux";
 import Header from "./components/Header/Header";
 import Sidebar from "./components/Sidebar/Sidebar";
-import { history } from "./store";
 import { fetchUser } from "./actions/auth-actions";
 import CalendarContainer from "./containers/CalendarContainer/CalendarContainer";
 
 import Loading from "./components/Loading/Loading";
 
 const LandingPage = Loadable({
-  loader: () =>
-    import("./containers/LandingPageContainer/LandingPageContainer"),
+  loader: () => import("./containers/LandingPageContainer/LandingPageContainer"),
   loading: Loading
 });
 
@@ -41,8 +39,7 @@ const Emails = Loadable({
 });
 
 const SingleEmail = Loadable({
-  loader: () =>
-    import("./containers/SingleEmailContainer/SingleEmailContainer"),
+  loader: () => import("./containers/SingleEmailContainer/SingleEmailContainer"),
   loading: Loading
 });
 
@@ -52,8 +49,7 @@ const Contacts = Loadable({
 });
 
 const SingleContact = Loadable({
-  loader: () =>
-    import("./containers/SingleContactContainer/SingleContactContainer"),
+  loader: () => import("./containers/SingleContactContainer/SingleContactContainer"),
   loading: Loading
 });
 
@@ -63,8 +59,7 @@ const Listings = Loadable({
 });
 
 const SingleListing = Loadable({
-  loader: () =>
-    import("./containers/SingleListingContainer/SingleListingContainer"),
+  loader: () => import("./containers/SingleListingContainer/SingleListingContainer"),
   loading: Loading
 });
 
@@ -74,20 +69,17 @@ const OpenHouse = Loadable({
 });
 
 const Groups = Loadable({
-  loader: () =>
-    import("./containers/GroupsDashboardContainer/GroupsDashboardContainer"),
+  loader: () => import("./containers/GroupsDashboardContainer/GroupsDashboardContainer"),
   loading: Loading
 });
 
 const SingleGroup = Loadable({
-  loader: () =>
-    import("./containers/SingleGroupContainer/SingleGroupContainer"),
+  loader: () => import("./containers/SingleGroupContainer/SingleGroupContainer"),
   loading: Loading
 });
 
 const GroupContacts = Loadable({
-  loader: () =>
-    import("./containers/GroupContactsContainer/GroupContactsContainer"),
+  loader: () => import("./containers/GroupContactsContainer/GroupContactsContainer"),
   loading: Loading
 });
 
@@ -97,14 +89,12 @@ const Campaigns = Loadable({
 });
 
 const CreateCampaign = Loadable({
-  loader: () =>
-    import("./containers/CreateCampaignContainer/CreateCampaignContainer"),
+  loader: () => import("./containers/CreateCampaignContainer/CreateCampaignContainer"),
   loading: Loading
 });
 
 const SingleCampaign = Loadable({
-  loader: () =>
-    import("./containers/SingleCampaignContainer/SingleCampaignContainer"),
+  loader: () => import("./containers/SingleCampaignContainer/SingleCampaignContainer"),
   loading: Loading
 });
 
@@ -116,58 +106,62 @@ class App extends React.Component {
   render() {
     const { isAuthed } = this.props;
     return (
-      <ConnectedRouter history={history}>
-        <div>
-          <div className="app">
-            <Header />
-            <div className="app-body">
-              <Sidebar {...this.props} />
-              <main className="main">
-                <Container fluid>
-                  <Switch>
-                    <Route path="/auth" component={LandingPage} />
-                    <Route exact path="/" component={Dashboard} />
-                    <Route path="/profile" component={Profile} />
-                    <Route path="/calendar" component={CalendarContainer} />
-                    <Route path="/emails" component={Emails} />
-                    <Route exact path="/contacts" component={Contacts} />
-                    <Route path="/contacts/new" component={SingleContact} />
-                    <Route path="/contacts/:id" component={SingleContact} />
-                    <Route exact path="/listings" component={Listings} />
-                    <Route path="/listings/new" component={SingleListing} />
-                    <Route path="/listings/:id" component={SingleListing} />
-                    <Route
-                      exact
-                      path="/listings/:id/openhouse"
-                      component={OpenHouse}
-                    />
-                    <Route exact path="/groups" component={Groups} />
-                    <Route path="/groups/new" component={SingleGroup} />
-                    <Route path="/groups/:id" component={SingleGroup} />
-                    <Route exact path="/campaigns" component={Campaigns} />
-                    <Route path="/campaigns/new" component={CreateCampaign} />
-                    <Route path="/campaigns/:id" component={CreateCampaign} />
-                    )
-                    <Route
-                      render={() => (
-                        <div>
-                          <p>NOT FOUND!</p>
-                        </div>
-                      )}
-                    />
-                  </Switch>
-                </Container>
-              </main>
+      <div>
+        <ConnectedRouter history={history}>
+          {isAuthed ? (
+            <div className="app">
+              <Header />
+              <div className="app-body">
+                <Sidebar {...this.props} />
+                <main className="main">
+                  <Container fluid>
+                    <Switch>
+                      {/*<Route path="/auth" component={LandingPage} />*/}
+                      <Route exact path="/" component={Dashboard} />
+                      <Route path="/profile" component={Profile} />
+                      <Route path="/calendar" component={CalendarContainer} />
+                      <Route path="/emails" component={Emails} />
+                      <Route exact path="/contacts" component={Contacts} />
+                      <Route path="/contacts/new" component={SingleContact} />
+                      <Route path="/contacts/:id" component={SingleContact} />
+                      <Route exact path="/listings" component={Listings} />
+                      <Route path="/listings/new" component={SingleListing} />
+                      <Route path="/listings/:id" component={SingleListing} />
+                      <Route exact path="/listings/:id/openhouse" component={OpenHouse} />
+                      <Route exact path="/groups" component={Groups} />
+                      <Route path="/groups/new" component={SingleGroup} />
+                      <Route path="/groups/:id" component={SingleGroup} />
+                      <Route exact path="/campaigns" component={Campaigns} />
+                      <Route path="/campaigns/new" component={CreateCampaign} />
+                      <Route path="/campaigns/:id" component={CreateCampaign} />
+                      )
+                      <Route
+                        render={() => (
+                          <div>
+                            <p>NOT FOUND!</p>
+                          </div>
+                        )}
+                      />
+                    </Switch>
+                  </Container>
+                </main>
+              </div>
             </div>
-          </div>
-        </div>
-      </ConnectedRouter>
+          ) : (
+            <div>
+              <Redirect to="/" />
+              <LandingPage />
+            </div>
+          )}
+        </ConnectedRouter>
+      </div>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  isAuthed: state.authReducer.isAuthed
+  isAuthed: state.authReducer.isAuthed,
+  isFetching: state.authReducer.isFetching
 });
 
 const mapDispatchToProps = {

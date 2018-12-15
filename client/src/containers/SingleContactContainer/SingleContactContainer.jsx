@@ -22,12 +22,7 @@ import Placeholder from "../../components/Placeholder/Placeholder";
 
 import { clearError } from "../../actions/common-actions";
 
-import {
-  fetchComponent,
-  setQuery,
-  setOffset,
-  setCount
-} from "../../actions/query-actions";
+import { fetchComponent, setQuery, setOffset, setCount } from "../../actions/query-actions";
 
 import {
   fetchContact,
@@ -56,10 +51,7 @@ import {
   searchDiffedContactGroups
 } from "../../actions/contact-groups-actions";
 
-import {
-  fetchEmailsByContact,
-  setEmailQuery
-} from "../../actions/email-actions";
+import { fetchEmailsByContact, setEmailQuery } from "../../actions/email-actions";
 
 class SingleContactContainer extends React.Component {
   state = {
@@ -69,26 +61,14 @@ class SingleContactContainer extends React.Component {
   };
 
   componentDidMount() {
-    const {
-      match,
-      fetchComponent,
-      fetchContact,
-      setContact,
-      setOffset
-    } = this.props;
+    const { match, fetchComponent, fetchContact, setContact, setOffset } = this.props;
 
     setContact({});
     setOffset(0);
 
     if (match.path !== "/contacts/new") {
       fetchContact(match.params.id);
-      fetchComponent(
-        "contacts",
-        [],
-        setContactListings,
-        match.params.id,
-        "listings"
-      );
+      fetchComponent("contacts", [], setContactListings, match.params.id, "listings");
     }
   }
 
@@ -215,9 +195,7 @@ class SingleContactContainer extends React.Component {
       deleteContactImage
     } = this.props;
 
-    return !isAuthed ? (
-      <Redirect path="/auth" />
-    ) : (
+    return (
       <React.Fragment>
         <BreadCrumbs />
         <div className="animated fadeIn">
@@ -233,18 +211,12 @@ class SingleContactContainer extends React.Component {
           />
 
           {/* CONTACT NAV */}
-          {match.path !== "/contacts/new" && (
-            <ContactNav push={push} contact={contact} />
-          )}
+          {match.path !== "/contacts/new" && <ContactNav push={push} contact={contact} />}
 
           {/* CONTACT FORM */}
           <Route
             exact
-            path={
-              match.path === "/contacts/new"
-                ? `/contacts/new`
-                : `/contacts/${contact.id}`
-            }
+            path={match.path === "/contacts/new" ? `/contacts/new` : `/contacts/${contact.id}`}
             render={routeProps => (
               <ContactForm
                 {...routeProps}
@@ -290,9 +262,7 @@ class SingleContactContainer extends React.Component {
                 />
               ) : (
                 <Placeholder
-                  headerText={`${
-                    contact.fullName
-                  } doesn't have any listings yet...`}
+                  headerText={`${contact.fullName} doesn't have any listings yet...`}
                   ctaText="Add Listings"
                   ctaFunc={this.displayListingsModal}
                 />
@@ -329,9 +299,7 @@ class SingleContactContainer extends React.Component {
                 />
               ) : (
                 <Placeholder
-                  headerText={`${
-                    contact.fullName
-                  } doesn't have any groups yet...`}
+                  headerText={`${contact.fullName} doesn't have any groups yet...`}
                   ctaText="Add Groups"
                   ctaFunc={this.displayGroupsModal}
                 />
@@ -342,9 +310,7 @@ class SingleContactContainer extends React.Component {
           {/* CONTACT EMAILS */}
           <Route
             path={`/contacts/${contact.id}/emails`}
-            render={routeProps => (
-              <SingleContactEmailsContainer {...routeProps} />
-            )}
+            render={routeProps => <SingleContactEmailsContainer {...routeProps} />}
           />
 
           {/* CONTACT MEDIA */}
@@ -367,7 +333,6 @@ class SingleContactContainer extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  isAuthed: state.authReducer.isAuthed,
   isFetching: state.commonReducer.isFetching,
   isLoading: state.commonReducer.isLoading,
   error: state.contactReducer.error,
@@ -411,6 +376,4 @@ const mapDispatchToProps = {
   setEmailQuery
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  SingleContactContainer
-);
+export default connect(mapStateToProps, mapDispatchToProps)(SingleContactContainer);

@@ -6,7 +6,7 @@ import "./Campaigns.css";
 
 const Campaigns = ({ campaigns }) => (
   <React.Fragment>
-    <Row className="margin-top-2 animated fadeIn">
+    <Row className="margin-top-2">
       <Col xs="12">
         <Card>
           <CardHeader>

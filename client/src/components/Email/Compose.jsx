@@ -36,20 +36,16 @@ class Compose extends Component {
 
   render() {
     return (
-      <div className="animated fadeIn">
+      <div>
         <div className="email-app">
           <nav>
-            <a
-              href="#/ui-kits/email/compose"
-              className="btn btn-danger btn-block"
-            >
+            <a href="#/ui-kits/email/compose" className="btn btn-danger btn-block">
               New Email
             </a>
             <Nav>
               <NavItem>
                 <NavLink href="#/ui-kits/email/inbox">
-                  <i className="fa fa-inbox" /> Inbox{" "}
-                  <Badge color="danger">4</Badge>
+                  <i className="fa fa-inbox" /> Inbox <Badge color="danger">4</Badge>
                 </NavLink>
               </NavItem>
               <NavItem>
@@ -69,15 +65,12 @@ class Compose extends Component {
               </NavItem>
               <NavItem>
                 <NavLink href="#">
-                  <i className="fa fa-bookmark" /> Important<Badge color="info">
-                    5
-                  </Badge>
+                  <i className="fa fa-bookmark" /> Important<Badge color="info">5</Badge>
                 </NavLink>
               </NavItem>
               <NavItem>
                 <NavLink href="#">
-                  <i className="fa fa-exclamation-circle" /> Spam{" "}
-                  <Badge color="danger">4</Badge>
+                  <i className="fa fa-exclamation-circle" /> Spam <Badge color="danger">4</Badge>
                 </NavLink>
               </NavItem>
             </Nav>
@@ -162,10 +155,7 @@ class Compose extends Component {
                     <Button color="light">
                       <span className="fa fa-paperclip" />
                     </Button>
-                    <ButtonDropdown
-                      isOpen={this.state.dropdownOpen}
-                      toggle={this.toggle}
-                    >
+                    <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
                       <DropdownToggle caret color="light">
                         <span className="fa fa-tags" />
                       </DropdownToggle>

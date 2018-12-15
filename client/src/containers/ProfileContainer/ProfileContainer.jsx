@@ -21,15 +21,8 @@ class ProfileContainer extends React.Component {
   };
 
   render() {
-    const { isAuthed } = this.props;
-    return !isAuthed ? (
-      <Redirect to="/auth" />
-    ) : (
-      <Profile
-        logout={this.handleLogout}
-        syncContacts={this.handleSync}
-        user={this.props.user}
-      />
+    return (
+      <Profile logout={this.handleLogout} syncContacts={this.handleSync} user={this.props.user} />
     );
   }
 }
@@ -47,7 +40,6 @@ const mapDispatchToProps = {
 
 ProfileContainer.propTypes = {
   user: PropTypes.object,
-  isAuthed: PropTypes.bool.isRequired,
   logout: PropTypes.func.isRequired
 };
 

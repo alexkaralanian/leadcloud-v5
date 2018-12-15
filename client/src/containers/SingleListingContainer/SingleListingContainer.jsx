@@ -40,12 +40,7 @@ import {
 
 import { setModalVisibility } from "../../actions/modal-actions";
 
-import {
-  fetchComponent,
-  setQuery,
-  setOffset,
-  setCount
-} from "../../actions/query-actions";
+import { fetchComponent, setQuery, setOffset, setCount } from "../../actions/query-actions";
 
 class SingleListingContainer extends React.Component {
   state = {
@@ -60,13 +55,7 @@ class SingleListingContainer extends React.Component {
     if (match.path !== "/listings/new") {
       fetchListing(match.params.id);
 
-      fetchComponent(
-        "listings",
-        [],
-        setListingContacts,
-        match.params.id,
-        "contacts"
-      );
+      fetchComponent("listings", [], setListingContacts, match.params.id, "contacts");
     }
   }
 
@@ -153,11 +142,9 @@ class SingleListingContainer extends React.Component {
       deleteListingImage
     } = this.props;
 
-    return !isAuthed ? (
-      <Redirect path="/" />
-    ) : (
+    return (
       <React.Fragment>
-        <div className="animated fadeIn">
+        <div>
           <BreadCrumbs />
 
           {/* HEADER */}
@@ -172,9 +159,7 @@ class SingleListingContainer extends React.Component {
             primaryText={this.headerFunc().modalText}
           />
 
-          {match.path !== "/listings/new" && (
-            <ListingNav push={push} listing={listing} />
-          )}
+          {match.path !== "/listings/new" && <ListingNav push={push} listing={listing} />}
 
           {/* LISTING FORM  */}
           <OpenHouseModal
@@ -186,11 +171,7 @@ class SingleListingContainer extends React.Component {
           />
           <Route
             exact
-            path={
-              match.path === "/listings/new"
-                ? `/listings/new`
-                : `/listings/${listing.id}`
-            }
+            path={match.path === "/listings/new" ? `/listings/new` : `/listings/${listing.id}`}
             render={routeProps => (
               <ListingForm
                 {...routeProps}
@@ -235,9 +216,7 @@ class SingleListingContainer extends React.Component {
                 />
               ) : (
                 <Placeholder
-                  headerText={`${
-                    listing.address
-                  } doesn't have any contacts yet...`}
+                  headerText={`${listing.address} doesn't have any contacts yet...`}
                   ctaText="Add Listing Contacts"
                   ctaFunc={this.displayContactsModal}
                 />
@@ -311,6 +290,4 @@ SingleListingContainer.propTypes = {
 
 export const Unwrapped = SingleListingContainer;
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  SingleListingContainer
-);
+export default connect(mapStateToProps, mapDispatchToProps)(SingleListingContainer);

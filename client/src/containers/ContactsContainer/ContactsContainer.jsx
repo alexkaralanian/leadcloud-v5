@@ -1,4 +1,4 @@
- import React from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
@@ -14,20 +14,11 @@ import Counter from "../../components/Counter/Counter";
 import Loading from "../../components/Loading/Loading";
 import Placeholder from "../../components/Placeholder/Placeholder";
 
-import {
-  fetchComponent,
-  setQuery,
-  setOffset,
-  setCount
-} from "../../actions/query-actions";
+import { fetchComponent, setQuery, setOffset, setCount } from "../../actions/query-actions";
 
 import { clearFormData } from "../../actions/common-actions";
 
-import {
-  syncContacts,
-  setContacts,
-  searchContacts
-} from "../../actions/contact-actions";
+import { syncContacts, setContacts, searchContacts } from "../../actions/contact-actions";
 
 class ContactsContainer extends React.Component {
   componentDidMount() {
@@ -56,18 +47,9 @@ class ContactsContainer extends React.Component {
   };
 
   render() {
-    const {
-      push,
-      isAuthed,
-      isFetching,
-      syncContacts,
-      contacts,
-      isSearching
-    } = this.props;
+    const { push, isFetching, syncContacts, contacts, isSearching } = this.props;
 
-    return !isAuthed ? (
-      <Redirect to="/auth" />
-    ) : (
+    return (
       <React.Fragment>
         <BreadCrumbs />
         <Header
@@ -85,12 +67,7 @@ class ContactsContainer extends React.Component {
           <Contacts
             contacts={contacts}
             isFetching={isFetching}
-            SearchForm={
-              <SearchForm
-                searchFunction={searchContacts}
-                searchText="Search..."
-              />
-            }
+            SearchForm={<SearchForm searchFunction={searchContacts} searchText="Search..." />}
           />
         ) : (
           <Placeholder
@@ -107,7 +84,6 @@ class ContactsContainer extends React.Component {
 const mapStateToProps = state => ({
   isSearching: state.contactReducer.isSearching,
   contacts: state.contactReducer.contacts,
-  isAuthed: state.authReducer.isAuthed,
   isLoading: state.queryReducer.isLoading,
   isFetching: state.commonReducer.isFetching,
   error: state.commonReducer.error,

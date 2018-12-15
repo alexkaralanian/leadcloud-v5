@@ -2,10 +2,9 @@ import axios from "axios";
 import * as types from "../types";
 import store from "../store";
 
-import { isFetching, clearFormData } from "./common-actions";
 import { fetchComponent, setQuery, setOffset, setCount } from "./query-actions";
 import { setSelected } from "./modal-actions";
-import { searchContacts, setContacts } from "./contact-actions";
+import { setContacts } from "./contact-actions";
 
 export const setGroupContacts = groupContacts => ({
   type: types.SET_GROUP_CONTACTS,
@@ -18,9 +17,7 @@ export const searchGroupContacts = values => {
   const query = values.nativeEvent.target.defaultValue;
   store.dispatch(setQuery(query));
   store.dispatch(setOffset(0));
-  store.dispatch(
-    fetchComponent("groups", [], setGroupContacts, groupId, "contacts")
-  );
+  store.dispatch(fetchComponent("groups", [], setGroupContacts, groupId, "contacts"));
 };
 
 export const setDiffedGroupContacts = contacts => dispatch => {
@@ -45,10 +42,7 @@ export const searchDiffedGroupContacts = values => {
   store.dispatch(fetchComponent("contacts", [], setDiffedGroupContacts));
 };
 
-export const submitGroupContacts = (
-  groupContactsArray,
-  group
-) => async dispatch => {
+export const submitGroupContacts = (groupContactsArray, group) => async dispatch => {
   console.log("GROUP", group);
   const groupContacts = groupContactsArray.map(contact => ({
     groupId: group.id,
@@ -57,7 +51,7 @@ export const submitGroupContacts = (
   dispatch(setSelected([]));
   dispatch(setQuery(""));
   try {
-    const res = await axios.post(`/api/groups/${group.id}/contacts/add`, {
+    const res = await axios.post(`/api/groups/${group.id}/contacts`, {
       groupContacts
     });
     dispatch(setGroupContacts(res.data.rows));
@@ -68,11 +62,8 @@ export const submitGroupContacts = (
 };
 
 export const deleteGroupContact = (contact, group) => async dispatch => {
-  const state = store.getState();
   try {
-    const res = await axios.post(`/api/groups/${group.id}/contact/delete`, {
-      contactId: contact.id
-    });
+    const res = await axios.delete(`/api/groups/${group.id}/contact?contactId=${contact.id}`);
     dispatch(setGroupContacts(res.data.rows));
     dispatch(setCount(res.data.count));
   } catch (err) {

@@ -9,9 +9,7 @@ import Header from "../../components/Header/Header-old";
 class DashboardContainer extends React.Component {
   render() {
     const { isAuthed } = this.props;
-    return !isAuthed ? (
-      <Redirect to="/auth" />
-    ) : (
+    return (
       <React.Fragment>
         <BreadCrumbs />
         {/*<Header

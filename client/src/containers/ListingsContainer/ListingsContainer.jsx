@@ -21,12 +21,7 @@ import {
   clearError
 } from "../../actions/listing-actions";
 
-import {
-  fetchComponent,
-  setQuery,
-  setOffset,
-  setCount
-} from "../../actions/query-actions";
+import { fetchComponent, setQuery, setOffset, setCount } from "../../actions/query-actions";
 
 import { clearFormData } from "../../actions/common-actions";
 
@@ -61,11 +56,9 @@ class ListingsContainer extends React.Component {
   };
 
   render() {
-    const { isAuthed, isFetching, listings, push } = this.props;
+    const { isFetching, listings, push } = this.props;
 
-    return !isAuthed ? (
-      <Redirect to="/auth" />
-    ) : (
+    return (
       <React.Fragment>
         <BreadCrumbs />
         <Header
@@ -84,12 +77,7 @@ class ListingsContainer extends React.Component {
           <Listings
             isFetching={isFetching}
             listings={listings}
-            SearchForm={
-              <SearchForm
-                searchFunction={searchListings}
-                searchText="Search..."
-              />
-            }
+            SearchForm={<SearchForm searchFunction={searchListings} searchText="Search..." />}
           />
         ) : (
           <Placeholder
@@ -104,7 +92,6 @@ class ListingsContainer extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  isAuthed: state.authReducer.isAuthed,
   listings: state.listingReducer.listings,
   limit: state.listingReducer.limit,
   offset: state.listingReducer.offset,

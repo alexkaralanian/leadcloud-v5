@@ -1,14 +1,8 @@
 import axios from "axios";
 import { push } from "react-router-redux";
 import * as types from "../types";
-import store from "../store";
 
-import {
-  setError,
-  clearError,
-  isFetching,
-  clearFormData
-} from "./common-actions";
+import { setError, isFetching } from "./common-actions";
 
 import { setCampaignListings } from "./campaign-listings-actions";
 import { setCampaignGroups } from "./campaign-groups-actions";
@@ -26,7 +20,6 @@ export const setCampaigns = campaigns => ({
 export const fetchCampaign = id => async dispatch => {
   try {
     const res = await axios.get(`/api/campaigns/${id}`);
-    console.log("FETH CAMPAIGN RES", id);
     dispatch(setCampaign(res.data));
     dispatch(setCampaignListings(res.data.listings));
     dispatch(setCampaignGroups(res.data.groups));
@@ -38,21 +31,16 @@ export const fetchCampaign = id => async dispatch => {
 export const fetchCampaigns = () => async dispatch => {
   try {
     const res = await axios.get("/api/campaigns");
-    console.log("CAMPAIGNS", res.data);
     dispatch(setCampaigns(res.data));
   } catch (err) {
     console.error("Fetching Campaigns unsuccessful", err);
   }
 };
 
-export const createCampaign = (
-  values,
-  campaignListings,
-  campaignGroups
-) => async dispatch => {
+export const createCampaign = (values, campaignListings, campaignGroups) => async dispatch => {
   dispatch(isFetching(true));
   try {
-    const res = await axios.post("/api/campaigns/create", {
+    const res = await axios.post("/api/campaigns", {
       values,
       campaignListings,
       campaignGroups
@@ -81,10 +69,7 @@ export const updateCampaign = (
   campaign.groups = campaignGroups;
 
   try {
-    const res = await axios.patch(
-      `/api/campaigns/${campaign.id}/update`,
-      campaign
-    );
+    const res = await axios.patch(`/api/campaigns/${campaign.id}`, campaign);
     dispatch(setCampaign(res.data));
     if (page === 2) {
       dispatch(push(`/campaigns/${res.data.id}/edit`));
@@ -99,7 +84,7 @@ export const updateCampaign = (
 
 export const submitCampaign = values => async dispatch => {
   try {
-    const res = await axios.post("/api/campaigns/submit", {
+    const res = await axios.put("/api/campaigns", {
       values
     });
     dispatch(setCampaign(res.data));

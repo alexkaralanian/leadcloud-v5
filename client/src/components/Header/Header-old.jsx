@@ -21,7 +21,7 @@ const Header = ({
 }) => (
   <Row>
     <Col xs="12">
-      <div className="header-old animated fadeIn">
+      <div className="header-old">
         <div className="header__content">
           {images && <img alt="Contact" src={images && images[0]} />}
           <h1>{isNew ? `New ${componentName}` : headerTitle}</h1>

@@ -8,17 +8,9 @@ import TableRow from "../../components/TableRow/TableRow";
 import Counter from "../../components/Counter/Counter";
 
 import { fetchGroup } from "../../actions/group-actions";
-import {
-  fetchComponent,
-  setQuery,
-  setOffset
-} from "../../actions/query-actions";
+import { fetchComponent, setQuery, setOffset } from "../../actions/query-actions";
 
-import {
-  searchContacts,
-  setContacts,
-  clearContacts
-} from "../../actions/contact-actions";
+import { searchContacts, setContacts, clearContacts } from "../../actions/contact-actions";
 
 import {
   setGroupContacts,
@@ -45,27 +37,14 @@ class GroupContactsContainer extends React.Component {
   }
 
   onScroll = () => {
-    const {
-      isLoading,
-      count,
-      offset,
-      fetchComponent,
-      groupContacts,
-      group
-    } = this.props;
+    const { isLoading, count, offset, fetchComponent, groupContacts, group } = this.props;
 
     if (
       window.innerHeight + window.scrollY >= document.body.offsetHeight - 500 &&
       count > offset &&
       !isLoading
     ) {
-      fetchComponent(
-        "groups",
-        groupContacts,
-        setGroupContacts,
-        group.id,
-        "contacts"
-      );
+      fetchComponent("groups", groupContacts, setGroupContacts, group.id, "contacts");
     }
   };
 
@@ -80,9 +59,7 @@ class GroupContactsContainer extends React.Component {
       deleteGroupContact
     } = this.props;
 
-    return !isAuthed ? (
-      <Redirect to="/" />
-    ) : (
+    return (
       <Row>
         <Col xs={12}>
           <div className="margin-top-2" s />
@@ -104,7 +81,6 @@ class GroupContactsContainer extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  isAuthed: state.authReducer.isAuthed,
   isFetching: state.commonReducer.isFetching,
   isLoading: state.queryReducer.isLoading,
   count: state.queryReducer.count,
@@ -121,6 +97,4 @@ const mapDispatchToProps = {
   setOffset
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  GroupContactsContainer
-);
+export default connect(mapStateToProps, mapDispatchToProps)(GroupContactsContainer);

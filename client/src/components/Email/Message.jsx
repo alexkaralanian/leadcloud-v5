@@ -33,20 +33,16 @@ class Message extends Component {
 
   render() {
     return (
-      <div className="animated fadeIn">
+      <div>
         <div className="email-app mb-4">
           <nav>
-            <a
-              href="#/ui-kits/email/compose"
-              className="btn btn-danger btn-block"
-            >
+            <a href="#/ui-kits/email/compose" className="btn btn-danger btn-block">
               New Email
             </a>
             <Nav>
               <NavItem>
                 <NavLink href="#/ui-kits/email/inbox">
-                  <i className="fa fa-inbox" /> Inbox{" "}
-                  <Badge color="danger">4</Badge>
+                  <i className="fa fa-inbox" /> Inbox <Badge color="danger">4</Badge>
                 </NavLink>
               </NavItem>
               <NavItem>
@@ -66,15 +62,12 @@ class Message extends Component {
               </NavItem>
               <NavItem>
                 <NavLink href="#">
-                  <i className="fa fa-bookmark" /> Important<Badge color="info">
-                    5
-                  </Badge>
+                  <i className="fa fa-bookmark" /> Important<Badge color="info">5</Badge>
                 </NavLink>
               </NavItem>
               <NavItem>
                 <NavLink href="#">
-                  <i className="fa fa-exclamation-circle" /> Spam{" "}
-                  <Badge color="danger">4</Badge>
+                  <i className="fa fa-exclamation-circle" /> Spam <Badge color="danger">4</Badge>
                 </NavLink>
               </NavItem>
             </Nav>
@@ -106,10 +99,7 @@ class Message extends Component {
               <Button color="light">
                 <span className="fa fa-trash-o" />
               </Button>
-              <ButtonDropdown
-                isOpen={this.state.dropdownOpen}
-                toggle={this.toggle}
-              >
+              <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
                 <DropdownToggle caret color="light">
                   <span className="fa fa-tags" />
                 </DropdownToggle>
@@ -131,8 +121,8 @@ class Message extends Component {
             </div>
             <div className="details">
               <div className="title">
-                Neque porro quisquam est qui dolorem ipsum quia dolor sit amet,
-                consectetur, adipisci velit.
+                Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur,
+                adipisci velit.
               </div>
               <div className="header">
                 <img className="avatar" src="img/avatars/7.jpg" />
@@ -146,30 +136,25 @@ class Message extends Component {
               </div>
               <div className="content">
                 <p>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                  irure dolor in reprehenderit in voluptate velit esse cillum
-                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                  cupidatat non proident, sunt in culpa qui officia deserunt
-                  mollit anim id est laborum.
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+                  incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+                  exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                  irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+                  pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+                  officia deserunt mollit anim id est laborum.
                 </p>
                 <blockquote>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                  irure dolor in reprehenderit in voluptate velit esse cillum
-                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                  cupidatat non proident, sunt in culpa qui officia deserunt
-                  mollit anim id est laborum.
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+                  incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+                  exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                  irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+                  pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+                  officia deserunt mollit anim id est laborum.
                 </blockquote>
               </div>
               <div className="attachments">
                 <div className="attachment">
-                  <Badge color="danger">zip</Badge> <b>bootstrap.zip</b>{" "}
-                  <i>(2,5MB)</i>
+                  <Badge color="danger">zip</Badge> <b>bootstrap.zip</b> <i>(2,5MB)</i>
                   <span className="menu">
                     <a href="#" className="fa fa-search" />
                     <a href="#" className="fa fa-share" />
@@ -185,8 +170,7 @@ class Message extends Component {
                   </span>
                 </div>
                 <div className="attachment">
-                  <Badge color="success">xls</Badge> <b>spreadsheet.xls</b>{" "}
-                  <i>(984KB)</i>
+                  <Badge color="success">xls</Badge> <b>spreadsheet.xls</b> <i>(984KB)</i>
                   <span className="menu">
                     <a href="#" className="fa fa-search" />
                     <a href="#" className="fa fa-share" />

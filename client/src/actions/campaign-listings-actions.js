@@ -1,3 +1,6 @@
+// These actions manipulate state / redux store.
+// They do no affect any data persisted to DB after submit...
+
 import * as types from "../types";
 import store from "../store";
 

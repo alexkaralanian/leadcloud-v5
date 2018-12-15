@@ -22,11 +22,7 @@ class GroupsDashboardContainer extends React.Component {
   render() {
     const { isAuthed, match, isFetching, groups } = this.props;
 
-    console.log("GROUPS", groups);
-
-    return !isAuthed ? (
-      <Redirect to="/auth" />
-    ) : (
+    return (
       <React.Fragment>
         <Breadcrumbs />
         <Header
@@ -46,7 +42,6 @@ class GroupsDashboardContainer extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  isAuthed: state.authReducer.isAuthed,
   groups: state.groupReducer.groups
 });
 
@@ -55,6 +50,4 @@ const mapDispatchToProps = {
   setGroup
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  GroupsDashboardContainer
-);
+export default connect(mapStateToProps, mapDispatchToProps)(GroupsDashboardContainer);

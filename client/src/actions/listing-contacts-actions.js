@@ -17,9 +17,7 @@ export const searchListingContacts = values => {
   const query = values.nativeEvent.target.defaultValue;
   store.dispatch(setQuery(query));
   store.dispatch(setOffset(0));
-  store.dispatch(
-    fetchComponent("listings", [], setListingContacts, listingId, "contacts")
-  );
+  store.dispatch(fetchComponent("listings", [], setListingContacts, listingId, "contacts"));
 };
 
 export const setDiffedListingContacts = contacts => dispatch => {
@@ -44,10 +42,7 @@ export const searchDiffedListingContacts = values => {
   store.dispatch(fetchComponent("contacts", [], setDiffedListingContacts));
 };
 
-export const submitListingContacts = (
-  listingContactsArray,
-  listing
-) => async dispatch => {
+export const submitListingContacts = (listingContactsArray, listing) => async dispatch => {
   const listingContacts = listingContactsArray.map(contact => ({
     listingId: listing.id,
     contactId: contact.id
@@ -55,7 +50,7 @@ export const submitListingContacts = (
   dispatch(setSelected([]));
   dispatch(setQuery(""));
   try {
-    const res = await axios.post(`/api/listings/${listing.id}/contacts/add`, {
+    const res = await axios.post(`/api/listings/${listing.id}/contacts`, {
       listingContacts
     });
     dispatch(setListingContacts(res.data.rows));

@@ -1,14 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import {
-  Button,
-  Row,
-  Col,
-  Card,
-  CardHeader,
-  CardBody,
-  Table
-} from "reactstrap";
+import { Button, Row, Col, Card, CardHeader, CardBody, Table } from "reactstrap";
 
 const TableRow = ({
   SearchForm,
@@ -24,7 +16,7 @@ const TableRow = ({
   isModal
 }) => {
   return (
-    <div className="animated fadeIn">
+    <div>
       <Row>
         <Col xs="12">
           <Card>
