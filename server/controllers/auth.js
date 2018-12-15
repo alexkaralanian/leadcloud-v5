@@ -50,7 +50,7 @@ exports.googleCallback = (req, res) => {
           // Add session obj to req.session.user
           req.session["user"] = user.uuid;
           process.env.NODE_ENV === "production"
-            ? res.redirect("https://console.dashedapp.com")
+            ? res.redirect("/")
             : res.redirect("http://localhost:3000");
         }
       );
