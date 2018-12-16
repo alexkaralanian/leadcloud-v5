@@ -198,7 +198,7 @@ class SingleContactContainer extends React.Component {
     return (
       <React.Fragment>
         <BreadCrumbs />
-        <div className="animated fadeIn">
+        <div>
           <Header
             isVisible={this.headerFunc().isVisible}
             componentName="Contact"
