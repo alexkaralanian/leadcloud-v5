@@ -20,6 +20,7 @@ import BreadCrumbs from "../../components/BreadCrumbs/BreadCrumbs";
 import CreateCampaignNav from "../../components/CreateCampaign/CreateCampaignNav";
 import Header from "../../components/Header/Header-old";
 import CampaignFormA from "../../components/CreateCampaign/CampaignFormA";
+import CampaignFormAContainer from "../../components/CreateCampaign/CampaignFormA_Container";
 import CampaignFormB from "../../components/CreateCampaign/CampaignFormB";
 import CampaignFormC from "../../components/CreateCampaign/CampaignFormC";
 
@@ -58,15 +59,16 @@ class CreateCampaignContainer extends React.Component {
     this.setState({ page: this.state.page - 1 });
   };
 
-  stepOne = values => {
-    const { createCampaign } = this.props;
-    createCampaign(values, 2);
-  };
+  // stepOne = values => {
+  //   const { createCampaign } = this.props;
+  //   createCampaign(values, 2);
+  // };
 
-  stepTwo = () => {
-    const { createCampaign } = this.props;
-    updateCampaign(values, 3);
-  };
+  // createCampaign = values => {
+  //   const { createCampaign, push } = this.props;
+  //   updateCampaign(values, 2);
+  //   push;
+  // };
 
   // submit = (...args) => {
   //   console.log("SUBMIT CALLED");
@@ -98,32 +100,42 @@ class CreateCampaignContainer extends React.Component {
 
         <Header
           isVisible={true}
-          componentName="Campaigns"
+          componentName="Campaign"
           headerTitle={campaign.title}
-          isNew={!campaign}
+          isNew={!campaign.step}
         />
 
         {!campaign.step && <CreateCampaignNav push={push} campaign={campaign} />}
 
-        {
+        {// Create email title....
+        !campaign.step && (
           <CampaignFormA
             campaign={campaign}
             onSubmit={values => {
               createCampaign(values, 2);
             }}
-            page={this.state.page}
             isCampaignNew={isCampaignNew}
           />
-        }
+        )}
 
-        {campaign.step >= 2 && (
-          <CampaignFormB
+        {// Create email title....
+        campaign.step >= 2 && (
+          <CampaignFormAContainer
             onSubmit={values => {
               updateCampaign(values, 3);
             }}
             campaign={campaign}
           />
         )}
+
+        {/*campaign.step >= 3 && (
+          <CampaignFormC
+            onSubmit={values => {
+              updateCampaign(values, 3);
+            }}
+            campaign={campaign}
+          />
+        )*/}
 
         {/*
             4 steps:

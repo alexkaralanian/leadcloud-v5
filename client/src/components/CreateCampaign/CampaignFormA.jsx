@@ -21,7 +21,7 @@ import FooterNav from "./CreateCampaignFooterNav";
 
 let CampaignFormA;
 
-CampaignFormA = ({ handleSubmit, page, campaign, isCampaignNew }) => (
+CampaignFormA = ({ handleSubmit, campaign }) => (
   <div>
     <Form className="margin-top-2" onSubmit={handleSubmit}>
       <Card>
@@ -32,7 +32,6 @@ CampaignFormA = ({ handleSubmit, page, campaign, isCampaignNew }) => (
         <CardBody>
           <FormGroup>
             <Field type="text" name="title" component={InputField} label="Campaign Title" />
-
           </FormGroup>
         </CardBody>
       </Card>

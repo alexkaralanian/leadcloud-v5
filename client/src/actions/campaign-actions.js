@@ -21,8 +21,8 @@ export const fetchCampaign = id => async dispatch => {
   try {
     const res = await axios.get(`/api/campaigns/${id}`);
     dispatch(setCampaign(res.data));
-    dispatch(setCampaignListings(res.data.listings));
-    dispatch(setCampaignGroups(res.data.groups));
+    // dispatch(setCampaignListings(res.data.listings));
+    // dispatch(setCampaignGroups(res.data.groups));
   } catch (err) {
     console.error("Fetching Campaign unsuccessful", err);
   }
@@ -45,7 +45,7 @@ export const createCampaign = (values, nextStep) => async dispatch => {
       nextStep
     });
     dispatch(setCampaign(res.data));
-
+    dispatch(push(`/campaigns/${res.data.id}/edit`));
     dispatch(isFetching(false));
   } catch (err) {
     console.error("Creating new campaign unsuccessful", err);

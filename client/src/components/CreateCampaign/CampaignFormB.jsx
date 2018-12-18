@@ -29,7 +29,7 @@ CampaignFormB = ({
   push
 }) => {
   return (
-    <Form className="margin-top-2" onSubmit={handleSubmit}>
+    <Form onSubmit={handleSubmit}>
       <Row>
         <Col xs={12}>
           <Card>
@@ -85,7 +85,6 @@ CampaignFormB = ({
             })*/}
         </Col>
       </Row>
-      <FooterNav />
     </Form>
   );
 };

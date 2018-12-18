@@ -1,15 +1,16 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Button, Col, Row, Collapse } from "reactstrap";
+import { Button, Col, Row, Collapse, Card, CardTitle, CardBody } from "reactstrap";
 
 import Modal from "../../components/Modal/Modal";
 import SearchListingsContainer from "../../containers/SearchListingsContainer/SearchListingsContainer";
 import SearchGroupsContainer from "../../containers/SearchGroupsContainer/SearchGroupsContainer";
+import CampaignFormB from "./CampaignFormB";
 import TableRow2 from "../TableRow/TableRow2";
 
 import { setOffset } from "../../actions/query-actions";
 
-import { createCampaign } from "../../actions/campaign-actions";
+import { createCampaign, updateCampaign } from "../../actions/campaign-actions";
 
 import {
   setDiffedCampaignListings,
@@ -27,8 +28,8 @@ import {
 
 class CampaignFormA_Container extends React.Component {
   state = {
-    isListingsPanelOpen: true,
-    isRecipientsPanelOpen: true,
+    isListingsPanelOpen: false,
+    isRecipientsPanelOpen: false,
     isListingsModalVisible: false,
     isGroupsModalVisible: false
   };
@@ -93,14 +94,14 @@ class CampaignFormA_Container extends React.Component {
   };
 
   render() {
-    const { campaignListings, campaignGroups } = this.props;
+    const { campaign, campaignListings, campaignGroups } = this.props;
 
     return (
       <React.Fragment>
         {/* CAMPAIGN GROUPS / RECIPIENTS */}
-        <Row>
+        <Row className="margin-top-2">
           <Col sm={12} md={12}>
-            <Modal
+            {/*<Modal
               displayModal={this.displayGroupsModal}
               onExit={this.onGroupsModalExit}
               isModalVisible={this.state.isGroupsModalVisible}
@@ -113,7 +114,51 @@ class CampaignFormA_Container extends React.Component {
                   searchFunction={searchDiffedCampaignGroups}
                 />
               }
-            />
+            />*/}
+            <Card>
+              <CardBody>
+                <CardTitle className="mb-0">
+                  <i className="fa fa-users mr-2" />
+                  <span>TO:</span>
+                </CardTitle>
+                <Button
+                  className={""}
+                  color="primary"
+                  onClick={this.displayRecipientsPanel}
+                  style={{ marginBottom: "1rem" }}
+                >
+                  Toggle
+                </Button>
+                <Collapse isOpen={this.state.isRecipientsPanelOpen}>
+                  <div>MORE CONTENT</div>
+                  {/*<TableRow2
+                    CardHeaderCta={
+                      <Button
+                        color="primary"
+                        onClick={evt => {
+                          evt.stopPropagation();
+                          this.displayGroupsModal();
+                        }}
+                      >
+                        <span>Add</span>
+                      </Button>
+                    }
+                    cardHeaderText="TO:"
+                    componentName="groups"
+                    rowText="title"
+                    collection={campaignGroups}
+                    submitFunction={deleteCampaignGroup}
+                    hostComponent={null}
+                    buttonText="Remove"
+                    buttonStyle="danger"
+                    icon="fa fa-users"
+                  />*/}
+                </Collapse>
+              </CardBody>
+            </Card>
+          </Col>
+
+          <Col sm={12} md={12}>
             <TableRow2
               CardHeaderCta={
                 <Button
@@ -126,7 +171,7 @@ class CampaignFormA_Container extends React.Component {
                   <span>Add</span>
                 </Button>
               }
-              cardHeaderText="Campaign Groups"
+              cardHeaderText="FROM:"
               componentName="groups"
               rowText="title"
               collection={campaignGroups}
@@ -138,7 +183,32 @@ class CampaignFormA_Container extends React.Component {
             />
           </Col>
 
-          {/* CAMPAIGN LISTINGS */}
+          <Col sm={12} md={12}>
+            <TableRow2
+              CardHeaderCta={
+                <Button
+                  color="primary"
+                  onClick={evt => {
+                    evt.stopPropagation();
+                    this.displayGroupsModal();
+                  }}
+                >
+                  <span>Add</span>
+                </Button>
+              }
+              cardHeaderText="SUBJECT:"
+              componentName="groups"
+              rowText="title"
+              collection={campaignGroups}
+              submitFunction={deleteCampaignGroup}
+              hostComponent={null}
+              buttonText="Remove"
+              buttonStyle="danger"
+              icon="fa fa-users"
+            />
+          </Col>
+
+          {/* CONTENT */}
           <Col sm={12} md={12}>
             <Modal
               displayModal={this.displayListingsModal}
@@ -168,7 +238,7 @@ class CampaignFormA_Container extends React.Component {
                   <span>Add</span>
                 </Button>
               }
-              cardHeaderText="Campaign Listings"
+              cardHeaderText="CONTENT:"
               componentName="listings"
               rowText="address"
               collection={campaignListings}
@@ -179,6 +249,15 @@ class CampaignFormA_Container extends React.Component {
               icon="fa fa-building"
             />
           </Col>
+
+          {/*<Col sm={12} md={12}>
+            <CampaignFormB
+              campaign={campaign}
+              onSubmit={values => {
+                createCampaign(values, 2);
+              }}
+            />
+          </Col>*/}
         </Row>
       </React.Fragment>
     );
@@ -186,6 +265,7 @@ class CampaignFormA_Container extends React.Component {
 }
 
 const mapStateToProps = state => ({
+  campaign: state.campaignReducer.campaign,
   campaignListings: state.campaignReducer.campaignListings,
   campaignGroups: state.campaignReducer.campaignGroups
 });
