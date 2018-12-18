@@ -8,27 +8,36 @@ const campaignTemplate = require("../services/emailTemplates/campaignTemplate");
 exports.create = async (req, res) => {
   const userId = req.session.user.toString();
   try {
-    const campaign = await Campaigns.findOrCreate({
-      where: {
-        UserUuid: userId,
-        title: req.body.values.title
-      },
-      defaults: {
-        subject: req.body.values.subject,
-        body: req.body.values.body,
-        groups: req.body.campaignGroups,
-        listings: req.body.campaignListings,
-        isDraft: true
-      }
+    const campaign = await Campaigns.create({
+      UserUuid: userId,
+      title: req.body.values.title,
+      subject: req.body.values.subject,
+      isDraft: true,
+      step: req.body.nextStep
     });
-
-    res.json(campaign[0]);
+    res.json(campaign);
   } catch (err) {
     console.error("CREATING CAMPAIGNS ERROR", err);
   }
 };
 
-exports.submit = async (req, res) => {
+exports.update = async (req, res) => {
+  const userId = req.session.user.toString();
+  try {
+    const campaign = await Campaigns.findOne({
+      where: {
+        id: req.params.id,
+        UserUuid: userId
+      }
+    });
+    const updatedCampaign = await campaign.update(req.body);
+    res.json(updatedCampaign);
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+exports.send = async (req, res) => {
   const userId = req.session.user.toString();
 
   try {
@@ -87,24 +96,6 @@ exports.submit = async (req, res) => {
     res.json(campaign);
   } catch (err) {
     console.error("SUBMITTING CAMPAIGNS ERROR", err);
-  }
-};
-
-exports.update = async (req, res) => {
-  const userId = req.session.user.toString();
-
-  try {
-    const campaign = await Campaigns.findOne({
-      where: {
-        id: req.params.id,
-        UserUuid: userId
-      }
-    });
-
-    const updatedCampaign = await campaign.update(req.body);
-    res.json(updatedCampaign);
-  } catch (err) {
-    console.error(err);
   }
 };
 

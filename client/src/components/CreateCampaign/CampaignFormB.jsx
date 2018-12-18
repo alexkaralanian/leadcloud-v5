@@ -5,22 +5,14 @@ import { push } from "react-router-redux";
 import findIndex from "lodash.findindex";
 
 import { Field, reduxForm } from "redux-form";
-import {
-  Button,
-  Form,
-  Col,
-  Row,
-  FormGroup,
-  Card,
-  CardHeader,
-  CardBody
-} from "reactstrap";
+import { Button, Form, Col, Row, FormGroup, Card, CardHeader, CardBody } from "reactstrap";
 
 import TextAreaField from "../InputField/TextAreaField";
 import InputField from "../InputField/InputField";
+import FooterNav from "./CreateCampaignFooterNav";
 import { contactValidate } from "../../helpers/redux-form/validate";
 
-import "./SingleCampaign.css";
+// import "./SingleCampaign.css";
 
 let CampaignFormB;
 
@@ -42,26 +34,17 @@ CampaignFormB = ({
         <Col xs={12}>
           <Card>
             <CardHeader>
-              <i className="fa fa-align-justify" /> Campaign Details
+              <i className="fa fa-align-justify" /> <strong>Message Details</strong>
             </CardHeader>
             <CardBody>
               <FormGroup>
-                <Field
-                  type="text"
-                  name="subject"
-                  component={InputField}
-                  label="Subject"
-                />
-                <Field
-                  type="textarea"
-                  name="body"
-                  component={InputField}
-                  label="Body"
-                />
+                <Field type="text" name="subject" component={InputField} label="Subject" />
+                <Field type="textarea" name="body" component={InputField} label="Body" />
               </FormGroup>
             </CardBody>
           </Card>
-          {campaign &&
+
+          {/*campaign &&
             campaign.listings.map(listing => {
               console.log("LISTING", listing);
               console.log(
@@ -99,31 +82,10 @@ CampaignFormB = ({
                   </Card>
                 </div>
               );
-            })}
+            })*/}
         </Col>
       </Row>
-      <Row>
-        <Col xs={12}>
-          <div className="button_footer-container">
-            <Button
-              className="button-lg"
-              onClick={() => push(`/campaigns/${campaign.id}`)}
-
-              // disabled={pristine || submitting}
-            >
-              <span>Prev</span>
-            </Button>
-            <Button
-              className="button-lg"
-              type="submit"
-              color="primary"
-              disabled={pristine || submitting}
-            >
-              <span>Submit</span>
-            </Button>
-          </div>
-        </Col>
-      </Row>
+      <FooterNav />
     </Form>
   );
 };

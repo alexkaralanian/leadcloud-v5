@@ -37,18 +37,15 @@ export const fetchCampaigns = () => async dispatch => {
   }
 };
 
-export const createCampaign = (values, campaignListings, campaignGroups) => async dispatch => {
+export const createCampaign = (values, nextStep) => async dispatch => {
   dispatch(isFetching(true));
   try {
     const res = await axios.post("/api/campaigns", {
       values,
-      campaignListings,
-      campaignGroups
+      nextStep
     });
-    dispatch(setCampaignListings(res.data.listings));
-    dispatch(setCampaignGroups(res.data.groups));
     dispatch(setCampaign(res.data));
-    dispatch(push(`/campaigns/${res.data.id}/edit`));
+
     dispatch(isFetching(false));
   } catch (err) {
     console.error("Creating new campaign unsuccessful", err);
@@ -58,25 +55,13 @@ export const createCampaign = (values, campaignListings, campaignGroups) => asyn
 };
 
 // UPDATE CAMPAIGN
-export const updateCampaign = (
-  campaign,
-  campaignListings,
-  campaignGroups,
-  page
-) => async dispatch => {
+export const updateCampaign = (campaign, nextStep) => async dispatch => {
   dispatch(setCampaign({}));
-  campaign.listings = campaignListings;
-  campaign.groups = campaignGroups;
+  campaign.step = nextStep;
 
   try {
     const res = await axios.patch(`/api/campaigns/${campaign.id}`, campaign);
     dispatch(setCampaign(res.data));
-    if (page === 2) {
-      dispatch(push(`/campaigns/${res.data.id}/edit`));
-    }
-    if (page === 3) {
-      dispatch(push(`/campaign`));
-    }
   } catch (err) {
     console.error("Updating Campaign Unsuccessful", err);
   }
@@ -95,3 +80,5 @@ export const submitCampaign = values => async dispatch => {
     // dispatch(isFetching(false));
   }
 };
+
+// CRUS + Delete

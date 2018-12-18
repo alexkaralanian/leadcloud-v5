@@ -1,16 +1,27 @@
 import React from "react";
 import { push } from "react-router-redux";
 import { connect } from "react-redux";
-import { Grid } from "react-bootstrap";
 import { Route, Redirect } from "react-router-dom";
+
+import {
+  Form,
+  FormGroup,
+  Row,
+  Col,
+  Button,
+  ButtonGroup,
+  Card,
+  CardHeader,
+  CardBody
+} from "reactstrap";
 
 import Navigation from "../NavContainer/NavContainer";
 import BreadCrumbs from "../../components/BreadCrumbs/BreadCrumbs";
-import CreateCampaignNav from "../../components/SingleCampaign/CreateCampaignNav";
+import CreateCampaignNav from "../../components/CreateCampaign/CreateCampaignNav";
 import Header from "../../components/Header/Header-old";
-import CampaignFormA from "../../components/SingleCampaign/CampaignFormA";
-import CampaignFormB from "../../components/SingleCampaign/CampaignFormB";
-import CampaignFormC from "../../components/SingleCampaign/CampaignFormC";
+import CampaignFormA from "../../components/CreateCampaign/CampaignFormA";
+import CampaignFormB from "../../components/CreateCampaign/CampaignFormB";
+import CampaignFormC from "../../components/CreateCampaign/CampaignFormC";
 
 import { fetchComponent, setQuery, setOffset, setCount } from "../../actions/query-actions";
 
@@ -47,6 +58,23 @@ class CreateCampaignContainer extends React.Component {
     this.setState({ page: this.state.page - 1 });
   };
 
+  stepOne = values => {
+    const { createCampaign } = this.props;
+    createCampaign(values, 2);
+  };
+
+  stepTwo = () => {
+    const { createCampaign } = this.props;
+    updateCampaign(values, 3);
+  };
+
+  // submit = (...args) => {
+  //   console.log("SUBMIT CALLED");
+  //   const { page } = this.state;
+  //   if (page === 1) this.stepOne(...args);
+  //   // if (page === 2) this.stepTwo(...args);
+  // };
+
   render() {
     const {
       match,
@@ -61,35 +89,59 @@ class CreateCampaignContainer extends React.Component {
     } = this.props;
 
     const { page } = this.state;
+    const isCampaignNew = match.path === "/campaigns/new";
+    console.log("CAMPAIGN", campaign);
 
     return (
       <React.Fragment>
         <BreadCrumbs />
-        <div>
-          <Header
-            isVisible={true}
-            componentName="Campaigns"
-            headerTitle={campaign.title}
-            isNew={match.path === "/campaigns/new"}
+
+        <Header
+          isVisible={true}
+          componentName="Campaigns"
+          headerTitle={campaign.title}
+          isNew={!campaign}
+        />
+
+        {!campaign.step && <CreateCampaignNav push={push} campaign={campaign} />}
+
+        {
+          <CampaignFormA
+            campaign={campaign}
+            onSubmit={values => {
+              createCampaign(values, 2);
+            }}
+            page={this.state.page}
+            isCampaignNew={isCampaignNew}
           />
+        }
 
-          {match.path !== "/campaigns/new" && <CreateCampaignNav push={push} campaign={campaign} />}
+        {campaign.step >= 2 && (
+          <CampaignFormB
+            onSubmit={values => {
+              updateCampaign(values, 3);
+            }}
+            campaign={campaign}
+          />
+        )}
 
-          <Route
+        {/*
+            4 steps:
+              1. Create campaign (title, save... then add artifacts )
+              2. Review and edit content
+              3. Preview template
+              4. Send
+          */}
+
+        {/*<Route
             exact
-            path={match.path === "/campaigns/new" ? `/campaigns/new` : `/campaigns/${campaign.id}`}
+            path={isCampaignNew ? `/campaigns/new` : `/campaigns/${campaign.id}`}
             render={routeProps => (
-              <CampaignFormA
-                onSubmit={values => {
-                  match.path === "/campaigns/new"
-                    ? createCampaign(values, campaignListings, campaignGroups)
-                    : updateCampaign(values, campaignListings, campaignGroups, 2);
-                }}
-              />
-            )}
-          />
 
-          <Route
+            )}
+          />*/}
+
+        {/*<Route
             exact
             path={`/campaigns/${campaign.id}/edit`}
             render={routeProps => (
@@ -102,25 +154,7 @@ class CreateCampaignContainer extends React.Component {
                 prevPage={this.previousPage}
               />
             )}
-          />
-
-          {/*<Route
-            exact
-            path={`/campaigns/${campaign.id}/review`}
-            render={routeProps => (
-              <CampaignFormC
-                onSubmit={values => {
-                  createCampaign(values, campaignListings, campaignGroups);
-                }}
-                campaign={campaign}
-                prevPage={this.previousPage}
-                onSubmit={values => {
-                  console.log("CAMPAIGN FORM C SUBMITTED", values);
-                }}
-              />
-            )}
           />*/}
-        </div>
       </React.Fragment>
     );
   }

@@ -108,51 +108,44 @@ class App extends React.Component {
     return (
       <div>
         <ConnectedRouter history={history}>
-          {isAuthed ? (
-            <div className="app">
-              <Header />
-              <div className="app-body">
-                <Sidebar {...this.props} />
-                <main className="main">
-                  <Container fluid>
-                    <Switch>
-                      {/*<Route path="/auth" component={LandingPage} />*/}
-                      <Route exact path="/" component={Dashboard} />
-                      <Route path="/profile" component={Profile} />
-                      <Route path="/calendar" component={CalendarContainer} />
-                      <Route path="/emails" component={Emails} />
-                      <Route exact path="/contacts" component={Contacts} />
-                      <Route path="/contacts/new" component={SingleContact} />
-                      <Route path="/contacts/:id" component={SingleContact} />
-                      <Route exact path="/listings" component={Listings} />
-                      <Route path="/listings/new" component={SingleListing} />
-                      <Route path="/listings/:id" component={SingleListing} />
-                      <Route exact path="/listings/:id/openhouse" component={OpenHouse} />
-                      <Route exact path="/groups" component={Groups} />
-                      <Route path="/groups/new" component={SingleGroup} />
-                      <Route path="/groups/:id" component={SingleGroup} />
-                      <Route exact path="/campaigns" component={Campaigns} />
-                      <Route path="/campaigns/new" component={CreateCampaign} />
-                      <Route path="/campaigns/:id" component={CreateCampaign} />
-                      )
-                      <Route
-                        render={() => (
-                          <div>
-                            <p>NOT FOUND!</p>
-                          </div>
-                        )}
-                      />
-                    </Switch>
-                  </Container>
-                </main>
-              </div>
+          <div className="app">
+            <Header />
+            <div className="app-body">
+              <Sidebar {...this.props} />
+              <main className="main">
+                <Container fluid>
+                  <Switch>
+                    {/*<Route path="/auth" component={LandingPage} />*/}
+                    <Route exact path="/" component={Dashboard} />
+                    <Route path="/profile" component={Profile} />
+                    <Route path="/calendar" component={CalendarContainer} />
+                    <Route path="/emails" component={Emails} />
+                    <Route exact path="/contacts" component={Contacts} />
+                    <Route path="/contacts/new" component={SingleContact} />
+                    <Route path="/contacts/:id" component={SingleContact} />
+                    <Route exact path="/listings" component={Listings} />
+                    <Route path="/listings/new" component={SingleListing} />
+                    <Route path="/listings/:id" component={SingleListing} />
+                    <Route exact path="/listings/:id/openhouse" component={OpenHouse} />
+                    <Route exact path="/groups" component={Groups} />
+                    <Route path="/groups/new" component={SingleGroup} />
+                    <Route path="/groups/:id" component={SingleGroup} />
+                    <Route exact path="/campaigns" component={Campaigns} />
+                    <Route path="/campaigns/new" component={CreateCampaign} />
+                    <Route path="/campaigns/:id" component={CreateCampaign} />
+                    )
+                    <Route
+                      render={() => (
+                        <div>
+                          <p>NOT FOUND!</p>
+                        </div>
+                      )}
+                    />
+                  </Switch>
+                </Container>
+              </main>
             </div>
-          ) : (
-            <div>
-              <Redirect to="/" />
-              <LandingPage />
-            </div>
-          )}
+          </div>
         </ConnectedRouter>
       </div>
     );

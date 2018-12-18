@@ -8,7 +8,8 @@ module.exports = (sequelize, DataTypes) => {
       listings: DataTypes.JSONB,
       recipients: DataTypes.JSONB,
       groups: DataTypes.JSONB,
-      isDraft: DataTypes.BOOLEAN
+      isDraft: DataTypes.BOOLEAN,
+      step: DataTypes.INTEGER
     },
     {}
   );

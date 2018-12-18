@@ -99,7 +99,7 @@ class CampaignFormA_Container extends React.Component {
       <React.Fragment>
         {/* CAMPAIGN GROUPS / RECIPIENTS */}
         <Row>
-          <Col sm={12} md={6}>
+          <Col sm={12} md={12}>
             <Modal
               displayModal={this.displayGroupsModal}
               onExit={this.onGroupsModalExit}
@@ -139,7 +139,7 @@ class CampaignFormA_Container extends React.Component {
           </Col>
 
           {/* CAMPAIGN LISTINGS */}
-          <Col sm={12} md={6}>
+          <Col sm={12} md={12}>
             <Modal
               displayModal={this.displayListingsModal}
               onExit={this.onListingsModalExit}
@@ -201,6 +201,4 @@ const mapDispatchToProps = {
   setOffset
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  CampaignFormA_Container
-);
+export default connect(mapStateToProps, mapDispatchToProps)(CampaignFormA_Container);

@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 
 import Navigation from "../NavContainer/NavContainer";
 import SingleCampaign from "../../components/SingleCampaign/SingleCampaign";
-import CampaignStats from "../../components/SingleCampaign/CampaignFormB";
+// import CampaignStats from "../../components/SingleCampaign/CampaignFormB";
 
 import { fetchCampaign } from "../../actions/campaign-actions";
 
@@ -36,6 +36,4 @@ const mapDispatchToProps = {
   fetchCampaign
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  SingleCampaignContainer
-);
+export default connect(mapStateToProps, mapDispatchToProps)(SingleCampaignContainer);
