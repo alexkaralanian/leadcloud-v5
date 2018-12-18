@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Button, Col, Row, Collapse, Card, CardTitle, CardBody } from "reactstrap";
+import { Button, Col, Row, Collapse, Card, CardTitle, CardHeader, CardBody } from "reactstrap";
+import { Typeahead } from "react-bootstrap-typeahead"; // ES2015
 
 import Modal from "../../components/Modal/Modal";
 import SearchListingsContainer from "../../containers/SearchListingsContainer/SearchListingsContainer";
@@ -8,7 +9,9 @@ import SearchGroupsContainer from "../../containers/SearchGroupsContainer/Search
 import CampaignFormB from "./CampaignFormB";
 import TableRow2 from "../TableRow/TableRow2";
 
-import { setOffset } from "../../actions/query-actions";
+import { setOffset, fetchComponent } from "../../actions/query-actions";
+import { setGroups } from "../../actions/group-actions";
+import { setListings } from "../../actions/listing-actions";
 
 import { createCampaign, updateCampaign } from "../../actions/campaign-actions";
 
@@ -26,6 +29,8 @@ import {
   deleteCampaignGroup
 } from "../../actions/campaign-groups-actions";
 
+import "./CreateCampaign.scss";
+
 class CampaignFormA_Container extends React.Component {
   state = {
     isListingsPanelOpen: false,
@@ -36,6 +41,8 @@ class CampaignFormA_Container extends React.Component {
 
   componentDidMount() {
     this.props.setOffset(0);
+    this.props.fetchComponent("groups", [], setGroups, null, null);
+    this.props.fetchComponent("listings", [], setListings, null, null);
   }
 
   // RECIPIENTS
@@ -64,7 +71,7 @@ class CampaignFormA_Container extends React.Component {
   };
 
   // LISTINGS
-  displayListingPanel = () => {
+  displayListingsPanel = () => {
     this.setState({ isListingsPanelOpen: !this.state.isListingsPanelOpen });
   };
 
@@ -94,44 +101,115 @@ class CampaignFormA_Container extends React.Component {
   };
 
   render() {
-    const { campaign, campaignListings, campaignGroups } = this.props;
-
+    const { campaign, groups, listings, campaignGroups, campaignListings } = this.props;
     return (
       <React.Fragment>
         {/* CAMPAIGN GROUPS / RECIPIENTS */}
         <Row className="margin-top-2">
           <Col sm={12} md={12}>
-            {/*<Modal
-              displayModal={this.displayGroupsModal}
-              onExit={this.onGroupsModalExit}
-              isModalVisible={this.state.isGroupsModalVisible}
-              title={"Campaign Listings"}
-              Container={
-                <SearchGroupsContainer
-                  displayModal={this.displayGroupsModal}
-                  submitFunction={this.submitGroups}
-                  setFunction={setDiffedCampaignGroups}
-                  searchFunction={searchDiffedCampaignGroups}
-                />
-              }
-            />*/}
             <Card>
               <CardBody>
                 <CardTitle className="mb-0">
                   <i className="fa fa-users mr-2" />
                   <span>TO:</span>
+                  <Button
+                    className="floatRight"
+                    color="primary"
+                    onClick={this.displayRecipientsPanel}
+                  >
+                    Toggle
+                  </Button>
                 </CardTitle>
-                <Button
-                  className={""}
-                  color="primary"
-                  onClick={this.displayRecipientsPanel}
-                  style={{ marginBottom: "1rem" }}
-                >
-                  Toggle
-                </Button>
+
                 <Collapse isOpen={this.state.isRecipientsPanelOpen}>
-                  <div>MORE CONTENT</div>
-                  {/*<TableRow2
+                  <div className="margin-top-2">
+                    <Typeahead
+                      clearButton
+                      multiple
+                      placeholder="Choose group(s)..."
+                      onChange={selected => {
+                        console.log("SELECTED", selected);
+                      }}
+                      options={groups}
+                      labelKey="title"
+                    />
+                  </div>
+                </Collapse>
+              </CardBody>
+            </Card>
+          </Col>
+
+          <Col sm={12} md={12}>
+            <Card>
+              <CardBody>
+                <CardTitle className="mb-0">
+                  <i className="fa fa-users mr-2" />
+                  <span>CONTENT:</span>
+                  <Button
+                    className="floatRight"
+                    color="primary"
+                    onClick={this.displayListingsPanel}
+                  >
+                    Toggle
+                  </Button>
+                </CardTitle>
+
+                <Collapse isOpen={this.state.isListingsPanelOpen}>
+                  <div className="margin-top-2">
+                    <Typeahead
+                      clearButton
+                      multiple
+                      placeholder="Choose listing(s)..."
+                      onChange={selected => {
+                        console.log("SELECTED", selected);
+                      }}
+                      options={listings}
+                      labelKey="address"
+                    />
+                  </div>
+                </Collapse>
+              </CardBody>
+            </Card>
+          </Col>
+        </Row>
+      </React.Fragment>
+    );
+  }
+}
+
+const mapStateToProps = state => ({
+  groups: state.groupReducer.groups,
+  listings: state.listingReducer.listings,
+  campaign: state.campaignReducer.campaign,
+  campaignListings: state.campaignReducer.campaignListings,
+  campaignGroups: state.campaignReducer.campaignGroups
+});
+
+const mapDispatchToProps = {
+  createCampaign,
+  submitCampaignListings,
+  submitCampaignGroups,
+  deleteCampaignListing,
+  deleteCampaignGroup,
+  searchDiffedCampaignListings,
+  searchDiffedCampaignGroups,
+  setOffset,
+  fetchComponent
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CampaignFormA_Container);
+
+{
+  /*
+
+                  <SearchGroupsContainer
+                      displayModal={this.displayGroupsModal}
+                      submitFunction={this.submitGroups}
+                      setFunction={setDiffedCampaignGroups}
+                      searchFunction={searchDiffedCampaignGroups}
+                    />
+
+                  <TableRow2
                     CardHeaderCta={
                       <Button
                         color="primary"
@@ -152,13 +230,11 @@ class CampaignFormA_Container extends React.Component {
                     buttonText="Remove"
                     buttonStyle="danger"
                     icon="fa fa-users"
-                  />*/}
-                </Collapse>
-              </CardBody>
-            </Card>
-          </Col>
+                  />*/
+}
 
-          <Col sm={12} md={12}>
+{
+  /*} <Col sm={12} md={12}>
             <TableRow2
               CardHeaderCta={
                 <Button
@@ -206,10 +282,14 @@ class CampaignFormA_Container extends React.Component {
               buttonStyle="danger"
               icon="fa fa-users"
             />
-          </Col>
+          </Col>*/
+}
 
-          {/* CONTENT */}
-          <Col sm={12} md={12}>
+{
+  /* CONTENT */
+}
+{
+  /*<Col sm={12} md={12}>
             <Modal
               displayModal={this.displayListingsModal}
               onExit={this.onListingsModalExit}
@@ -250,35 +330,12 @@ class CampaignFormA_Container extends React.Component {
             />
           </Col>
 
-          {/*<Col sm={12} md={12}>
+         <Col sm={12} md={12}>
             <CampaignFormB
               campaign={campaign}
               onSubmit={values => {
                 createCampaign(values, 2);
               }}
             />
-          </Col>*/}
-        </Row>
-      </React.Fragment>
-    );
-  }
+          </Col>*/
 }
-
-const mapStateToProps = state => ({
-  campaign: state.campaignReducer.campaign,
-  campaignListings: state.campaignReducer.campaignListings,
-  campaignGroups: state.campaignReducer.campaignGroups
-});
-
-const mapDispatchToProps = {
-  createCampaign,
-  submitCampaignListings,
-  submitCampaignGroups,
-  deleteCampaignListing,
-  deleteCampaignGroup,
-  searchDiffedCampaignListings,
-  searchDiffedCampaignGroups,
-  setOffset
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(CampaignFormA_Container);

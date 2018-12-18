@@ -1,5 +1,6 @@
 import axios from "axios";
 import * as types from "../types";
+import { push } from "react-router-redux";
 import { isFetching } from "./common-actions";
 
 export const authUser = user => ({
@@ -25,6 +26,7 @@ export const fetchUser = () => async dispatch => {
 export const logout = () => async dispatch => {
   try {
     const res = await axios.get("/api/auth/logout");
+    dispatch(push("/auth"));
     if (res.status === 200) dispatch(unauthUser());
   } catch (err) {
     console.error(err);

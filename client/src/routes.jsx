@@ -109,13 +109,13 @@ class App extends React.Component {
       <div>
         <ConnectedRouter history={history}>
           <div className="app">
-            <Header />
+            {isAuthed && <Header />}
             <div className="app-body">
-              <Sidebar {...this.props} />
+              {isAuthed && <Sidebar {...this.props} />}
               <main className="main">
                 <Container fluid>
                   <Switch>
-                    {/*<Route path="/auth" component={LandingPage} />*/}
+                    <Route path="/auth" component={LandingPage} />
                     <Route exact path="/" component={Dashboard} />
                     <Route path="/profile" component={Profile} />
                     <Route path="/calendar" component={CalendarContainer} />

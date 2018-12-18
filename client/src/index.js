@@ -3,6 +3,8 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 
 import "bootstrap/dist/css/bootstrap.min.css";
+import "react-bootstrap-typeahead/css/Typeahead.css";
+import "react-bootstrap-typeahead/css/Typeahead-bs4.css";
 import "flag-icon-css/css/flag-icon.min.css";
 import "font-awesome/css/font-awesome.min.css";
 import "simple-line-icons/css/simple-line-icons.css";

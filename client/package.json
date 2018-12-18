@@ -53,6 +53,7 @@
     "react-autosize-textarea": "^4.0.0",
     "react-big-calendar": "^0.20.1",
     "react-bootstrap": "^0.32.1",
+    "react-bootstrap-typeahead": "^3.2.4",
     "react-chartjs-2": "^2.7.4",
     "react-dev-utils": "^5.0.1",
     "react-dom": "^16.3.2",
