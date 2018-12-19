@@ -19,10 +19,9 @@ import Navigation from "../NavContainer/NavContainer";
 import BreadCrumbs from "../../components/BreadCrumbs/BreadCrumbs";
 import CreateCampaignNav from "../../components/CreateCampaign/CreateCampaignNav";
 import Header from "../../components/Header/Header-old";
-import CampaignFormA from "../../components/CreateCampaign/CampaignFormA";
-import CampaignFormAContainer from "../../components/CreateCampaign/CampaignFormA_Container";
-import CampaignFormB from "../../components/CreateCampaign/CampaignFormB";
-import CampaignFormC from "../../components/CreateCampaign/CampaignFormC";
+
+import InitializeCampaign from "../../components/CreateCampaign/InitializeCampaign";
+import EditCampaign from "../../components/CreateCampaign/EditCampaignContainer";
 
 import { fetchComponent, setQuery, setOffset, setCount } from "../../actions/query-actions";
 
@@ -59,24 +58,6 @@ class CreateCampaignContainer extends React.Component {
     this.setState({ page: this.state.page - 1 });
   };
 
-  // stepOne = values => {
-  //   const { createCampaign } = this.props;
-  //   createCampaign(values, 2);
-  // };
-
-  // createCampaign = values => {
-  //   const { createCampaign, push } = this.props;
-  //   updateCampaign(values, 2);
-  //   push;
-  // };
-
-  // submit = (...args) => {
-  //   console.log("SUBMIT CALLED");
-  //   const { page } = this.state;
-  //   if (page === 1) this.stepOne(...args);
-  //   // if (page === 2) this.stepTwo(...args);
-  // };
-
   render() {
     const {
       match,
@@ -92,7 +73,6 @@ class CreateCampaignContainer extends React.Component {
 
     const { page } = this.state;
     const isCampaignNew = match.path === "/campaigns/new";
-    console.log("CAMPAIGN", campaign);
 
     return (
       <React.Fragment>
@@ -107,9 +87,17 @@ class CreateCampaignContainer extends React.Component {
 
         {!campaign.step && <CreateCampaignNav push={push} campaign={campaign} />}
 
-        {// Create email title....
-        !campaign.step && (
-          <CampaignFormA
+        {/*
+          4 steps:
+            1. Create campaign (title, save... then add artifacts )
+            2. Review and edit content
+            3. Preview template
+            4. Send
+        */}
+
+        {// Create Campaign / persist initial data
+        (!campaign.step || campaign.step === 1) && (
+          <InitializeCampaign
             campaign={campaign}
             onSubmit={values => {
               createCampaign(values, 2);
@@ -118,9 +106,9 @@ class CreateCampaignContainer extends React.Component {
           />
         )}
 
-        {// Create email title....
-        campaign.step >= 2 && (
-          <CampaignFormAContainer
+        {// Add Sender, Recipients, Subject, Content...
+        campaign.step === 2 && (
+          <EditCampaign
             onSubmit={values => {
               updateCampaign(values, 3);
             }}
@@ -128,43 +116,11 @@ class CreateCampaignContainer extends React.Component {
           />
         )}
 
-        {/*campaign.step >= 3 && (
-          <CampaignFormC
-            onSubmit={values => {
-              updateCampaign(values, 3);
-            }}
-            campaign={campaign}
-          />
-        )*/}
-
-        {/*
-            4 steps:
-              1. Create campaign (title, save... then add artifacts )
-              2. Review and edit content
-              3. Preview template
-              4. Send
-          */}
-
         {/*<Route
             exact
             path={isCampaignNew ? `/campaigns/new` : `/campaigns/${campaign.id}`}
             render={routeProps => (
 
-            )}
-          />*/}
-
-        {/*<Route
-            exact
-            path={`/campaigns/${campaign.id}/edit`}
-            render={routeProps => (
-              <CampaignFormB
-                onSubmit={values => {
-                  submitCampaign(values);
-                }}
-                updateCampaign={updateCampaign}
-                campaign={campaign}
-                prevPage={this.previousPage}
-              />
             )}
           />*/}
       </React.Fragment>

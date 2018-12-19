@@ -2,26 +2,14 @@ import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Field, reduxForm } from "redux-form";
-import {
-  Form,
-  FormGroup,
-  Row,
-  Col,
-  Button,
-  ButtonGroup,
-  Card,
-  CardHeader,
-  CardBody
-} from "reactstrap";
+import { Form, FormGroup, Card, CardHeader, CardBody } from "reactstrap";
 
 import InputField from "../InputField/InputField";
-import TextAreaField from "../InputField/TextAreaField";
-import CampaignFormAContainer from "./CampaignFormA_Container";
 import FooterNav from "./CreateCampaignFooterNav";
 
-let CampaignFormA;
+let InitializeCampaign;
 
-CampaignFormA = ({ handleSubmit, campaign }) => (
+InitializeCampaign = ({ handleSubmit, campaign }) => (
   <div>
     <Form className="margin-top-2" onSubmit={handleSubmit}>
       <Card>
@@ -40,21 +28,21 @@ CampaignFormA = ({ handleSubmit, campaign }) => (
   </div>
 );
 
-CampaignFormA = reduxForm({
+InitializeCampaign = reduxForm({
   form: "campaignFormA", // a unique name for this form
   enableReinitialize: true,
   keepDirtyOnReinitialize: true
-})(CampaignFormA);
+})(InitializeCampaign);
 
 const mapStateToProps = state => ({
   initialValues: state.campaignReducer.campaign,
   campaign: state.campaignReducer.campaign
 });
 
-CampaignFormA = connect(
+InitializeCampaign = connect(
   mapStateToProps,
   null
   // { load: loadAccount } // bind account loading action creator
-)(CampaignFormA);
+)(InitializeCampaign);
 
-export default CampaignFormA;
+export default InitializeCampaign;

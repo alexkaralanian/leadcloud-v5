@@ -3,11 +3,16 @@ import { connect } from "react-redux";
 import { Button, Col, Row, Collapse, Card, CardTitle, CardHeader, CardBody } from "reactstrap";
 import { Typeahead } from "react-bootstrap-typeahead"; // ES2015
 
-import Modal from "../../components/Modal/Modal";
-import SearchListingsContainer from "../../containers/SearchListingsContainer/SearchListingsContainer";
-import SearchGroupsContainer from "../../containers/SearchGroupsContainer/SearchGroupsContainer";
-import CampaignFormB from "./CampaignFormB";
-import TableRow2 from "../TableRow/TableRow2";
+import CampaignContent from "./CampaignContent";
+import CampaignRecipients from "./CampaignRecipients";
+// import CampaignSender from "./campaignSender";
+// import CampaignSubject from "./campaignSubject";
+
+// import Modal from "../../components/Modal/Modal";
+// import SearchListingsContainer from "../../containers/SearchListingsContainer/SearchListingsContainer";
+// import SearchGroupsContainer from "../../containers/SearchGroupsContainer/SearchGroupsContainer";
+// import CampaignFormB from "./CampaignFormB";
+// import TableRow2 from "../TableRow/TableRow2";
 
 import { setOffset, fetchComponent } from "../../actions/query-actions";
 import { setGroups } from "../../actions/group-actions";
@@ -31,7 +36,7 @@ import {
 
 import "./CreateCampaign.scss";
 
-class CampaignFormA_Container extends React.Component {
+class EditCampaignContainer extends React.Component {
   state = {
     isListingsPanelOpen: false,
     isRecipientsPanelOpen: false,
@@ -106,71 +111,12 @@ class CampaignFormA_Container extends React.Component {
       <React.Fragment>
         {/* CAMPAIGN GROUPS / RECIPIENTS */}
         <Row className="margin-top-2">
-          <Col sm={12} md={12}>
-            <Card>
-              <CardBody>
-                <CardTitle className="mb-0">
-                  <i className="fa fa-users mr-2" />
-                  <span>TO:</span>
-                  <Button
-                    className="floatRight"
-                    color="primary"
-                    onClick={this.displayRecipientsPanel}
-                  >
-                    Toggle
-                  </Button>
-                </CardTitle>
+          <CampaignRecipients />
+          <CampaignContent />
 
-                <Collapse isOpen={this.state.isRecipientsPanelOpen}>
-                  <div className="margin-top-2">
-                    <Typeahead
-                      clearButton
-                      multiple
-                      placeholder="Choose group(s)..."
-                      onChange={selected => {
-                        console.log("SELECTED", selected);
-                      }}
-                      options={groups}
-                      labelKey="title"
-                    />
-                  </div>
-                </Collapse>
-              </CardBody>
-            </Card>
-          </Col>
-
-          <Col sm={12} md={12}>
-            <Card>
-              <CardBody>
-                <CardTitle className="mb-0">
-                  <i className="fa fa-users mr-2" />
-                  <span>CONTENT:</span>
-                  <Button
-                    className="floatRight"
-                    color="primary"
-                    onClick={this.displayListingsPanel}
-                  >
-                    Toggle
-                  </Button>
-                </CardTitle>
-
-                <Collapse isOpen={this.state.isListingsPanelOpen}>
-                  <div className="margin-top-2">
-                    <Typeahead
-                      clearButton
-                      multiple
-                      placeholder="Choose listing(s)..."
-                      onChange={selected => {
-                        console.log("SELECTED", selected);
-                      }}
-                      options={listings}
-                      labelKey="address"
-                    />
-                  </div>
-                </Collapse>
-              </CardBody>
-            </Card>
-          </Col>
+          {/*<CampaignSubject />
+            <CampaignSender />
+          */}
         </Row>
       </React.Fragment>
     );
@@ -197,7 +143,7 @@ const mapDispatchToProps = {
   fetchComponent
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CampaignFormA_Container);
+export default connect(mapStateToProps, mapDispatchToProps)(EditCampaignContainer);
 
 {
   /*
