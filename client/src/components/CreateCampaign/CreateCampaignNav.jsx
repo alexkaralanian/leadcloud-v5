@@ -5,15 +5,11 @@ const CreateCampaignNav = ({ push, campaign }) => (
   <div>
     <Nav>
       <NavItem>
-        <NavLink onClick={() => push(`/campaigns/${campaign.id}`)}>
-          Initialize
-        </NavLink>
+        <NavLink onClick={() => push(`/campaigns/${campaign.id}`)}>Initialize</NavLink>
       </NavItem>
 
       <NavItem>
-        <NavLink onClick={() => push(`/campaigns/${campaign.id}/edit`)}>
-          Edit
-        </NavLink>
+        <NavLink onClick={() => push(`/campaigns/${campaign.id}/edit`)}>Edit</NavLink>
       </NavItem>
 
       {/*<NavItem>

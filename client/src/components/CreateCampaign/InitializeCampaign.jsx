@@ -2,10 +2,9 @@ import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Field, reduxForm } from "redux-form";
-import { Form, FormGroup, Card, CardHeader, CardBody } from "reactstrap";
+import { Button, Form, FormGroup, Card, CardHeader, CardBody } from "reactstrap";
 
 import InputField from "../InputField/InputField";
-import FooterNav from "./CreateCampaignFooterNav";
 
 let InitializeCampaign;
 
@@ -23,10 +22,21 @@ InitializeCampaign = ({ handleSubmit, campaign }) => (
           </FormGroup>
         </CardBody>
       </Card>
-      {!campaign.step && <FooterNav />}
+      <Button
+        type="submit"
+        color="primary"
+        // disabled={!campaign.title && (pristine || submitting)}
+      >
+        <span>Next</span>
+      </Button>
     </Form>
   </div>
 );
+
+const mapStateToProps = state => ({
+  initialValues: state.campaignReducer.campaign,
+  campaign: state.campaignReducer.campaign
+});
 
 InitializeCampaign = reduxForm({
   form: "campaignFormA", // a unique name for this form
@@ -34,15 +44,8 @@ InitializeCampaign = reduxForm({
   keepDirtyOnReinitialize: true
 })(InitializeCampaign);
 
-const mapStateToProps = state => ({
-  initialValues: state.campaignReducer.campaign,
-  campaign: state.campaignReducer.campaign
-});
-
-InitializeCampaign = connect(
+export default connect(
   mapStateToProps,
   null
   // { load: loadAccount } // bind account loading action creator
 )(InitializeCampaign);
-
-export default InitializeCampaign;

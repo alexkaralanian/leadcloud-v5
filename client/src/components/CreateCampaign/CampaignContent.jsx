@@ -14,8 +14,6 @@ import {
   deleteCampaignListing
 } from "../../actions/campaign-listings-actions";
 
-import "./CreateCampaign.scss";
-
 class CampaignContent extends React.Component {
   state = {
     isListingsPanelOpen: false,
@@ -37,7 +35,7 @@ class CampaignContent extends React.Component {
   };
 
   render() {
-    const { campaign, listings, campaignGroups, campaignListings } = this.props;
+    const { campaign, listings, updateCampaign } = this.props;
     return (
       <Col sm={12} md={12}>
         <Card>
@@ -45,9 +43,11 @@ class CampaignContent extends React.Component {
             <CardTitle className="mb-0">
               <i className="fa fa-users mr-2" />
               <span>CONTENT:</span>
-              <Button className="floatRight" color="primary" onClick={this.displayListingsPanel}>
-                Add Content
-              </Button>
+              {!this.state.isListingsPanelOpen && (
+                <Button className="floatRight" color="primary" onClick={this.displayListingsPanel}>
+                  Add Content
+                </Button>
+              )}
             </CardTitle>
             <Collapse isOpen={this.state.isListingsPanelOpen}>
               <div className="margin-top-2">
@@ -55,14 +55,27 @@ class CampaignContent extends React.Component {
                   clearButton
                   multiple
                   placeholder="Choose listing(s)..."
+                  selected={this.state.selected}
+                  defaultSelected={campaign.listings || []}
                   onChange={selected => {
-                    console.log("SELECTED", selected);
+                    this.setState({ selected });
                   }}
                   options={listings}
                   labelKey="address"
                 />
               </div>
-              <Button className="margin-top-2 floatRight">Save</Button>
+              <Button
+                className="margin-top-2 floatRight"
+                onClick={() => {
+                  campaign.listings = this.state.selected;
+                  updateCampaign(campaign);
+                  this.setState({
+                    isListingsPanelOpen: false
+                  });
+                }}
+              >
+                Save
+              </Button>
             </Collapse>
           </CardBody>
         </Card>
@@ -73,17 +86,14 @@ class CampaignContent extends React.Component {
 
 const mapStateToProps = state => ({
   listings: state.listingReducer.listings,
-  campaign: state.campaignReducer.campaign,
-  campaignListings: state.campaignReducer.campaignListings
+  campaign: state.campaignReducer.campaign
 });
 
 const mapDispatchToProps = {
+  fetchComponent,
   createCampaign,
-  submitCampaignListings,
-  deleteCampaignListing,
-  searchDiffedCampaignListings,
-  setOffset,
-  fetchComponent
+  updateCampaign,
+  setOffset
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CampaignContent);

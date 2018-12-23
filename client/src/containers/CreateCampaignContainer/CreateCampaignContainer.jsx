@@ -93,10 +93,12 @@ class CreateCampaignContainer extends React.Component {
             2. Review and edit content
             3. Preview template
             4. Send
+
+            CREATE ROUTES FOR EACH STEP
         */}
 
         {// Create Campaign / persist initial data
-        (!campaign.step || campaign.step === 1) && (
+        !campaign.step && (
           <InitializeCampaign
             campaign={campaign}
             onSubmit={values => {
@@ -129,9 +131,7 @@ class CreateCampaignContainer extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  campaign: state.campaignReducer.campaign,
-  campaignListings: state.campaignReducer.campaignListings,
-  campaignGroups: state.campaignReducer.campaignGroups
+  campaign: state.campaignReducer.campaign
 });
 
 const mapDispatchToProps = {
