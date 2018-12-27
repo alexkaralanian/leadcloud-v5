@@ -33,13 +33,22 @@ class RecipientsContainer extends React.Component {
               <i className="fa fa-users mr-2" />
               <span>TO:</span>
               {!this.state.isRecipientsPanelOpen && (
-                <Button
-                  className="floatRight"
-                  color="primary"
-                  onClick={this.displayRecipientsPanel}
-                >
-                  Add Recipients
-                </Button>
+                <div>
+                  <ul>
+                    {campaign.groups &&
+                      campaign.groups.map(group => {
+                        return <li>{group.title}</li>;
+                      })}
+                  </ul>
+
+                  <Button
+                    className="floatRight"
+                    color="primary"
+                    onClick={this.displayRecipientsPanel}
+                  >
+                    Add Recipients
+                  </Button>
+                </div>
               )}
             </CardTitle>
 

@@ -9,28 +9,26 @@ import InputField from "../InputField/InputField";
 let InitializeCampaign;
 
 InitializeCampaign = ({ handleSubmit, campaign }) => (
-  <div>
-    <Form className="margin-top-2" onSubmit={handleSubmit}>
-      <Card>
-        <CardHeader>
-          <i className="fa fa-align-justify" />
-          <strong>Initialize Campaign</strong>
-        </CardHeader>
-        <CardBody>
-          <FormGroup>
-            <Field type="text" name="title" component={InputField} label="Campaign Title" />
-          </FormGroup>
-        </CardBody>
-      </Card>
-      <Button
-        type="submit"
-        color="primary"
-        // disabled={!campaign.title && (pristine || submitting)}
-      >
-        <span>Next</span>
-      </Button>
-    </Form>
-  </div>
+  <Form className="margin-top-2" onSubmit={handleSubmit}>
+    <Card>
+      <CardHeader>
+        <i className="fa fa-align-justify" />
+        <strong>Initialize Campaign</strong>
+      </CardHeader>
+      <CardBody>
+        <FormGroup>
+          <Field type="text" name="title" component={InputField} label="Campaign Title" />
+        </FormGroup>
+      </CardBody>
+    </Card>
+    <Button
+      type="submit"
+      color="primary"
+      // disabled={!campaign.title && (pristine || submitting)}
+    >
+      <span>Next</span>
+    </Button>
+  </Form>
 );
 
 const mapStateToProps = state => ({
@@ -39,7 +37,7 @@ const mapStateToProps = state => ({
 });
 
 InitializeCampaign = reduxForm({
-  form: "campaignFormA", // a unique name for this form
+  form: "campaignTitle", // a unique name for this form
   enableReinitialize: true,
   keepDirtyOnReinitialize: true
 })(InitializeCampaign);

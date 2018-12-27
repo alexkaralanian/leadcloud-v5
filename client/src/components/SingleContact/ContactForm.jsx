@@ -131,7 +131,7 @@ ContactForm = connect(
   state => ({
     initialValues: state.contactReducer.contact // pull initial values from CONTACT reducer
   }),
-  { load: fetchContact } // bind fetchContact action creator
+  null
 )(ContactForm);
 
 export default ContactForm;

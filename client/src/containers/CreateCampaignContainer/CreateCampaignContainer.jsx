@@ -22,6 +22,7 @@ import Header from "../../components/Header/Header-old";
 
 import InitializeCampaign from "../../components/CreateCampaign/InitializeCampaign";
 import EditCampaign from "../../components/CreateCampaign/EditCampaignContainer";
+import CampaignWizard from "../../components/CreateCampaign/CampaignWizard";
 
 import { fetchComponent, setQuery, setOffset, setCount } from "../../actions/query-actions";
 
@@ -97,34 +98,45 @@ class CreateCampaignContainer extends React.Component {
             CREATE ROUTES FOR EACH STEP
         */}
 
-        {// Create Campaign / persist initial data
-        !campaign.step && (
-          <InitializeCampaign
-            campaign={campaign}
-            onSubmit={values => {
-              createCampaign(values, 2);
-            }}
-            isCampaignNew={isCampaignNew}
-          />
-        )}
+        <Route
+          exact
+          path={isCampaignNew ? `/campaigns/new` : `/campaigns/${campaign.id}`}
+          render={routeProps => (
+            <InitializeCampaign
+              campaign={campaign}
+              onSubmit={values => {
+                createCampaign(values, 2);
+              }}
+              isCampaignNew={isCampaignNew}
+            />
+          )}
+        />
 
-        {// Add Sender, Recipients, Subject, Content...
-        campaign.step === 2 && (
-          <EditCampaign
-            onSubmit={values => {
-              updateCampaign(values, 3);
-            }}
-            campaign={campaign}
-          />
-        )}
+        <Route
+          exact
+          path={`/campaigns/${campaign.id}/edit`}
+          render={routeProps => (
+            <EditCampaign
+              onSubmit={values => {
+                updateCampaign(values, 3);
+              }}
+              campaign={campaign}
+            />
+          )}
+        />
 
-        {/*<Route
-            exact
-            path={isCampaignNew ? `/campaigns/new` : `/campaigns/${campaign.id}`}
-            render={routeProps => (
-
-            )}
-          />*/}
+        <Route
+          exact
+          path={`/campaigns/${campaign.id}/wizard`}
+          render={routeProps => (
+            <CampaignWizard
+              onSubmit={values => {
+                updateCampaign(values, 3);
+              }}
+              campaign={campaign}
+            />
+          )}
+        />
       </React.Fragment>
     );
   }

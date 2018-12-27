@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Button, Col, Row, Collapse, Card, CardTitle, CardHeader, CardBody } from "reactstrap";
 import { Typeahead } from "react-bootstrap-typeahead"; // ES2015
+import { push } from "react-router-redux";
 
 import { setOffset, fetchComponent } from "../../actions/query-actions";
 import { setListings } from "../../actions/listing-actions";
@@ -35,7 +36,7 @@ class CampaignContent extends React.Component {
   };
 
   render() {
-    const { campaign, listings, updateCampaign } = this.props;
+    const { campaign, listings, updateCampaign, push } = this.props;
     return (
       <Col sm={12} md={12}>
         <Card>
@@ -51,6 +52,8 @@ class CampaignContent extends React.Component {
             </CardTitle>
             <Collapse isOpen={this.state.isListingsPanelOpen}>
               <div className="margin-top-2">
+                <h5>Add Listings</h5>
+                <div>Listings content will automatically generate in your email template</div>
                 <Typeahead
                   clearButton
                   multiple
@@ -72,6 +75,7 @@ class CampaignContent extends React.Component {
                   this.setState({
                     isListingsPanelOpen: false
                   });
+                  push(`/campaigns/${campaign.id}/wizard`);
                 }}
               >
                 Save
@@ -93,7 +97,8 @@ const mapDispatchToProps = {
   fetchComponent,
   createCampaign,
   updateCampaign,
-  setOffset
+  setOffset,
+  push
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CampaignContent);

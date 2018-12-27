@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-// import { Formik } from "formik";
+import { Formik } from "formik";
 import { Field, reduxForm } from "redux-form";
 import {
   Button,
@@ -23,7 +23,7 @@ import { createCampaign, updateCampaign, fetchCampaign } from "../../actions/cam
 let InnerForm = props => {
   const { handleSubmit, pristine, reset, submitting, campaign } = props;
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form className="margin-top-2" onSubmit={handleSubmit}>
       <FormGroup>
         <Field type="text" name="subject" component={InputField} />
       </FormGroup>
@@ -52,13 +52,11 @@ class CampaignSubject extends React.Component {
           <CardBody>
             <CardTitle className="mb-0">
               <i className="fa fa-users mr-2" />
-              <span>SUBJECT: {campaign.subject && campaign.subject}</span>
+              <span>SUBJECT:</span>
               {!this.state.isPanelOpen && (
-                <div>
-                  <Button className="floatRight" color="primary" onClick={this.displayPanel}>
-                    Add Subject
-                  </Button>
-                </div>
+                <Button className="floatRight" color="primary" onClick={this.displayPanel}>
+                  Add Subject
+                </Button>
               )}
             </CardTitle>
             <Collapse isOpen={this.state.isPanelOpen}>
