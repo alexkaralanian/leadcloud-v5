@@ -127,7 +127,7 @@ class CreateCampaignContainer extends React.Component {
 
         <Route
           exact
-          path={`/campaigns/${campaign.id}/wizard`}
+          path={`/campaigns/${campaign.id}/design`}
           render={routeProps => (
             <CampaignWizard
               onSubmit={values => {

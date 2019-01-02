@@ -75,7 +75,7 @@ class CampaignContent extends React.Component {
                   this.setState({
                     isListingsPanelOpen: false
                   });
-                  push(`/campaigns/${campaign.id}/wizard`);
+                  push(`/campaigns/${campaign.id}/design`);
                 }}
               >
                 Save

@@ -26,14 +26,12 @@ const Campaigns = ({ campaigns }) => (
                 {campaigns.map(campaign => (
                   <tr key={campaign.id}>
                     <td>
-                      <Link to={`/campaigns/${campaign.id}`}>
+                      <Link to={`/campaigns/${campaign.id}/edit`}>
                         <span>{campaign.title}</span>
                       </Link>
                     </td>
                     <td>{campaign.subject}</td>
-                    <td>
-                      {Moment(campaign.createdAt).format("ddd, M/D/YY h:mma")}
-                    </td>
+                    <td>{Moment(campaign.createdAt).format("ddd, M/D/YY h:mma")}</td>
                   </tr>
                 ))}
               </tbody>
