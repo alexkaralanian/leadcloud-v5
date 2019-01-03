@@ -12,8 +12,7 @@ exports.create = async (req, res) => {
       UserUuid: userId,
       title: req.body.values.title,
       subject: req.body.values.subject,
-      isDraft: true,
-      step: req.body.nextStep
+      isDraft: true
     });
     res.json(campaign);
   } catch (err) {

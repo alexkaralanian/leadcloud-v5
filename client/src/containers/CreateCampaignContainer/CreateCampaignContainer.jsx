@@ -79,14 +79,9 @@ class CreateCampaignContainer extends React.Component {
       <React.Fragment>
         <BreadCrumbs />
 
-        <Header
-          isVisible={true}
-          componentName="Campaign"
-          headerTitle={campaign.title}
-          isNew={!campaign.step}
-        />
+        <Header isVisible={true} componentName="Campaign" headerTitle={campaign.title} />
 
-        {!campaign.step && <CreateCampaignNav push={push} campaign={campaign} />}
+        {!isCampaignNew && <CreateCampaignNav push={push} campaign={campaign} />}
 
         {/*
           4 steps:

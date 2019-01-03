@@ -7,16 +7,12 @@ const CreateCampaignNav = ({ push, campaign }) => (
       <NavItem>
         <NavLink onClick={() => push(`/campaigns/${campaign.id}`)}>Initialize</NavLink>
       </NavItem>
-
       <NavItem>
         <NavLink onClick={() => push(`/campaigns/${campaign.id}/edit`)}>Edit</NavLink>
       </NavItem>
-
-      {/*<NavItem>
-        <NavLink onClick={() => push(`/campaigns/${campaign.id}/review`)}>
-          Edit
-        </NavLink>
-      </NavItem>*/}
+      <NavItem>
+        <NavLink onClick={() => push(`/campaigns/${campaign.id}/design`)}>Design</NavLink>
+      </NavItem>
     </Nav>
   </div>
 );

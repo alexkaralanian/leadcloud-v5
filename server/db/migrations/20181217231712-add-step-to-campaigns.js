@@ -1,7 +1,7 @@
 module.exports = {
   up: (queryInterface, Sequelize) => [
-    queryInterface.addColumn("campaigns", "step", {
-      type: Sequelize.INTEGER
+    queryInterface.addColumn("campaigns", "template", {
+      type: Sequelize.JSONB
     })
   ],
 
