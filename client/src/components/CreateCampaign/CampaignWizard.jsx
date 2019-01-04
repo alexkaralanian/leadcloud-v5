@@ -1,22 +1,19 @@
 import React from "react";
+import axios from "axios";
 import { connect } from "react-redux";
 import EmailEditor from "react-email-editor";
 import { Button, Col, Row, Collapse, Card, CardTitle, CardHeader, CardBody } from "reactstrap";
 import "./Campaign.scss";
 
-import { fetchCampaign, updateCampaign } from "../../actions/campaign-actions";
+import { fetchCampaign, updateCampaign, setCampaign } from "../../actions/campaign-actions";
 
 class CampaignWizard extends React.Component {
-  componentDidMount() {
-    // const { fetchCampaign } = this.props;
-    // fetchCampaign();
-  }
+  state = { campaign: null };
 
   exportHtml = () => {
     this.editor.exportHtml(data => {
       const { design, html } = data;
       console.log("exportHtml", html);
-      // console.log("DESIGN", design);
     });
   };
 
@@ -29,12 +26,19 @@ class CampaignWizard extends React.Component {
     });
   };
 
-  onLoad = () => {
-    const { campaign } = this.props;
-    this.editor.loadDesign(campaign.template);
+  onLoad = async () => {
+    const { match } = this.props;
+    try {
+      const res = await axios.get(`/api/campaigns/${match.params.id}`);
+      await this.setState({ campaign: res.data });
+      this.editor.loadDesign(this.state.campaign.template);
+    } catch (err) {
+      console.error("Error Loading Campaign", err);
+    }
   };
 
   render() {
+    const { campaign, fetchCampaign, match } = this.props;
     return (
       <Row>
         <Col xs={12} className="email-editor__container">

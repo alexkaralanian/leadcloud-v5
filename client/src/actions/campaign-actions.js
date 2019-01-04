@@ -20,6 +20,7 @@ export const setCampaigns = campaigns => ({
 export const fetchCampaign = id => async dispatch => {
   try {
     const res = await axios.get(`/api/campaigns/${id}`);
+    console.log("FETCH CAMPAIGN RES", res.data);
     dispatch(setCampaign(res.data));
   } catch (err) {
     console.error("Fetching Campaign unsuccessful", err);

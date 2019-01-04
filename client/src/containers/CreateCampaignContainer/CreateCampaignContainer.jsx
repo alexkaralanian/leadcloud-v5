@@ -95,9 +95,10 @@ class CreateCampaignContainer extends React.Component {
 
         <Route
           exact
-          path={isCampaignNew ? `/campaigns/new` : `/campaigns/${campaign.id}`}
+          path={isCampaignNew ? `/campaigns/new` : `/campaigns/:id`}
           render={routeProps => (
             <InitializeCampaign
+              {...routeProps}
               campaign={campaign}
               onSubmit={values => {
                 createCampaign(values, 2);
@@ -109,9 +110,10 @@ class CreateCampaignContainer extends React.Component {
 
         <Route
           exact
-          path={`/campaigns/${campaign.id}/edit`}
+          path={`/campaigns/:id/edit`}
           render={routeProps => (
             <EditCampaign
+              {...routeProps}
               onSubmit={values => {
                 updateCampaign(values, 3);
               }}
@@ -122,13 +124,13 @@ class CreateCampaignContainer extends React.Component {
 
         <Route
           exact
-          path={`/campaigns/${campaign.id}/design`}
+          path={`/campaigns/:id/design`}
           render={routeProps => (
             <CampaignWizard
+              {...routeProps}
               onSubmit={values => {
                 updateCampaign(values, 3);
               }}
-              campaign={campaign}
             />
           )}
         />

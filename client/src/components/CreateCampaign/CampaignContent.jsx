@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { Button, Col, Row, Collapse, Card, CardTitle, CardHeader, CardBody } from "reactstrap";
 import { Typeahead } from "react-bootstrap-typeahead"; // ES2015
@@ -72,14 +73,15 @@ class CampaignContent extends React.Component {
                 onClick={() => {
                   campaign.listings = this.state.selected;
                   updateCampaign(campaign);
-                  this.setState({
-                    isListingsPanelOpen: false
-                  });
-                  push(`/campaigns/${campaign.id}/design`);
+                  // this.setState({
+                  //   isListingsPanelOpen: false
+                  // });
                 }}
               >
                 Save
               </Button>
+              <Button href={`/campaigns/${campaign.id}/design`}>Design
+               </Button>
             </Collapse>
           </CardBody>
         </Card>
