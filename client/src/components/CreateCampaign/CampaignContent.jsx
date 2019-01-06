@@ -2,19 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { Button, Col, Row, Collapse, Card, CardTitle, CardHeader, CardBody } from "reactstrap";
-import { Typeahead } from "react-bootstrap-typeahead"; // ES2015
+import { Typeahead } from "react-bootstrap-typeahead";
 import { push } from "react-router-redux";
 
 import { setOffset, fetchComponent } from "../../actions/query-actions";
 import { setListings } from "../../actions/listing-actions";
 import { createCampaign, updateCampaign } from "../../actions/campaign-actions";
-
-import {
-  setDiffedCampaignListings,
-  searchDiffedCampaignListings,
-  submitCampaignListings,
-  deleteCampaignListing
-} from "../../actions/campaign-listings-actions";
 
 class CampaignContent extends React.Component {
   state = {
@@ -30,10 +23,6 @@ class CampaignContent extends React.Component {
   // LISTINGS
   displayListingsPanel = () => {
     this.setState({ isListingsPanelOpen: !this.state.isListingsPanelOpen });
-  };
-
-  submitListings = selected => {
-    this.props.submitCampaignListings(selected);
   };
 
   render() {
@@ -80,8 +69,7 @@ class CampaignContent extends React.Component {
               >
                 Save
               </Button>
-              <Button href={`/campaigns/${campaign.id}/design`}>Design
-               </Button>
+              <Button href={`/campaigns/${campaign.id}/design`}>Design</Button>
             </Collapse>
           </CardBody>
         </Card>

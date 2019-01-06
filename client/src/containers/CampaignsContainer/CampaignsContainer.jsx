@@ -10,8 +10,6 @@ import Loading from "../../components/Loading/Loading";
 import Placeholder from "../../components/Placeholder/Placeholder";
 
 import { fetchCampaigns, setCampaign } from "../../actions/campaign-actions";
-import { setCampaignListings } from "../../actions/campaign-listings-actions";
-import { setCampaignGroups } from "../../actions/campaign-groups-actions";
 
 class CampaignsContainer extends React.Component {
   componentDidMount() {
@@ -20,10 +18,8 @@ class CampaignsContainer extends React.Component {
   }
 
   createNewCampaign = () => {
-    const { setCampaign, setCampaignListings, setCampaignGroups, push } = this.props;
+    const { setCampaign, push } = this.props;
     setCampaign({});
-    setCampaignListings([]);
-    setCampaignGroups([]);
     push("/campaigns/new");
   };
 
@@ -65,8 +61,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   fetchCampaigns,
   setCampaign,
-  setCampaignListings,
-  setCampaignGroups,
   push
 };
 

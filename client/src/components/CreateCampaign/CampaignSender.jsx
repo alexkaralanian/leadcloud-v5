@@ -19,7 +19,7 @@ import InputField from "../InputField/InputField";
 
 import { createCampaign, updateCampaign } from "../../actions/campaign-actions";
 
-class CampaignSubject extends React.Component {
+class CampaignSender extends React.Component {
   state = {
     isPanelOpen: false,
     isModalVisible: false
@@ -69,7 +69,7 @@ class CampaignSubject extends React.Component {
                 <Button
                   className="margin-top-2 floatRight"
                   onClick={() => {
-                    campaign.groups = this.state.selected;
+                    // stuff...
                     updateCampaign(campaign);
                     this.setState({
                       isPanelOpen: false
@@ -96,10 +96,10 @@ const mapDispatchToProps = {
   updateCampaign
 };
 
-CampaignSubject = reduxForm({
+CampaignSemder = reduxForm({
   form: "campaignFormA", // a unique name for this form
   enableReinitialize: true,
   keepDirtyOnReinitialize: true
 })(CampaignSubject);
 
-export default connect(mapStateToProps, mapDispatchToProps)(CampaignSubject);
+export default connect(mapStateToProps, mapDispatchToProps)(CampaignSender);
