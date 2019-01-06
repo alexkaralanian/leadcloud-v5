@@ -2,10 +2,10 @@ import * as types from "../types";
 
 const initialState = {
   campaign: {},
-  campaigns: [],
-  campaignGroups: [],
-  campaignListings: [],
-  listingData: []
+  campaigns: []
+  // campaignGroups: [],
+  // campaignListings: [],
+  // listingData: []
 };
 
 const campaignReducer = (state = initialState, action) => {
@@ -24,24 +24,24 @@ const campaignReducer = (state = initialState, action) => {
         campaigns: action.payload
       };
 
-    case types.SET_CAMPAIGN_LISTINGS:
-      return {
-        ...state,
-        campaignListings: action.payload
-      };
+    // case types.SET_CAMPAIGN_LISTINGS:
+    //   return {
+    //     ...state,
+    //     campaignListings: action.payload
+    //   };
 
-    case types.SET_CAMPAIGN_GROUPS:
-      return {
-        ...state,
-        campaignGroups: action.payload
-      };
+    // case types.SET_CAMPAIGN_GROUPS:
+    //   return {
+    //     ...state,
+    //     campaignGroups: action.payload
+    //   };
 
-    case types.LOAD_LISTING_DATA: {
-      return {
-        ...state,
-        listingData: action.payload
-      };
-    }
+    // case types.LOAD_LISTING_DATA: {
+    //   return {
+    //     ...state,
+    //     listingData: action.payload
+    //   };
+    // }
 
     default:
       return state;

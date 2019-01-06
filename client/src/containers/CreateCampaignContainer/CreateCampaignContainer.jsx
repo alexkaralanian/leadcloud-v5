@@ -30,8 +30,7 @@ import {
   fetchCampaign,
   setCampaign,
   createCampaign,
-  updateCampaign,
-  submitCampaign
+  updateCampaign
 } from "../../actions/campaign-actions";
 
 class CreateCampaignContainer extends React.Component {
@@ -146,7 +145,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   createCampaign,
   updateCampaign,
-  submitCampaign,
   fetchComponent,
   fetchCampaign,
   setOffset,

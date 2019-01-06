@@ -5,15 +5,16 @@ import EmailEditor from "react-email-editor";
 import { Button, Col, Row, Collapse, Card, CardTitle, CardHeader, CardBody } from "reactstrap";
 import "./Campaign.scss";
 
-import { fetchCampaign, updateCampaign, setCampaign } from "../../actions/campaign-actions";
+import { updateCampaign, sendCampaign } from "../../actions/campaign-actions";
 
 class CampaignWizard extends React.Component {
   state = { campaign: null };
 
   exportHtml = () => {
     this.editor.exportHtml(data => {
+      const { sendCampaign, updateCampaign, campaign } = this.props;
       const { design, html } = data;
-      console.log("exportHtml", html);
+      sendCampaign(html, campaign);
     });
   };
 
@@ -31,6 +32,9 @@ class CampaignWizard extends React.Component {
     try {
       const res = await axios.get(`/api/campaigns/${match.params.id}`);
       await this.setState({ campaign: res.data });
+      // Need to inject listings into campaign template. Need help with this step.
+      // if (this.state.campaign.listings[0].images[0])
+      //   this.state.campaign.template.body.rows[0].columns[0].contents[0].values.src.url = this.state.campaign.listings[0].images[0];
       this.editor.loadDesign(this.state.campaign.template);
     } catch (err) {
       console.error("Error Loading Campaign", err);
@@ -38,7 +42,6 @@ class CampaignWizard extends React.Component {
   };
 
   render() {
-    const { campaign, fetchCampaign, match } = this.props;
     return (
       <Row>
         <Col xs={12} className="email-editor__container">
@@ -62,7 +65,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  updateCampaign
+  updateCampaign,
+  sendCampaign
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CampaignWizard);

@@ -9,19 +9,7 @@ router.get("/", authCheck, campaigns.getAll);
 router.get("/:id", authCheck, campaigns.getOne);
 router.post("/", authCheck, campaigns.create);
 router.patch("/:id", authCheck, campaigns.update);
-router.post("/", authCheck, campaigns.send);
 router.delete("/:id");
-
-// Campaign Listings\
-router.get("/:id/listings");
-router.post("/:id/listing");
-router.patch("/:id/listing");
-router.delete("/:id/listing");
-
-// Campaign Groups
-router.get("/:id/groups");
-router.post("/:id/group");
-router.patch("/:id/group");
-router.delete("/:id/group");
+router.post("/send", authCheck, campaigns.send);
 
 module.exports = router;

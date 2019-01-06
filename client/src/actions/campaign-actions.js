@@ -4,9 +4,6 @@ import * as types from "../types";
 
 import { setError, isFetching } from "./common-actions";
 
-import { setCampaignListings } from "./campaign-listings-actions";
-import { setCampaignGroups } from "./campaign-groups-actions";
-
 export const setCampaign = campaign => ({
   type: types.SET_CAMPAIGN,
   payload: campaign
@@ -20,7 +17,6 @@ export const setCampaigns = campaigns => ({
 export const fetchCampaign = id => async dispatch => {
   try {
     const res = await axios.get(`/api/campaigns/${id}`);
-    console.log("FETCH CAMPAIGN RES", res.data);
     dispatch(setCampaign(res.data));
   } catch (err) {
     console.error("Fetching Campaign unsuccessful", err);
@@ -36,12 +32,11 @@ export const fetchCampaigns = () => async dispatch => {
   }
 };
 
-export const createCampaign = (values, nextStep) => async dispatch => {
+export const createCampaign = values => async dispatch => {
   dispatch(isFetching(true));
   try {
     const res = await axios.post("/api/campaigns", {
-      values,
-      nextStep
+      values
     });
     dispatch(setCampaign(res.data));
     dispatch(push(`/campaigns/${res.data.id}/edit`));
@@ -55,8 +50,6 @@ export const createCampaign = (values, nextStep) => async dispatch => {
 
 // UPDATE CAMPAIGN
 export const updateCampaign = campaign => async dispatch => {
-  // dispatch(setCampaign({}));
-
   try {
     const res = await axios.patch(`/api/campaigns/${campaign.id}`, campaign);
     dispatch(setCampaign(res.data));
@@ -65,10 +58,12 @@ export const updateCampaign = campaign => async dispatch => {
   }
 };
 
-export const submitCampaign = values => async dispatch => {
+export const sendCampaign = (html, campaign) => async dispatch => {
+  console.log("SEND CAMPAIGN", html);
   try {
-    const res = await axios.put("/api/campaigns", {
-      values
+    const res = await axios.post("/api/campaigns/send", {
+      html,
+      campaignId: campaign.id
     });
     dispatch(setCampaign(res.data));
     dispatch(push("/campaigns"));
