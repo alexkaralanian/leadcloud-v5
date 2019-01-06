@@ -4,9 +4,6 @@ import * as types from "../types";
 
 import { setError, isFetching } from "./common-actions";
 
-import { setCampaignListings } from "./campaign-listings-actions";
-import { setCampaignGroups } from "./campaign-groups-actions";
-
 export const setCampaign = campaign => ({
   type: types.SET_CAMPAIGN,
   payload: campaign
@@ -21,8 +18,6 @@ export const fetchCampaign = id => async dispatch => {
   try {
     const res = await axios.get(`/api/campaigns/${id}`);
     dispatch(setCampaign(res.data));
-    dispatch(setCampaignListings(res.data.listings));
-    dispatch(setCampaignGroups(res.data.groups));
   } catch (err) {
     console.error("Fetching Campaign unsuccessful", err);
   }
@@ -37,16 +32,12 @@ export const fetchCampaigns = () => async dispatch => {
   }
 };
 
-export const createCampaign = (values, campaignListings, campaignGroups) => async dispatch => {
+export const createCampaign = values => async dispatch => {
   dispatch(isFetching(true));
   try {
     const res = await axios.post("/api/campaigns", {
-      values,
-      campaignListings,
-      campaignGroups
+      values
     });
-    dispatch(setCampaignListings(res.data.listings));
-    dispatch(setCampaignGroups(res.data.groups));
     dispatch(setCampaign(res.data));
     dispatch(push(`/campaigns/${res.data.id}/edit`));
     dispatch(isFetching(false));
@@ -58,34 +49,21 @@ export const createCampaign = (values, campaignListings, campaignGroups) => asyn
 };
 
 // UPDATE CAMPAIGN
-export const updateCampaign = (
-  campaign,
-  campaignListings,
-  campaignGroups,
-  page
-) => async dispatch => {
-  dispatch(setCampaign({}));
-  campaign.listings = campaignListings;
-  campaign.groups = campaignGroups;
-
+export const updateCampaign = campaign => async dispatch => {
   try {
     const res = await axios.patch(`/api/campaigns/${campaign.id}`, campaign);
     dispatch(setCampaign(res.data));
-    if (page === 2) {
-      dispatch(push(`/campaigns/${res.data.id}/edit`));
-    }
-    if (page === 3) {
-      dispatch(push(`/campaign`));
-    }
   } catch (err) {
     console.error("Updating Campaign Unsuccessful", err);
   }
 };
 
-export const submitCampaign = values => async dispatch => {
+export const sendCampaign = (html, campaign) => async dispatch => {
+  console.log("SEND CAMPAIGN", html);
   try {
-    const res = await axios.put("/api/campaigns", {
-      values
+    const res = await axios.post("/api/campaigns/send", {
+      html,
+      campaignId: campaign.id
     });
     dispatch(setCampaign(res.data));
     dispatch(push("/campaigns"));
@@ -95,3 +73,5 @@ export const submitCampaign = values => async dispatch => {
     // dispatch(isFetching(false));
   }
 };
+
+// CRUS + Delete

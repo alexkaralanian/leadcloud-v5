@@ -19,13 +19,11 @@ class BreadCrumbs extends React.Component {
       <div id="breadcrumb_component" className="row">
         <div className="col-sm">
           <Breadcrumb>
-            <BreadcrumbItem onClick={() => this.props.push(`/`)}>
-              Home
-            </BreadcrumbItem>
+            <BreadcrumbItem onClick={() => this.props.push(`/`)}>Home</BreadcrumbItem>
             {location &&
               location.map(path => {
-                const url = location.slice(0, location.indexOf(path) + 1);
-
+                const array = location.slice(0, location.indexOf(path) + 1);
+                const url = array.join("/");
                 return (
                   <BreadcrumbItem onClick={() => this.props.push(`/${url}`)}>
                     {capitalize(path)}

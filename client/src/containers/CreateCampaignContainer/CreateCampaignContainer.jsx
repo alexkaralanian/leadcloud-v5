@@ -1,25 +1,23 @@
 import React from "react";
 import { push } from "react-router-redux";
 import { connect } from "react-redux";
-import { Grid } from "react-bootstrap";
 import { Route, Redirect } from "react-router-dom";
 
-import Navigation from "../NavContainer/NavContainer";
 import BreadCrumbs from "../../components/BreadCrumbs/BreadCrumbs";
-import CreateCampaignNav from "../../components/SingleCampaign/CreateCampaignNav";
+import CreateCampaignNav from "../../components/CreateCampaign/CreateCampaignNav";
 import Header from "../../components/Header/Header-old";
-import CampaignFormA from "../../components/SingleCampaign/CampaignFormA";
-import CampaignFormB from "../../components/SingleCampaign/CampaignFormB";
-import CampaignFormC from "../../components/SingleCampaign/CampaignFormC";
 
-import { fetchComponent, setQuery, setOffset, setCount } from "../../actions/query-actions";
+import InitializeCampaign from "../../components/CreateCampaign/InitializeCampaign";
+import EditCampaign from "../../components/CreateCampaign/EditCampaignContainer";
+import CampaignWizard from "../../components/CreateCampaign/CampaignWizard";
+
+import { setOffset } from "../../actions/query-actions";
 
 import {
   fetchCampaign,
   setCampaign,
   createCampaign,
-  updateCampaign,
-  submitCampaign
+  updateCampaign
 } from "../../actions/campaign-actions";
 
 class CreateCampaignContainer extends React.Component {
@@ -29,7 +27,7 @@ class CreateCampaignContainer extends React.Component {
   };
 
   componentDidMount() {
-    const { match, location, fetchComponent, fetchCampaign, setContact, setOffset } = this.props;
+    const { match, location, fetchCampaign, setCampaign, setOffset } = this.props;
 
     setCampaign({});
     setOffset(0);
@@ -52,8 +50,6 @@ class CreateCampaignContainer extends React.Component {
       match,
       push,
       campaign,
-      campaignListings,
-      campaignGroups,
       createCampaign,
       updateCampaign,
       submitCampaign,
@@ -61,85 +57,82 @@ class CreateCampaignContainer extends React.Component {
     } = this.props;
 
     const { page } = this.state;
+    const isCampaignNew = match.path === "/campaigns/new";
 
     return (
       <React.Fragment>
         <BreadCrumbs />
-        <div>
-          <Header
-            isVisible={true}
-            componentName="Campaigns"
-            headerTitle={campaign.title}
-            isNew={match.path === "/campaigns/new"}
-          />
 
-          {match.path !== "/campaigns/new" && <CreateCampaignNav push={push} campaign={campaign} />}
+        <Header isVisible={true} componentName="Campaign" headerTitle={campaign.title} />
 
-          <Route
-            exact
-            path={match.path === "/campaigns/new" ? `/campaigns/new` : `/campaigns/${campaign.id}`}
-            render={routeProps => (
-              <CampaignFormA
-                onSubmit={values => {
-                  match.path === "/campaigns/new"
-                    ? createCampaign(values, campaignListings, campaignGroups)
-                    : updateCampaign(values, campaignListings, campaignGroups, 2);
-                }}
-              />
-            )}
-          />
+        {!isCampaignNew && <CreateCampaignNav push={push} campaign={campaign} />}
 
-          <Route
-            exact
-            path={`/campaigns/${campaign.id}/edit`}
-            render={routeProps => (
-              <CampaignFormB
-                onSubmit={values => {
-                  submitCampaign(values);
-                }}
-                updateCampaign={updateCampaign}
-                campaign={campaign}
-                prevPage={this.previousPage}
-              />
-            )}
-          />
+        {/*
+          4 steps:
+            1. Create campaign (title, save... then add artifacts )
+            2. Review and edit content
+            3. Preview template
+            4. Send
 
-          {/*<Route
-            exact
-            path={`/campaigns/${campaign.id}/review`}
-            render={routeProps => (
-              <CampaignFormC
-                onSubmit={values => {
-                  createCampaign(values, campaignListings, campaignGroups);
-                }}
-                campaign={campaign}
-                prevPage={this.previousPage}
-                onSubmit={values => {
-                  console.log("CAMPAIGN FORM C SUBMITTED", values);
-                }}
-              />
-            )}
-          />*/}
-        </div>
+            CREATE ROUTES FOR EACH STEP
+        */}
+
+        <Route
+          exact
+          path={isCampaignNew ? `/campaigns/new` : `/campaigns/:id`}
+          render={routeProps => (
+            <InitializeCampaign
+              {...routeProps}
+              campaign={campaign}
+              onSubmit={values => {
+                createCampaign(values, 2);
+              }}
+              isCampaignNew={isCampaignNew}
+            />
+          )}
+        />
+
+        <Route
+          exact
+          path={`/campaigns/:id/edit`}
+          render={routeProps => (
+            <EditCampaign
+              {...routeProps}
+              onSubmit={values => {
+                updateCampaign(values, 3);
+              }}
+              campaign={campaign}
+            />
+          )}
+        />
+
+        <Route
+          exact
+          path={`/campaigns/:id/design`}
+          render={routeProps => (
+            <CampaignWizard
+              {...routeProps}
+              onSubmit={values => {
+                updateCampaign(values, 3);
+              }}
+            />
+          )}
+        />
       </React.Fragment>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  campaign: state.campaignReducer.campaign,
-  campaignListings: state.campaignReducer.campaignListings,
-  campaignGroups: state.campaignReducer.campaignGroups
+  campaign: state.campaignReducer.campaign
 });
 
 const mapDispatchToProps = {
   createCampaign,
   updateCampaign,
-  submitCampaign,
-  fetchComponent,
   fetchCampaign,
+  setCampaign,
   setOffset,
-  setCount,
   push
 };
 

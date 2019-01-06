@@ -39,7 +39,6 @@
         "lodash.isempty": "^4.4.0",
         "mailparser": "^2.4.3",
         "mime": "^2.3.1",
-        "mjml": "^4.2.1",
         "mkdirp": "^0.5.1",
         "mocha": "^5.0.4",
         "moment": "^2.22.0",

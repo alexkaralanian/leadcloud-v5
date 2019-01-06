@@ -66,6 +66,8 @@ class SingleContactContainer extends React.Component {
     setContact({});
     setOffset(0);
 
+    console.log("CONTACT PROPS", this.props);
+
     if (match.path !== "/contacts/new") {
       fetchContact(match.params.id);
       fetchComponent("contacts", [], setContactListings, match.params.id, "listings");

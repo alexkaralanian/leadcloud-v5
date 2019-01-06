@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Button } from "react-bootstrap";
 import PropTypes from "prop-types";
+import { Typeahead } from "react-bootstrap-typeahead"; // ES2015
 
 import SearchForm from "../../components/SearchForm/SearchForm";
 import Pills from "../../components/Pills/Pills";
@@ -9,11 +10,7 @@ import TableRow from "../../components/TableRow/TableRow";
 
 import { addSelected, deleteSelected } from "../../actions/modal-actions";
 
-import {
-  fetchComponent,
-  setOffset,
-  setQuery
-} from "../../actions/query-actions";
+import { fetchComponent, setOffset, setQuery } from "../../actions/query-actions";
 
 import { setGroups } from "../../actions/group-actions";
 
@@ -43,16 +40,11 @@ class SearchGroupsContainer extends React.Component {
     return (
       <React.Fragment>
         <div className="modal_search-container">
-          <SearchForm
-            searchFunction={searchFunction}
-            searchText={"Search Groups..."}
-          />
+          <SearchForm searchFunction={searchFunction} searchText={"Search Groups..."} />
           <Button
             className="button"
             onClick={() => {
-              hostComponent
-                ? submitFunction(selected, hostComponent)
-                : submitFunction(selected);
+              hostComponent ? submitFunction(selected, hostComponent) : submitFunction(selected);
             }}
             bsStyle="primary"
           >
@@ -97,6 +89,4 @@ const mapDispatchToProps = {
   setQuery
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  SearchGroupsContainer
-);
+export default connect(mapStateToProps, mapDispatchToProps)(SearchGroupsContainer);

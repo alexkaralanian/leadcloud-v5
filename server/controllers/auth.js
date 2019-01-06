@@ -81,6 +81,7 @@ exports.getCurrentUser = async (req, res) => {
     };
     res.json(userMap);
   } catch (err) {
+    console.error("ERROR", err);
     res.sendStatus(401);
   }
 };

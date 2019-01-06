@@ -1,0 +1,9 @@
+@media only screen and (max-width: 1084px) {
+  .email-editor__container {
+    max-width: calc(100% - 14px);
+  }
+}
+
+.email-editor__container {
+  overflow-x: hidden;
+}

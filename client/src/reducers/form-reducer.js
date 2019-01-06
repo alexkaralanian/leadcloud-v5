@@ -2,7 +2,16 @@ import { reducer } from "redux-form";
 import * as types from "../types";
 
 const formReducer = reducer.plugin({
-  campaignFormA: (state, action) => {
+  campaignTitle: (state, action) => {
+    switch (action.type) {
+      case types.CLEAR_FORM_DATA:
+        return undefined;
+      default:
+        return state;
+    }
+  },
+
+  campaignSubject: (state, action) => {
     switch (action.type) {
       case types.CLEAR_FORM_DATA:
         return undefined;
