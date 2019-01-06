@@ -3,19 +3,6 @@ import { push } from "react-router-redux";
 import { connect } from "react-redux";
 import { Route, Redirect } from "react-router-dom";
 
-import {
-  Form,
-  FormGroup,
-  Row,
-  Col,
-  Button,
-  ButtonGroup,
-  Card,
-  CardHeader,
-  CardBody
-} from "reactstrap";
-
-import Navigation from "../NavContainer/NavContainer";
 import BreadCrumbs from "../../components/BreadCrumbs/BreadCrumbs";
 import CreateCampaignNav from "../../components/CreateCampaign/CreateCampaignNav";
 import Header from "../../components/Header/Header-old";
@@ -24,7 +11,7 @@ import InitializeCampaign from "../../components/CreateCampaign/InitializeCampai
 import EditCampaign from "../../components/CreateCampaign/EditCampaignContainer";
 import CampaignWizard from "../../components/CreateCampaign/CampaignWizard";
 
-import { fetchComponent, setQuery, setOffset, setCount } from "../../actions/query-actions";
+import { setOffset } from "../../actions/query-actions";
 
 import {
   fetchCampaign,
@@ -40,7 +27,7 @@ class CreateCampaignContainer extends React.Component {
   };
 
   componentDidMount() {
-    const { match, location, fetchComponent, fetchCampaign, setContact, setOffset } = this.props;
+    const { match, location, fetchCampaign, setCampaign, setOffset } = this.props;
 
     setCampaign({});
     setOffset(0);
@@ -63,8 +50,6 @@ class CreateCampaignContainer extends React.Component {
       match,
       push,
       campaign,
-      campaignListings,
-      campaignGroups,
       createCampaign,
       updateCampaign,
       submitCampaign,
@@ -145,10 +130,9 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   createCampaign,
   updateCampaign,
-  fetchComponent,
   fetchCampaign,
+  setCampaign,
   setOffset,
-  setCount,
   push
 };
 

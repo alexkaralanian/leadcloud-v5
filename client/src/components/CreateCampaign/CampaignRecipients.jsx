@@ -23,6 +23,14 @@ class RecipientsContainer extends React.Component {
     this.setState({ isRecipientsPanelOpen: !this.state.isRecipientsPanelOpen });
   };
 
+  concat = groups => {
+    let string = "";
+    groups.forEach(group => {
+      string += group.title + ", ";
+    });
+    return string.trim().slice(0, string.length - 2);
+  };
+
   render() {
     const { campaign, groups, updateCampaign } = this.props;
     return (
@@ -31,16 +39,9 @@ class RecipientsContainer extends React.Component {
           <CardBody>
             <CardTitle className="mb-0">
               <i className="fa fa-users mr-2" />
-              <span>TO:</span>
+              <span>TO: {campaign.groups && this.concat(campaign.groups)}</span>
               {!this.state.isRecipientsPanelOpen && (
                 <div>
-                  <ul>
-                    {campaign.groups &&
-                      campaign.groups.map(group => {
-                        return <li>{group.title}</li>;
-                      })}
-                  </ul>
-
                   <Button
                     className="floatRight"
                     color="primary"

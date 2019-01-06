@@ -96,10 +96,10 @@ const mapDispatchToProps = {
   updateCampaign
 };
 
-CampaignSemder = reduxForm({
+CampaignSender = reduxForm({
   form: "campaignFormA", // a unique name for this form
   enableReinitialize: true,
   keepDirtyOnReinitialize: true
-})(CampaignSubject);
+})(CampaignSender);
 
 export default connect(mapStateToProps, mapDispatchToProps)(CampaignSender);

@@ -57,8 +57,8 @@ class CampaignContent extends React.Component {
                   labelKey="address"
                 />
               </div>
+              <div className="margin-top-2 floatRight">
               <Button
-                className="margin-top-2 floatRight"
                 onClick={() => {
                   campaign.listings = this.state.selected;
                   updateCampaign(campaign);
@@ -68,8 +68,9 @@ class CampaignContent extends React.Component {
                 }}
               >
                 Save
-              </Button>
+              </Button>{' '}
               <Button href={`/campaigns/${campaign.id}/design`}>Design</Button>
+              </div>
             </Collapse>
           </CardBody>
         </Card>
