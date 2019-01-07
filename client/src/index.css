@@ -27,20 +27,24 @@
 
 /*** FORMS ***/
 
-.form-group input {
-  height: 2.5rem;
-  border-radius: 2px;
-  margin-bottom: 1rem;
+.reset-typeahead-height .form-control {
+  height: auto;
 }
 
-.form-group textarea {
+/*.form-group input {*/
+/*  min-height: 2.5rem;*/
+/*  border-radius: 2px;
+  margin-bottom: 1rem;*/
+/*}*/
+
+/*.form-group textarea {
   border-radius: 2px;
-  /*font-size: 1.6rem !important;*/
+  font-size: 1.6rem !important;
   font-weight: 300;
   min-height: 8rem;
   max-width: 100% !important;
 }
-
+*/
 .margin-top-2 {
   margin-top: 1.25rem;
 }
@@ -184,4 +188,3 @@ iframe {
   font-size: 2.4rem;
   font-weight: 200;
 }
-

@@ -1,7 +1,9 @@
 import React from "react";
+import axios from "axios";
 import { connect } from "react-redux";
 import { Button } from "react-bootstrap";
 import PropTypes from "prop-types";
+import { Typeahead } from "react-bootstrap-typeahead";
 
 import SearchForm from "../../components/SearchForm/SearchForm";
 import Pills from "../../components/Pills/Pills";
@@ -9,20 +11,20 @@ import TableRow from "../../components/TableRow/TableRow";
 
 import { addSelected, deleteSelected } from "../../actions/modal-actions";
 
-import {
-  fetchComponent,
-  setOffset,
-  setQuery
-} from "../../actions/query-actions";
+import { fetchComponent, setOffset, setQuery } from "../../actions/query-actions";
 
 import { setListings } from "../../actions/listing-actions";
 
 class SearchListingsContainer extends React.Component {
-  componentWillMount() {
+  state = {
+    selected: []
+  };
+
+  componentDidMount() {
     const { fetchComponent, setOffset, setQuery, setFunction } = this.props;
     setOffset(0);
     setQuery("");
-    fetchComponent("listings", [], setFunction, null, null);
+    fetchComponent("listings", [], setListings, null, null);
   }
 
   componentWillUnmount() {
@@ -30,50 +32,47 @@ class SearchListingsContainer extends React.Component {
     setListings([]);
   }
 
+  diffContactListings = allListings => {
+    const { contactListings } = this.props;
+    const map = {};
+    contactListings.forEach(listing => {
+      map[listing.id] = listing;
+    });
+    allListings.forEach(listing => {
+      if (map[listing.id]) delete map[listing.id];
+      else map[listing.id] = listing;
+    });
+    return Object.values(map);
+  };
+
   render() {
-    const {
-      listings,
-      selected,
-      submitFunction,
-      searchFunction,
-      displayModal,
-      hostComponent
-    } = this.props;
+    const { listings, contactListings, submitFunction, hostComponent } = this.props;
 
     return (
       <React.Fragment>
-        <div className="modal_search-container">
-          <SearchForm
-            searchFunction={searchFunction}
-            searchText={"Search Listings..."}
-          />
+        <div>
+          <div className="reset-typeahead-height">
+            <Typeahead
+              clearButton
+              multiple
+              placeholder="Choose listing(s)..."
+              selected={this.state.selected}
+              onChange={selected => {
+                this.setState({ selected });
+              }}
+              options={this.diffContactListings(listings)}
+              labelKey="address"
+            />
+          </div>
+
           <Button
-            className="button"
-            onClick={() => submitFunction(selected, hostComponent)}
+            className="button margin-top-2"
+            onClick={() => submitFunction(this.state.selected, hostComponent)}
             bsStyle="primary"
           >
             Add Selected
           </Button>
         </div>
-        <div className="modal_pills-container">
-          <Pills
-            hostComponent={hostComponent}
-            component={selected}
-            componentName="listings"
-            submitFunction={deleteSelected}
-            displayValue="address"
-          />
-        </div>
-        <TableRow
-          componentName="listings"
-          rowText="address"
-          collection={listings}
-          submitFunction={addSelected}
-          buttonText={"Add"}
-          buttonStyle={"warning"}
-          hostComponent={hostComponent}
-          isModal={true}
-        />
       </React.Fragment>
     );
   }
@@ -81,7 +80,7 @@ class SearchListingsContainer extends React.Component {
 
 const mapStateToProps = state => ({
   listings: state.listingReducer.listings,
-  selected: state.modalReducer.selected
+  contactListings: state.contactReducer.contactListings
 });
 
 const mapDispatchToProps = {
@@ -91,6 +90,4 @@ const mapDispatchToProps = {
   setQuery
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  SearchListingsContainer
-);
+export default connect(mapStateToProps, mapDispatchToProps)(SearchListingsContainer);

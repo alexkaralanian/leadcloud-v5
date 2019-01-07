@@ -38,9 +38,9 @@ import {
   searchContactListings,
   setContactListings,
   submitContactListings,
-  deleteContactListing,
-  searchDiffedContactListings,
-  setDiffedContactListings
+  deleteContactListing
+  // searchDiffedContactListings,
+  // setDiffedContactListings
 } from "../../actions/contact-listings-actions";
 
 import {
@@ -65,8 +65,6 @@ class SingleContactContainer extends React.Component {
 
     setContact({});
     setOffset(0);
-
-    console.log("CONTACT PROPS", this.props);
 
     if (match.path !== "/contacts/new") {
       fetchContact(match.params.id);
@@ -243,11 +241,12 @@ class SingleContactContainer extends React.Component {
             title={contact.fullName}
             Container={
               <SearchListingsContainer
-                displayModal={this.displayListingsModal}
+                match={match}
+                // displayModal={this.displayListingsModal}
                 submitFunction={this.submitListings}
                 hostComponent={contact}
-                setFunction={setDiffedContactListings}
-                searchFunction={searchDiffedContactListings}
+                // setFunction={setDiffedContactListings}
+                // searchFunction={searchDiffedContactListings}
               />
             }
           />
