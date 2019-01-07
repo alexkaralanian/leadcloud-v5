@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { Button, Col, Row, Collapse, Card, CardTitle, CardHeader, CardBody } from "reactstrap";
@@ -9,12 +10,26 @@ import { setGroups } from "../../actions/group-actions";
 import { createCampaign, updateCampaign } from "../../actions/campaign-actions";
 
 class RecipientsContainer extends React.Component {
+  constructor(props) {
+    super(mapDispatchToProps);
+  }
   state = {
     isRecipientsPanelOpen: false,
-    isGroupsModalVisible: false
+    isGroupsModalVisible: false,
+    selected: []
   };
 
-  componentDidMount() {
+  async componentDidMount() {
+    const { match } = this.props;
+    try {
+      const res = await axios.get(`/api/campaigns/${match.params.id}`);
+      this.setState({
+        selected: res.data.groups || []
+      });
+    } catch (err) {
+      console.error("Fetching Campaign Groups Unsuccessful", err);
+    }
+
     this.props.setOffset(0);
     this.props.fetchComponent("groups", [], setGroups, null, null);
   }
@@ -60,7 +75,7 @@ class RecipientsContainer extends React.Component {
                   multiple
                   placeholder="Choose group(s)..."
                   selected={this.state.selected}
-                  defaultSelected={campaign.groups || []}
+                  defaultSelected={this.state.selected}
                   onChange={selected => {
                     this.setState({ selected });
                   }}

@@ -14,6 +14,11 @@ export const setCampaigns = campaigns => ({
   payload: campaigns
 });
 
+export const setCampaignRecipients = recipients => ({
+  type: types.SET_CAMPAIGN_RECIPIENTS,
+  payload: recipients
+});
+
 export const fetchCampaign = id => async dispatch => {
   try {
     const res = await axios.get(`/api/campaigns/${id}`);

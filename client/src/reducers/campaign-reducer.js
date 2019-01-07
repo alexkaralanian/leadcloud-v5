@@ -2,7 +2,8 @@ import * as types from "../types";
 
 const initialState = {
   campaign: {},
-  campaigns: []
+  campaigns: [],
+  campaignRecipients: []
 };
 
 const campaignReducer = (state = initialState, action) => {
@@ -18,6 +19,13 @@ const campaignReducer = (state = initialState, action) => {
         ...state,
         campaigns: action.payload
       };
+
+    case types.SET_CAMPAIGN_RECIPIENTS:
+      return {
+        ...state,
+        campaignRecipients: action.payload
+      };
+
     default:
       return state;
   }

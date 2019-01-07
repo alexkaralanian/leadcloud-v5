@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { Button, Col, Row, Collapse, Card, CardTitle, CardHeader, CardBody } from "reactstrap";
@@ -12,10 +13,21 @@ import { createCampaign, updateCampaign } from "../../actions/campaign-actions";
 class CampaignContent extends React.Component {
   state = {
     isListingsPanelOpen: false,
-    isListingsModalVisible: false
+    isListingsModalVisible: false,
+    selected: []
   };
 
-  componentDidMount() {
+  async componentDidMount() {
+    const { match } = this.props;
+    try {
+      const res = await axios.get(`/api/campaigns/${match.params.id}`);
+      this.setState({
+        selected: res.data.listings || []
+      });
+    } catch (err) {
+      console.error("Fetching Campaign Listings Unsuccessful", err);
+    }
+
     this.props.setOffset(0);
     this.props.fetchComponent("listings", [], setListings, null, null);
   }
@@ -23,6 +35,14 @@ class CampaignContent extends React.Component {
   // LISTINGS
   displayListingsPanel = () => {
     this.setState({ isListingsPanelOpen: !this.state.isListingsPanelOpen });
+  };
+
+  concat = listings => {
+    let string = "";
+    listings.forEach(listing => {
+      string += listing.address + ", ";
+    });
+    return string.trim().slice(0, string.length - 2);
   };
 
   render() {
@@ -33,7 +53,7 @@ class CampaignContent extends React.Component {
           <CardBody>
             <CardTitle className="mb-0">
               <i className="fa fa-users mr-2" />
-              <span>CONTENT:</span>
+              <span>CONTENT: {campaign.listings && this.concat(campaign.listings)}</span>
               {!this.state.isListingsPanelOpen && (
                 <Button className="floatRight" color="primary" onClick={this.displayListingsPanel}>
                   Add Content
@@ -49,7 +69,7 @@ class CampaignContent extends React.Component {
                   multiple
                   placeholder="Choose listing(s)..."
                   selected={this.state.selected}
-                  defaultSelected={campaign.listings || []}
+                  defaultSelected={this.state.selected}
                   onChange={selected => {
                     this.setState({ selected });
                   }}
@@ -58,18 +78,18 @@ class CampaignContent extends React.Component {
                 />
               </div>
               <div className="margin-top-2 floatRight">
-              <Button
-                onClick={() => {
-                  campaign.listings = this.state.selected;
-                  updateCampaign(campaign);
-                  // this.setState({
-                  //   isListingsPanelOpen: false
-                  // });
-                }}
-              >
-                Save
-              </Button>{' '}
-              <Button href={`/campaigns/${campaign.id}/design`}>Design</Button>
+                <Button
+                  onClick={() => {
+                    campaign.listings = this.state.selected;
+                    updateCampaign(campaign);
+                    // this.setState({
+                    //   isListingsPanelOpen: false
+                    // });
+                  }}
+                >
+                  Save
+                </Button>{" "}
+                <Button href={`/campaigns/${campaign.id}/design`}>Design</Button>
               </div>
             </Collapse>
           </CardBody>

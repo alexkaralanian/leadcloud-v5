@@ -10,10 +10,10 @@ class EditCampaignContainer extends React.Component {
   render() {
     return (
       <Row className="margin-top-2">
-        <CampaignRecipients />
+        <CampaignRecipients match={this.props.match} />
         <CampaignSender />
         <CampaignSubject />
-        <CampaignContent />
+        <CampaignContent match={this.props.match} />
       </Row>
     );
   }

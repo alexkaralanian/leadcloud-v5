@@ -9,11 +9,7 @@ import Placeholder from "../../components/Placeholder/Placeholder";
 
 import { setGroups, searchGroups } from "../../actions/group-actions";
 
-import {
-  fetchComponent,
-  setQuery,
-  setOffset
-} from "../../actions/query-actions";
+import { fetchComponent, setQuery, setOffset } from "../../actions/query-actions";
 
 class GroupsContainer extends React.Component {
   componentDidMount() {
@@ -53,12 +49,7 @@ class GroupsContainer extends React.Component {
           <Loading />
         ) : groups.length > 0 ? (
           <Groups
-            SearchForm={
-              <SearchForm
-                searchText="Search..."
-                searchFunction={searchGroups}
-              />
-            }
+            SearchForm={<SearchForm searchText="Search..." searchFunction={searchGroups} />}
             groups={groups}
             hostId={this.props.hostId}
             component={this.props.component}
@@ -68,7 +59,7 @@ class GroupsContainer extends React.Component {
           <Placeholder
             headerText="You Dont Have Any Groups Yet..."
             ctaText="Create New Group"
-            ctaFunc={this.groupsPrimaryFunc}
+            ctaFunc={this.createNewGroup}
           />
         )}
       </React.Fragment>
