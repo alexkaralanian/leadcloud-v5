@@ -11,3 +11,6 @@ export const toLowerCase = string =>
     .trim()
     .replace(/\s+/g, " ")
     .toLowerCase();
+
+
+export diff = () => {}

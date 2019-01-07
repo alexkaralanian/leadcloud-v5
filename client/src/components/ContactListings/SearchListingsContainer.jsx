@@ -1,15 +1,9 @@
 import React from "react";
-import axios from "axios";
+
 import { connect } from "react-redux";
 import { Button } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { Typeahead } from "react-bootstrap-typeahead";
-
-import SearchForm from "../../components/SearchForm/SearchForm";
-import Pills from "../../components/Pills/Pills";
-import TableRow from "../../components/TableRow/TableRow";
-
-import { addSelected, deleteSelected } from "../../actions/modal-actions";
 
 import { fetchComponent, setOffset, setQuery } from "../../actions/query-actions";
 
@@ -55,7 +49,7 @@ class SearchListingsContainer extends React.Component {
             <Typeahead
               clearButton
               multiple
-              placeholder="Choose listing(s)..."
+              placeholder="Choose listings..."
               selected={this.state.selected}
               onChange={selected => {
                 this.setState({ selected });

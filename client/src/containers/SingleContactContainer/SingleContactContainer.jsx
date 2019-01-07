@@ -10,12 +10,13 @@ import BreadCrumbs from "../../components/BreadCrumbs/BreadCrumbs";
 import Header from "../../components/Header/Header-old";
 import ContactNav from "../../components/SingleContact/ContactNav";
 import ContactListings from "../../components/ContactListings/ContactListings";
+import SearchListingsContainer from "../../components/ContactListings/SearchListingsContainer";
 import ContactForm from "../../components/SingleContact/ContactForm";
 import ImageCarousel from "../../components/ImageCarousel/ImageCarousel";
 import SingleContactEmailsContainer from "./SingleContactEmailsContainer";
 import ContactGroups from "../../components/ContactGroups/ContactGroups";
 import Modal from "../../components/Modal/Modal";
-import SearchListingsContainer from "../SearchListingsContainer/SearchListingsContainer";
+
 import SearchGroupsContainer from "../SearchGroupsContainer/SearchGroupsContainer";
 import Loading from "../../components/Loading/Loading";
 import Placeholder from "../../components/Placeholder/Placeholder";
@@ -39,8 +40,6 @@ import {
   setContactListings,
   submitContactListings,
   deleteContactListing
-  // searchDiffedContactListings,
-  // setDiffedContactListings
 } from "../../actions/contact-listings-actions";
 
 import {
@@ -242,11 +241,8 @@ class SingleContactContainer extends React.Component {
             Container={
               <SearchListingsContainer
                 match={match}
-                // displayModal={this.displayListingsModal}
                 submitFunction={this.submitListings}
                 hostComponent={contact}
-                // setFunction={setDiffedContactListings}
-                // searchFunction={searchDiffedContactListings}
               />
             }
           />
@@ -279,12 +275,9 @@ class SingleContactContainer extends React.Component {
             title={contact.fullName}
             Container={
               <SearchGroupsContainer
-                displayModal={this.displayGroupsModal}
+                match={match}
                 submitFunction={this.submitGroups}
                 hostComponent={contact}
-                componentGroups={contactGroups}
-                setFunction={setDiffedContactGroups}
-                searchFunction={searchDiffedContactGroups}
               />
             }
           />

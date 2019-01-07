@@ -1,8 +1,7 @@
 import React from "react";
 import axios from "axios";
-import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-import { Button, Col, Row, Collapse, Card, CardTitle, CardHeader, CardBody } from "reactstrap";
+import { Button, Col, Collapse, Card, CardTitle, CardBody } from "reactstrap";
 import { Typeahead } from "react-bootstrap-typeahead"; // ES2015
 import { setOffset, fetchComponent } from "../../actions/query-actions";
 import { setGroups } from "../../actions/group-actions";
@@ -10,9 +9,6 @@ import { setGroups } from "../../actions/group-actions";
 import { createCampaign, updateCampaign } from "../../actions/campaign-actions";
 
 class RecipientsContainer extends React.Component {
-  constructor(props) {
-    super(mapDispatchToProps);
-  }
   state = {
     isRecipientsPanelOpen: false,
     isGroupsModalVisible: false,

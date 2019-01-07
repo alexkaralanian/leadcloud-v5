@@ -1,34 +1,24 @@
 import React from "react";
-import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
-import {
-  Button,
-  Form,
-  FormGroup,
-  Col,
-  Row,
-  Collapse,
-  Card,
-  CardTitle,
-  CardHeader,
-  CardBody
-} from "reactstrap";
+import { Button, FormGroup, Col, Collapse, Card, CardTitle, CardBody } from "reactstrap";
 
 import InputField from "../InputField/InputField";
 
 import { createCampaign, updateCampaign } from "../../actions/campaign-actions";
+
+let ReduxForm = () => (
+  <FormGroup>
+    <Field type="text" name="sender_name" label="Sender Name" component={InputField} />
+    <Field type="text" name="sender_email" label="Sender Email" component={InputField} />
+  </FormGroup>
+);
 
 class CampaignSender extends React.Component {
   state = {
     isPanelOpen: false,
     isModalVisible: false
   };
-
-  componentDidMount() {
-    // this.props.setOffset(0);
-    // this.props.fetchComponent("groups", [], setGroups, null, null);
-  }
 
   displayPanel = () => {
     this.setState({ isPanelOpen: !this.state.isPanelOpen });
@@ -52,20 +42,7 @@ class CampaignSender extends React.Component {
 
             <Collapse isOpen={this.state.isPanelOpen}>
               <div className="margin-top-2">
-                <FormGroup>
-                  <Field
-                    type="text"
-                    name="sender_name"
-                    label="Sender Name"
-                    component={InputField}
-                  />
-                  <Field
-                    type="text"
-                    name="sender_email"
-                    label="Sender Email"
-                    component={InputField}
-                  />
-                </FormGroup>
+                <ReduxForm />
                 <Button
                   className="margin-top-2 floatRight"
                   onClick={() => {
@@ -96,10 +73,10 @@ const mapDispatchToProps = {
   updateCampaign
 };
 
-CampaignSender = reduxForm({
+ReduxForm = reduxForm({
   form: "campaignFormA", // a unique name for this form
   enableReinitialize: true,
   keepDirtyOnReinitialize: true
-})(CampaignSender);
+})(ReduxForm);
 
 export default connect(mapStateToProps, mapDispatchToProps)(CampaignSender);
