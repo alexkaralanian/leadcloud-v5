@@ -15,7 +15,7 @@ const ContactListings = ({
 }) => (
   <Row>
     <Col xs={12}>
-      <div className="margin-top-2" />
+      <div className="mt-4" />
       <TableRow
         SearchForm={
           <SearchForm

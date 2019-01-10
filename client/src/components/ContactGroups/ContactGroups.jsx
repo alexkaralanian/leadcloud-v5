@@ -1,20 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { reduxForm } from "redux-form";
-import { Row, Col, Button } from "reactstrap";
+import { Row, Col } from "reactstrap";
 
 import SearchForm from "../SearchForm/SearchForm";
-import Counter from "../../components/Counter/Counter";
 import TableRow from "../TableRow/TableRow";
 
 import "./ContactGroups.css";
 
-const ContactGroups = ({
-  contact,
-  contactGroups,
-  deleteContactGroup,
-  searchContactGroups
-}) => {
+const ContactGroups = ({ contact, contactGroups, deleteContactGroup, searchContactGroups }) => {
   return (
     <Row>
       <Col xs="12">

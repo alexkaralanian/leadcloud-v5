@@ -24,6 +24,13 @@ export const setContact = contact => ({
 
 /* ------------       DISPATCHERS     ------------------ */
 
+export const logFetchData = (state, instance) => {
+  console.log("ON FETCH DATA CALLED", {
+    state,
+    instance
+  });
+};
+
 export const searchContacts = values => {
   const query = values.nativeEvent.target.defaultValue;
   store.dispatch(setIsSearching(true));

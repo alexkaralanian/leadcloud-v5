@@ -16,6 +16,6 @@ exports.mapGoogleContacts = (contact, userId) => {
     address: contact.addresses && contact.addresses,
     membership: membershipArray,
     images: imageArray,
-    updated: moment(contact.metadata.sources[0].updateTime).format("YYYY-MM-DD HH:mm:ss.SSS")
+    updated: contact.metadata.sources[0].updateTime
   };
 };

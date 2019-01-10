@@ -60,7 +60,7 @@ class SearchListingsContainer extends React.Component {
           </div>
 
           <Button
-            className="button margin-top-2"
+            className="button mt-4"
             onClick={() => submitFunction(this.state.selected, hostComponent)}
             bsStyle="primary"
           >

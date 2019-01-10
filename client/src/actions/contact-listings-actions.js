@@ -23,7 +23,6 @@ export const submitContactListings = (contactListingsArray, contact) => async di
     contactId: contact.id,
     listingId: listing.id
   }));
-  // dispatch(setSelected([]));
   try {
     const res = await axios.post(`/api/contacts/${contact.id}/listings`, {
       contactListings

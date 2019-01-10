@@ -1,11 +1,8 @@
 import React from "react";
-// import PropTypes from "prop-types";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { push } from "react-router-redux";
-import { Route, Redirect } from "react-router-dom";
-import { Grid } from "react-bootstrap";
-
-import Navigation from "../NavContainer/NavContainer";
+import { Route } from "react-router-dom";
 import BreadCrumbs from "../../components/BreadCrumbs/BreadCrumbs";
 import Header from "../../components/Header/Header-old";
 import ContactNav from "../../components/SingleContact/ContactNav";
@@ -18,7 +15,6 @@ import ContactGroups from "../../components/ContactGroups/ContactGroups";
 import Modal from "../../components/Modal/Modal";
 
 import SearchGroupsContainer from "../SearchGroupsContainer/SearchGroupsContainer";
-import Loading from "../../components/Loading/Loading";
 import Placeholder from "../../components/Placeholder/Placeholder";
 
 import { clearError } from "../../actions/common-actions";
@@ -45,9 +41,7 @@ import {
 import {
   submitContactGroups,
   deleteContactGroup,
-  searchContactGroups,
-  setDiffedContactGroups,
-  searchDiffedContactGroups
+  searchContactGroups
 } from "../../actions/contact-groups-actions";
 
 import { fetchEmailsByContact, setEmailQuery } from "../../actions/email-actions";
@@ -247,7 +241,7 @@ class SingleContactContainer extends React.Component {
             }
           />
           <Route
-            path={`/contacts/${contact.id}/listings`}
+            path={`/contacts/:id/listings`}
             render={routeProps =>
               contactListings.length > 0 ? (
                 <ContactListings
@@ -282,7 +276,7 @@ class SingleContactContainer extends React.Component {
             }
           />
           <Route
-            path={`/contacts/${contact.id}/groups`}
+            path={`/contacts/:id/groups`}
             render={routeProps =>
               contactGroups.length > 0 ? (
                 <ContactGroups
@@ -303,13 +297,13 @@ class SingleContactContainer extends React.Component {
 
           {/* CONTACT EMAILS */}
           <Route
-            path={`/contacts/${contact.id}/emails`}
+            path={`/contacts/:id/emails`}
             render={routeProps => <SingleContactEmailsContainer {...routeProps} />}
           />
 
           {/* CONTACT MEDIA */}
           <Route
-            path={`/contacts/${contact.id}/media`}
+            path={`/contacts/:id/media`}
             render={routeProps => (
               <ImageCarousel
                 {...routeProps}
