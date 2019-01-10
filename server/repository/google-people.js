@@ -33,7 +33,6 @@ exports.fetchUserContacts = syncToken =>
           "metadata,names,addresses,emailAddresses,phoneNumbers,memberships,occupations,organizations,photos,birthdays",
         auth: oAuth2Client,
         pageSize: 2000,
-        // pageSize: 10,
         pageToken
       };
       if (syncToken) options.syncToken = syncToken;

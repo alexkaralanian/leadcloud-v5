@@ -12,53 +12,45 @@ export const setContacts = contacts => ({
   payload: contacts
 });
 
-export const setIsSearching = bool => ({
-  type: types.SET_IS_SEARCHING,
-  payload: bool
-});
-
 export const setContact = contact => ({
   type: types.SET_CONTACT,
   contact
 });
 
-/* ------------       DISPATCHERS     ------------------ */
+// export const setQuery = query => ({
+//   type: types.SET_QUERY,
+//   payload: query
+// });
 
-export const logFetchData = (state, instance) => {
-  console.log("ON FETCH DATA CALLED", {
-    state,
-    instance
-  });
-};
+// export const setOffset = offset => ({
+//   type: types.SET_OFFSET,
+//   payload: offset
+// });
+
+// export const setCount = count => ({
+//   type: types.SET_COUNT,
+//   payload: count
+// });
+
+/* ------------       DISPATCHERS     ------------------ */
 
 export const searchContacts = values => {
   const query = values.nativeEvent.target.defaultValue;
-  store.dispatch(setIsSearching(true));
   store.dispatch(setQuery(query));
   store.dispatch(setOffset(0));
   store.dispatch(fetchComponent("contacts", [], setContacts, null, null));
   if (!query.length) {
-    setTimeout(() => {
-      store.dispatch(setIsSearching(false));
-    }, 100);
+    // store.dispatch(setIsSearching(false));
   }
 };
 
 // SYNC GOOGLE CONTACTS
 export const syncContacts = () => async dispatch => {
-  const state = store.getState();
-  const limit = state.queryReducer.limit;
-  const offset = state.queryReducer.offset;
-  const newOffset = offset + limit;
-
   dispatch(isFetching(true));
   try {
     const res = await axios.get("/api/sync/google-contacts");
-
     dispatch(setContacts(res.data.rows));
     dispatch(setCount(res.data.count));
-    dispatch(setOffset(25));
-
     dispatch(isFetching(false));
   } catch (err) {
     console.error("Syncing Contacts Unsuccessful", err);

@@ -1,25 +1,14 @@
 import React from "react";
 import debounce from "lodash.debounce";
 import { Field, reduxForm } from "redux-form";
-import { Form, FormGroup, InputGroup, Input, Label } from "reactstrap";
-
-// import inputField from "../InputField/InputField";
-import "./SearchForm.css";
+import { FormGroup, Input, Label } from "reactstrap";
 
 let searchForm;
 
-const inputField = ({
-  input,
-  label,
-  placeholder,
-  type,
-  meta: { touched, active, error }
-}) => (
+const inputField = ({ input, label, placeholder, type, meta: { touched, active, error } }) => (
   <div>
     {label && <Label>{label}</Label>}
-
     <Input {...input} placeholder={placeholder} label={label} type={type} />
-
     {touched && !active && error && <div>{error}</div>}
   </div>
 );

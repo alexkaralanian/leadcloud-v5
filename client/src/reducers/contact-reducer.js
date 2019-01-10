@@ -9,9 +9,10 @@ const initialState = {
   contactListings: [],
   contactGroups: [],
   emailsByContact: [],
-  pageToken: "",
-  maxResults: 15,
-  isSearching: false
+  pages: 0,
+  pageSize: 25,
+  offset: 0,
+  loading: false
 };
 
 const contactReducer = (state = initialState, action) => {
@@ -27,13 +28,6 @@ const contactReducer = (state = initialState, action) => {
         ...state,
         contact: action.contact
       };
-
-    case types.SET_IS_SEARCHING:
-      return {
-        ...state,
-        isSearching: action.payload
-      };
-
     case types.SET_CONTACT_LISTINGS:
       return {
         ...state,

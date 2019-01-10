@@ -8,33 +8,32 @@ const Op = Sequelize.Op;
 
 exports.getAll = async (req, res) => {
   const userId = req.session.user.toString();
-  console.log("USER ID", userId);
   try {
-    // let contacts;
-    // if (req.query.query) {
-    //   contacts = await Contacts.findAndCountAll({
-    //     limit: req.query.limit,
-    //     offset: req.query.offset,
-    //     where: {
-    //       UserUuid: userId,
-    //       [Op.and]: {
-    //         fullName: {
-    //           [Op.iLike]: `%${req.query.query}%`
-    //         }
-    //       }
-    //     },
-    //     order: [["updatedAt", "DESC"]]
-    //   });
-    // } else {
-    const contacts = await Contacts.findAndCountAll({
-      limit: req.query.limit,
-      offset: req.query.offset,
-      where: {
-        UserUuid: userId
-      },
-      order: [["updated", "DESC"], ["fullName", "ASC"]]
-    });
-    // }
+    let contacts;
+    if (req.query.query) {
+      contacts = await Contacts.findAndCountAll({
+        limit: req.query.limit,
+        offset: req.query.offset,
+        where: {
+          UserUuid: userId,
+          [Op.and]: {
+            fullName: {
+              [Op.iLike]: `%${req.query.query}%`
+            }
+          }
+        },
+        order: [["updated", "DESC"], ["fullName", "ASC"]]
+      });
+    } else {
+      contacts = await Contacts.findAndCountAll({
+        limit: req.query.limit,
+        offset: req.query.offset,
+        where: {
+          UserUuid: userId
+        },
+        order: [["updated", "DESC"], ["fullName", "ASC"]]
+      });
+    }
     res.json(contacts);
   } catch (err) {
     console.error("FETCHING CONTACTS ERROR", err);

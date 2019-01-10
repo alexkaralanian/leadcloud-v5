@@ -1,4 +1,5 @@
 import React from "react";
+import moment from "moment";
 import axios from "axios";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -7,23 +8,17 @@ import { Link } from "react-router-dom";
 import ReactTable from "react-table";
 import { Row, Col, Card, CardHeader, CardBody } from "reactstrap";
 
+import "react-table/react-table.css";
+
 import BreadCrumbs from "../../components/BreadCrumbs/BreadCrumbs";
 import Header from "../../components/Header/Header-old";
-import SearchForm from "../../components/SearchForm/SearchForm";
-
-import { fetchComponent, setQuery, setOffset } from "../../actions/query-actions";
-import { clearFormData } from "../../actions/common-actions";
-import {
-  logFetchData,
-  syncContacts,
-  setContacts,
-  searchContacts
-} from "../../actions/contact-actions";
+import { syncContacts } from "../../actions/contact-actions";
 
 const columns = [
   {
     Header: null,
     id: "images",
+    width: 50,
     accessor: contact =>
       contact.images ? (
         <div className="table_img">
@@ -57,7 +52,7 @@ const columns = [
   {
     Header: "Updated",
     id: "updated",
-    accessor: contact => contact.updated
+    accessor: contact => moment(contact.updated).format("ddd, M/D/YY h:mma")
   }
 ];
 
@@ -68,33 +63,82 @@ class ContactsContainer extends React.Component {
     page: 0,
     pageSize: 25,
     offset: 0,
-    loading: false
+    loading: false,
+    query: "",
+    filtered: []
   };
 
-  componentDidMount() {
-    axios
-      .get(
+  async componentDidMount() {
+    try {
+      const res = await axios.get(
         `/api/contacts/?limit=${this.state.pageSize}&offset=${this.state.page *
           this.state.pageSize}`
-      )
-      .then(res => {
-        this.setState({
-          pages: Math.ceil(res.data.count / this.state.pageSize),
-          data: res.data.rows
-        });
+      );
+      this.setState({
+        pages: Math.ceil(res.data.count / this.state.pageSize),
+        data: res.data.rows
       });
+    } catch (err) {
+      console.error(err);
+    }
   }
 
+  onPageChange = async page => {
+    const { pageSize, filtered } = this.state;
+    const offset = page * pageSize;
+    const query = filtered.length ? filtered[0].value : "";
+    try {
+      const res = await axios.get(
+        `/api/contacts/?limit=${pageSize}&offset=${offset}&query=${query}`
+      );
+      this.setState({
+        pages: Math.ceil(res.data.count / pageSize),
+        data: res.data.rows,
+        page
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  onPageSizeChange = async (pageSize, page) => {
+    const { filtered } = this.state;
+    const offset = page * pageSize;
+    const query = filtered.length ? filtered[0].value : "";
+    try {
+      const res = await axios.get(
+        `/api/contacts/?limit=${pageSize}&offset=${offset}&query=${query}`
+      );
+      this.setState({
+        pages: Math.ceil(res.data.count / pageSize),
+        data: res.data.rows,
+        page,
+        pageSize
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  onFilteredChange = async filtered => {
+    const { pageSize } = this.state;
+    const query = filtered.length ? filtered[0].value : "";
+    this.setState({
+      filtered
+    });
+    try {
+      const res = await axios.get(`/api/contacts/?limit=${pageSize}&offset=${0}&query=${query}`);
+      this.setState({
+        data: res.data.rows,
+        pages: Math.ceil(res.data.count / pageSize)
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   render() {
-    const {
-      push,
-      fetchComponent,
-      logFetchData,
-      isFetching,
-      syncContacts,
-      contacts,
-      isSearching
-    } = this.props;
+    const { push, syncContacts } = this.props;
 
     return (
       <React.Fragment>
@@ -108,7 +152,6 @@ class ContactsContainer extends React.Component {
           primaryFunc={() => push("/contacts/new")}
           primaryGlyph="plus"
         />
-
         <Row className="margin-top-2">
           <Col xs="12">
             <Card>
@@ -117,41 +160,26 @@ class ContactsContainer extends React.Component {
                 <strong>All Contacts</strong>
               </CardHeader>
               <CardBody>
-                <SearchForm searchFunction={searchContacts} searchText="Search..." />
                 <ReactTable
+                  className="-highlight"
                   data={this.state.data} // contacts
                   page={this.state.page} // current page
                   pages={this.state.pages} // count
                   loading={this.state.loading}
+                  filtered={this.state.filtered}
                   columns={columns}
-                  defaultPageSize={25}
+                  defaultPageSize={20}
                   minRows={3}
                   manual
+                  filterable
                   onPageChange={page => {
-                    axios
-                      .get(
-                        `/api/contacts/?limit=${this.state.pageSize}&offset=${page *
-                          this.state.pageSize}`
-                      )
-                      .then(res => {
-                        this.setState({
-                          pages: Math.ceil(res.data.count / this.state.pageSize),
-                          data: res.data.rows,
-                          page
-                        });
-                      });
+                    this.onPageChange(page);
                   }}
                   onPageSizeChange={(pageSize, page) => {
-                    axios
-                      .get(`/api/contacts/?limit=${pageSize}&offset=${page * pageSize}`)
-                      .then(res => {
-                        this.setState({
-                          pages: Math.ceil(res.data.count / this.state.pageSize),
-                          data: res.data.rows,
-                          page,
-                          pageSize
-                        });
-                      });
+                    this.onPageSizeChange(pageSize, page);
+                  }}
+                  onFilteredChange={filtered => {
+                    this.onFilteredChange(filtered);
                   }}
                 />
               </CardBody>
@@ -163,19 +191,9 @@ class ContactsContainer extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  isSearching: state.contactReducer.isSearching,
-  contacts: state.contactReducer.contacts
-});
-
 const mapDispatchToProps = {
   syncContacts,
-  fetchComponent,
-  logFetchData,
-  clearFormData,
-  setQuery,
-  setOffset,
   push
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ContactsContainer);
+export default connect(null, mapDispatchToProps)(ContactsContainer);
