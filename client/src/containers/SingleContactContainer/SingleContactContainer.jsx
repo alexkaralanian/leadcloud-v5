@@ -75,24 +75,24 @@ class SingleContactContainer extends React.Component {
       emailsByContact
     } = this.props;
 
-    if (contact !== nextProps.contact) {
-      if (nextProps.contact.email) {
-        let query = "";
-        nextProps.contact.email.forEach(email => {
-          query += `from: ${email.value.trim()} OR `;
-        });
-        query = query.slice(0, query.length - 4);
+    // if (contact !== nextProps.contact) {
+    //   if (nextProps.contact.email) {
+    //     let query = "";
+    //     nextProps.contact.email.forEach(email => {
+    //       query += `from: ${email.value.trim()} OR `;
+    //     });
+    //     query = query.slice(0, query.length - 4);
 
-        setEmailQuery(query);
-        fetchEmailsByContact(
-          // args: query, maxResults, pageToken, emailsArray
-          query,
-          maxResults,
-          0, // reset page token on new contact
-          emailsByContact
-        );
-      }
-    }
+    //     setEmailQuery(query);
+    //     fetchEmailsByContact(
+    //       // args: query, maxResults, pageToken, emailsArray
+    //       query,
+    //       maxResults,
+    //       0, // reset page token on new contact
+    //       emailsByContact
+    //     );
+    //   }
+    // }
   }
 
   componentWillUnmount() {

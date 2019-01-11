@@ -44,7 +44,7 @@ const SingleEmail = Loadable({
 });
 
 const Contacts = Loadable({
-  loader: () => import("./containers/ContactsContainer/ContactsContainer"),
+  loader: () => import("./containers/ContactsContainer/ContactsDashboard"),
   loading: Loading
 });
 

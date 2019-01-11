@@ -112,6 +112,7 @@ exports.create = async (req, res) => {
 };
 
 exports.update = async (req, res) => {
+  console.log("UPDATE CALLED", req.body);
   const userId = req.session.user.toString();
   try {
     const contact = await Contacts.findOne({
@@ -124,6 +125,15 @@ exports.update = async (req, res) => {
     req.body.fullName = `${req.body.firstName ? req.body.firstName.trim() : ""} ${
       req.body.lastName ? req.body.lastName.trim() : ""
     }`;
+
+    if (!contact.email) {
+      req.body.email = [
+        {
+          type: "primary",
+          value: req.body.email.trim()
+        }
+      ];
+    }
     const updatedContact = await contact.update(req.body);
     res.json(updatedContact);
   } catch (err) {

@@ -98,6 +98,27 @@ export const updateContact = (values, id) => async dispatch => {
   } catch (err) {
     console.error("Updating Contact Unsuccessful", err);
   }
+
+  const contact = [
+    {
+      type: "work",
+      value: "lana@VNYmodelmanagement.com",
+      metadata: { source: { id: "6eacbcff0d914333", type: "CONTACT" }, primary: true },
+      formattedType: "Work"
+    },
+    {
+      type: "work",
+      value: "lanaouymodelmanagement@gmail.com",
+      metadata: { source: { id: "6eacbcff0d914333", type: "CONTACT" } },
+      formattedType: "Work"
+    },
+    {
+      type: "work",
+      value: "lana@vnymodels.com",
+      metadata: { source: { id: "6eacbcff0d914333", type: "CONTACT" } },
+      formattedType: "Work"
+    }
+  ];
 };
 
 export const deleteContact = id => async dispatch => {

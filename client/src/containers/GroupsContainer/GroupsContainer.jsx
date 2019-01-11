@@ -1,11 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
 import { push } from "react-router-redux";
-
-import Groups from "../../components/Groups/Groups";
+import { Link } from "react-router-dom";
+import { Card, CardHeader, CardBody, Table } from "reactstrap";
 import SearchForm from "../../components/SearchForm/SearchForm";
-import Loading from "../../components/Loading/Loading";
-import Placeholder from "../../components/Placeholder/Placeholder";
 
 import { setGroups, searchGroups } from "../../actions/group-actions";
 
@@ -13,56 +11,58 @@ import { fetchComponent, setQuery, setOffset } from "../../actions/query-actions
 
 class GroupsContainer extends React.Component {
   componentDidMount() {
-    window.addEventListener("scroll", this.onScroll, false);
     const { fetchComponent, groups } = this.props;
     fetchComponent("groups", [], setGroups, null, null);
   }
 
-  componentWillUnmount() {
-    window.removeEventListener("scroll", this.onScroll, false);
-    const { clearGroups, setQuery, setOffset } = this.props;
-    setGroups([]);
-    setQuery("");
-    setOffset(0);
-  }
-
-  onScroll = () => {
-    const { isLoading, count, offset, fetchComponent, groups } = this.props;
-    if (
-      window.innerHeight + window.scrollY >= document.body.offsetHeight - 500 &&
-      count > offset &&
-      !isLoading
-    ) {
-      fetchComponent("groups", groups, setGroups, null, null);
-    }
-  };
-
-  createNewGroup = () => {
-    this.props.push("/groups/new");
-  };
-
   render = () => {
-    const { isFetching, history, groups, component, searchGroups } = this.props;
+    const { groups, component } = this.props;
     return (
-      <React.Fragment>
-        {isFetching ? (
-          <Loading />
-        ) : groups.length > 0 ? (
-          <Groups
-            SearchForm={<SearchForm searchText="Search..." searchFunction={searchGroups} />}
-            groups={groups}
-            hostId={this.props.hostId}
-            component={this.props.component}
-            submitFunction={this.props.submitFunction}
-          />
-        ) : (
-          <Placeholder
-            headerText="You Dont Have Any Groups Yet..."
-            ctaText="Create New Group"
-            ctaFunc={this.createNewGroup}
-          />
-        )}
-      </React.Fragment>
+      <Card>
+        <CardHeader>
+          <i className="fa fa-align-justify" />
+          <strong>All Groups</strong>
+        </CardHeader>
+        <CardBody>
+          <div>
+            <SearchForm searchText="Search..." searchFunction={searchGroups} />
+          </div>
+          <Table responsive striped>
+            <thead>
+              <tr>
+                <th />
+                <th>Title</th>
+                {component === "ContactGroups" && <th>Action</th>}
+              </tr>
+            </thead>
+            <tbody>
+              {groups &&
+                groups.map(group => (
+                  <tr key={group.id}>
+                    <td>
+                      {group && group.images ? (
+                        <div className="table_img">
+                          <img alt="contact" src={group.images[0]} />
+                        </div>
+                      ) : (
+                        <div className="table_img-null">
+                          <span>
+                            {group && group.title ? group.title.charAt(0).toUpperCase() : null}
+                          </span>
+                        </div>
+                      )}
+                    </td>
+                    <td>
+                      <Link to={`/groups/${group.id}/contacts`}>
+                        <span>{group.title}</span>
+                      </Link>
+                    </td>
+                  </tr>
+                ))}
+            </tbody>
+          </Table>
+        </CardBody>
+      </Card>
     );
   };
 }

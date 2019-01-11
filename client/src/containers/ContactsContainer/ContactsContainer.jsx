@@ -3,16 +3,11 @@ import moment from "moment";
 import axios from "axios";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { push } from "react-router-redux";
 import { Link } from "react-router-dom";
 import ReactTable from "react-table";
 import { Row, Col, Card, CardHeader, CardBody } from "reactstrap";
 
 import "react-table/react-table.css";
-
-import BreadCrumbs from "../../components/BreadCrumbs/BreadCrumbs";
-import Header from "../../components/Header/Header-old";
-import { syncContacts } from "../../actions/contact-actions";
 
 const columns = [
   {
@@ -48,12 +43,12 @@ const columns = [
     id: "phone",
     accessor: contact =>
       contact.phone ? <a href={`tel:${contact.phone[0].value}`}>{contact.phone[0].value}</a> : ""
-  },
-  {
-    Header: "Updated",
-    id: "updated",
-    accessor: contact => moment(contact.updated).format("ddd, M/D/YY h:mma")
   }
+  // {
+  //   Header: "Updated",
+  //   id: "updated",
+  //   accessor: contact => moment(contact.updated).format("ddd, M/D/YY h:mma")
+  // }
 ];
 
 class ContactsContainer extends React.Component {
@@ -141,59 +136,47 @@ class ContactsContainer extends React.Component {
     const { push, syncContacts } = this.props;
 
     return (
-      <React.Fragment>
-        <BreadCrumbs />
-        <Header
-          isVisible
-          componentName="contacts"
-          headerTitle="Contacts"
-          isNew={null}
-          primaryText="Create New"
-          primaryFunc={() => push("/contacts/new")}
-          primaryGlyph="plus"
-        />
-        <Row className="margin-top-2">
-          <Col xs="12">
-            <Card>
-              <CardHeader>
-                <i className="fa fa-align-justify" />
-                <strong>All Contacts</strong>
-              </CardHeader>
-              <CardBody>
-                <ReactTable
-                  className="-highlight"
-                  data={this.state.data} // contacts
-                  page={this.state.page} // current page
-                  pages={this.state.pages} // count
-                  loading={this.state.loading}
-                  filtered={this.state.filtered}
-                  columns={columns}
-                  defaultPageSize={20}
-                  minRows={3}
-                  manual
-                  filterable
-                  onPageChange={page => {
-                    this.onPageChange(page);
-                  }}
-                  onPageSizeChange={(pageSize, page) => {
-                    this.onPageSizeChange(pageSize, page);
-                  }}
-                  onFilteredChange={filtered => {
-                    this.onFilteredChange(filtered);
-                  }}
-                />
-              </CardBody>
-            </Card>
-          </Col>
-        </Row>
-      </React.Fragment>
+      <Card>
+        <CardHeader>
+          <i className="fa fa-align-justify" />
+          <strong>All Contacts</strong>
+        </CardHeader>
+        <CardBody>
+          <ReactTable
+            className="-highlight"
+            data={this.state.data} // contacts
+            page={this.state.page} // current page
+            pages={this.state.pages} // count
+            loading={this.state.loading}
+            filtered={this.state.filtered}
+            columns={columns}
+            defaultPageSize={20}
+            minRows={3}
+            manual
+            filterable
+            onPageChange={page => {
+              this.onPageChange(page);
+            }}
+            onPageSizeChange={(pageSize, page) => {
+              this.onPageSizeChange(pageSize, page);
+            }}
+            onFilteredChange={filtered => {
+              this.onFilteredChange(filtered);
+            }}
+            getProps={props => {
+              console.log("TH FILTER PROPS", props.getTheadFilterTrProps);
+              return {};
+            }}
+          />
+        </CardBody>
+      </Card>
     );
   }
 }
 
-const mapDispatchToProps = {
-  syncContacts,
-  push
-};
+// const mapDispatchToProps = {
+//   syncContacts,
+//   push
+// };
 
-export default connect(null, mapDispatchToProps)(ContactsContainer);
+export default connect(null, null)(ContactsContainer);
