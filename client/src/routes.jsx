@@ -69,7 +69,7 @@ const OpenHouse = Loadable({
 });
 
 const Groups = Loadable({
-  loader: () => import("./containers/GroupsDashboardContainer/GroupsDashboardContainer"),
+  loader: () => import("./containers/GroupsContainer/GroupsDashboard"),
   loading: Loading
 });
 

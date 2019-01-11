@@ -123,6 +123,9 @@ class GroupsContainer extends React.Component {
         </CardHeader>
         <CardBody>
           <ReactTable
+            style={{
+              height: "550px"
+            }}
             className="-highlight"
             data={this.state.data} // contacts
             page={this.state.page} // current page
@@ -132,7 +135,7 @@ class GroupsContainer extends React.Component {
             columns={columns}
             defaultPageSize={20}
             minRows={3}
-            showPaginationTop
+            // showPaginationTop
             showPageSizeOptions={false}
             manual
             filterable

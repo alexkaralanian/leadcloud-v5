@@ -7,8 +7,6 @@ import { Link } from "react-router-dom";
 import ReactTable from "react-table";
 import { Card, CardHeader, CardBody } from "reactstrap";
 
-import "react-table/react-table.css";
-
 const columns = [
   {
     Header: null,
@@ -141,6 +139,9 @@ class ContactsContainer extends React.Component {
         </CardHeader>
         <CardBody>
           <ReactTable
+            style={{
+              height: "550px"
+            }}
             className="-highlight"
             data={this.state.data}
             page={this.state.page}
@@ -150,7 +151,7 @@ class ContactsContainer extends React.Component {
             columns={columns}
             defaultPageSize={20}
             minRows={3}
-            showPaginationTop
+            // showPaginationTop
             showPageSizeOptions={false}
             manual
             filterable

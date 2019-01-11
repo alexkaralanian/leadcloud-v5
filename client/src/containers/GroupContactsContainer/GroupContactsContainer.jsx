@@ -1,100 +1,189 @@
 import React from "react";
+import axios from "axios";
 import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
-import { Row, Col } from "reactstrap";
-import SearchForm from "../../components/SearchForm/SearchForm";
-import SearchToggle from "../../components/SearchToggle/SearchToggle";
-import TableRow from "../../components/TableRow/TableRow";
-import Counter from "../../components/Counter/Counter";
+import { Card, CardHeader, CardBody, Button } from "reactstrap";
+import { Link } from "react-router-dom";
+import ReactTable from "react-table";
 
 import { fetchGroup } from "../../actions/group-actions";
-import { fetchComponent, setQuery, setOffset } from "../../actions/query-actions";
-
-import { searchContacts, setContacts, clearContacts } from "../../actions/contact-actions";
-
-import {
-  setGroupContacts,
-  setGroupContactsComponent,
-  searchGroupContacts,
-  deleteGroupContact
-} from "../../actions/group-contacts-actions";
+import { deleteGroupContact } from "../../actions/group-contacts-actions";
 
 class GroupContactsContainer extends React.Component {
-  componentDidMount() {
-    window.addEventListener("scroll", this.onScroll, false);
-    const { match, fetchComponent, groupContacts, group } = this.props;
-    if (match.params.id !== "new") {
-      fetchComponent("groups", [], setGroupContacts, group.id, "contacts");
+  state = {
+    data: [],
+    pages: 0,
+    page: 0,
+    pageSize: 20,
+    offset: 0,
+    loading: false,
+    query: "",
+    filtered: []
+  };
+
+  async componentDidMount() {
+    const { match } = this.props;
+    try {
+      const res = await axios.get(
+        `/api/groups/${match.params.id}/contacts/?limit=${this.state.pageSize}&offset=${this.state
+          .page * this.state.pageSize}`
+      );
+      this.setState({
+        pages: Math.ceil(res.data.count / this.state.pageSize),
+        data: res.data.rows
+      });
+    } catch (err) {
+      console.error(err);
     }
   }
 
-  componentWillUnmount() {
-    window.removeEventListener("scroll", this.onScroll, false);
-    const { resetQuery, clearGroupContacts, setQuery, setOffset } = this.props;
-    setGroupContacts([]);
-    setQuery("");
-    setOffset(0);
-  }
+  onPageChange = async page => {
+    const { pageSize, filtered } = this.state;
+    const { match } = this.props;
+    const offset = page * pageSize;
+    const query = filtered.length ? filtered[0].value : "";
+    try {
+      const res = await axios.get(
+        `/api/groups/${match.params.id}/contacts/?limit=${pageSize}&offset=${offset}&query=${query}`
+      );
+      this.setState({
+        pages: Math.ceil(res.data.count / pageSize),
+        data: res.data.rows,
+        page
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
-  onScroll = () => {
-    const { isLoading, count, offset, fetchComponent, groupContacts, group } = this.props;
+  onPageSizeChange = async (pageSize, page) => {
+    const { filtered } = this.state;
+    const { match } = this.props;
+    const offset = page * pageSize;
+    const query = filtered.length ? filtered[0].value : "";
+    try {
+      const res = await axios.get(
+        `/api/groups/${match.params.id}/contacts/?limit=${pageSize}&offset=${offset}&query=${query}`
+      );
+      this.setState({
+        pages: Math.ceil(res.data.count / pageSize),
+        data: res.data.rows,
+        page,
+        pageSize
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
-    if (
-      window.innerHeight + window.scrollY >= document.body.offsetHeight - 500 &&
-      count > offset &&
-      !isLoading
-    ) {
-      fetchComponent("groups", groupContacts, setGroupContacts, group.id, "contacts");
+  onFilteredChange = async filtered => {
+    const { match } = this.props;
+    const { pageSize } = this.state;
+    const query = filtered.length ? filtered[0].value : "";
+    this.setState({
+      filtered
+    });
+    try {
+      const res = await axios.get(
+        `/api/groups/${match.params.id}/contacts/?limit=${pageSize}&offset=${0}&query=${query}`
+      );
+      this.setState({
+        data: res.data.rows,
+        pages: Math.ceil(res.data.count / pageSize)
+      });
+    } catch (err) {
+      console.error(err);
     }
   };
 
   render() {
-    const {
-      isAuthed,
-      groupContacts,
-      group,
-      isFetching,
-      groupContactsSearchResults,
-      submitGroupContact,
-      deleteGroupContact
-    } = this.props;
+    const columns = [
+      {
+        Header: null,
+        id: "images",
+        width: 50,
+        accessor: contact =>
+          contact.images ? (
+            <div className="table_img">
+              <img alt="contact" src={contact.images[0]} />
+            </div>
+          ) : (
+            <div className="table_img-null">
+              <span>{contact.firstName && contact.firstName.charAt(0).toUpperCase()}</span>
+            </div>
+          )
+      },
+      {
+        Header: "Name",
+        id: "fullName",
+        accessor: contact =>
+          contact.fullName ? <Link to={`/contacts/${contact.id}`}>{contact.fullName}</Link> : ""
+      },
+      {
+        Header: "Email",
+        id: "email",
+        accessor: contact =>
+          contact.email ? (
+            <a href={`mailto:${contact.email[0].value}`}>{contact.email[0].value}</a>
+          ) : (
+            ""
+          )
+      },
+      {
+        Header: "Phone",
+        id: "phone",
+        accessor: contact =>
+          contact.phone ? (
+            <a href={`tel:${contact.phone[0].value}`}>{contact.phone[0].value}</a>
+          ) : (
+            ""
+          )
+      },
+      {
+        Header: "Action",
+        id: "id",
+        accessor: contact => (
+          <Button color="danger" onClick={() => deleteGroupContact(contact.id)}>
+            Remove Contact
+          </Button>
+        )
+      }
+    ];
 
     return (
-      <Row>
-        <Col xs={12}>
-          <div className="margin-top-2" s />
-          <TableRow
-            cardHeaderText="Group Contacts"
-            SearchForm={<SearchForm searchFunction={searchGroupContacts} />}
-            componentName="contacts"
-            rowText="fullName"
-            collection={groupContacts}
-            submitFunction={deleteGroupContact}
-            buttonText={"Remove"}
-            buttonStyle={"danger"}
-            hostComponent={group}
+      <Card className="mt-4 mb-0">
+        <CardHeader>
+          <i className="fa fa-align-justify" />
+          <strong>All Contacts</strong>
+        </CardHeader>
+        <CardBody>
+          <ReactTable
+            className="-highlight"
+            data={this.state.data}
+            page={this.state.page}
+            pages={this.state.pages}
+            loading={this.state.loading}
+            filtered={this.state.filtered}
+            columns={columns}
+            defaultPageSize={20}
+            minRows={3}
+            showPaginationTop
+            showPageSizeOptions={false}
+            manual
+            filterable
+            onPageChange={page => {
+              this.onPageChange(page);
+            }}
+            onPageSizeChange={(pageSize, page) => {
+              this.onPageSizeChange(pageSize, page);
+            }}
+            onFilteredChange={filtered => {
+              this.onFilteredChange(filtered);
+            }}
           />
-        </Col>
-      </Row>
+        </CardBody>
+      </Card>
     );
   }
 }
 
-const mapStateToProps = state => ({
-  isFetching: state.commonReducer.isFetching,
-  isLoading: state.queryReducer.isLoading,
-  count: state.queryReducer.count,
-  offset: state.queryReducer.offset,
-  group: state.groupReducer.group,
-  groupContacts: state.groupReducer.groupContacts
-});
-
-const mapDispatchToProps = {
-  fetchGroup,
-  fetchComponent,
-  deleteGroupContact,
-  setQuery,
-  setOffset
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(GroupContactsContainer);
+export default connect(null, { fetchGroup })(GroupContactsContainer);

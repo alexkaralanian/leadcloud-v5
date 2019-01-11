@@ -11,12 +11,7 @@ import GroupNav from "../../components/SingleGroup/GroupNav";
 import Modal from "../../components/Modal/Modal";
 import SearchContactsContainer from "../SearchContactsContainer/SearchContactsContainer";
 
-import {
-  fetchComponent,
-  setQuery,
-  setOffset,
-  setCount
-} from "../../actions/query-actions";
+import { fetchComponent, setQuery, setOffset, setCount } from "../../actions/query-actions";
 
 import {
   fetchGroup,
@@ -157,16 +152,14 @@ class SingleGroupContainer extends React.Component {
         />
         <Route
           exact
-          path={`/groups/${group.id}/contacts`}
+          path={`/groups/:id/contacts`}
           render={routeProps => <GroupContactsContainer {...routeProps} />}
         />
 
         {/* GROUP INFO */}
         <Route
           exact
-          path={
-            match.path === "/groups/new" ? `/groups/new` : `/groups/${group.id}`
-          }
+          path={match.path === "/groups/new" ? `/groups/new` : `/groups/:id`}
           render={routeProps => (
             <GroupForm
               {...routeProps}
@@ -207,6 +200,4 @@ const mapDispatchToProps = {
   submitGroupContacts
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  SingleGroupContainer
-);
+export default connect(mapStateToProps, mapDispatchToProps)(SingleGroupContainer);

@@ -48,22 +48,26 @@ class ContactsDashboard extends React.Component {
               <DropdownToggle caret>Actions</DropdownToggle>
               <DropdownMenu right>
                 <DropdownItem onClick={() => push("/contacts/new")}>Create New</DropdownItem>
-                <DropdownItem onClick={syncContacts}>Sync Google Contacts</DropdownItem>
                 <DropdownItem onClick={this.displayGroups}>Display Groups Panel</DropdownItem>
+                <DropdownItem onClick={syncContacts}>Sync Google Contacts</DropdownItem>
               </DropdownMenu>
             </Dropdown>
           </Header>
         </Col>
-        <DragDropContextProvider backend={HTML5Backend}>
-          {displayGroups && (
+        {displayGroups ? (
+          <DragDropContextProvider backend={HTML5Backend}>
             <Col xs={0} lg={4} className="groups-container">
               <GroupsContainer />
             </Col>
-          )}
+            <Col xs={12} lg={displayGroups ? 8 : 12}>
+              <ContactsContainer />
+            </Col>
+          </DragDropContextProvider>
+        ) : (
           <Col xs={12} lg={displayGroups ? 8 : 12}>
             <ContactsContainer />
           </Col>
-        </DragDropContextProvider>
+        )}
       </Row>
     );
   }
