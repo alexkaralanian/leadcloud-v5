@@ -7,48 +7,6 @@ import { Link } from "react-router-dom";
 import ReactTable from "react-table";
 import { Card, CardHeader, CardBody } from "reactstrap";
 
-const columns = [
-  {
-    Header: null,
-    id: "images",
-    width: 50,
-    accessor: contact =>
-      contact.images ? (
-        <div className="table_img">
-          <img alt="contact" src={contact.images[0]} />
-        </div>
-      ) : (
-        <div className="table_img-null">
-          <span>{contact.firstName && contact.firstName.charAt(0).toUpperCase()}</span>
-        </div>
-      )
-  },
-  {
-    Header: "Name",
-    id: "fullName",
-    accessor: contact =>
-      contact.fullName ? <Link to={`/contacts/${contact.id}`}>{contact.fullName}</Link> : ""
-  },
-
-  {
-    Header: "Email",
-    id: "email",
-    accessor: contact =>
-      contact.email ? <a href={`mailto:${contact.email[0].value}`}>{contact.email[0].value}</a> : ""
-  },
-  {
-    Header: "Phone",
-    id: "phone",
-    accessor: contact =>
-      contact.phone ? <a href={`tel:${contact.phone[0].value}`}>{contact.phone[0].value}</a> : ""
-  }
-  // {
-  //   Header: "Updated",
-  //   id: "updated",
-  //   accessor: contact => moment(contact.updated).format("ddd, M/D/YY h:mma")
-  // }
-];
-
 class ContactsContainer extends React.Component {
   state = {
     data: [],
@@ -131,6 +89,55 @@ class ContactsContainer extends React.Component {
   };
 
   render() {
+    const columns = [
+      {
+        Header: null,
+        id: "images",
+        width: 50,
+        accessor: contact =>
+          contact.images ? (
+            <div className="table_img">
+              <img alt="contact" src={contact.images[0]} />
+            </div>
+          ) : (
+            <div className="table_img-null">
+              <span>{contact.firstName && contact.firstName.charAt(0).toUpperCase()}</span>
+            </div>
+          )
+      },
+      {
+        Header: "Name",
+        id: "fullName",
+        accessor: contact =>
+          contact.fullName ? <Link to={`/contacts/${contact.id}`}>{contact.fullName}</Link> : ""
+      },
+
+      {
+        Header: "Email",
+        id: "email",
+        accessor: contact =>
+          contact.email ? (
+            <a href={`mailto:${contact.email[0].value}`}>{contact.email[0].value}</a>
+          ) : (
+            ""
+          )
+      },
+      {
+        Header: "Phone",
+        id: "phone",
+        accessor: contact =>
+          contact.phone ? (
+            <a href={`tel:${contact.phone[0].value}`}>{contact.phone[0].value}</a>
+          ) : (
+            ""
+          )
+      }
+      // {
+      //   Header: "Updated",
+      //   id: "updated",
+      //   accessor: contact => moment(contact.updated).format("ddd, M/D/YY h:mma")
+      // }
+    ];
     return (
       <Card className="mt-4 mb-0">
         <CardHeader>
@@ -140,7 +147,7 @@ class ContactsContainer extends React.Component {
         <CardBody>
           <ReactTable
             style={{
-              height: "550px"
+              "max-height": "475px"
             }}
             className="-highlight"
             data={this.state.data}

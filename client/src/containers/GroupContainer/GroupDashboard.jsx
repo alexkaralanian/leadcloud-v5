@@ -1,25 +1,18 @@
 import React from "react";
 import { push } from "react-router-redux";
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap";
 import { connect } from "react-redux";
 import { Route } from "react-router-dom";
-import Navigation from "../NavContainer/NavContainer";
 import BreadCrumbs from "../../components/BreadCrumbs/BreadCrumbs";
-import Header from "../../components/Header/Header-old";
+
+import Header from "../../components/Header/Header-new";
 import GroupForm from "../../components/SingleGroup/GroupForm";
-import GroupContactsContainer from "../GroupContactsContainer/GroupContactsContainer";
+import GroupContacts from "./GroupContacts";
 import GroupNav from "../../components/SingleGroup/GroupNav";
 import Modal from "../../components/Modal/Modal";
 import SearchContactsContainer from "../SearchContactsContainer/SearchContactsContainer";
 
-import { fetchComponent, setQuery, setOffset, setCount } from "../../actions/query-actions";
-
-import {
-  fetchGroup,
-  submitNewGroup,
-  updateGroup,
-  deleteGroup,
-  setGroup
-} from "../../actions/group-actions";
+import { fetchGroup, submitNewGroup, updateGroup, deleteGroup } from "../../actions/group-actions";
 
 import {
   submitGroupContacts,
@@ -27,10 +20,10 @@ import {
   setDiffedGroupContacts
 } from "../../actions/group-contacts-actions";
 
-class SingleGroupContainer extends React.Component {
+class GroupContainer extends React.Component {
   state = {
-    activeKey: 1,
-    isContactsModalVisible: false
+    isContactsModalVisible: false,
+    dropdownOpen: false
   };
 
   componentDidMount() {
@@ -40,35 +33,12 @@ class SingleGroupContainer extends React.Component {
     }
   }
 
-  componentWillUnmount() {
-    const { setGroup, setOffset } = this.props;
-    setOffset(0);
-    setGroup({});
-  }
-
-  // GROUP SUB-NAV
-  onMenuSelect = eventKey => {
-    const { push, match, location } = this.props;
-    const groupId = match.params.id;
-
-    if (eventKey === 1) {
-      push(`/groups/${groupId}`);
-      this.setState({ activeKey: 1 });
-    }
-
-    if (eventKey === 2) {
-      push(`/groups/${groupId}/contacts`);
-      this.setState({ activeKey: 2 });
-    }
-
-    if (eventKey === 3) {
-      push(`/groups/${groupId}/media`);
-      this.setState({ activeKey: 3 });
-    }
+  toggle = () => {
+    this.setState(prevState => ({
+      dropdownOpen: !prevState.dropdownOpen
+    }));
   };
-  0;
 
-  // GROUP CONTACTS MODAL
   displayContactsModal = () => {
     this.setState({
       isContactsModalVisible: true
@@ -89,47 +59,22 @@ class SingleGroupContainer extends React.Component {
   };
 
   // HEADER
-  headerFunc = () => {
-    const { match, location } = this.props;
-    switch (location.pathname) {
-      case `/groups/${match.params.id}/contacts`:
-        return {
-          modalFunc: this.displayContactsModal,
-          modalText: "Add Group Contacts",
-          isVisible: true
-        };
-      default:
-        return {
-          modalFunc: null,
-          modalText: null,
-          isVisible: false
-        };
-    }
-  };
 
   render() {
-    const {
-      // isAuthed,
-      match,
-      push,
-      group,
-      submitNewGroup,
-      updateGroup,
-      deleteGroup
-    } = this.props;
+    const { match, push, group, submitNewGroup, updateGroup, deleteGroup } = this.props;
 
     return (
       <React.Fragment>
         <BreadCrumbs />
-        <Header
-          isVisible={this.headerFunc().isVisible}
-          isNew={match.path === "/groups/new"}
-          componentName="Group"
-          headerTitle={group.title}
-          primaryFunc={() => this.headerFunc().modalFunc()}
-          primaryGlyph="plus"
-          primaryText={this.headerFunc().modalText}
-        />
+        <Header>
+          <h1>{group.title}</h1>
+          <Dropdown isOpen={this.state.dropdownOpen} color="primary" toggle={this.toggle}>
+            <DropdownToggle caret>Actions</DropdownToggle>
+            <DropdownMenu right>
+              <DropdownItem onClick={() => push("/groups/new")}>Create New</DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+        </Header>
 
         {/* GROUP NESTED NAV */}
         {match.path !== "/groups/new" && <GroupNav push={push} group={group} />}
@@ -153,7 +98,7 @@ class SingleGroupContainer extends React.Component {
         <Route
           exact
           path={`/groups/:id/contacts`}
-          render={routeProps => <GroupContactsContainer {...routeProps} />}
+          render={routeProps => <GroupContacts {...routeProps} />}
         />
 
         {/* GROUP INFO */}
@@ -187,17 +132,11 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   push,
-  setQuery,
-  setOffset,
-  setCount,
-  fetchComponent,
-
   fetchGroup,
-  setGroup,
   submitNewGroup,
   updateGroup,
   deleteGroup,
   submitGroupContacts
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SingleGroupContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(GroupContainer);

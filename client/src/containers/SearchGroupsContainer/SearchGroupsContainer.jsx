@@ -57,7 +57,7 @@ class SearchGroupsContainer extends React.Component {
             labelKey="title"
           />
           <Button
-            className="button margin-top-2"
+            className="mt-4"
             onClick={() => submitFunction(this.state.selected, hostComponent)}
             bsStyle="primary"
           >

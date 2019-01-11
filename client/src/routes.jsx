@@ -4,14 +4,13 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Route, Switch } from "react-router-dom";
 import { Container } from "reactstrap";
-import { history } from "./store";
 import { ConnectedRouter } from "react-router-redux";
 import Header from "./components/Header/Header";
 import Sidebar from "./components/Sidebar/Sidebar";
 import { fetchUser } from "./actions/auth-actions";
 import CalendarContainer from "./containers/CalendarContainer/CalendarContainer";
-
 import Loading from "./components/Loading/Loading";
+import { history } from "./store";
 
 const LandingPage = Loadable({
   loader: () => import("./containers/LandingPageContainer/LandingPageContainer"),
@@ -28,18 +27,8 @@ const Profile = Loadable({
   loading: Loading
 });
 
-const Calendar = Loadable({
-  loader: () => import("./containers/CalendarContainer/CalendarContainer"),
-  loading: Loading
-});
-
 const Emails = Loadable({
   loader: () => import("./containers/EmailsContainer/EmailsContainer"),
-  loading: Loading
-});
-
-const SingleEmail = Loadable({
-  loader: () => import("./containers/SingleEmailContainer/SingleEmailContainer"),
   loading: Loading
 });
 
@@ -73,13 +62,8 @@ const Groups = Loadable({
   loading: Loading
 });
 
-const SingleGroup = Loadable({
-  loader: () => import("./containers/SingleGroupContainer/SingleGroupContainer"),
-  loading: Loading
-});
-
-const GroupContacts = Loadable({
-  loader: () => import("./containers/GroupContactsContainer/GroupContactsContainer"),
+const Group = Loadable({
+  loader: () => import("./containers/GroupContainer/GroupDashboard"),
   loading: Loading
 });
 
@@ -90,11 +74,6 @@ const Campaigns = Loadable({
 
 const CreateCampaign = Loadable({
   loader: () => import("./containers/CreateCampaignContainer/CreateCampaignContainer"),
-  loading: Loading
-});
-
-const SingleCampaign = Loadable({
-  loader: () => import("./containers/SingleCampaignContainer/SingleCampaignContainer"),
   loading: Loading
 });
 
@@ -128,8 +107,8 @@ class App extends React.Component {
                     <Route path="/listings/:id" component={SingleListing} />
                     <Route exact path="/listings/:id/openhouse" component={OpenHouse} />
                     <Route exact path="/groups" component={Groups} />
-                    <Route path="/groups/new" component={SingleGroup} />
-                    <Route path="/groups/:id" component={SingleGroup} />
+                    <Route path="/groups/new" component={Group} />
+                    <Route path="/groups/:id" component={Group} />
                     <Route exact path="/campaigns" component={Campaigns} />
                     <Route path="/campaigns/new" component={CreateCampaign} />
                     <Route path="/campaigns/:id" component={CreateCampaign} />

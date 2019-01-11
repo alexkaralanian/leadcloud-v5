@@ -10,33 +10,6 @@ import { setGroups, searchGroups } from "../../actions/group-actions";
 
 import { fetchComponent, setQuery, setOffset } from "../../actions/query-actions";
 
-const columns = [
-  {
-    Header: null,
-    id: "images",
-    width: 50,
-    accessor: group =>
-      group.images ? (
-        <div className="table_img">
-          <img alt="contact" src={group.images[0]} />
-        </div>
-      ) : (
-        <div className="table_img-null">
-          <span>{group && group.title ? group.title.charAt(0).toUpperCase() : null}</span>
-        </div>
-      )
-  },
-  {
-    Header: "Title",
-    id: "title",
-    accessor: group => (
-      <Link to={`/groups/${group.id}/contacts`}>
-        <span>{group.title}</span>
-      </Link>
-    )
-  }
-];
-
 class GroupsContainer extends React.Component {
   state = {
     data: [],
@@ -115,6 +88,33 @@ class GroupsContainer extends React.Component {
 
   render = () => {
     const { groups, component } = this.props;
+    const columns = [
+      {
+        Header: null,
+        id: "images",
+        width: 50,
+        accessor: group =>
+          group.images ? (
+            <div className="table_img">
+              <img alt="contact" src={group.images[0]} />
+            </div>
+          ) : (
+            <div className="table_img-null">
+              <span>{group && group.title ? group.title.charAt(0).toUpperCase() : null}</span>
+            </div>
+          )
+      },
+      {
+        Header: "Title",
+        id: "title",
+        accessor: group => (
+          <Link to={`/groups/${group.id}/contacts`}>
+            <span>{group.title}</span>
+          </Link>
+        )
+      }
+    ];
+
     return (
       <Card className="mt-4 mb-0">
         <CardHeader>
@@ -124,7 +124,7 @@ class GroupsContainer extends React.Component {
         <CardBody>
           <ReactTable
             style={{
-              height: "550px"
+              "max-height": "475px"
             }}
             className="-highlight"
             data={this.state.data} // contacts
@@ -134,7 +134,7 @@ class GroupsContainer extends React.Component {
             filtered={this.state.filtered}
             columns={columns}
             defaultPageSize={20}
-            minRows={3}
+            minRows={8}
             // showPaginationTop
             showPageSizeOptions={false}
             manual
@@ -148,10 +148,6 @@ class GroupsContainer extends React.Component {
             onFilteredChange={filtered => {
               this.onFilteredChange(filtered);
             }}
-            // getProps={props => {
-            //   console.log("TH FILTER PROPS", props.getTheadFilterTrProps);
-            //   return {};
-            // }}
           />
         </CardBody>
       </Card>
