@@ -1,40 +1,66 @@
 import React from "react";
 import { push } from "react-router-redux";
 import { connect } from "react-redux";
-import { Row, Col } from "reactstrap";
+import { Row, Col, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap";
 import { DragDropContextProvider } from "react-dnd";
 import HTML5Backend from "react-dnd-html5-backend";
-
+import Loadable from "react-loadable";
+import Loading from "../../components/Loading/Loading";
 import BreadCrumbs from "../../components/BreadCrumbs/BreadCrumbs";
-import Header from "../../components/Header/Header-old";
+import Header from "../../components/Header/Header-new";
 import ContactsContainer from "./ContactsContainer";
-import GroupsContainer from "../GroupsContainer/GroupsContainer";
 import { syncContacts } from "../../actions/contact-actions";
-
 import "./Contacts.scss";
 
+const GroupsContainer = Loadable({
+  loader: () => import("../GroupsContainer/GroupsContainer"),
+  loading: Loading
+});
+
 class ContactsDashboard extends React.Component {
+  state = {
+    dropdownOpen: false,
+    displayGroups: false
+  };
+
+  toggle = () => {
+    this.setState(prevState => ({
+      dropdownOpen: !prevState.dropdownOpen
+    }));
+  };
+
+  displayGroups = () => {
+    this.setState(prevState => ({
+      displayGroups: !prevState.displayGroups
+    }));
+  };
+
   render() {
     const { push } = this.props;
+    const { displayGroups } = this.state;
     return (
       <Row>
         <Col xs={12}>
           <BreadCrumbs />
-          <Header
-            isVisible
-            componentName="contacts"
-            headerTitle="Contacts"
-            isNew={null}
-            primaryText="Create New"
-            primaryFunc={() => push("/contacts/new")}
-            primaryGlyph="plus"
-          />
+          <Header>
+            <h1>Contacts</h1>
+            <Dropdown isOpen={this.state.dropdownOpen} color="primary" toggle={this.toggle}>
+              <DropdownToggle caret>Actions</DropdownToggle>
+              <DropdownMenu right>
+                <DropdownItem onClick={() => push("/contacts/new")}>Create New</DropdownItem>
+                <DropdownItem onClick={syncContacts}>Sync Google Contacts</DropdownItem>
+                <DropdownItem onClick={this.displayGroups}>Display Groups Panel</DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+          </Header>
         </Col>
         <DragDropContextProvider backend={HTML5Backend}>
-          <Col xs={0} lg={4} className="groups-container mt-4">
-            <GroupsContainer />
-          </Col>
-          <Col xs={12} lg={8} className="mt-4">
+          {displayGroups && (
+            <Col xs={0} lg={4} className="groups-container">
+              <GroupsContainer />
+            </Col>
+          )}
+          <Col xs={12} lg={displayGroups ? 8 : 12}>
             <ContactsContainer />
           </Col>
         </DragDropContextProvider>

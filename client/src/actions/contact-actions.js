@@ -17,32 +17,17 @@ export const setContact = contact => ({
   contact
 });
 
-// export const setQuery = query => ({
-//   type: types.SET_QUERY,
-//   payload: query
-// });
-
-// export const setOffset = offset => ({
-//   type: types.SET_OFFSET,
-//   payload: offset
-// });
-
-// export const setCount = count => ({
-//   type: types.SET_COUNT,
-//   payload: count
-// });
-
 /* ------------       DISPATCHERS     ------------------ */
 
-export const searchContacts = values => {
-  const query = values.nativeEvent.target.defaultValue;
-  store.dispatch(setQuery(query));
-  store.dispatch(setOffset(0));
-  store.dispatch(fetchComponent("contacts", [], setContacts, null, null));
-  if (!query.length) {
-    // store.dispatch(setIsSearching(false));
-  }
-};
+// export const searchContacts = values => {
+//   const query = values.nativeEvent.target.defaultValue;
+//   store.dispatch(setQuery(query));
+//   store.dispatch(setOffset(0));
+//   store.dispatch(fetchComponent("contacts", [], setContacts, null, null));
+//   if (!query.length) {
+//     // store.dispatch(setIsSearching(false));
+//   }
+// };
 
 // SYNC GOOGLE CONTACTS
 export const syncContacts = () => async dispatch => {
@@ -98,27 +83,6 @@ export const updateContact = (values, id) => async dispatch => {
   } catch (err) {
     console.error("Updating Contact Unsuccessful", err);
   }
-
-  const contact = [
-    {
-      type: "work",
-      value: "lana@VNYmodelmanagement.com",
-      metadata: { source: { id: "6eacbcff0d914333", type: "CONTACT" }, primary: true },
-      formattedType: "Work"
-    },
-    {
-      type: "work",
-      value: "lanaouymodelmanagement@gmail.com",
-      metadata: { source: { id: "6eacbcff0d914333", type: "CONTACT" } },
-      formattedType: "Work"
-    },
-    {
-      type: "work",
-      value: "lana@vnymodels.com",
-      metadata: { source: { id: "6eacbcff0d914333", type: "CONTACT" } },
-      formattedType: "Work"
-    }
-  ];
 };
 
 export const deleteContact = id => async dispatch => {

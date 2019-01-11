@@ -1,11 +1,11 @@
 import React from "react";
-import moment from "moment";
+// import moment from "moment";
 import axios from "axios";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import ReactTable from "react-table";
-import { Row, Col, Card, CardHeader, CardBody } from "reactstrap";
+import { Card, CardHeader, CardBody } from "reactstrap";
 
 import "react-table/react-table.css";
 
@@ -56,7 +56,7 @@ class ContactsContainer extends React.Component {
     data: [],
     pages: 0,
     page: 0,
-    pageSize: 25,
+    pageSize: 20,
     offset: 0,
     loading: false,
     query: "",
@@ -133,10 +133,8 @@ class ContactsContainer extends React.Component {
   };
 
   render() {
-    const { push, syncContacts } = this.props;
-
     return (
-      <Card>
+      <Card className="mt-4 mb-0">
         <CardHeader>
           <i className="fa fa-align-justify" />
           <strong>All Contacts</strong>
@@ -144,14 +142,16 @@ class ContactsContainer extends React.Component {
         <CardBody>
           <ReactTable
             className="-highlight"
-            data={this.state.data} // contacts
-            page={this.state.page} // current page
-            pages={this.state.pages} // count
+            data={this.state.data}
+            page={this.state.page}
+            pages={this.state.pages}
             loading={this.state.loading}
             filtered={this.state.filtered}
             columns={columns}
             defaultPageSize={20}
             minRows={3}
+            showPaginationTop
+            showPageSizeOptions={false}
             manual
             filterable
             onPageChange={page => {
@@ -163,20 +163,11 @@ class ContactsContainer extends React.Component {
             onFilteredChange={filtered => {
               this.onFilteredChange(filtered);
             }}
-            getProps={props => {
-              console.log("TH FILTER PROPS", props.getTheadFilterTrProps);
-              return {};
-            }}
           />
         </CardBody>
       </Card>
     );
   }
 }
-
-// const mapDispatchToProps = {
-//   syncContacts,
-//   push
-// };
 
 export default connect(null, null)(ContactsContainer);

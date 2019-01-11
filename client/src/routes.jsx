@@ -2,7 +2,7 @@ import React from "react";
 import Loadable from "react-loadable";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import { Container } from "reactstrap";
 import { history } from "./store";
 import { ConnectedRouter } from "react-router-redux";

@@ -3,16 +3,16 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
   background-color: #333;
   padding: 1rem;
   border-radius: 2px;
-  overflow: hidden;
 }
 
 .header__content {
+  justify-content: space-between;
   display: flex;
   align-items: center;
+  width: 100%;
 }
 
 .header__content h1 {
