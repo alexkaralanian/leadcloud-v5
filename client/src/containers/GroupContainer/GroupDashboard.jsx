@@ -8,7 +8,6 @@ import BreadCrumbs from "../../components/BreadCrumbs/BreadCrumbs";
 import Header from "../../components/Header/Header-new";
 import GroupForm from "../../components/SingleGroup/GroupForm";
 import GroupContacts from "./GroupContacts";
-import GroupNav from "../../components/SingleGroup/GroupNav";
 import Modal from "../../components/Modal/Modal";
 import SearchContactsContainer from "../SearchContactsContainer/SearchContactsContainer";
 
@@ -71,13 +70,16 @@ class GroupContainer extends React.Component {
           <Dropdown isOpen={this.state.dropdownOpen} color="primary" toggle={this.toggle}>
             <DropdownToggle caret>Actions</DropdownToggle>
             <DropdownMenu right>
-              <DropdownItem onClick={() => push("/groups/new")}>Create New</DropdownItem>
+              <DropdownItem onClick={() => push(`/groups/${match.params.id}/contacts`)}>
+                View Members
+              </DropdownItem>
+              <DropdownItem onClick={() => push(`/groups/${match.params.id}`)}>Edit</DropdownItem>
             </DropdownMenu>
           </Dropdown>
         </Header>
 
-        {/* GROUP NESTED NAV */}
-        {match.path !== "/groups/new" && <GroupNav push={push} group={group} />}
+        {/* GROUP NESTED NAV
+        {match.path !== "/groups/new" && <GroupNav push={push} group={group} />}*/}
 
         {/* GROUP CONTACTS*/}
         <Modal
