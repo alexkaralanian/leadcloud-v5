@@ -1,5 +1,6 @@
 import axios from "axios";
 import store from "../store";
+import { setSelected } from "./group-contacts-search";
 
 const initialState = {
   data: [],
@@ -121,6 +122,7 @@ export const submitGroupContacts = (groupContactsArray, group) => async dispatch
       groupContacts
     });
     dispatch(setGroupContacts(res.data.rows));
+    dispatch(setSelected([]));
   } catch (err) {
     console.error("Submitting Group Contacts Unsuccessful", err);
   }

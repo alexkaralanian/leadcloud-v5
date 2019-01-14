@@ -44,7 +44,7 @@ class SearchContacts extends React.Component {
             }}
             maxResults={10}
             paginate
-            pagionationText="Display More..."
+            paginationText="Display More..."
             options={options}
             labelKey="fullName"
             delay={0}

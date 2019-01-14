@@ -42,15 +42,6 @@ export const diffGroupContacts = allContacts => {
   return Object.values(map);
 };
 
-export const fetchContacts = () => async dispatch => {
-  try {
-    const res = await axios.get(`/api/contacts/?limit=${20}&offset=${0}`);
-    dispatch(setOptions(res.data.rows));
-  } catch (err) {
-    console.error(err);
-  }
-};
-
 export const searchGroupContacts = query => async dispatch => {
   const state = store.getState();
   const { limit } = state.groupContactsSearch;
@@ -61,6 +52,15 @@ export const searchGroupContacts = query => async dispatch => {
     const diffedContacts = diffGroupContacts(res.data.rows);
     dispatch(isLoading(false));
     dispatch(setOptions(diffedContacts));
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const fetchContacts = () => async dispatch => {
+  try {
+    const res = await axios.get(`/api/contacts/?limit=${20}&offset=${0}`);
+    dispatch(setOptions(res.data.rows));
   } catch (err) {
     console.error(err);
   }
