@@ -3,10 +3,10 @@ import PropTypes from "prop-types";
 import { reduxForm } from "redux-form";
 import { Row, Col } from "reactstrap";
 
-import SearchForm from "../SearchForm/SearchForm";
-import TableRow from "../TableRow/TableRow";
+import SearchForm from "../../SearchForm/SearchForm";
+import TableRow from "../../TableRow/TableRow";
 
-import "./ContactGroups.css";
+import "../Contacts.scss";
 
 const ContactGroups = ({ contact, contactGroups, deleteContactGroup, searchContactGroups }) => {
   return (

@@ -1,15 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import Emails from "../../components/Emails/Emails";
-import Placeholder from "../../components/Placeholder/Placeholder";
-import Errors from "../../components/Error/Error";
+import Emails from "../../Emails/Emails";
+import Errors from "../../Error/Error";
 
-import {
-  fetchEmailsByContact,
-  setEmailsByContact,
-  setError
-} from "../../actions/email-actions";
+import { fetchEmailsByContact, setEmailsByContact, setError } from "../../../actions/email-actions";
 
 class SingleContactEmailsContainer extends React.Component {
   constructor(props) {
@@ -51,17 +46,7 @@ class SingleContactEmailsContainer extends React.Component {
     const { emailsByContact, contact, error, isFetching } = this.props;
     return (
       <React.Fragment>
-        {emailsByContact.length > 0 ? (
-          <Emails emails={emailsByContact} isFetching={isFetching} />
-        ) : (
-          <Placeholder
-            headerText={`You and ${
-              contact.fullName
-            } don't have any emails yet...`}
-            ctaText="Create email"
-            ctaFunc={() => console.log("hi")}
-          />
-        )}
+        <Emails emails={emailsByContact} isFetching={isFetching} />
         <Errors errorText={error} />
       </React.Fragment>
     );
@@ -81,6 +66,4 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = { fetchEmailsByContact, setEmailsByContact, setError };
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  SingleContactEmailsContainer
-);
+export default connect(mapStateToProps, mapDispatchToProps)(SingleContactEmailsContainer);

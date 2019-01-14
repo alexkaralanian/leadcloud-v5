@@ -9,11 +9,7 @@ import TableRow from "../../components/TableRow/TableRow";
 
 import { addSelected, deleteSelected } from "../../actions/modal-actions";
 
-import {
-  fetchComponent,
-  setOffset,
-  setQuery
-} from "../../actions/query-actions";
+import { fetchComponent, setOffset, setQuery } from "../../actions/query-actions";
 
 import { setContacts } from "../../actions/contact-actions";
 
@@ -95,6 +91,4 @@ const mapDispatchToProps = {
   setQuery
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  SearchContactsContainer
-);
+export default connect(mapStateToProps, mapDispatchToProps)(SearchContactsContainer);

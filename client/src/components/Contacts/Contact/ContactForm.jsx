@@ -4,14 +4,14 @@ import PropTypes from "prop-types";
 import { Field, reduxForm } from "redux-form";
 import { Form, FormGroup, Row, Col, Card, CardHeader, CardBody } from "reactstrap";
 
-import { contactValidate } from "../../helpers/redux-form/validate";
-import { fetchContact } from "../../actions/contact-actions";
+import { contactValidate } from "../../../helpers/redux-form/validate";
+import { fetchContact } from "../../../actions/contact-actions";
 
-import InputField from "../InputField/InputField";
-import TextAreaField from "../InputField/TextAreaField";
-import ButtonFooter from "../ButtonFooter/ButtonFooter";
+import InputField from "../../InputField/InputField";
+import TextAreaField from "../../InputField/TextAreaField";
+import ButtonFooter from "../../ButtonFooter/ButtonFooter";
 
-import "./SingleContact.css";
+import "../Contacts.scss";
 
 const capitalize = word => {
   if (word) return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();

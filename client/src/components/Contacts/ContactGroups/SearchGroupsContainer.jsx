@@ -4,9 +4,9 @@ import { Button } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { Typeahead } from "react-bootstrap-typeahead"; // ES2015
 
-import { fetchComponent, setOffset, setQuery } from "../../actions/query-actions";
+import { fetchComponent, setOffset, setQuery } from "../../../actions/query-actions";
 
-import { setGroups } from "../../actions/group-actions";
+import { setGroups } from "../../../actions/group-actions";
 
 class SearchGroupsContainer extends React.Component {
   state = {
@@ -27,7 +27,6 @@ class SearchGroupsContainer extends React.Component {
 
   diffContactGroups = allGroups => {
     const { contactGroups } = this.props;
-    console.log("contactGroups");
     const map = {};
     contactGroups.forEach(group => {
       map[group.id] = group;

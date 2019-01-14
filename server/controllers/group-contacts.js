@@ -62,9 +62,8 @@ exports.create = async (req, res) => {
   try {
     await ContactGroups.bulkCreate(req.body.groupContacts);
     const groupContacts = await Contacts.findAndCountAll({
-      limit: 25,
-      offset: 0,
-      query: "",
+      limit: req.query.limit,
+      offset: req.query.offset,
       where: {
         UserUuid: userId
       },
@@ -76,7 +75,7 @@ exports.create = async (req, res) => {
           }
         }
       ],
-      order: [["updatedAt", "DESC"]]
+      order: [["fullName", "ASC"]]
     });
     res.json(groupContacts);
   } catch (err) {
@@ -95,8 +94,8 @@ exports.delete = async (req, res) => {
     });
     await group.removeContact(req.query.contactId);
     const groupContacts = await Contacts.findAndCountAll({
-      limit: 25,
-      offset: 0,
+      limit: req.query.limit,
+      offset: req.query.offset,
       where: {
         UserUuid: userId
       },
@@ -108,7 +107,7 @@ exports.delete = async (req, res) => {
           }
         }
       ],
-      order: [["updatedAt", "DESC"]]
+      order: [["fullName", "ASC"]]
     });
     res.json(groupContacts);
   } catch (err) {

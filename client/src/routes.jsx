@@ -22,6 +22,26 @@ const Dashboard = Loadable({
   loading: Loading
 });
 
+const Contacts = Loadable({
+  loader: () => import("./components/Contacts/ContactsDashboard"),
+  loading: Loading
+});
+
+const Contact = Loadable({
+  loader: () => import("./components/Contacts/ContactDashboard"),
+  loading: Loading
+});
+
+const Groups = Loadable({
+  loader: () => import("./components/Groups/GroupsDashboard"),
+  loading: Loading
+});
+
+const Group = Loadable({
+  loader: () => import("./components/Groups/GroupDashboard"),
+  loading: Loading
+});
+
 const Profile = Loadable({
   loader: () => import("./containers/ProfileContainer/ProfileContainer"),
   loading: Loading
@@ -29,16 +49,6 @@ const Profile = Loadable({
 
 const Emails = Loadable({
   loader: () => import("./containers/EmailsContainer/EmailsContainer"),
-  loading: Loading
-});
-
-const Contacts = Loadable({
-  loader: () => import("./containers/ContactsContainer/ContactsDashboard"),
-  loading: Loading
-});
-
-const SingleContact = Loadable({
-  loader: () => import("./containers/SingleContactContainer/SingleContactContainer"),
   loading: Loading
 });
 
@@ -54,16 +64,6 @@ const SingleListing = Loadable({
 
 const OpenHouse = Loadable({
   loader: () => import("./containers/OpenHouseContainer/OpenHouseContainer"),
-  loading: Loading
-});
-
-const Groups = Loadable({
-  loader: () => import("./containers/GroupsContainer/GroupsDashboard"),
-  loading: Loading
-});
-
-const Group = Loadable({
-  loader: () => import("./containers/GroupContainer/GroupDashboard"),
   loading: Loading
 });
 
@@ -100,8 +100,8 @@ class App extends React.Component {
                     <Route path="/calendar" component={CalendarContainer} />
                     <Route path="/emails" component={Emails} />
                     <Route exact path="/contacts" component={Contacts} />
-                    <Route path="/contacts/new" component={SingleContact} />
-                    <Route path="/contacts/:id" component={SingleContact} />
+                    <Route path="/contacts/new" component={Contact} />
+                    <Route path="/contacts/:id" component={Contact} />
                     <Route exact path="/listings" component={Listings} />
                     <Route path="/listings/new" component={SingleListing} />
                     <Route path="/listings/:id" component={SingleListing} />

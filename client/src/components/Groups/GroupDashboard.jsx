@@ -6,10 +6,10 @@ import { Route } from "react-router-dom";
 import BreadCrumbs from "../../components/BreadCrumbs/BreadCrumbs";
 
 import Header from "../../components/Header/Header-new";
-import GroupForm from "../../components/SingleGroup/GroupForm";
-import GroupContacts from "./GroupContacts";
+import GroupForm from "./Group/GroupForm";
+import GroupContacts from "./GroupContacts/GroupContacts";
 import Modal from "../../components/Modal/Modal";
-import SearchContactsContainer from "../SearchContactsContainer/SearchContactsContainer";
+import SearchContacts from "./GroupContacts/SearchContacts";
 
 import { fetchGroup, submitNewGroup, updateGroup, deleteGroup } from "../../actions/group-actions";
 
@@ -17,7 +17,7 @@ import {
   submitGroupContacts,
   searchDiffedGroupContacts,
   setDiffedGroupContacts
-} from "../../actions/group-contacts-actions";
+} from "../../reducers/group-contacts";
 
 class GroupContainer extends React.Component {
   state = {
@@ -74,6 +74,7 @@ class GroupContainer extends React.Component {
                 View Members
               </DropdownItem>
               <DropdownItem onClick={() => push(`/groups/${match.params.id}`)}>Edit</DropdownItem>
+              <DropdownItem onClick={this.displayContactsModal}>Add Contacts</DropdownItem>
             </DropdownMenu>
           </Dropdown>
         </Header>
@@ -88,12 +89,10 @@ class GroupContainer extends React.Component {
           isModalVisible={this.state.isContactsModalVisible}
           title={group.title}
           Container={
-            <SearchContactsContainer
+            <SearchContacts
               displayModal={this.displayContactsModal}
-              submitFunction={this.submitContacts}
-              hostComponent={group}
-              setFunction={setDiffedGroupContacts}
-              searchFunction={searchDiffedGroupContacts}
+              submitContacts={this.submitContacts}
+              group={group}
             />
           }
         />

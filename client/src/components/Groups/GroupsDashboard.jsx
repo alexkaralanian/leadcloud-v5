@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap";
 
 import Breadcrumbs from "../../components/BreadCrumbs/BreadCrumbs";
-import GroupsContainer from "../GroupsContainer/GroupsContainer";
+import GroupsContainer from "./Groups/GroupsContainer";
 import Header from "../../components/Header/Header-new";
 
 class GroupsDashboardContainer extends React.Component {

@@ -5,15 +5,16 @@ import { Row, Col, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from "
 import { DragDropContextProvider } from "react-dnd";
 import HTML5Backend from "react-dnd-html5-backend";
 import Loadable from "react-loadable";
-import Loading from "../../components/Loading/Loading";
-import BreadCrumbs from "../../components/BreadCrumbs/BreadCrumbs";
-import Header from "../../components/Header/Header-new";
-import ContactsContainer from "./ContactsContainer";
+import Loading from "../Loading/Loading";
+import BreadCrumbs from "../BreadCrumbs/BreadCrumbs";
+import Header from "../Header/Header-new";
+import ContactsContainer from "./Contacts/ContactsContainer";
 import { syncContacts } from "../../actions/contact-actions";
+
 import "./Contacts.scss";
 
 const GroupsContainer = Loadable({
-  loader: () => import("../GroupsContainer/GroupsContainer"),
+  loader: () => import("../Groups/Groups/GroupsContainer"),
   loading: Loading
 });
 

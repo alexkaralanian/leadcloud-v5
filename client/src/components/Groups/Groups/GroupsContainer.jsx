@@ -1,14 +1,16 @@
 import React from "react";
 import axios from "axios";
 import { connect } from "react-redux";
-import { Card, CardHeader, CardBody, Button } from "reactstrap";
+import { push } from "react-router-redux";
 import { Link } from "react-router-dom";
 import ReactTable from "react-table";
+import { Card, CardHeader, CardBody } from "reactstrap";
 
-import { fetchGroup } from "../../actions/group-actions";
-import { deleteGroupContact } from "../../actions/group-contacts-actions";
+import { setGroups, searchGroups } from "../../../actions/group-actions";
 
-class GroupContactsContainer extends React.Component {
+import { fetchComponent, setQuery, setOffset } from "../../../actions/query-actions";
+
+class GroupsContainer extends React.Component {
   state = {
     data: [],
     pages: 0,
@@ -21,11 +23,9 @@ class GroupContactsContainer extends React.Component {
   };
 
   async componentDidMount() {
-    const { match } = this.props;
     try {
       const res = await axios.get(
-        `/api/groups/${match.params.id}/contacts/?limit=${this.state.pageSize}&offset=${this.state
-          .page * this.state.pageSize}`
+        `/api/groups/?limit=${this.state.pageSize}&offset=${this.state.page * this.state.pageSize}`
       );
       this.setState({
         pages: Math.ceil(res.data.count / this.state.pageSize),
@@ -38,13 +38,10 @@ class GroupContactsContainer extends React.Component {
 
   onPageChange = async page => {
     const { pageSize, filtered } = this.state;
-    const { match } = this.props;
     const offset = page * pageSize;
     const query = filtered.length ? filtered[0].value : "";
     try {
-      const res = await axios.get(
-        `/api/groups/${match.params.id}/contacts/?limit=${pageSize}&offset=${offset}&query=${query}`
-      );
+      const res = await axios.get(`/api/groups/?limit=${pageSize}&offset=${offset}&query=${query}`);
       this.setState({
         pages: Math.ceil(res.data.count / pageSize),
         data: res.data.rows,
@@ -57,13 +54,10 @@ class GroupContactsContainer extends React.Component {
 
   onPageSizeChange = async (pageSize, page) => {
     const { filtered } = this.state;
-    const { match } = this.props;
     const offset = page * pageSize;
     const query = filtered.length ? filtered[0].value : "";
     try {
-      const res = await axios.get(
-        `/api/groups/${match.params.id}/contacts/?limit=${pageSize}&offset=${offset}&query=${query}`
-      );
+      const res = await axios.get(`/api/groups/?limit=${pageSize}&offset=${offset}&query=${query}`);
       this.setState({
         pages: Math.ceil(res.data.count / pageSize),
         data: res.data.rows,
@@ -76,16 +70,13 @@ class GroupContactsContainer extends React.Component {
   };
 
   onFilteredChange = async filtered => {
-    const { match } = this.props;
     const { pageSize } = this.state;
     const query = filtered.length ? filtered[0].value : "";
     this.setState({
       filtered
     });
     try {
-      const res = await axios.get(
-        `/api/groups/${match.params.id}/contacts/?limit=${pageSize}&offset=${0}&query=${query}`
-      );
+      const res = await axios.get(`/api/groups/?limit=${pageSize}&offset=${0}&query=${query}`);
       this.setState({
         data: res.data.rows,
         pages: Math.ceil(res.data.count / pageSize)
@@ -95,56 +86,31 @@ class GroupContactsContainer extends React.Component {
     }
   };
 
-  render() {
+  render = () => {
+    const { groups, component } = this.props;
     const columns = [
       {
         Header: null,
         id: "images",
         width: 50,
-        accessor: contact =>
-          contact.images ? (
+        accessor: group =>
+          group.images ? (
             <div className="table_img">
-              <img alt="contact" src={contact.images[0]} />
+              <img alt="contact" src={group.images[0]} />
             </div>
           ) : (
             <div className="table_img-null">
-              <span>{contact.firstName && contact.firstName.charAt(0).toUpperCase()}</span>
+              <span>{group && group.title ? group.title.charAt(0).toUpperCase() : null}</span>
             </div>
           )
       },
       {
-        Header: "Name",
-        id: "fullName",
-        accessor: contact =>
-          contact.fullName ? <Link to={`/contacts/${contact.id}`}>{contact.fullName}</Link> : ""
-      },
-      {
-        Header: "Email",
-        id: "email",
-        accessor: contact =>
-          contact.email ? (
-            <a href={`mailto:${contact.email[0].value}`}>{contact.email[0].value}</a>
-          ) : (
-            ""
-          )
-      },
-      {
-        Header: "Phone",
-        id: "phone",
-        accessor: contact =>
-          contact.phone ? (
-            <a href={`tel:${contact.phone[0].value}`}>{contact.phone[0].value}</a>
-          ) : (
-            ""
-          )
-      },
-      {
-        Header: "Action",
-        id: "id",
-        accessor: contact => (
-          <Button color="danger" onClick={() => deleteGroupContact(contact.id)}>
-            Remove Contact
-          </Button>
+        Header: "Title",
+        id: "title",
+        accessor: group => (
+          <Link to={`/groups/${group.id}/contacts`}>
+            <span>{group.title}</span>
+          </Link>
         )
       }
     ];
@@ -153,7 +119,7 @@ class GroupContactsContainer extends React.Component {
       <Card className="mt-4 mb-0">
         <CardHeader>
           <i className="fa fa-align-justify" />
-          <strong>All Contacts</strong>
+          <strong>All Groups</strong>
         </CardHeader>
         <CardBody>
           <ReactTable
@@ -161,14 +127,14 @@ class GroupContactsContainer extends React.Component {
               "max-height": "475px"
             }}
             className="-highlight"
-            data={this.state.data}
-            page={this.state.page}
-            pages={this.state.pages}
+            data={this.state.data} // contacts
+            page={this.state.page} // current page
+            pages={this.state.pages} // count
             loading={this.state.loading}
             filtered={this.state.filtered}
             columns={columns}
             defaultPageSize={20}
-            minRows={3}
+            minRows={8}
             // showPaginationTop
             showPageSizeOptions={false}
             manual
@@ -186,7 +152,23 @@ class GroupContactsContainer extends React.Component {
         </CardBody>
       </Card>
     );
-  }
+  };
 }
 
-export default connect(null, { fetchGroup })(GroupContactsContainer);
+const mapStateToProps = state => ({
+  groups: state.groupReducer.groups,
+  isLoading: state.queryReducer.isLoading,
+  count: state.queryReducer.count,
+  offset: state.queryReducer.offset
+});
+
+const mapDispatchToProps = {
+  fetchComponent,
+  searchGroups,
+  setGroups,
+  setQuery,
+  setOffset,
+  push
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(GroupsContainer);

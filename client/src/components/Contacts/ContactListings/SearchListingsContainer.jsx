@@ -5,9 +5,9 @@ import { Button } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { Typeahead } from "react-bootstrap-typeahead";
 
-import { fetchComponent, setOffset, setQuery } from "../../actions/query-actions";
+import { fetchComponent, setOffset, setQuery } from "../../../actions/query-actions";
 
-import { setListings } from "../../actions/listing-actions";
+import { setListings } from "../../../actions/listing-actions";
 
 class SearchListingsContainer extends React.Component {
   state = {

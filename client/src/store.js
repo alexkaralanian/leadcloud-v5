@@ -13,6 +13,8 @@ import emailReducer from "./reducers/email-reducer";
 import contactReducer from "./reducers/contact-reducer";
 import listingReducer from "./reducers/listing-reducer";
 import groupReducer from "./reducers/group-reducer";
+import groupContactsReducer from "./reducers/group-contacts";
+import groupContactsSearch from "./reducers/group-contacts-search";
 import campaignReducer from "./reducers/campaign-reducer";
 import formReducer from "./reducers/form-reducer";
 import queryReducer from "./reducers/query-reducer";
@@ -30,6 +32,8 @@ const rootReducer = combineReducers({
   contactReducer,
   listingReducer,
   groupReducer,
+  groupContactsReducer,
+  groupContactsSearch,
   campaignReducer,
   queryReducer,
   modalReducer,
@@ -41,9 +45,7 @@ const rootReducer = combineReducers({
 
 const store = createStore(
   rootReducer,
-  composeWithDevTools(
-    applyMiddleware(thunkMiddleware, routerMiddleware(history), createLogger())
-  )
+  composeWithDevTools(applyMiddleware(thunkMiddleware, routerMiddleware(history), createLogger()))
 );
 
 export default store;

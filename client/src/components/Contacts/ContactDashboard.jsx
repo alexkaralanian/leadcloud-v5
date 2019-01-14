@@ -3,22 +3,27 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { push } from "react-router-redux";
 import { Route } from "react-router-dom";
-import BreadCrumbs from "../../components/BreadCrumbs/BreadCrumbs";
-import Header from "../../components/Header/Header-old";
-import ContactNav from "../../components/SingleContact/ContactNav";
-import ContactListings from "../../components/ContactListings/ContactListings";
-import SearchListingsContainer from "../../components/ContactListings/SearchListingsContainer";
-import ContactForm from "../../components/SingleContact/ContactForm";
-import ImageCarousel from "../../components/ImageCarousel/ImageCarousel";
-import SingleContactEmailsContainer from "./SingleContactEmailsContainer";
-import ContactGroups from "../../components/ContactGroups/ContactGroups";
-import Modal from "../../components/Modal/Modal";
+import { Button, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap";
 
-import SearchGroupsContainer from "../SearchGroupsContainer/SearchGroupsContainer";
+import BreadCrumbs from "../BreadCrumbs/BreadCrumbs";
+import Header from "../Header/Header-new";
+import ContactNav from "./Contact/ContactNav";
+
+import ContactForm from "./Contact/ContactForm";
+
+import ContactListings from "./ContactListings/ContactListings";
+import SearchListingsContainer from "./ContactListings/SearchListingsContainer";
+
+import ContactGroups from "./ContactGroups/ContactGroups";
+import SearchGroupsContainer from "./ContactGroups/SearchGroupsContainer";
+
+import ImageCarousel from "../../components/ImageCarousel/ImageCarousel";
+import EmailsContainer from "./Contact/EmailsContainer";
+
+import Modal from "../../components/Modal/Modal";
 import Placeholder from "../../components/Placeholder/Placeholder";
 
 import { clearError } from "../../actions/common-actions";
-
 import { fetchComponent, setQuery, setOffset, setCount } from "../../actions/query-actions";
 
 import {
@@ -50,58 +55,63 @@ class SingleContactContainer extends React.Component {
   state = {
     activeKey: 1,
     isListingsModalVisible: false,
-    isGroupsModalVisible: false
+    isGroupsModalVisible: false,
+    dropdownOpen: false
   };
 
   componentDidMount() {
-    const { match, fetchComponent, fetchContact, setContact, setOffset } = this.props;
-
+    const { match, fetchComponent, fetchContact, setContact } = this.props;
     setContact({});
-    setOffset(0);
-
     if (match.path !== "/contacts/new") {
       fetchContact(match.params.id);
       fetchComponent("contacts", [], setContactListings, match.params.id, "listings");
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    const {
-      location,
-      contact,
-      setEmailQuery,
-      maxResults,
-      fetchEmailsByContact,
-      emailsByContact
-    } = this.props;
+  // componentWillReceiveProps(nextProps) {
+  //   const {
+  //     location,
+  //     contact,
+  //     setEmailQuery,
+  //     maxResults,
+  //     fetchEmailsByContact,
+  //     emailsByContact
+  //   } = this.props;
 
-    // if (contact !== nextProps.contact) {
-    //   if (nextProps.contact.email) {
-    //     let query = "";
-    //     nextProps.contact.email.forEach(email => {
-    //       query += `from: ${email.value.trim()} OR `;
-    //     });
-    //     query = query.slice(0, query.length - 4);
+  // if (contact !== nextProps.contact) {
+  //   if (nextProps.contact.email) {
+  //     let query = "";
+  //     nextProps.contact.email.forEach(email => {
+  //       query += `from: ${email.value.trim()} OR `;
+  //     });
+  //     query = query.slice(0, query.length - 4);
 
-    //     setEmailQuery(query);
-    //     fetchEmailsByContact(
-    //       // args: query, maxResults, pageToken, emailsArray
-    //       query,
-    //       maxResults,
-    //       0, // reset page token on new contact
-    //       emailsByContact
-    //     );
-    //   }
-    // }
-  }
+  //     setEmailQuery(query);
+  //     fetchEmailsByContact(
+  //       // args: query, maxResults, pageToken, emailsArray
+  //       query,
+  //       maxResults,
+  //       0, // reset page token on new contact
+  //       emailsByContact
+  //     );
+  //   }
+  // }
+  // }
 
   componentWillUnmount() {
-    const { setContact, setOffset } = this.props;
-    setOffset(0);
+    const { setContact } = this.props;
     setContact({});
   }
 
+  toggle = () => {
+    this.setState(prevState => ({
+      dropdownOpen: !prevState.dropdownOpen
+    }));
+  };
+
   displayListingsModal = () => {
+    const { push, match } = this.props;
+    push(`/contacts/${match.params.id}/listings`);
     this.setState({
       isListingsModalVisible: true
     });
@@ -118,15 +128,19 @@ class SingleContactContainer extends React.Component {
     this.setState({
       isListingsModalVisible: false
     });
+    // push(`/contacts/${match.params.id}/listings`);
   };
 
   displayGroupsModal = () => {
+    const { push, match } = this.props;
+    push(`/contacts/${match.params.id}/groups`);
     this.setState({
       isGroupsModalVisible: true
     });
   };
 
   onGroupsModalExit = () => {
+    // const { push, match } = this.props;
     this.setState({
       isGroupsModalVisible: false
     });
@@ -139,34 +153,10 @@ class SingleContactContainer extends React.Component {
     });
   };
 
-  // HEADER
-  headerFunc = () => {
-    const { match, location } = this.props;
-    switch (location.pathname) {
-      case `/contacts/${match.params.id}/listings`:
-        return {
-          modalFunc: this.displayListingsModal,
-          modalText: "Add Listings",
-          isVisible: true
-        };
-      case `/contacts/${match.params.id}/groups`:
-        return {
-          modalFunc: this.displayGroupsModal,
-          modalText: "Add Groups",
-          isVisible: true
-        };
-      default:
-        return {
-          modalFunc: null,
-          modalText: null,
-          isVisible: false
-        };
-    }
-  };
-
   render() {
     const {
       match,
+      location,
       isAuthed,
       push,
 
@@ -192,24 +182,44 @@ class SingleContactContainer extends React.Component {
       <React.Fragment>
         <BreadCrumbs />
         <div>
-          <Header
-            isVisible={this.headerFunc().isVisible}
-            componentName="Contact"
-            headerTitle={contact.fullName}
-            isNew={match.path === "/contacts/new"}
-            images={contact.images}
-            primaryFunc={() => this.headerFunc().modalFunc(true)}
-            primaryGlyph="plus"
-            primaryText={this.headerFunc().modalText}
-          />
+          <Header>
+            <div
+              style={{
+                display: "flex"
+              }}
+            >
+              {contact.images && <img src={contact.images[0]} />}
+              <h1>{match.path === "/contacts/new" ? "New Contact" : contact.fullName}</h1>
+            </div>
+            {location.pathname === `/contacts/${contact.id}/groups` && (
+              <Button onClick={this.displayGroupsModal} color="primary">
+                Add Groups
+              </Button>
+            )}
+            {location.pathname === `/contacts/${contact.id}/listings` && (
+              <Button onClick={this.displayListingsModal} color="primary">
+                Add Listings
+              </Button>
+            )}
+
+            {/*<Dropdown isOpen={this.state.dropdownOpen} color="primary" toggle={this.toggle}>
+              <DropdownToggle caret>Actions</DropdownToggle>
+              <DropdownMenu right>
+                <DropdownItem onClick={this.displayListingsModal}>Add Listings</DropdownItem>
+                <DropdownItem onClick={this.displayGroupsModal}>Add Groups</DropdownItem>
+              </DropdownMenu>
+            </Dropdown>*/}
+          </Header>
 
           {/* CONTACT NAV */}
-          {match.path !== "/contacts/new" && <ContactNav push={push} contact={contact} />}
+          {location.pathname !== "/contacts/new" && <ContactNav push={push} contact={contact} />}
 
           {/* CONTACT FORM */}
           <Route
             exact
-            path={match.path === "/contacts/new" ? `/contacts/new` : `/contacts/${contact.id}`}
+            path={
+              location.pathname === "/contacts/new" ? `/contacts/new` : `/contacts/${contact.id}`
+            }
             render={routeProps => (
               <ContactForm
                 {...routeProps}
@@ -298,7 +308,7 @@ class SingleContactContainer extends React.Component {
           {/* CONTACT EMAILS */}
           <Route
             path={`/contacts/:id/emails`}
-            render={routeProps => <SingleContactEmailsContainer {...routeProps} />}
+            render={routeProps => <EmailsContainer {...routeProps} />}
           />
 
           {/* CONTACT MEDIA */}

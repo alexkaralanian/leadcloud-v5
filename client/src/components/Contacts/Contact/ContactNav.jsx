@@ -11,27 +11,19 @@ const ContactNav = ({ push, contact }) => (
       </NavItem>
 
       <NavItem>
-        <NavLink onClick={() => push(`/contacts/${contact.id}/listings`)}>
-          Listings
-        </NavLink>
+        <NavLink onClick={() => push(`/contacts/${contact.id}/listings`)}>Listings</NavLink>
       </NavItem>
 
       <NavItem>
-        <NavLink onClick={() => push(`/contacts/${contact.id}/groups`)}>
-          Groups
-        </NavLink>
+        <NavLink onClick={() => push(`/contacts/${contact.id}/groups`)}>Groups</NavLink>
       </NavItem>
 
       <NavItem>
-        <NavLink onClick={() => push(`/contacts/${contact.id}/emails`)}>
-          Emails
-        </NavLink>
+        <NavLink onClick={() => push(`/contacts/${contact.id}/emails`)}>Emails</NavLink>
       </NavItem>
 
       <NavItem>
-        <NavLink onClick={() => push(`/contacts/${contact.id}/media`)}>
-          Media
-        </NavLink>
+        <NavLink onClick={() => push(`/contacts/${contact.id}/media`)}>Media</NavLink>
       </NavItem>
     </Nav>
   </div>

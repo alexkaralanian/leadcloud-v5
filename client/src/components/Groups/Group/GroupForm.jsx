@@ -2,28 +2,22 @@ import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Field, reduxForm } from "redux-form";
-import {
-  Form,
-  FormGroup,
-  Row,
-  Col,
-  Card,
-  CardHeader,
-  CardBody
-} from "reactstrap";
+import { Form, FormGroup, Row, Col, Card, CardHeader, CardBody } from "reactstrap";
 
-import { contactValidate } from "../../helpers/redux-form/validate";
-import { fetchGroup } from "../../actions/group-actions";
+import { contactValidate } from "../../../helpers/redux-form/validate";
+import { fetchGroup } from "../../../actions/group-actions";
 
-import InputField from "../InputField/InputField";
-import TextAreaField from "../InputField/TextAreaField";
-import ButtonFooter from "../ButtonFooter/ButtonFooter";
+import InputField from "../../InputField/InputField";
+import TextAreaField from "../../InputField/TextAreaField";
+import ButtonFooter from "../../ButtonFooter/ButtonFooter";
 
 const capitalize = word => {
   if (word) word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
 };
 
-let GroupForm = ({
+let GroupForm;
+
+GroupForm = ({
   handleSubmit,
   load,
   pristine,
@@ -44,12 +38,7 @@ let GroupForm = ({
           <FormGroup>
             <Row>
               <Col xs={12}>
-                <Field
-                  type="text"
-                  name="title"
-                  component={InputField}
-                  label="Group Title"
-                />
+                <Field type="text" name="title" component={InputField} label="Group Title" />
                 <Field
                   type="textarea"
                   name="description"
@@ -64,11 +53,7 @@ let GroupForm = ({
       <Row>
         <Col xs={12}>
           {isGroupNew ? (
-            <ButtonFooter
-              primaryButtonText="Submit"
-              pristine={pristine}
-              submitting={submitting}
-            />
+            <ButtonFooter primaryButtonText="Submit" pristine={pristine} submitting={submitting} />
           ) : (
             <ButtonFooter
               pristine={pristine}

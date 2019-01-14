@@ -29,6 +29,15 @@ export const setContact = contact => ({
 //   }
 // };
 
+export const fetchContacts = () => async dispatch => {
+  try {
+    const res = await axios.get(`/api/contacts/?limit=${20}&offset=${0}`);
+    dispatch(setContacts(res.data.rows));
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 // SYNC GOOGLE CONTACTS
 export const syncContacts = () => async dispatch => {
   dispatch(isFetching(true));
