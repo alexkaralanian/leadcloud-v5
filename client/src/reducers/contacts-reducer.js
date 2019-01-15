@@ -1,9 +1,8 @@
 import axios from "axios";
 import store from "../store";
-import { setSelected } from "./group-contacts-search";
 
 const initialState = {
-  data: [],
+  contacts: [],
   filtered: [],
   pages: 0,
   page: 0,
@@ -11,18 +10,17 @@ const initialState = {
   loading: false
 };
 
-const SET_GROUP_CONTACTS = "SET_GROUP_CONTACTS";
+const SET_CONTACTS = "SET_CONTACTS";
 const SET_PAGES = "SET_PAGES";
 const SET_PAGE = "SET_PAGE";
 const SET_PAGE_SIZE = "SET_PAGE_SIZE";
 const SET_FILTERED = "SET_FILTERED";
 
-export const setGroupContacts = data => ({
-  type: SET_GROUP_CONTACTS,
+export const setContacts = data => ({
+  type: SET_CONTACTS,
   payload: data
 });
 
-// REACT TABLE
 export const setPages = pages => ({
   type: SET_PAGES,
   payload: pages
@@ -43,62 +41,27 @@ export const setFiltered = filtered => ({
   payload: filtered
 });
 
-export const fetchGroupContacts = groupId => async dispatch => {
+export const fetchContacts = () => async dispatch => {
   const state = store.getState();
   const { page, pageSize } = state.groupContactsReducer;
 
   try {
-    const res = await axios.get(
-      `/api/groups/${groupId}/contacts/?limit=${pageSize}&offset=${page * pageSize}`
-    );
+    const res = await axios.get(`/api/contacts/?limit=${pageSize}&offset=${page * pageSize}`);
     dispatch(setPages(Math.ceil(res.data.count / pageSize)));
-    dispatch(setGroupContacts(res.data.rows));
+    dispatch(setContacts(res.data.rows));
   } catch (err) {
     console.error(err);
   }
 };
 
-export const submitGroupContacts = (groupContactsArray, group) => async dispatch => {
-  const groupContacts = groupContactsArray.map(contact => ({
-    groupId: group.id,
-    contactId: contact.id
-  }));
-  try {
-    const res = await axios.post(`/api/groups/${group.id}/contacts/?limit=${20}&offset=${0}`, {
-      groupContacts
-    });
-    dispatch(setGroupContacts(res.data.rows));
-    dispatch(setSelected([]));
-  } catch (err) {
-    console.error("Submitting Group Contacts Unsuccessful", err);
-  }
-};
-
-export const deleteGroupContact = (contactId, groupId) => async dispatch => {
-  const state = store.getState();
-  const { page, pageSize } = state.groupContactsReducer;
-  const offset = page * pageSize;
-  try {
-    const res = await axios.delete(
-      `/api/groups/${groupId}/contact/?contactId=${contactId}&limit=${pageSize}&offset=${offset}`
-    );
-    dispatch(setGroupContacts(res.data.rows));
-  } catch (err) {
-    console.error("Submitting Group Contact Unsuccessful", err);
-  }
-};
-
-// REACT TABLE
-export const onPageChange = (page, groupId) => async dispatch => {
+export const onPageChange = page => async dispatch => {
   const state = store.getState();
   const { pageSize, filtered } = state.groupContactsReducer;
   const offset = page * pageSize;
   const query = filtered.length ? filtered[0].value : "";
   try {
-    const res = await axios.get(
-      `/api/groups/${groupId}/contacts/?limit=${pageSize}&offset=${offset}&query=${query}`
-    );
-    dispatch(setGroupContacts(res.data.rows));
+    const res = await axios.get(`/api/contacts/?limit=${pageSize}&offset=${offset}&query=${query}`);
+    dispatch(setContacts(res.data.rows));
     dispatch(setPages(Math.ceil(res.data.count / pageSize)));
     dispatch(setPage(page));
   } catch (err) {
@@ -106,16 +69,14 @@ export const onPageChange = (page, groupId) => async dispatch => {
   }
 };
 
-export const onPageSizeChange = (pageSize, page, groupId) => async dispatch => {
+export const onPageSizeChange = (pageSize, page) => async dispatch => {
   const state = store.getState();
   const { filtered } = state.groupContactsReducer;
   const offset = page * pageSize;
   const query = filtered.length ? filtered[0].value : "";
   try {
-    const res = await axios.get(
-      `/api/groups/${groupId}/contacts/?limit=${pageSize}&offset=${offset}&query=${query}`
-    );
-    dispatch(setGroupContacts(res.data.rows));
+    const res = await axios.get(`/api/contacts/?limit=${pageSize}&offset=${offset}&query=${query}`);
+    dispatch(setContacts(res.data.rows));
     dispatch(setPages(Math.ceil(res.data.count / pageSize)));
     dispatch(setPage(page));
     dispatch(setPageSize(pageSize));
@@ -124,16 +85,14 @@ export const onPageSizeChange = (pageSize, page, groupId) => async dispatch => {
   }
 };
 
-export const onFilteredChange = (filtered, groupId) => async dispatch => {
+export const onFilteredChange = filtered => async dispatch => {
   const state = store.getState();
   const { pageSize } = state.groupContactsReducer;
   const query = filtered.length ? filtered[0].value : "";
   try {
     dispatch(setFiltered(filtered));
-    const res = await axios.get(
-      `/api/groups/${groupId}/contacts/?limit=${pageSize}&offset=${0}&query=${query}`
-    );
-    dispatch(setGroupContacts(res.data.rows));
+    const res = await axios.get(`/api/contacts/?limit=${pageSize}&offset=${0}&query=${query}`);
+    dispatch(setContacts(res.data.rows));
     dispatch(setPages(Math.ceil(res.data.count / pageSize)));
   } catch (err) {
     console.error(err);
@@ -143,10 +102,10 @@ export const onFilteredChange = (filtered, groupId) => async dispatch => {
 // REDUCER
 const groupContactsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case SET_GROUP_CONTACTS:
+    case SET_CONTACTS:
       return {
         ...state,
-        groupContacts: action.payload
+        contacts: action.payload
       };
     case SET_PAGES:
       return {

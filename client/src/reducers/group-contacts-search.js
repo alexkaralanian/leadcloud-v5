@@ -8,7 +8,6 @@ const initialState = {
   limit: 20
 };
 
-const SET_CONTACTS = "SET_CONTACTS";
 const SET_SELECTED = "SET_SELECTED";
 const SET_IS_LOADING = "SET_IS_LOADING";
 const SET_OPTIONS = "SET_OPTIONS";
@@ -28,6 +27,13 @@ export const setSelected = data => ({
   payload: data
 });
 
+// Does this need to happen on the server?
+// Use GraphQL?
+// Whats most efficient way to compre 2 large sets of data on server or client?
+// Cache list of all contacts (by id only)
+// Cache group groupContacts
+// Update cache whenver a new entry is saved
+// Remove from state when component unmounts
 export const diffGroupContacts = allContacts => {
   const state = store.getState();
   const { groupContacts } = state.groupContactsReducer;
@@ -45,7 +51,6 @@ export const diffGroupContacts = allContacts => {
 export const searchGroupContacts = query => async dispatch => {
   const state = store.getState();
   const { limit } = state.groupContactsSearch;
-
   try {
     dispatch(isLoading(true));
     const res = await axios.get(`/api/contacts/?limit=${limit}&offset=${0}&query=${query}`);
@@ -78,7 +83,6 @@ export const groupContactsSearch = (state = initialState, action) => {
         ...state,
         options: action.payload
       };
-
     case SET_SELECTED:
       return {
         ...state,

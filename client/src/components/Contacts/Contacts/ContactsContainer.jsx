@@ -1,92 +1,23 @@
 import React from "react";
 // import moment from "moment";
-import axios from "axios";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import ReactTable from "react-table";
 import { Card, CardHeader, CardBody } from "reactstrap";
 
+import {
+  fetchContacts,
+  onPageChange,
+  onPageSizeChange,
+  onFilteredChange
+} from "../../../reducers/contacts-reducer";
+
 class ContactsContainer extends React.Component {
-  state = {
-    data: [],
-    pages: 0,
-    page: 0,
-    pageSize: 20,
-    offset: 0,
-    loading: false,
-    query: "",
-    filtered: []
-  };
-
-  async componentDidMount() {
-    try {
-      const res = await axios.get(
-        `/api/contacts/?limit=${this.state.pageSize}&offset=${this.state.page *
-          this.state.pageSize}`
-      );
-      this.setState({
-        pages: Math.ceil(res.data.count / this.state.pageSize),
-        data: res.data.rows
-      });
-    } catch (err) {
-      console.error(err);
-    }
+  componentDidMount() {
+    const { fetchContacts } = this.props;
+    fetchContacts();
   }
-
-  onPageChange = async page => {
-    const { pageSize, filtered } = this.state;
-    const offset = page * pageSize;
-    const query = filtered.length ? filtered[0].value : "";
-    try {
-      const res = await axios.get(
-        `/api/contacts/?limit=${pageSize}&offset=${offset}&query=${query}`
-      );
-      this.setState({
-        pages: Math.ceil(res.data.count / pageSize),
-        data: res.data.rows,
-        page
-      });
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  onPageSizeChange = async (pageSize, page) => {
-    const { filtered } = this.state;
-    const offset = page * pageSize;
-    const query = filtered.length ? filtered[0].value : "";
-    try {
-      const res = await axios.get(
-        `/api/contacts/?limit=${pageSize}&offset=${offset}&query=${query}`
-      );
-      this.setState({
-        pages: Math.ceil(res.data.count / pageSize),
-        data: res.data.rows,
-        page,
-        pageSize
-      });
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  onFilteredChange = async filtered => {
-    const { pageSize } = this.state;
-    const query = filtered.length ? filtered[0].value : "";
-    this.setState({
-      filtered
-    });
-    try {
-      const res = await axios.get(`/api/contacts/?limit=${pageSize}&offset=${0}&query=${query}`);
-      this.setState({
-        data: res.data.rows,
-        pages: Math.ceil(res.data.count / pageSize)
-      });
-    } catch (err) {
-      console.error(err);
-    }
-  };
 
   render() {
     const columns = [
@@ -138,6 +69,22 @@ class ContactsContainer extends React.Component {
       //   accessor: contact => moment(contact.updated).format("ddd, M/D/YY h:mma")
       // }
     ];
+
+    const {
+      onPageChange,
+      onPageSizeChange,
+      onFilteredChange,
+      groupContacts,
+      deleteGroupContact,
+      page,
+      pages,
+      pageSize,
+      loading,
+      filtered,
+      match,
+      contacts
+    } = this.props;
+
     return (
       <Card className="mt-4 mb-0">
         <CardHeader>
@@ -150,11 +97,11 @@ class ContactsContainer extends React.Component {
               "max-height": "475px"
             }}
             className="-highlight"
-            data={this.state.data}
-            page={this.state.page}
-            pages={this.state.pages}
-            loading={this.state.loading}
-            filtered={this.state.filtered}
+            data={contacts}
+            page={page}
+            pages={pages}
+            loading={loading}
+            filtered={filtered}
             columns={columns}
             defaultPageSize={20}
             minRows={3}
@@ -163,13 +110,13 @@ class ContactsContainer extends React.Component {
             manual
             filterable
             onPageChange={page => {
-              this.onPageChange(page);
+              onPageChange(page);
             }}
             onPageSizeChange={(pageSize, page) => {
-              this.onPageSizeChange(pageSize, page);
+              onPageSizeChange(pageSize, page);
             }}
             onFilteredChange={filtered => {
-              this.onFilteredChange(filtered);
+              onFilteredChange(filtered);
             }}
           />
         </CardBody>
@@ -178,4 +125,17 @@ class ContactsContainer extends React.Component {
   }
 }
 
-export default connect(null, null)(ContactsContainer);
+const mapStateToProps = state => ({
+  contacts: state.contactsReducer.contacts,
+  page: state.contactsReducer.page,
+  pages: state.contactsReducer.pages,
+  loading: state.contactsReducer.loading,
+  filtered: state.contactsReducer.filtered
+});
+
+export default connect(mapStateToProps, {
+  fetchContacts,
+  onPageChange,
+  onPageSizeChange,
+  onFilteredChange
+})(ContactsContainer);

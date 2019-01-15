@@ -11,7 +11,7 @@ import ListingNav from "../../components/SingleListing/ListingNav";
 import ListingContacts from "../../components/ListingContacts/ListingContacts";
 import ListingForm from "../../components/SingleListing/ListingForm";
 import ImageCarousel from "../../components/ImageCarousel/ImageCarousel";
-import Emails from "../../components/Emails/Emails";
+// import Emails from "../../components/Emails/Emails";
 import Modal from "../../components/Modal/Modal";
 import OpenHouseModal from "../../components/Modal/OpenHouseModal";
 import SearchContactsContainer from "../SearchContactsContainer/SearchContactsContainer";
@@ -227,7 +227,7 @@ class SingleListingContainer extends React.Component {
           {/* LISTING EMAILS */}
           <Route
             path={`/listings/${listing.id}/emails`}
-            render={routeProps => <Emails {...routeProps} contacts={null} />}
+            // render={routeProps => <Emails {...routeProps} contacts={null} />}
           />
 
           {/* LISTING MEDIA */}

@@ -8,27 +8,47 @@ const Op = Sequelize.Op;
 exports.getAll = async (req, res) => {
   const userId = req.session.user.toString();
   try {
-    const contactGroups = await Groups.findAndCountAll({
-      limit: req.query.limit,
-      offset: req.query.offset,
-      where: {
-        UserUuid: userId,
-        [Op.and]: {
-          title: {
-            [Op.iLike]: `%${req.query.query}%`
+    let contactGroups;
+    if (req.query.query) {
+      contactGroups = await Groups.findAndCountAll({
+        limit: req.query.limit,
+        offset: req.query.offset,
+        where: {
+          UserUuid: userId,
+          [Op.and]: {
+            title: {
+              [Op.iLike]: `%${req.query.query}%`
+            }
           }
-        }
-      },
-      include: [
-        {
-          model: Contacts,
-          where: {
-            id: req.params.id
+        },
+        include: [
+          {
+            model: Contacts,
+            where: {
+              id: req.params.id
+            }
           }
-        }
-      ],
-      order: [["title", "ASC"]]
-    });
+        ],
+        order: [["title", "ASC"]]
+      });
+    } else {
+      contactGroups = await Groups.findAndCountAll({
+        limit: req.query.limit,
+        offset: req.query.offset,
+        where: {
+          UserUuid: userId
+        },
+        include: [
+          {
+            model: Contacts,
+            where: {
+              id: req.params.id
+            }
+          }
+        ],
+        order: [["title", "ASC"]]
+      });
+    }
     res.json(contactGroups);
   } catch (err) {
     console.error("FETCHING CONTACT GROUPS ERROR", err);

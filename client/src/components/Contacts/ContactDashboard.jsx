@@ -18,7 +18,7 @@ import ContactGroups from "./ContactGroups/ContactGroups";
 import SearchGroupsContainer from "./ContactGroups/SearchGroupsContainer";
 
 import ImageCarousel from "../../components/ImageCarousel/ImageCarousel";
-import EmailsContainer from "./Contact/EmailsContainer";
+// import EmailsContainer from "./Contact/EmailsContainer";
 
 import Modal from "../../components/Modal/Modal";
 import Placeholder from "../../components/Placeholder/Placeholder";
@@ -287,28 +287,13 @@ class SingleContactContainer extends React.Component {
           />
           <Route
             path={`/contacts/:id/groups`}
-            render={routeProps =>
-              contactGroups.length > 0 ? (
-                <ContactGroups
-                  contact={contact}
-                  contactGroups={contactGroups}
-                  searchContactGroups={searchContactGroups}
-                  deleteContactGroup={deleteContactGroup}
-                />
-              ) : (
-                <Placeholder
-                  headerText={`${contact.fullName} doesn't have any groups yet...`}
-                  ctaText="Add Groups"
-                  ctaFunc={this.displayGroupsModal}
-                />
-              )
-            }
+            render={routeProps => <ContactGroups {...routeProps} />}
           />
 
           {/* CONTACT EMAILS */}
           <Route
             path={`/contacts/:id/emails`}
-            render={routeProps => <EmailsContainer {...routeProps} />}
+            // render={routeProps => <EmailsContainer {...routeProps} />}
           />
 
           {/* CONTACT MEDIA */}
