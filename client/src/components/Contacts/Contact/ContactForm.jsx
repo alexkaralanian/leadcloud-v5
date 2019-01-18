@@ -32,6 +32,12 @@ class ContactForm extends React.Component {
         values[`phone${idx}`] = number.value;
         values[`phonetype${idx}`] = number.type;
       });
+
+    contact.address &&
+      contact.address.forEach((address, idx) => {
+        values[`address${idx}`] = address.streetAddress;
+        values[`addresstype${idx}`] = address.type;
+      });
     return {
       firstName: contact.firstName,
       lastName: contact.lastName,
@@ -42,6 +48,7 @@ class ContactForm extends React.Component {
 
   render() {
     const { contact } = this.props;
+    console.log("CONTACT", contact);
     return (
       <Formik
         initialValues={this.init(contact)}
@@ -101,6 +108,7 @@ class ContactForm extends React.Component {
                   </Row>
                 </CardBody>
               </Card>
+
               <Card>
                 <CardHeader>
                   <i className="fa fa-envelope" />
@@ -148,6 +156,7 @@ class ContactForm extends React.Component {
                     ))}
                 </CardBody>
               </Card>
+
               <Card>
                 <CardHeader>
                   <i className="fa fa-phone" />
@@ -187,6 +196,56 @@ class ContactForm extends React.Component {
                                   onChange={handleChange}
                                   onBlur={handleBlur}
                                   value={values[`phone${idx}`]}
+                                />
+                                {errors.email && touched.email && errors.email}
+                              </FormGroup>
+                            </Col>
+                          </Row>
+                        </React.Fragment>
+                      );
+                    })}
+                </CardBody>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <i className="fa fa-map" />
+                  <strong>Addresses</strong>
+                </CardHeader>
+                <CardBody>
+                  {contact.address &&
+                    contact.address.map((address, idx) => {
+                      return (
+                        <React.Fragment>
+                          <Row>
+                            <Col sm={2}>
+                              <FormGroup>
+                                <Label>
+                                  <strong>Type</strong>
+                                </Label>
+                                <Input
+                                  type="text"
+                                  name={`addresstype${idx}`}
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  value={values[`addresstype${idx}`]}
+                                />
+                                {errors[`addresstype${idx}`] &&
+                                  touched[`addresstype${idx}`] &&
+                                  errors[`addresstype${idx}`]}
+                              </FormGroup>
+                            </Col>
+                            <Col sm={10}>
+                              <FormGroup>
+                                <Label>
+                                  <strong>Street Address</strong>
+                                </Label>
+                                <Input
+                                  type="text"
+                                  name={`address${idx}`}
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  value={values[`address${idx}`]}
                                 />
                                 {errors.email && touched.email && errors.email}
                               </FormGroup>

@@ -28,6 +28,16 @@ exports.mapGoogleContacts = (contact, userId) => {
       type: phone.type ? typeCheck(phone) : null
     }));
 
+  const addresses =
+    contact.addresses &&
+    contact.addresses.map(address => ({
+      streetAddress: address.streetAddress,
+      city: address.city,
+      state: address.region,
+      zip: address.postalCode,
+      type: address.type ? typeCheck(address) : null
+    }));
+
   return {
     UserUuid: userId,
     googleId: contact.metadata.sources[0].id,
@@ -36,7 +46,7 @@ exports.mapGoogleContacts = (contact, userId) => {
     fullName: contact.names && contact.names[0].displayName,
     email: emails,
     phone: phoneNumbers,
-    address: contact.addresses && contact.addresses,
+    address: addresses,
     membership: membershipArray,
     images: imageArray,
     updated: contact.metadata.sources[0].updateTime
