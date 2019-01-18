@@ -19,24 +19,6 @@ import ButtonFooter from "../../ButtonFooter/ButtonFooter";
 
 import "../Contacts.scss";
 
-// import React from "react";
-// import { FormGroup, Input, Label, Col } from "reactstrap";
-
-// const inputField = ({ input, label, placeholder, type, meta: { touched, active, error } }) => (
-//   <React.Fragment>
-//     <FormGroup row>
-//       <Label sm={2}>{label}</Label>
-//       <Col sm={10}>
-//         <Input {...input} label={label} placeholder={placeholder} type={type} />
-
-//         {touched && !active && error && <div>{error}</div>}
-//       </Col>
-//     </FormGroup>
-//   </React.Fragment>
-// );
-
-// export default inputField;
-
 const capitalize = word => {
   if (word) return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
 };
@@ -251,13 +233,6 @@ class ContactForm extends React.Component {
   }
 }
 
-ContactForm = reduxForm({
-  form: "contactForm", // a unique name for this form
-  enableReinitialize: true,
-  // keepDirtyOnReinitialize: true,
-  validate: contactValidate
-})(ContactForm);
-
 const mapStateToProps = state => ({
   initialValues: state.contactReducer.contact,
   contact: state.contactReducer.contact
@@ -271,75 +246,5 @@ const mapDispatchToProps = {
 };
 
 ContactForm = connect(mapStateToProps, mapDispatchToProps)(ContactForm);
-
 export default ContactForm;
 
-{
-  /*<div className="form_border">
-              <Field type="text" name="firstName" component={InputField} label="First Name" />
-
-              <Field type="text" name="lastName" component={InputField} label="Last Name" />
-            </div>
-            {isContactNew || !contact.email ? (
-              <Field type="email" name={"email"} component={InputField} label="Email" />
-            ) : (
-              contact.email &&
-              contact.email.map(address => {
-                return (
-                  <div className="form_border" key={address.value}>
-                    <Field
-                      type="text"
-                      name={`email[${contact.email.indexOf(address)}].type`}
-                      component={InputField}
-                      label={`Email Label`}
-                    />
-                    <Field
-                      type="email"
-                      name={`email[${contact.email.indexOf(address)}].value`}
-                      component={InputField}
-                      label={`Email Address`}
-                    />
-                  </div>
-                );
-              })
-            )}
-
-            <div className="form_border">
-              {isContactNew || !contact.phone ? (
-                <Field type="tel" name={"phone"} component={InputField} label="Phone" width={6} />
-              ) : (
-                contact.phone &&
-                contact.phone.map(number => {
-                  return (
-                    <React.Fragment key={number.value}>
-                      <Field
-                        type="tel"
-                        name={`phone[${contact.phone.indexOf(number)}].value`}
-                        component={InputField}
-                        label={`${capitalize(number.type)} Phone`}
-                      />
-                    </React.Fragment>
-                  );
-                })
-              )}
-            </div>
-            <div className="form_border">
-              <Field
-                type="textarea"
-                name="notes"
-                component={InputField}
-                label="Notes"
-                placeholder="Add your notes here..."
-              />
-            </div>
-            <div className="mt-4">
-              <ButtonFooter
-                pristine={pristine}
-                submitting={submitting}
-                primaryButtonText="Update"
-                secondaryButtonText="Delete"
-                secondaryFunc={deleteContact}
-                component={contact}
-              />
-            </div>*/
-}
