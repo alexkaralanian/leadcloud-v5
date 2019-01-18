@@ -6,7 +6,10 @@ const ContactNav = ({ push, contact }) => (
     <Nav>
       <NavItem>
         <NavLink active onClick={() => push(`/contacts/${contact.id}`)}>
-          Info
+          Profile
+        </NavLink>
+        <NavLink active onClick={() => push(`/contacts/${contact.id}/edit`)}>
+          Edit
         </NavLink>
       </NavItem>
 

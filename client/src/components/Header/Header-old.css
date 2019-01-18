@@ -16,8 +16,8 @@
 }
 
 .header__content h1 {
-  margin-top: 0;
-  margin-bottom: 0;
+  /*  margin-top: 0;
+  margin-bottom: 0;*/
   color: white;
   font-weight: 200;
   margin-right: 1rem;

@@ -78,7 +78,7 @@ exports.googleContacts = async (req, res) => {
     // FETCH SORTED CONTACTS ARRAY AND SEND AS REPSONSE
     log(chalk.blue("FETCHING SORTED CONTACTS FROM DB"));
     const results = await Contacts.findAndCountAll({
-      limit: 25,
+      limit: 20,
       offset: 0,
       where: {
         UserUuid: userId

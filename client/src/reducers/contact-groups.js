@@ -22,7 +22,6 @@ export const setContactGroups = data => ({
   payload: data
 });
 
-// REACT TABLE
 export const setPages = pages => ({
   type: SET_PAGES,
   payload: pages
@@ -43,16 +42,24 @@ export const setFiltered = filtered => ({
   payload: filtered
 });
 
-export const fetchContactGroups = contactId => async dispatch => {
-  console.log("FETCH CONTACT GROUPS", contactId);
+export const init = () => {
   const state = store.getState();
-  const { page, pageSize } = state.groupContactsReducer;
+  const { page, pageSize, filtered } = state.groupContactsReducer;
+  const offset = page * pageSize;
+  return {
+    page,
+    pageSize,
+    offset,
+    filtered
+  };
+};
 
+export const fetchContactGroups = contactId => async dispatch => {
+  const { pageSize, offset } = init();
   try {
     const res = await axios.get(
-      `/api/contacts/${contactId}/groups/?limit=${pageSize}&offset=${page * pageSize}`
+      `/api/contacts/${contactId}/groups/?limit=${pageSize}&offset=${offset}`
     );
-    console.log("RES.DATA", res.data);
     dispatch(setPages(Math.ceil(res.data.count / pageSize)));
     dispatch(setContactGroups(res.data.rows));
   } catch (err) {
@@ -65,10 +72,14 @@ export const submitContactGroups = (selected, contactId) => async dispatch => {
     groupId: group.id,
     contactId
   }));
+  const { pageSize, offset } = init();
   try {
-    const res = await axios.post(`/api/contacts/${contactId}/groups/?limit=${20}&offset=${0}`, {
-      contactGroups
-    });
+    const res = await axios.post(
+      `/api/contacts/${contactId}/groups/?limit=${pageSize}&offset=${offset}`,
+      {
+        contactGroups
+      }
+    );
     dispatch(setContactGroups(res.data.rows));
     dispatch(setSelected([]));
   } catch (err) {
@@ -77,9 +88,7 @@ export const submitContactGroups = (selected, contactId) => async dispatch => {
 };
 
 export const deleteContactGroup = (contactId, groupId) => async dispatch => {
-  const state = store.getState();
-  const { page, pageSize } = state.groupContactsReducer;
-  const offset = page * pageSize;
+  const { pageSize, offset } = init();
   try {
     const res = await axios.delete(
       `/api/contacts/${contactId}/group/?groupId=${groupId}&limit=${pageSize}&offset=${offset}`
@@ -90,11 +99,8 @@ export const deleteContactGroup = (contactId, groupId) => async dispatch => {
   }
 };
 
-// REACT TABLE
 export const onPageChange = (page, contactId) => async dispatch => {
-  const state = store.getState();
-  const { pageSize, filtered } = state.groupContactsReducer;
-  const offset = page * pageSize;
+  const { pageSize, offset, filtered } = init();
   const query = filtered.length ? filtered[0].value : "";
   try {
     const res = await axios.get(
@@ -109,9 +115,7 @@ export const onPageChange = (page, contactId) => async dispatch => {
 };
 
 export const onPageSizeChange = (pageSize, page, contactId) => async dispatch => {
-  const state = store.getState();
-  const { filtered } = state.groupContactsReducer;
-  const offset = page * pageSize;
+  const { filtered, offset } = init();
   const query = filtered.length ? filtered[0].value : "";
   try {
     const res = await axios.get(
@@ -127,8 +131,7 @@ export const onPageSizeChange = (pageSize, page, contactId) => async dispatch =>
 };
 
 export const onFilteredChange = (filtered, contactId) => async dispatch => {
-  const state = store.getState();
-  const { pageSize } = state.groupContactsReducer;
+  const { pageSize } = init();
   const query = filtered.length ? filtered[0].value : "";
   try {
     dispatch(setFiltered(filtered));
@@ -142,7 +145,6 @@ export const onFilteredChange = (filtered, contactId) => async dispatch => {
   }
 };
 
-// REDUCER
 const contactGroupsReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_CONTACT_GROUPS:

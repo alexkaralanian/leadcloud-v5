@@ -93,9 +93,6 @@ class ContactsContainer extends React.Component {
         </CardHeader>
         <CardBody>
           <ReactTable
-            style={{
-              "max-height": "475px"
-            }}
             className="-highlight"
             data={contacts}
             page={page}

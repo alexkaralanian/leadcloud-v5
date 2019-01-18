@@ -1,18 +1,16 @@
 import React from "react";
-import { Input, Label } from "reactstrap";
+import { FormGroup, Input, Label, Col } from "reactstrap";
 
-const inputField = ({
-  input,
-  label,
-  placeholder,
-  type,
-  meta: { touched, active, error }
-}) => (
+const inputField = ({ input, label, placeholder, type, meta: { touched, active, error } }) => (
   <React.Fragment>
-    <Label>{label}</Label>
-    <Input {...input} label={label} placeholder={placeholder} type={type} />
+    <FormGroup row>
+      <Label sm={2}>{label}</Label>
+      <Col sm={10}>
+        <Input {...input} label={label} placeholder={placeholder} type={type} />
 
-    {touched && !active && error && <div>{error}</div>}
+        {touched && !active && error && <div>{error}</div>}
+      </Col>
+    </FormGroup>
   </React.Fragment>
 );
 

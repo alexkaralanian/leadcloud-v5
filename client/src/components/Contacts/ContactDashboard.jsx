@@ -68,35 +68,35 @@ class SingleContactContainer extends React.Component {
     }
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   const {
-  //     location,
-  //     contact,
-  //     setEmailQuery,
-  //     maxResults,
-  //     fetchEmailsByContact,
-  //     emailsByContact
-  //   } = this.props;
+  componentWillReceiveProps(nextProps) {
+    const {
+      location,
+      contact,
+      setEmailQuery,
+      maxResults,
+      fetchEmailsByContact,
+      emailsByContact
+    } = this.props;
 
-  // if (contact !== nextProps.contact) {
-  //   if (nextProps.contact.email) {
-  //     let query = "";
-  //     nextProps.contact.email.forEach(email => {
-  //       query += `from: ${email.value.trim()} OR `;
-  //     });
-  //     query = query.slice(0, query.length - 4);
+    if (contact !== nextProps.contact) {
+      if (nextProps.contact.email) {
+        let query = "";
+        nextProps.contact.email.forEach(email => {
+          query += `from: ${email.value.trim()} OR `;
+        });
+        query = query.slice(0, query.length - 4);
 
-  //     setEmailQuery(query);
-  //     fetchEmailsByContact(
-  //       // args: query, maxResults, pageToken, emailsArray
-  //       query,
-  //       maxResults,
-  //       0, // reset page token on new contact
-  //       emailsByContact
-  //     );
-  //   }
-  // }
-  // }
+        setEmailQuery(query);
+        fetchEmailsByContact(
+          // args: query, maxResults, pageToken, emailsArray
+          query,
+          maxResults,
+          0, // reset page token on new contact
+          emailsByContact
+        );
+      }
+    }
+  }
 
   componentWillUnmount() {
     const { setContact } = this.props;
@@ -218,7 +218,9 @@ class SingleContactContainer extends React.Component {
           <Route
             exact
             path={
-              location.pathname === "/contacts/new" ? `/contacts/new` : `/contacts/${contact.id}`
+              location.pathname === "/contacts/new"
+                ? `/contacts/new`
+                : `/contacts/${contact.id}/edit`
             }
             render={routeProps => (
               <ContactForm

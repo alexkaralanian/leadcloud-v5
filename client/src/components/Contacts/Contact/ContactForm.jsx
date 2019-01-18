@@ -9,7 +9,7 @@ import { fetchContact } from "../../../actions/contact-actions";
 
 import InputField from "../../InputField/InputField";
 import TextAreaField from "../../InputField/TextAreaField";
-import ButtonFooter from "../../ButtonFooter/ButtonFooter";
+// import ButtonFooter from "../../ButtonFooter/ButtonFooter";
 
 import "../Contacts.scss";
 
@@ -31,93 +31,71 @@ ContactForm = ({
   fetchContact,
   deleteContact
 }) => (
-  <div>
-    <Row>
-      <Col xs="12">
-        <Form className="margin-top-2" onSubmit={handleSubmit}>
-          <Card>
-            <CardHeader>
-              <i className="fa fa-align-justify" />
-              <strong>Contact Info</strong>
-            </CardHeader>
-            <CardBody>
-              <FormGroup>
-                {/* *** NAMES *** */}
-                <Field type="text" name="firstName" component={InputField} label="First Name" />
+  <Card>
+    <CardHeader>
+      <i className="fa fa-align-justify" />
+      <strong>Edit Contact</strong>
+    </CardHeader>
+    <CardBody>
+      <Form onSubmit={handleSubmit}>
+        <div className="form_border">
+          <Field type="text" name="firstName" component={InputField} label="First Name" />
 
-                <Field type="text" name="lastName" component={InputField} label="Last Name" />
+          <Field type="text" name="lastName" component={InputField} label="Last Name" />
+        </div>
+        {isContactNew || !contact.email ? (
+          <Field type="email" name={"email"} component={InputField} label="Email" />
+        ) : (
+          contact.email &&
+          contact.email.map(address => {
+            return (
+              <div className="form_border" key={address.value}>
+                <Field
+                  type="text"
+                  name={`email[${contact.email.indexOf(address)}].type`}
+                  component={InputField}
+                  label={`Email Label`}
+                />
+                <Field
+                  type="email"
+                  name={`email[${contact.email.indexOf(address)}].value`}
+                  component={InputField}
+                  label={`Email Address`}
+                />
+              </div>
+            );
+          })
+        )}
 
-                {/* ***EMAIL ADDRESSES*** */}
-                {isContactNew || !contact.email ? (
-                  <Field type="email" name={"email"} component={InputField} label="Email" />
-                ) : (
-                  contact.email &&
-                  contact.email.map(address => {
-                    return (
-                      <div key={address.value}>
-                        <Field
-                          type="email"
-                          name={`email[${contact.email.indexOf(address)}].value`}
-                          component={InputField}
-                          label={`${capitalize(address.type)} Email`}
-                        />
-                      </div>
-                    );
-                  })
-                )}
-
-                {/* ***PHONE NUMBERS*** */}
-                {isContactNew || !contact.phone ? (
-                  <div>
-                    <Field type="tel" name={"phone"} component={InputField} label="Phone" />
-                  </div>
-                ) : (
-                  contact.phone &&
-                  contact.phone.map(number => {
-                    return (
-                      <div key={number.value}>
-                        <Field
-                          type="tel"
-                          name={`phone[${contact.phone.indexOf(number)}].value`}
-                          component={InputField}
-                          label={`${capitalize(number.type)} Phone`}
-                        />
-                      </div>
-                    );
-                  })
-                )}
-
-                {/* *** NOTES *** */}
-                <div>
-                  <Field
-                    type="textarea"
-                    name="notes"
-                    component={InputField}
-                    label="Notes"
-                    placeholder="Add your notes here..."
-                  />
-                </div>
-              </FormGroup>
-            </CardBody>
-          </Card>
-
-          {/* *** BUTTONS *** */}
-          {isContactNew ? (
-            <ButtonFooter primaryButtonText="Submit" pristine={pristine} submitting={submitting} />
+        <div className="form_border">
+          {isContactNew || !contact.phone ? (
+            <Field type="tel" name={"phone"} component={InputField} label="Phone" />
           ) : (
-            <ButtonFooter
-              pristine={pristine}
-              submitting={submitting}
-              primaryButtonText="Update"
-              secondaryButtonText="Delete"
-              secondaryFunc={deleteContact}
-              component={contact}
-            />
+            contact.phone &&
+            contact.phone.map(number => {
+              return (
+                <React.Fragment key={number.value}>
+                  <Field
+                    type="tel"
+                    name={`phone[${contact.phone.indexOf(number)}].value`}
+                    component={InputField}
+                    label={`${capitalize(number.type)} Phone`}
+                  />
+                </React.Fragment>
+              );
+            })
           )}
-        </Form>
-      </Col>
-    </Row>
-  </div>
+        </div>
+        <Field
+          type="textarea"
+          name="notes"
+          component={InputField}
+          label="Notes"
+          placeholder="Add your notes here..."
+        />
+      </Form>
+    </CardBody>
+  </Card>
 );
 
 ContactForm = reduxForm({
@@ -135,3 +113,19 @@ ContactForm = connect(
 )(ContactForm);
 
 export default ContactForm;
+
+{
+  /* *** BUTTONS ***
+          {isContactNew ? (
+            <ButtonFooter primaryButtonText="Submit" pristine={pristine} submitting={submitting} />
+          ) : (
+            <ButtonFooter
+              pristine={pristine}
+              submitting={submitting}
+              primaryButtonText="Update"
+              secondaryButtonText="Delete"
+              secondaryFunc={deleteContact}
+              component={contact}
+            />
+          )}*/
+}
