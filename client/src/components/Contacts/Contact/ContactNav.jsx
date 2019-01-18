@@ -8,23 +8,21 @@ const ContactNav = ({ push, contact }) => (
         <NavLink active onClick={() => push(`/contacts/${contact.id}`)}>
           Profile
         </NavLink>
+      </NavItem>
+      <NavItem>
         <NavLink active onClick={() => push(`/contacts/${contact.id}/edit`)}>
           Edit
         </NavLink>
       </NavItem>
-
       <NavItem>
         <NavLink onClick={() => push(`/contacts/${contact.id}/listings`)}>Listings</NavLink>
       </NavItem>
-
       <NavItem>
         <NavLink onClick={() => push(`/contacts/${contact.id}/groups`)}>Groups</NavLink>
       </NavItem>
-
       <NavItem>
         <NavLink onClick={() => push(`/contacts/${contact.id}/emails`)}>Emails</NavLink>
       </NavItem>
-
       <NavItem>
         <NavLink onClick={() => push(`/contacts/${contact.id}/media`)}>Media</NavLink>
       </NavItem>
