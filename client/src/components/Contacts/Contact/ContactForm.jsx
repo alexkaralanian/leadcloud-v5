@@ -20,7 +20,10 @@ const capitalize = word => {
 };
 
 const CustomInput = ({ type, field, form: { touched, errors }, ...props }) => (
-  <Input type={type} {...field} {...props} />
+  <div>
+    <Input type={type} {...field} {...props} />
+    {touched[field.name] && errors[field.name] && <div className="error">{errors[field.name]}</div>}
+  </div>
 );
 
 class ContactForm extends React.Component {
@@ -34,10 +37,77 @@ class ContactForm extends React.Component {
         }}
         render={({ values }) => (
           <Form>
-            <Card className="mt-4">
+            <Card>
               <CardHeader>
                 <i className="fa fa-user" />
-                <strong>Contact Details</strong>
+                <strong>Profile</strong>
+              </CardHeader>
+              <CardBody>
+                <Row>
+                  <Col md={6}>
+                    <FormGroup>
+                      <Label>
+                        <strong>Priority Level</strong>
+                      </Label>
+                      <Field component={CustomInput} type="select" name="priority">
+                        <option value="A">A: High Priority</option>
+                        <option value="B">B: Medium Priority</option>
+                        <option value="C">C: Low Priority</option>
+                      </Field>
+                    </FormGroup>
+                  </Col>
+                  <Col md={6}>
+                    <FormGroup check inline>
+                      <Label check>
+                        <strong>Buyer</strong>
+                        <Field component={CustomInput} type="radio" name="buyer" />
+                      </Label>
+                    </FormGroup>
+                    <FormGroup check inline>
+                      <Label check>
+                        <strong>Seller</strong>
+                        <Field component={CustomInput} type="radio" name="seller" />
+                      </Label>
+                    </FormGroup>
+                    <FormGroup check inline>
+                      <Label check>
+                        <strong>Landlord</strong>
+                        <Field component={CustomInput} type="radio" name="landlord" />
+                      </Label>
+                    </FormGroup>
+                    <FormGroup check inline>
+                      <Label check>
+                        <strong>Tenant</strong>
+                        <Field component={CustomInput} type="radio" name="tenant" />
+                      </Label>
+                    </FormGroup>
+                    <FormGroup check inline>
+                      <Label check>
+                        <strong>Agent</strong>
+                        <Field component={CustomInput} type="radio" name="tenant" />
+                      </Label>
+                    </FormGroup>
+                    <FormGroup check inline>
+                      <Label check>
+                        <strong>Manager</strong>
+                        <Field component={CustomInput} type="radio" name="tenant" />
+                      </Label>
+                    </FormGroup>
+                    <FormGroup check inline>
+                      <Label check>
+                        <strong>Attorney</strong>
+                        <Field component={CustomInput} type="radio" name="tenant" />
+                      </Label>
+                    </FormGroup>
+                  </Col>
+                </Row>
+              </CardBody>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <i className="fa fa-user" />
+                <strong>Name</strong>
               </CardHeader>
               <CardBody>
                 <Row>
@@ -199,6 +269,37 @@ class ContactForm extends React.Component {
                     </div>
                   )}
                 />
+              </CardBody>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <i className="fa fa-user" />
+                <strong>Financial</strong>
+              </CardHeader>
+              <CardBody>
+                <FormGroup>
+                  <label for="customRange1">Budget</label>
+                  <input type="range" class="custom-range" id="customRange1" />
+                </FormGroup>
+                <FormGroup>
+                  <Label>
+                    <strong>Income</strong>
+                  </Label>
+                  <Field type="text" component={CustomInput} name="income" />
+                </FormGroup>
+                <FormGroup>
+                  <Label>
+                    <strong>Credit Score</strong>
+                  </Label>
+                  <Field type="text" component={CustomInput} name="creditScore" />
+                </FormGroup>
+                <FormGroup>
+                  <Label>
+                    <strong>Net Worth</strong>
+                  </Label>
+                  <Field type="text" component={CustomInput} name="netWorth" />
+                </FormGroup>
               </CardBody>
             </Card>
 

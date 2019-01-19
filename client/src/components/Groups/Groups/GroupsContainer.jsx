@@ -123,9 +123,6 @@ class GroupsContainer extends React.Component {
         </CardHeader>
         <CardBody>
           <ReactTable
-            style={{
-              "max-height": "475px"
-            }}
             className="-highlight"
             data={this.state.data} // contacts
             page={this.state.page} // current page
