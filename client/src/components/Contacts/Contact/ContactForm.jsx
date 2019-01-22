@@ -77,6 +77,7 @@ class ContactForm extends React.Component {
                         <strong>Priority Level</strong>
                       </Label>
                       <Field component={CustomInput} type="select" name="priority">
+                        <option value="null">{null}</option>
                         <option value="A">A: High Priority</option>
                         <option value="B">B: Medium Priority</option>
                         <option value="C">C: Low Priority</option>
@@ -296,6 +297,7 @@ class ContactForm extends React.Component {
                 </FormGroup>
               </CardBody>
             </Card>
+
             <div className="mt-4">
               <ButtonFooter
                 // submitting={isSubmitting}

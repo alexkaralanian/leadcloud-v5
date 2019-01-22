@@ -9,7 +9,7 @@ import Header from "../../components/Header/Header-new";
 import GroupForm from "./Group/GroupForm";
 import GroupContacts from "./GroupContacts/GroupContacts";
 import Modal from "../../components/Modal/Modal";
-import SearchContacts from "./GroupContacts/SearchContacts";
+import SearchGroupContacts from "./GroupContacts/SearchGroupContacts";
 
 import { fetchGroup, submitNewGroup, updateGroup, deleteGroup } from "../../actions/group-actions";
 
@@ -89,7 +89,7 @@ class GroupContainer extends React.Component {
           isModalVisible={this.state.isContactsModalVisible}
           title={group.title}
           Container={
-            <SearchContacts
+            <SearchGroupContacts
               displayModal={this.displayContactsModal}
               submitContacts={this.submitContacts}
               group={group}

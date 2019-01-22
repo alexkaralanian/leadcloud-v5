@@ -10,17 +10,21 @@ import { routerReducer, routerMiddleware } from "react-router-redux";
 // REDUCERS
 import authReducer from "./reducers/auth-reducer";
 import emailReducer from "./reducers/email-reducer";
+
 import contacts from "./reducers/contacts";
 import contact from "./reducers/contact";
 import contactGroups from "./reducers/contact-groups";
 import contactEmails from "./reducers/contact-emails";
 
-import listingReducer from "./reducers/listing-reducer";
 import listings from "./reducers/listings";
+import listing from "./reducers/listing";
+import listingContacts from "./reducers/listing-contacts";
+import listingContactsSearch from "./reducers/listing-contacts-search";
 
 import groupReducer from "./reducers/group-reducer";
 import groupContactsReducer from "./reducers/group-contacts";
 import groupContactsSearch from "./reducers/group-contacts-search";
+
 import campaignReducer from "./reducers/campaign-reducer";
 import formReducer from "./reducers/form-reducer";
 import queryReducer from "./reducers/query-reducer";
@@ -39,8 +43,10 @@ const rootReducer = combineReducers({
   contact,
   contactEmails,
   contactGroups,
-  listingReducer,
   listings,
+  listing,
+  listingContacts,
+  listingContactsSearch,
   groupReducer,
   groupContactsReducer,
   groupContactsSearch,

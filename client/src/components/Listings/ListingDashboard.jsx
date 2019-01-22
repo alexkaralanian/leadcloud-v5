@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { push } from "react-router-redux";
-import { Route, Redirect } from "react-router-dom";
+import { Route } from "react-router-dom";
 import PropTypes from "prop-types";
 import { Button } from "reactstrap";
 
@@ -9,15 +9,19 @@ import BreadCrumbs from "../../components/BreadCrumbs/BreadCrumbs";
 import Header from "../../components/Header/Header-new";
 import ListingNav from "./Listing/ListingNav";
 import ListingForm from "./Listing/ListingForm";
+
 import ListingContacts from "./ListingContacts";
+import SearchListingContacts from "./ListingContacts/SearchListingContacts";
+
 import ImageCarousel from "../../components/ImageCarousel/ImageCarousel";
 import Modal from "../../components/Modal/Modal";
+
 import OpenHouseModal from "../../components/Modal/OpenHouseModal";
 import OpenHouseContainer from "./OpenHouse/OpenHouseContainer";
 
 // import Navigation from "../NavContainer/NavContainer";
 // import Emails from "../../components/Emails/Emails";
-// import SearchContactsContainer from "../SearchContactsContainer/SearchContactsContainer";
+
 // import Loading from "../../components/Loading/Loading";
 import Placeholder from "../../components/Placeholder/Placeholder";
 
@@ -98,35 +102,11 @@ class ListingDashboard extends React.Component {
     });
   };
 
-  // headerFunc = () => {
-  //   const { match, location } = this.props;
-  //   switch (location.pathname) {
-  //     case `/listings/${match.params.id}`:
-  //       return {
-  //         modalFunc: this.displayOpenHouseModal,
-  //         modalText: "Launch Open House",
-  //         isVisible: true
-  //       };
-
-  //     case `/listings/${match.params.id}/contacts`:
-  //       return {
-  //         modalFunc: this.displayContactsModal,
-  //         modalText: "Add Listing Contacts",
-  //         isVisible: true
-  //       };
-  //     default:
-  //       return {
-  //         modalFunc: null,
-  //         modalText: null,
-  //         isVisible: false
-  //       };
-  //   }
-  // };
-
   render() {
     const {
       isAuthed,
       match,
+      location,
       push,
 
       listing,
@@ -148,7 +128,6 @@ class ListingDashboard extends React.Component {
       <React.Fragment>
         <div>
           <BreadCrumbs />
-
           <Header>
             <div
               style={{
@@ -158,21 +137,17 @@ class ListingDashboard extends React.Component {
               {listing.images && <img src={listing.images[0]} />}
               <h1>{match.path === "/listings/new" ? "New Listing" : listing.address}</h1>
             </div>
-            <Button onClick={() => push("/listings/new")} color="primary">
-              Create New
-            </Button>
+            {location.pathname === `/listings/${listing.id}` && (
+              <Button onClick={this.displayOpenHouseModal} color="primary">
+                Launch Open House
+              </Button>
+            )}
+            {location.pathname === `/listings/${listing.id}/contacts` && (
+              <Button onClick={this.displayContactsModal} color="primary">
+                Add Listing Contacts
+              </Button>
+            )}
           </Header>
-          {/* HEADER
-          <Header
-            isVisible={this.headerFunc().isVisible}
-            isNew={match.path === "/listings/new"}
-            componentName="Listing"
-            headerTitle={listing.address}
-            images={listing.images}
-            primaryFunc={() => this.headerFunc().modalFunc()}
-            primaryGlyph="plus"
-            primaryText={this.headerFunc().modalText}
-          />*/}
 
           {match.path !== "/listings/new" && <ListingNav push={push} listing={listing} />}
 
@@ -190,11 +165,7 @@ class ListingDashboard extends React.Component {
             render={routeProps => (
               <ListingForm
                 {...routeProps}
-                onSubmit={values => {
-                  match.path === "/listings/new"
-                    ? submitNewListing(values)
-                    : updateListing(values, listing.id);
-                }}
+                updateListing={updateListing}
                 listing={listing}
                 deleteListing={deleteListing}
                 isListingNew={match.path === "/listings/new"}
@@ -203,20 +174,19 @@ class ListingDashboard extends React.Component {
           />
 
           {/* LISTING CONTACTS */}
+
           <Modal
             displayModal={this.displayContactsModal}
             onExit={this.onContactsModalExit}
             isModalVisible={this.state.isContactsModalVisible}
             title={listing.address}
-            // Container={
-            //   <SearchContactsContainer
-            //     displayModal={this.displayContactsModal}
-            //     submitFunction={this.submitContacts}
-            //     hostComponent={listing}
-            //     setFunction={setDiffedListingContacts}
-            //     searchFunction={searchDiffedListingContacts}
-            //   />
-            // }
+            Container={
+              <SearchListingContacts
+                displayModal={this.displayContactsModal}
+                submitContacts={this.submitContacts}
+                listing={listing}
+              />
+            }
           />
           <Route
             path={`/listings/${listing.id}/contacts`}
@@ -266,9 +236,9 @@ class ListingDashboard extends React.Component {
 
 const mapStateToProps = state => ({
   isAuthed: state.authReducer.isAuthed,
-  listing: state.listingReducer.listing,
-  listingContacts: state.listingReducer.listingContacts,
-  images: state.listingReducer.images,
+  listing: state.listing.listing,
+  listingContacts: state.listing.listingContacts,
+  images: state.listing.images,
   isFetching: state.commonReducer.isFetching
 });
 

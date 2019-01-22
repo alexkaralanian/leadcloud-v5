@@ -13,7 +13,7 @@ export const setListingContacts = listingContacts => ({
 
 export const searchListingContacts = values => {
   const state = store.getState();
-  const listingId = state.listingReducer.listing.id;
+  const listingId = state.listing.listing.id;
   const query = values.nativeEvent.target.defaultValue;
   store.dispatch(setQuery(query));
   store.dispatch(setOffset(0));
