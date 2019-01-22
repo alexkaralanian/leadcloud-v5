@@ -10,15 +10,18 @@ exports.fetchUserEmails = (req, res) => {
     {
       userId: "me",
       auth: oAuth2Client,
-      maxResults: req.query.maxResults,
+      // maxResults: req.query.maxResults,
       pageToken: req.query.pageToken,
       q: req.query.q
     },
     (err, response) => {
       if (!err) {
         if (response.data.resultSizeEstimate > 0) {
+          const resultSizeEstimate = response.data.resultSizeEstimate;
+          console.log("resultSizeEstimate", resultSizeEstimate);
           const messageIDs = response.data.messages;
-          const nextPageToken = response.data.nextPageToken;
+          console.log("messageIDs", messageIDs);
+          const nextPageToken = response.data.nextPageToken || "";
           // Return an array of email promises
           const emailPromises = messageIDs.map(
             message =>
@@ -33,6 +36,7 @@ exports.fetchUserEmails = (req, res) => {
                   },
                   (error, email) => {
                     if (email) {
+                      // console.log("EMAIL DATA", email.data);
                       resolve(email.data);
                     } else {
                       reject(error);
@@ -47,6 +51,9 @@ exports.fetchUserEmails = (req, res) => {
             .then(emails => {
               // Custom helper to transform / map email array
               res.json(emailTransform(emails));
+            })
+            .catch(err => {
+              console.error(err);
             });
         } else {
           res.json([]);

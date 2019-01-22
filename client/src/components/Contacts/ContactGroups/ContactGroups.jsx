@@ -11,7 +11,8 @@ import {
   deleteContactGroup,
   onPageChange,
   onPageSizeChange,
-  onFilteredChange
+  onFilteredChange,
+  onContactGroupsSearch
 } from "../../../reducers/contact-groups";
 
 class ContactGroups extends React.Component {
@@ -27,6 +28,7 @@ class ContactGroups extends React.Component {
       onPageChange,
       onPageSizeChange,
       onFilteredChange,
+      onContactGroupsSearch,
       page,
       pages,
       pageSize,
@@ -62,6 +64,7 @@ class ContactGroups extends React.Component {
       {
         Header: "Action",
         id: "id",
+        width: 130,
         accessor: group => (
           <Button color="danger" onClick={() => deleteContactGroup(contactId, group.id)}>
             Remove Group
@@ -71,16 +74,13 @@ class ContactGroups extends React.Component {
     ];
 
     return (
-      <Card className="mt-4 mb-0">
+      <Card className="mb-0">
         <CardHeader>
           <i className="fa fa-align-justify" />
-          <strong>All Contacts</strong>
+          <strong>Group Memberships</strong>
         </CardHeader>
         <CardBody>
           <ReactTable
-            style={{
-              "max-height": "475px"
-            }}
             className="-highlight"
             data={contactGroups}
             page={page}
@@ -93,7 +93,8 @@ class ContactGroups extends React.Component {
             // showPaginationTop
             showPageSizeOptions={false}
             manual
-            filterable
+            sortable={false}
+            // filterable
             onPageChange={page => {
               onPageChange(page, contactId);
             }}
@@ -103,7 +104,23 @@ class ContactGroups extends React.Component {
             onFilteredChange={filtered => {
               onFilteredChange(filtered, contactId);
             }}
-          />
+          >
+            {(state, makeTable, instance) => {
+              let input;
+              return (
+                <div>
+                  <input
+                    className="form-control mb-4"
+                    placeholder="Search..."
+                    type="text"
+                    ref={n => (input = n)}
+                    onChange={() => onContactGroupsSearch(input.value, contactId)}
+                  />
+                  {makeTable()}
+                </div>
+              );
+            }}
+          </ReactTable>
         </CardBody>
       </Card>
     );
@@ -123,5 +140,6 @@ export default connect(mapStateToProps, {
   deleteContactGroup,
   onPageChange,
   onPageSizeChange,
-  onFilteredChange
+  onFilteredChange,
+  onContactGroupsSearch
 })(ContactGroups);

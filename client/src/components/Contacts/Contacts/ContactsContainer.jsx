@@ -1,16 +1,26 @@
 import React from "react";
-// import moment from "moment";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import ReactTable from "react-table";
-import { Card, CardHeader, CardBody } from "reactstrap";
+import {
+  Input,
+  Card,
+  CardHeader,
+  CardBody,
+  Pagination,
+  PaginationItem,
+  PaginationLink
+} from "reactstrap"
+
+import SearchForm from "../../SearchForm/SearchForm";
 
 import {
   fetchContacts,
   onPageChange,
   onPageSizeChange,
-  onFilteredChange
+  onFilteredChange,
+  onSearch
 } from "../../../reducers/contacts-reducer";
 
 class ContactsContainer extends React.Component {
@@ -24,6 +34,7 @@ class ContactsContainer extends React.Component {
       {
         Header: null,
         id: "images",
+        filterable: false,
         width: 50,
         accessor: contact =>
           contact.images ? (
@@ -56,6 +67,7 @@ class ContactsContainer extends React.Component {
       {
         Header: "Phone",
         id: "phone",
+        filterable: false,
         accessor: contact =>
           contact.phone ? (
             <a href={`tel:${contact.phone[0].value}`}>{contact.phone[0].value}</a>
@@ -63,11 +75,6 @@ class ContactsContainer extends React.Component {
             ""
           )
       }
-      // {
-      //   Header: "Updated",
-      //   id: "updated",
-      //   accessor: contact => moment(contact.updated).format("ddd, M/D/YY h:mma")
-      // }
     ];
 
     const {
@@ -82,7 +89,8 @@ class ContactsContainer extends React.Component {
       loading,
       filtered,
       match,
-      contacts
+      contacts,
+      onSearch
     } = this.props;
 
     return (
@@ -98,14 +106,14 @@ class ContactsContainer extends React.Component {
             page={page}
             pages={pages}
             loading={loading}
-            filtered={filtered}
+            // filtered={filtered}
             columns={columns}
             defaultPageSize={20}
             minRows={3}
             // showPaginationTop
             showPageSizeOptions={false}
             manual
-            filterable
+            // filterable
             onPageChange={page => {
               onPageChange(page);
             }}
@@ -115,7 +123,23 @@ class ContactsContainer extends React.Component {
             onFilteredChange={filtered => {
               onFilteredChange(filtered);
             }}
-          />
+          >
+            {(state, makeTable, instance) => {
+              let input;
+              return (
+                <div>
+                  <input
+                    className="form-control mb-4"
+                    placeholder="Search..."
+                    type="text"
+                    ref={n => (input = n)}
+                    onChange={() => onSearch(input.value)}
+                  />
+                  {makeTable()}
+                </div>
+              );
+            }}
+          </ReactTable>
         </CardBody>
       </Card>
     );
@@ -134,5 +158,6 @@ export default connect(mapStateToProps, {
   fetchContacts,
   onPageChange,
   onPageSizeChange,
-  onFilteredChange
+  onFilteredChange,
+  onSearch
 })(ContactsContainer);

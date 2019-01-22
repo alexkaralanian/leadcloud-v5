@@ -1,3 +1,6 @@
+@import "~slick-carousel/slick/slick.css";
+@import "~slick-carousel/slick/slick-theme.css";
+
 @media screen and (min-width: 0px) and (max-width: 587px) {
   .container-fluid {
     padding: 0px !important;
@@ -59,9 +62,17 @@
   float: left;
 }
 
+.table_img {
+  width: 50px !important;
+}
+
+.table th {
+  border-top: 0;
+}
+
 .table_img img {
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 40px;
+  height: 40px;
   border-radius: 2px;
 }
 

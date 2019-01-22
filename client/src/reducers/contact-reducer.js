@@ -4,11 +4,11 @@ import * as types from "../types";
 /* ------------       REDUCERS     ------------------ */
 
 const initialState = {
-  contacts: [],
+  // contacts: [],
   contact: {},
   contactListings: [],
   contactGroups: [],
-  emailsByContact: [],
+  contactEmails: [],
   pages: 0,
   pageSize: 25,
   offset: 0,
@@ -17,12 +17,11 @@ const initialState = {
 
 const contactReducer = (state = initialState, action) => {
   switch (action.type) {
-    case types.SET_CONTACTS:
-      return {
-        ...state,
-        contacts: action.payload
-      };
-
+    // case types.SET_CONTACTS:
+    //   return {
+    //     ...state,
+    //     contacts: action.payload
+    //   };
     case types.SET_CONTACT:
       return {
         ...state,
@@ -40,10 +39,10 @@ const contactReducer = (state = initialState, action) => {
         contactGroups: action.payload
       };
 
-    case types.SET_EMAILS_BY_CONTACT:
+    case types.SET_CONTACT_EMAILS:
       return {
         ...state,
-        emailsByContact: action.emailsByContact,
+        contactEmails: action.contactEmails,
         pageToken: action.pageToken
       };
 

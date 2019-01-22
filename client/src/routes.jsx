@@ -1,5 +1,6 @@
 import React from "react";
 import Loadable from "react-loadable";
+import Loading from "./components/Loading/Loading";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Route, Switch } from "react-router-dom";
@@ -9,7 +10,6 @@ import Header from "./components/Header/Header";
 import Sidebar from "./components/Sidebar/Sidebar";
 import { fetchUser } from "./actions/auth-actions";
 import CalendarContainer from "./containers/CalendarContainer/CalendarContainer";
-import Loading from "./components/Loading/Loading";
 import { history } from "./store";
 
 const LandingPage = Loadable({

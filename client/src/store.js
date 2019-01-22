@@ -13,6 +13,7 @@ import emailReducer from "./reducers/email-reducer";
 import contactsReducer from "./reducers/contacts-reducer";
 import contactReducer from "./reducers/contact-reducer";
 import contactGroupsReducer from "./reducers/contact-groups";
+import contactEmails from "./reducers/contact-emails";
 
 import listingReducer from "./reducers/listing-reducer";
 
@@ -35,6 +36,7 @@ const rootReducer = combineReducers({
   emailReducer,
   contactsReducer,
   contactReducer,
+  contactEmails,
   contactGroupsReducer,
   listingReducer,
   groupReducer,

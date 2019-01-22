@@ -40,6 +40,32 @@ class ContactForm extends React.Component {
             <Card>
               <CardHeader>
                 <i className="fa fa-user" />
+                <strong>Name</strong>
+              </CardHeader>
+              <CardBody>
+                <Row>
+                  <Col md={6}>
+                    <FormGroup>
+                      <Label>
+                        <strong>First Name</strong>
+                      </Label>
+                      <Field type="text" component={CustomInput} name="firstName" />
+                    </FormGroup>
+                  </Col>
+                  <Col md={6}>
+                    <FormGroup>
+                      <Label>
+                        <strong>Last Name</strong>
+                      </Label>
+                      <Field type="text" component={CustomInput} name="lastName" />
+                    </FormGroup>
+                  </Col>
+                </Row>
+              </CardBody>
+            </Card>
+            <Card>
+              <CardHeader>
+                <i className="fa fa-user" />
                 <strong>Profile</strong>
               </CardHeader>
               <CardBody>
@@ -80,51 +106,6 @@ class ContactForm extends React.Component {
                         <strong>Tenant</strong>
                         <Field component={CustomInput} type="radio" name="tenant" />
                       </Label>
-                    </FormGroup>
-                    <FormGroup check inline>
-                      <Label check>
-                        <strong>Agent</strong>
-                        <Field component={CustomInput} type="radio" name="tenant" />
-                      </Label>
-                    </FormGroup>
-                    <FormGroup check inline>
-                      <Label check>
-                        <strong>Manager</strong>
-                        <Field component={CustomInput} type="radio" name="tenant" />
-                      </Label>
-                    </FormGroup>
-                    <FormGroup check inline>
-                      <Label check>
-                        <strong>Attorney</strong>
-                        <Field component={CustomInput} type="radio" name="tenant" />
-                      </Label>
-                    </FormGroup>
-                  </Col>
-                </Row>
-              </CardBody>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <i className="fa fa-user" />
-                <strong>Name</strong>
-              </CardHeader>
-              <CardBody>
-                <Row>
-                  <Col md={6}>
-                    <FormGroup>
-                      <Label>
-                        <strong>First Name</strong>
-                      </Label>
-                      <Field type="text" component={CustomInput} name="firstName" />
-                    </FormGroup>
-                  </Col>
-                  <Col md={6}>
-                    <FormGroup>
-                      <Label>
-                        <strong>Last Name</strong>
-                      </Label>
-                      <Field type="text" component={CustomInput} name="lastName" />
                     </FormGroup>
                   </Col>
                 </Row>
@@ -339,5 +320,4 @@ const mapDispatchToProps = {
   updateContact
 };
 
-ContactForm = connect(mapStateToProps, mapDispatchToProps)(ContactForm);
-export default ContactForm;
+export default connect(mapStateToProps, mapDispatchToProps)(ContactForm);

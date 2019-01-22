@@ -1,25 +1,31 @@
 import axios from "axios";
 import store from "../store";
-import { setSelected } from "./group-contacts-search";
 
 const initialState = {
-  contactGroups: [],
+  contactEmails: [],
   filtered: [],
   pages: 0,
   page: 0,
   pageSize: 20,
-  loading: false
+  loading: false,
+  pageToken: ""
 };
 
-const SET_CONTACT_GROUPS = "SET_CONTACT_GROUPS";
+const SET_CONTACT_EMAILS = "SET_CONTACT_EMAILS";
+const SET_PAGE_TOKEN = "SET_PAGE_TOKEN";
 const SET_PAGES = "SET_PAGES";
 const SET_PAGE = "SET_PAGE";
 const SET_PAGE_SIZE = "SET_PAGE_SIZE";
 const SET_FILTERED = "SET_FILTERED";
 
-export const setContactGroups = data => ({
-  type: SET_CONTACT_GROUPS,
-  payload: data
+export const setContactEmails = contactEmails => ({
+  type: SET_CONTACT_EMAILS,
+  payload: contactEmails
+});
+
+export const setPageToken = token => ({
+  type: SET_PAGE_TOKEN,
+  payload: token
 });
 
 export const setPages = pages => ({
@@ -54,48 +60,34 @@ export const init = () => {
   };
 };
 
-export const fetchContactGroups = contactId => async dispatch => {
-  const { pageSize, offset } = init();
+export const fetchContactEmails = query => async dispatch => {
+  const state = store.getState();
+  const { pageSize, pageToken } = state.contactEmails;
   try {
     const res = await axios.get(
-      `/api/contacts/${contactId}/groups/?limit=${pageSize}&offset=${offset}`
+      `/api/email/gmail?maxResults=${pageSize}&pageToken=${pageToken}&q=${query}`
     );
-    dispatch(setPages(Math.ceil(res.data.count / pageSize)));
-    dispatch(setContactGroups(res.data.rows));
+    console.log("RES.DATA", res.data);
+    if (res.data.emailArray) {
+      dispatch(setContactEmails(res.data.emailArray));
+      dispatch(setPageToken(res.data.nextPageToken));
+    }
+  } catch (err) {
+    console.error("Fetching emails by contact unsuccessful", err);
+  }
+};
+
+export const onContactEmailsSearch = (query, contactId) => async dispatch => {
+  const state = store.getState();
+  const { pageSize } = state.groupContactsReducer;
+  try {
+    const res = await axios.get(
+      `/api/contacts/${contactId}/groups/?limit=${pageSize}&offset=${0}&query=${query}`
+    );
+    dispatch(setContactEmails(res.data.emailArray));
+    dispatch(setPageToken(res.data.nextPageToken));
   } catch (err) {
     console.error(err);
-  }
-};
-
-export const submitContactGroups = (selected, contactId) => async dispatch => {
-  const contactGroups = selected.map(group => ({
-    groupId: group.id,
-    contactId
-  }));
-  const { pageSize, offset } = init();
-  try {
-    const res = await axios.post(
-      `/api/contacts/${contactId}/groups/?limit=${pageSize}&offset=${offset}`,
-      {
-        contactGroups
-      }
-    );
-    dispatch(setContactGroups(res.data.rows));
-    dispatch(setSelected([]));
-  } catch (err) {
-    console.error("Submitting Contact Groups Unsuccessful", err);
-  }
-};
-
-export const deleteContactGroup = (contactId, groupId) => async dispatch => {
-  const { pageSize, offset } = init();
-  try {
-    const res = await axios.delete(
-      `/api/contacts/${contactId}/group/?groupId=${groupId}&limit=${pageSize}&offset=${offset}`
-    );
-    dispatch(setContactGroups(res.data.rows));
-  } catch (err) {
-    console.error("Submitting Group Contact Unsuccessful", err);
   }
 };
 
@@ -106,7 +98,7 @@ export const onPageChange = (page, contactId) => async dispatch => {
     const res = await axios.get(
       `/api/contacts/${contactId}/groups/?limit=${pageSize}&offset=${offset}&query=${query}`
     );
-    dispatch(setContactGroups(res.data.rows));
+    dispatch(setContactEmails(res.data.rows));
     dispatch(setPages(Math.ceil(res.data.count / pageSize)));
     dispatch(setPage(page));
   } catch (err) {
@@ -121,10 +113,10 @@ export const onPageSizeChange = (pageSize, page, contactId) => async dispatch =>
     const res = await axios.get(
       `/api/contacts/${contactId}/groups/?limit=${pageSize}&offset=${offset}&query=${query}`
     );
-    dispatch(setContactGroups(res.data.rows));
-    dispatch(setPages(Math.ceil(res.data.count / pageSize)));
-    dispatch(setPage(page));
-    dispatch(setPageSize(pageSize));
+    dispatch(setContactEmails(res.data.rows));
+    // dispatch(setPages(Math.ceil(res.data.count / pageSize)));
+    // dispatch(setPage(page));
+    // dispatch(setPageSize(pageSize));
   } catch (err) {
     console.error(err);
   }
@@ -138,31 +130,24 @@ export const onFilteredChange = (filtered, contactId) => async dispatch => {
     const res = await axios.get(
       `/api/contacts/${contactId}/groups/?limit=${pageSize}&offset=${0}&query=${query}`
     );
-    dispatch(setContactGroups(res.data.rows));
+    dispatch(setContactEmails(res.data.rows));
     dispatch(setPages(Math.ceil(res.data.count / pageSize)));
   } catch (err) {
     console.error(err);
   }
 };
 
-export const onContactGroupsSearch = (query, contactId) => async dispatch => {
-  const state = store.getState();
-  const { pageSize } = state.groupContactsReducer;
-  try {
-    const res = await axios.get(`/api/contacts/${contactId}/groups/?limit=${pageSize}&offset=${0}&query=${query}`);
-    dispatch(setContactGroups(res.data.rows));
-    dispatch(setPages(Math.ceil(res.data.count / pageSize)));
-  } catch (err) {
-    console.error(err);
-  }
-};
-
-const contactGroupsReducer = (state = initialState, action) => {
+const contactEmailsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case SET_CONTACT_GROUPS:
+    case SET_CONTACT_EMAILS:
       return {
         ...state,
-        contactGroups: action.payload
+        contactEmails: action.payload
+      };
+    case SET_PAGE_TOKEN:
+      return {
+        ...state,
+        pageToken: action.payload
       };
     case SET_PAGES:
       return {
@@ -189,4 +174,4 @@ const contactGroupsReducer = (state = initialState, action) => {
   }
 };
 
-export default contactGroupsReducer;
+export default contactEmailsReducer;

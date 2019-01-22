@@ -85,6 +85,18 @@ export const onPageSizeChange = (pageSize, page) => async dispatch => {
   }
 };
 
+export const onSearch = query => async dispatch => {
+  const state = store.getState();
+  const { pageSize } = state.groupContactsReducer;
+  try {
+    const res = await axios.get(`/api/contacts/?limit=${pageSize}&offset=${0}&query=${query}`);
+    dispatch(setContacts(res.data.rows));
+    dispatch(setPages(Math.ceil(res.data.count / pageSize)));
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 export const onFilteredChange = filtered => async dispatch => {
   const state = store.getState();
   const { pageSize } = state.groupContactsReducer;

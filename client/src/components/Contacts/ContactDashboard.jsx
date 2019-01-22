@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { push } from "react-router-redux";
 import { Route } from "react-router-dom";
+import Loadable from "react-loadable";
 import { Button, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap";
 
 import BreadCrumbs from "../BreadCrumbs/BreadCrumbs";
@@ -18,13 +19,18 @@ import ContactGroups from "./ContactGroups/ContactGroups";
 import SearchGroupsContainer from "./ContactGroups/SearchGroupsContainer";
 
 import ImageCarousel from "../../components/ImageCarousel/ImageCarousel";
-// import EmailsContainer from "./Contact/EmailsContainer";
-
 import Modal from "../../components/Modal/Modal";
 import Placeholder from "../../components/Placeholder/Placeholder";
 
+import Loading from "../Loading/Loading";
+
 import { clearError } from "../../actions/common-actions";
 import { fetchComponent, setQuery, setOffset, setCount } from "../../actions/query-actions";
+
+const ContactEmails = Loadable({
+  loader: () => import("./ContactEmails/ContactEmails"),
+  loading: Loading
+});
 
 import {
   fetchContact,
@@ -49,9 +55,9 @@ import {
   searchContactGroups
 } from "../../actions/contact-groups-actions";
 
-import { fetchEmailsByContact, setEmailQuery } from "../../actions/email-actions";
+import { fetchContactEmails } from "../../reducers/contact-emails";
 
-class SingleContactContainer extends React.Component {
+class ContactDashboard extends React.Component {
   state = {
     activeKey: 1,
     isListingsModalVisible: false,
@@ -66,41 +72,6 @@ class SingleContactContainer extends React.Component {
       fetchContact(match.params.id);
       fetchComponent("contacts", [], setContactListings, match.params.id, "listings");
     }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const {
-      location,
-      contact,
-      setEmailQuery,
-      maxResults,
-      fetchEmailsByContact,
-      emailsByContact
-    } = this.props;
-
-    if (contact !== nextProps.contact) {
-      if (nextProps.contact.email) {
-        let query = "";
-        nextProps.contact.email.forEach(email => {
-          query += `from: ${email.value.trim()} OR `;
-        });
-        query = query.slice(0, query.length - 4);
-
-        setEmailQuery(query);
-        fetchEmailsByContact(
-          // args: query, maxResults, pageToken, emailsArray
-          query,
-          maxResults,
-          0, // reset page token on new contact
-          emailsByContact
-        );
-      }
-    }
-  }
-
-  componentWillUnmount() {
-    const { setContact } = this.props;
-    setContact({});
   }
 
   toggle = () => {
@@ -173,7 +144,7 @@ class SingleContactContainer extends React.Component {
       searchContactGroups,
       deleteContactGroup,
 
-      emailsByContact,
+      contactEmails,
       onDrop,
       deleteContactImage
     } = this.props;
@@ -254,23 +225,15 @@ class SingleContactContainer extends React.Component {
           />
           <Route
             path={`/contacts/:id/listings`}
-            render={routeProps =>
-              contactListings.length > 0 ? (
-                <ContactListings
-                  {...routeProps}
-                  contact={contact}
-                  contactListings={contactListings}
-                  searchContactListings={searchContactListings}
-                  deleteContactListing={deleteContactListing}
-                />
-              ) : (
-                <Placeholder
-                  headerText={`${contact.fullName} doesn't have any listings yet...`}
-                  ctaText="Add Listings"
-                  ctaFunc={this.displayListingsModal}
-                />
-              )
-            }
+            render={routeProps => (
+              <ContactListings
+                {...routeProps}
+                contact={contact}
+                contactListings={contactListings}
+                searchContactListings={searchContactListings}
+                deleteContactListing={deleteContactListing}
+              />
+            )}
           />
 
           {/* CONTACT GROUPS */}
@@ -295,7 +258,7 @@ class SingleContactContainer extends React.Component {
           {/* CONTACT EMAILS */}
           <Route
             path={`/contacts/:id/emails`}
-            // render={routeProps => <EmailsContainer {...routeProps} />}
+            render={routeProps => <ContactEmails {...routeProps} />}
           />
 
           {/* CONTACT MEDIA */}
@@ -324,7 +287,7 @@ const mapStateToProps = state => ({
   contact: state.contactReducer.contact,
   contactGroups: state.contactReducer.contactGroups,
   contactListings: state.contactReducer.contactListings,
-  emailsByContact: state.contactReducer.emailsByContact,
+  contactEmails: state.contactEmails.contactEmails,
   emailQuery: state.emailReducer.emailQuery,
   maxResults: state.contactReducer.maxResults,
   pageToken: state.contactReducer.pageToken,
@@ -357,8 +320,7 @@ const mapDispatchToProps = {
   deleteContactGroup,
   searchContactGroups,
 
-  fetchEmailsByContact,
-  setEmailQuery
+  fetchContactEmails
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SingleContactContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(ContactDashboard);

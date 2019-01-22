@@ -2,6 +2,7 @@ import React from "react";
 import debounce from "lodash.debounce";
 import { Field, reduxForm } from "redux-form";
 import { FormGroup, Input, Label } from "reactstrap";
+// import { Formik, Form, Field } from "formik";
 
 let searchForm;
 
@@ -26,6 +27,7 @@ const SearchForm = ({
 }) => {
   searchForm = form;
 
+  // return <Input type="text" />;
   return (
     <FormGroup className="search-form">
       <Field
@@ -39,7 +41,35 @@ const SearchForm = ({
   );
 };
 
+// export default SearchForm;
+
 export default reduxForm({
   form: `${searchForm || "searchForm"}`, // a unique name for this form
   enableReinitialize: true
 })(SearchForm);
+
+// const CustomInput = ({ type, field, form: { touched, errors }, ...props }) => (
+//   <div>
+//     <Input type={type} {...field} {...props} />
+//     {touched[field.name] && errors[field.name] && <div className="error">{errors[field.name]}</div>}
+//   </div>
+// );
+
+// const SearchForm = props => {
+//   return (
+//     <Formik
+//       onSubmit={values => {
+//         console.log("VALUES", values);
+//       }}
+//       render={({ values }) => (
+//         <Form>
+//           <FormGroup>
+//             <Field type="text" component={CustomInput} name="search" />
+//           </FormGroup>
+//         </Form>
+//       )}
+//     />
+//   );
+// };
+
+// export default SearchForm;
