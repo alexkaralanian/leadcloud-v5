@@ -20,17 +20,12 @@ import SearchGroupsContainer from "./ContactGroups/SearchGroupsContainer";
 
 import ImageCarousel from "../../components/ImageCarousel/ImageCarousel";
 import Modal from "../../components/Modal/Modal";
-import Placeholder from "../../components/Placeholder/Placeholder";
+// import Placeholder from "../../components/Placeholder/Placeholder";
 
 import Loading from "../Loading/Loading";
 
 import { clearError } from "../../actions/common-actions";
 import { fetchComponent, setQuery, setOffset, setCount } from "../../actions/query-actions";
-
-const ContactEmails = Loadable({
-  loader: () => import("./ContactEmails/ContactEmails"),
-  loading: Loading
-});
 
 import {
   fetchContact,
@@ -56,6 +51,11 @@ import {
 } from "../../actions/contact-groups-actions";
 
 import { fetchContactEmails } from "../../reducers/contact-emails";
+
+const ContactEmails = Loadable({
+  loader: () => import("./ContactEmails/ContactEmails"),
+  loading: Loading
+});
 
 class ContactDashboard extends React.Component {
   state = {
@@ -189,9 +189,7 @@ class ContactDashboard extends React.Component {
           <Route
             exact
             path={
-              location.pathname === "/contacts/new"
-                ? `/contacts/new`
-                : `/contacts/${contact.id}/edit`
+              location.pathname === "/contacts/new" ? `/contacts/new` : `/contacts/${contact.id}`
             }
             render={routeProps => (
               <ContactForm
@@ -283,14 +281,14 @@ class ContactDashboard extends React.Component {
 const mapStateToProps = state => ({
   isFetching: state.commonReducer.isFetching,
   isLoading: state.commonReducer.isLoading,
-  error: state.contactReducer.error,
-  contact: state.contactReducer.contact,
-  contactGroups: state.contactReducer.contactGroups,
-  contactListings: state.contactReducer.contactListings,
+  error: state.contact.error,
+  contact: state.contact.contact,
+  contactGroups: state.contact.contactGroups,
+  contactListings: state.contact.contactListings,
   contactEmails: state.contactEmails.contactEmails,
-  emailQuery: state.emailReducer.emailQuery,
-  maxResults: state.contactReducer.maxResults,
-  pageToken: state.contactReducer.pageToken,
+  // emailQuery: state.emailReducer.emailQuery,
+  // maxResults: state.contactReducer.maxResults,
+  // pageToken: state.contactReducer.pageToken,
   path: state.router.location.pathname
 });
 
@@ -316,7 +314,6 @@ const mapDispatchToProps = {
   submitContactListings,
   deleteContactListing,
 
-  submitContactGroups,
   deleteContactGroup,
   searchContactGroups,
 

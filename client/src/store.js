@@ -10,12 +10,13 @@ import { routerReducer, routerMiddleware } from "react-router-redux";
 // REDUCERS
 import authReducer from "./reducers/auth-reducer";
 import emailReducer from "./reducers/email-reducer";
-import contactsReducer from "./reducers/contacts-reducer";
-import contactReducer from "./reducers/contact-reducer";
-import contactGroupsReducer from "./reducers/contact-groups";
+import contacts from "./reducers/contacts";
+import contact from "./reducers/contact";
+import contactGroups from "./reducers/contact-groups";
 import contactEmails from "./reducers/contact-emails";
 
 import listingReducer from "./reducers/listing-reducer";
+import listings from "./reducers/listings";
 
 import groupReducer from "./reducers/group-reducer";
 import groupContactsReducer from "./reducers/group-contacts";
@@ -34,11 +35,12 @@ export const history = createHistory();
 const rootReducer = combineReducers({
   authReducer,
   emailReducer,
-  contactsReducer,
-  contactReducer,
+  contacts,
+  contact,
   contactEmails,
-  contactGroupsReducer,
+  contactGroups,
   listingReducer,
+  listings,
   groupReducer,
   groupContactsReducer,
   groupContactsSearch,

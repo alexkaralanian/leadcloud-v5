@@ -128,11 +128,11 @@ class ContactGroups extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  contactGroups: state.contactGroupsReducer.contactGroups,
-  page: state.contactGroupsReducer.page,
-  pages: state.contactGroupsReducer.pages,
-  loading: state.contactGroupsReducer.loading,
-  filtered: state.contactGroupsReducer.filtered
+  contactGroups: state.contactGroups.contactGroups,
+  page: state.contactGroups.page,
+  pages: state.contactGroups.pages,
+  loading: state.contactGroups.loading,
+  filtered: state.contactGroups.filtered
 });
 
 export default connect(mapStateToProps, {

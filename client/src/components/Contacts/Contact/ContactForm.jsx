@@ -27,6 +27,7 @@ const CustomInput = ({ type, field, form: { touched, errors }, ...props }) => (
 );
 
 class ContactForm extends React.Component {
+  state = {};
   render() {
     const { contact, updateContact } = this.props;
     return (

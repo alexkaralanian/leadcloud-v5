@@ -3,17 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import ReactTable from "react-table";
-import {
-  Input,
-  Card,
-  CardHeader,
-  CardBody,
-  Pagination,
-  PaginationItem,
-  PaginationLink
-} from "reactstrap"
-
-import SearchForm from "../../SearchForm/SearchForm";
+import { Card, CardHeader, CardBody } from "reactstrap";
 
 import {
   fetchContacts,
@@ -21,7 +11,7 @@ import {
   onPageSizeChange,
   onFilteredChange,
   onSearch
-} from "../../../reducers/contacts-reducer";
+} from "../../../reducers/contacts";
 
 class ContactsContainer extends React.Component {
   componentDidMount() {
@@ -147,11 +137,11 @@ class ContactsContainer extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  contacts: state.contactsReducer.contacts,
-  page: state.contactsReducer.page,
-  pages: state.contactsReducer.pages,
-  loading: state.contactsReducer.loading,
-  filtered: state.contactsReducer.filtered
+  contacts: state.contacts.contacts,
+  page: state.contacts.page,
+  pages: state.contacts.pages,
+  loading: state.contacts.loading,
+  filtered: state.contacts.filtered
 });
 
 export default connect(mapStateToProps, {

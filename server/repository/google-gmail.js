@@ -17,10 +17,8 @@ exports.fetchUserEmails = (req, res) => {
     (err, response) => {
       if (!err) {
         if (response.data.resultSizeEstimate > 0) {
-          const resultSizeEstimate = response.data.resultSizeEstimate;
-          console.log("resultSizeEstimate", resultSizeEstimate);
+          // const resultSizeEstimate = response.data.resultSizeEstimate;
           const messageIDs = response.data.messages;
-          console.log("messageIDs", messageIDs);
           const nextPageToken = response.data.nextPageToken || "";
           // Return an array of email promises
           const emailPromises = messageIDs.map(

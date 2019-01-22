@@ -4,13 +4,9 @@ import { Nav, NavItem, NavLink } from "reactstrap";
 const ContactNav = ({ push, contact }) => (
   <div>
     <Nav>
+      <NavItem />
       <NavItem>
         <NavLink active onClick={() => push(`/contacts/${contact.id}`)}>
-          Profile
-        </NavLink>
-      </NavItem>
-      <NavItem>
-        <NavLink active onClick={() => push(`/contacts/${contact.id}/edit`)}>
           Edit
         </NavLink>
       </NavItem>

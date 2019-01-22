@@ -3,14 +3,13 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Redirect } from "react-router";
 import { push } from "react-router-redux";
-import { Grid, Row, Col, Button } from "react-bootstrap";
+import { Button, Row, Col, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap";
 
 import Listings from "../../components/Listings/Listings";
-import Navigation from "../NavContainer/NavContainer";
 import BreadCrumbs from "../../components/BreadCrumbs/BreadCrumbs";
-import Header from "../../components/Header/Header-old";
+import Header from "../../components/Header/Header-new";
 import SearchForm from "../../components/SearchForm/SearchForm";
-import Counter from "../../components/Counter/Counter";
+// import Counter from "../../components/Counter/Counter";
 import Loading from "../../components/Loading/Loading";
 import Placeholder from "../../components/Placeholder/Placeholder";
 
@@ -29,64 +28,60 @@ class ListingsContainer extends React.Component {
   componentDidMount() {
     const { fetchComponent, listings } = this.props;
     fetchComponent("listings", [], setListings, null, null);
-    window.addEventListener("scroll", this.onScroll, false);
+    // window.addEventListener("scroll", this.onScroll, false);
   }
 
   componentWillUnmount() {
     const { clearFormData, setQuery, setOffset } = this.props;
-    window.removeEventListener("scroll", this.onScroll, false);
-    setQuery("");
-    setOffset(0);
+    // window.removeEventListener("scroll", this.onScroll, false);
+    // setQuery("");
+    // setOffset(0);
     clearFormData();
   }
 
-  onScroll = () => {
-    const { isLoading, offset, count, listings, fetchComponent } = this.props;
-    if (
-      window.innerHeight + window.scrollY >= document.body.offsetHeight - 500 &&
-      count > offset &&
-      !isLoading
-    ) {
-      fetchComponent("listings", listings, setListings, null, null);
-    }
-  };
+  // onScroll = () => {
+  //   const { isLoading, offset, count, listings, fetchComponent } = this.props;
+  //   if (
+  //     window.innerHeight + window.scrollY >= document.body.offsetHeight - 500 &&
+  //     count > offset &&
+  //     !isLoading
+  //   ) {
+  //     fetchComponent("listings", listings, setListings, null, null);
+  //   }
+  // };
 
   createNewListing = () => {
     this.props.push("/listings/new");
   };
 
   render() {
-    const { isFetching, listings, push } = this.props;
+    const { match, isFetching, listings, push } = this.props;
 
     return (
-      <React.Fragment>
-        <BreadCrumbs />
-        <Header
-          isVisible={true}
-          componentName="listings"
-          headerTitle="Listings"
-          isNew={null}
-          primaryText="Create New Listing"
-          primaryFunc={() => push("/listings/new")}
-          primaryGlyph="plus"
-        />
-
-        {isFetching ? (
-          <Loading />
-        ) : listings.length > 0 ? (
+      <Row>
+        <Col xs={12}>
+          <BreadCrumbs />
+          <Header>
+            <div
+              style={{
+                display: "flex"
+              }}
+            >
+              <h1>Listings</h1>
+            </div>
+            <Button onClick={() => push("/listings/new")} color="primary">
+              Create New
+            </Button>
+          </Header>
+        </Col>
+        <Col xs={12}>
           <Listings
             isFetching={isFetching}
             listings={listings}
             SearchForm={<SearchForm searchFunction={searchListings} searchText="Search..." />}
           />
-        ) : (
-          <Placeholder
-            headerText="You Dont Have Any Listings Yet..."
-            ctaText="Create New Listing"
-            ctaFunc={() => push("/listings/new")}
-          />
-        )}
-      </React.Fragment>
+        </Col>
+      </Row>
     );
   }
 }

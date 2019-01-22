@@ -4,7 +4,6 @@ import * as types from "../types";
 /* ------------       REDUCERS     ------------------ */
 
 const initialState = {
-  // contacts: [],
   contact: {},
   contactListings: [],
   contactGroups: [],
@@ -17,11 +16,6 @@ const initialState = {
 
 const contactReducer = (state = initialState, action) => {
   switch (action.type) {
-    // case types.SET_CONTACTS:
-    //   return {
-    //     ...state,
-    //     contacts: action.payload
-    //   };
     case types.SET_CONTACT:
       return {
         ...state,

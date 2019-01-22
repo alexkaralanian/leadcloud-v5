@@ -3,20 +3,22 @@ import { connect } from "react-redux";
 import { push } from "react-router-redux";
 import { Route, Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
+import { Button } from "reactstrap";
 
-import Navigation from "../NavContainer/NavContainer";
 import BreadCrumbs from "../../components/BreadCrumbs/BreadCrumbs";
-import Header from "../../components/Header/Header-old";
-import ListingNav from "../../components/SingleListing/ListingNav";
-import ListingContacts from "../../components/ListingContacts/ListingContacts";
-import ListingForm from "../../components/SingleListing/ListingForm";
+import Header from "../../components/Header/Header-new";
+import ListingNav from "./Listing/ListingNav";
+import ListingForm from "./Listing/ListingForm";
+import ListingContacts from "./ListingContacts";
 import ImageCarousel from "../../components/ImageCarousel/ImageCarousel";
-// import Emails from "../../components/Emails/Emails";
 import Modal from "../../components/Modal/Modal";
 import OpenHouseModal from "../../components/Modal/OpenHouseModal";
-import SearchContactsContainer from "../SearchContactsContainer/SearchContactsContainer";
-import OpenHouseContainer from "../OpenHouseContainer/OpenHouseContainer";
-import Loading from "../../components/Loading/Loading";
+import OpenHouseContainer from "./OpenHouse/OpenHouseContainer";
+
+// import Navigation from "../NavContainer/NavContainer";
+// import Emails from "../../components/Emails/Emails";
+// import SearchContactsContainer from "../SearchContactsContainer/SearchContactsContainer";
+// import Loading from "../../components/Loading/Loading";
 import Placeholder from "../../components/Placeholder/Placeholder";
 
 import {
@@ -42,7 +44,7 @@ import { setModalVisibility } from "../../actions/modal-actions";
 
 import { fetchComponent, setQuery, setOffset, setCount } from "../../actions/query-actions";
 
-class SingleListingContainer extends React.Component {
+class ListingDashboard extends React.Component {
   state = {
     activeKey: 1,
     isContactsModalVisible: false,
@@ -96,30 +98,30 @@ class SingleListingContainer extends React.Component {
     });
   };
 
-  headerFunc = () => {
-    const { match, location } = this.props;
-    switch (location.pathname) {
-      case `/listings/${match.params.id}`:
-        return {
-          modalFunc: this.displayOpenHouseModal,
-          modalText: "Launch Open House",
-          isVisible: true
-        };
+  // headerFunc = () => {
+  //   const { match, location } = this.props;
+  //   switch (location.pathname) {
+  //     case `/listings/${match.params.id}`:
+  //       return {
+  //         modalFunc: this.displayOpenHouseModal,
+  //         modalText: "Launch Open House",
+  //         isVisible: true
+  //       };
 
-      case `/listings/${match.params.id}/contacts`:
-        return {
-          modalFunc: this.displayContactsModal,
-          modalText: "Add Listing Contacts",
-          isVisible: true
-        };
-      default:
-        return {
-          modalFunc: null,
-          modalText: null,
-          isVisible: false
-        };
-    }
-  };
+  //     case `/listings/${match.params.id}/contacts`:
+  //       return {
+  //         modalFunc: this.displayContactsModal,
+  //         modalText: "Add Listing Contacts",
+  //         isVisible: true
+  //       };
+  //     default:
+  //       return {
+  //         modalFunc: null,
+  //         modalText: null,
+  //         isVisible: false
+  //       };
+  //   }
+  // };
 
   render() {
     const {
@@ -147,7 +149,20 @@ class SingleListingContainer extends React.Component {
         <div>
           <BreadCrumbs />
 
-          {/* HEADER */}
+          <Header>
+            <div
+              style={{
+                display: "flex"
+              }}
+            >
+              {listing.images && <img src={listing.images[0]} />}
+              <h1>{match.path === "/listings/new" ? "New Listing" : listing.address}</h1>
+            </div>
+            <Button onClick={() => push("/listings/new")} color="primary">
+              Create New
+            </Button>
+          </Header>
+          {/* HEADER
           <Header
             isVisible={this.headerFunc().isVisible}
             isNew={match.path === "/listings/new"}
@@ -157,7 +172,7 @@ class SingleListingContainer extends React.Component {
             primaryFunc={() => this.headerFunc().modalFunc()}
             primaryGlyph="plus"
             primaryText={this.headerFunc().modalText}
-          />
+          />*/}
 
           {match.path !== "/listings/new" && <ListingNav push={push} listing={listing} />}
 
@@ -193,15 +208,15 @@ class SingleListingContainer extends React.Component {
             onExit={this.onContactsModalExit}
             isModalVisible={this.state.isContactsModalVisible}
             title={listing.address}
-            Container={
-              <SearchContactsContainer
-                displayModal={this.displayContactsModal}
-                submitFunction={this.submitContacts}
-                hostComponent={listing}
-                setFunction={setDiffedListingContacts}
-                searchFunction={searchDiffedListingContacts}
-              />
-            }
+            // Container={
+            //   <SearchContactsContainer
+            //     displayModal={this.displayContactsModal}
+            //     submitFunction={this.submitContacts}
+            //     hostComponent={listing}
+            //     setFunction={setDiffedListingContacts}
+            //     searchFunction={searchDiffedListingContacts}
+            //   />
+            // }
           />
           <Route
             path={`/listings/${listing.id}/contacts`}
@@ -279,7 +294,7 @@ const mapDispatchToProps = {
   deleteListingImage
 };
 
-SingleListingContainer.propTypes = {
+ListingDashboard.propTypes = {
   listing: PropTypes.object.isRequired,
   submitNewListing: PropTypes.func.isRequired,
   fetchListing: PropTypes.func.isRequired,
@@ -288,6 +303,5 @@ SingleListingContainer.propTypes = {
   deleteListingContact: PropTypes.func.isRequired
 };
 
-export const Unwrapped = SingleListingContainer;
-
-export default connect(mapStateToProps, mapDispatchToProps)(SingleListingContainer);
+export const Unwrapped = ListingDashboard;
+export default connect(mapStateToProps, mapDispatchToProps)(ListingDashboard);
