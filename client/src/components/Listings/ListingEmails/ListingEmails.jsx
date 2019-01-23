@@ -6,69 +6,52 @@ import moment from "moment";
 import { Card, CardHeader, CardBody } from "reactstrap";
 
 import {
-  fetchContactEmails,
+  fetchListingEmails,
   onPageChange,
   onPageSizeChange,
   onFilteredChange,
-  onContactEmailsSearch,
-  setContactEmails
-} from "../../../reducers/contact-emails";
+  onListingEmailsSearch,
+  setListingEmails
+} from "../../../reducers/listing-emails";
 
 import Pagination from "../../Pagination/Pagination";
 
-class ContactEmails extends React.Component {
+class ListingEmails extends React.Component {
   componentDidMount() {
-    const { contact, fetchContactEmails } = this.props;
-    if (contact.email) {
-      fetchContactEmails(this.makeEmailsQuery(contact.email));
-    }
+    const { listing, fetchListingEmails } = this.props;
+    fetchListingEmails(this.makeSearchQuery(listing.address));
   }
 
   componentWillReceiveProps(nextProps) {
-    const { contact, fetchContactEmails } = this.props;
-    if (contact !== nextProps.contact) {
-      if (nextProps.contact.email) {
-        fetchContactEmails(this.makeEmailsQuery(nextProps.contact.email));
-      }
+    const { listing, fetchListingEmails } = this.props;
+    if (listing !== nextProps.listing) {
+      fetchListingEmails(this.makeSearchQuery(listing.address));
     }
   }
 
   componentWillUnmount() {
-    const { setContactEmails } = this.props;
-    setContactEmails([]);
+    const { setListingEmails } = this.props;
+    setListingEmails([]);
   }
 
-  makeEmailsQuery = emails => {
-    let query = "";
-    emails.forEach(email => {
-      query += `from: ${email.value.trim()} OR `;
-    });
-    query = query.slice(0, query.length - 4);
-    return query;
-  };
-
   makeSearchQuery = query => {
-    const { contact } = this.props;
-    const emailsQuery = this.makeEmailsQuery(contact.email);
-    return `${query.toLowerCase()} ${emailsQuery}`;
+    return `${query.trim().toLowerCase()}`;
   };
 
   render() {
     const {
-      contactEmails,
+      listingEmails,
       onPageChange,
       onPageSizeChange,
       onFilteredChange,
-      onContactEmailsSearch,
-      fetchContactEmails,
+      onListingEmailsSearch,
+      fetchListingEmails,
       page,
       pages,
       pageSize,
       loading,
       match
     } = this.props;
-
-    const contactId = match.params.id;
 
     const columns = [
       {
@@ -96,12 +79,12 @@ class ContactEmails extends React.Component {
       <Card className="mb-0">
         <CardHeader>
           <i className="fa fa-align-justify" />
-          <strong>Contact Emails</strong>
+          <strong>Listing Emails</strong>
         </CardHeader>
         <CardBody>
           <ReactTable
             className="-highlight"
-            data={contactEmails}
+            data={listingEmails}
             // page={page}
             // pages={pages}
             // loading={loading}
@@ -141,8 +124,7 @@ class ContactEmails extends React.Component {
                     placeholder="Search..."
                     type="text"
                     ref={n => (input = n)}
-                    onChange={() => fetchContactEmails(this.makeSearchQuery(input.value))}
-                    // onChange={() => console.log("INPUT", input.value)}
+                    onChange={() => console.log(input.value)}
                   />
                   {makeTable()}
                   <Pagination />
@@ -157,21 +139,21 @@ class ContactEmails extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  contactEmails: state.contactEmails.contactEmails,
-  contact: state.contact.contact,
-  page: state.contactEmails.page,
-  pages: state.contactEmails.pages,
-  loading: state.contactEmails.loading,
-  filtered: state.contactEmails.filtered
+  listingEmails: state.listingEmails.listingEmails,
+  listing: state.listing.listing,
+  page: state.listingEmails.page,
+  pages: state.listingEmails.pages,
+  loading: state.listingEmails.loading,
+  filtered: state.listingEmails.filtered
 });
 
 const mapDispatchToProps = {
-  fetchContactEmails,
+  fetchListingEmails,
   onPageChange,
   onPageSizeChange,
   onFilteredChange,
-  onContactEmailsSearch,
-  setContactEmails
+  onListingEmailsSearch,
+  setListingEmails
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ContactEmails);
+export default connect(mapStateToProps, mapDispatchToProps)(ListingEmails);

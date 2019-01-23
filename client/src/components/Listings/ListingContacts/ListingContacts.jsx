@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 import { reduxForm } from "redux-form";
 import { Row, Col } from "reactstrap";
 
-import SearchForm from "../SearchForm/SearchForm";
-import Counter from "../../components/Counter/Counter";
-import TableRow from "../TableRow/TableRow";
+import SearchForm from "../../SearchForm/SearchForm";
+// import Counter from "../../Counter/Counter";
+import TableRow from "../../TableRow/TableRow";
 
 const ListingContacts = ({
   listing,

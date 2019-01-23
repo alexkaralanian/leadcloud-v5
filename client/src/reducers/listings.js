@@ -48,7 +48,7 @@ export const fetchListings = () => async dispatch => {
   try {
     const res = await axios.get(`/api/listings/?limit=${pageSize}&offset=${page * pageSize}`);
     dispatch(setPages(Math.ceil(res.data.count / pageSize)));
-
+    console.log("RESPONSE", res.data);
     dispatch(setListings(res.data.rows));
   } catch (err) {
     console.error(err);

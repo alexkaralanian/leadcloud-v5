@@ -20,6 +20,7 @@ import listings from "./reducers/listings";
 import listing from "./reducers/listing";
 import listingContacts from "./reducers/listing-contacts";
 import listingContactsSearch from "./reducers/listing-contacts-search";
+import listingEmails from "./reducers/listing-emails";
 
 import groupReducer from "./reducers/group-reducer";
 import groupContactsReducer from "./reducers/group-contacts";
@@ -47,6 +48,7 @@ const rootReducer = combineReducers({
   listing,
   listingContacts,
   listingContactsSearch,
+  listingEmails,
   groupReducer,
   groupContactsReducer,
   groupContactsSearch,

@@ -7,20 +7,33 @@ const Op = Sequelize.Op;
 exports.getAll = async (req, res) => {
   const userId = req.session.user.toString();
   try {
-    const listings = await Listings.findAndCountAll({
-      limit: req.query.limit,
-      offset: req.query.offset,
-      where: {
-        UserUuid: userId,
-        [Op.and]: {
-          address: {
-            [Op.iLike]: `%${req.query.query}%`
+    let listings;
+    if (req.query.query) {
+      listings = await Listings.findAndCountAll({
+        limit: req.query.limit,
+        offset: req.query.offset,
+        where: {
+          UserUuid: userId,
+          [Op.and]: {
+            address: {
+              [Op.iLike]: `%${req.query.query}%`
+            }
           }
-        }
-      },
-      order: [["updatedAt", "DESC"]]
-    });
-    res.json(listings);
+        },
+        order: [["updatedAt", "DESC"]]
+      });
+      res.json(listings);
+    } else {
+      listings = await Listings.findAndCountAll({
+        limit: req.query.limit,
+        offset: req.query.offset,
+        where: {
+          UserUuid: userId
+        },
+        order: [["updatedAt", "DESC"]]
+      });
+      res.json(listings);
+    }
   } catch (err) {
     console.error(err);
   }

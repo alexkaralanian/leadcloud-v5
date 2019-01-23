@@ -4,13 +4,14 @@ import { push } from "react-router-redux";
 import { Route } from "react-router-dom";
 import PropTypes from "prop-types";
 import { Button } from "reactstrap";
+import Loadable from "react-loadable";
 
 import BreadCrumbs from "../../components/BreadCrumbs/BreadCrumbs";
 import Header from "../../components/Header/Header-new";
 import ListingNav from "./Listing/ListingNav";
 import ListingForm from "./Listing/ListingForm";
 
-import ListingContacts from "./ListingContacts";
+import ListingContacts from "./ListingContacts/ListingContacts";
 import SearchListingContacts from "./ListingContacts/SearchListingContacts";
 
 import ImageCarousel from "../../components/ImageCarousel/ImageCarousel";
@@ -18,6 +19,7 @@ import Modal from "../../components/Modal/Modal";
 
 import OpenHouseModal from "../../components/Modal/OpenHouseModal";
 import OpenHouseContainer from "./OpenHouse/OpenHouseContainer";
+import Loading from "../Loading/Loading";
 
 // import Navigation from "../NavContainer/NavContainer";
 // import Emails from "../../components/Emails/Emails";
@@ -48,6 +50,11 @@ import { setModalVisibility } from "../../actions/modal-actions";
 
 import { fetchComponent, setQuery, setOffset, setCount } from "../../actions/query-actions";
 
+const ListingEmails = Loadable({
+  loader: () => import("./ListingEmails/ListingEmails"),
+  loading: Loading
+});
+
 class ListingDashboard extends React.Component {
   state = {
     activeKey: 1,
@@ -60,8 +67,6 @@ class ListingDashboard extends React.Component {
 
     if (match.path !== "/listings/new") {
       fetchListing(match.params.id);
-
-      fetchComponent("listings", [], setListingContacts, match.params.id, "contacts");
     }
   }
 
@@ -210,11 +215,11 @@ class ListingDashboard extends React.Component {
           />
 
           {/* LISTING EMAILS */}
-          <Route
-            path={`/listings/${listing.id}/emails`}
-            // render={routeProps => <Emails {...routeProps} contacts={null} />}
-          />
 
+          <Route
+            path={`/listings/:id/emails`}
+            render={routeProps => <ListingEmails {...routeProps} />}
+          />
           {/* LISTING MEDIA */}
           <Route
             path={`/listings/${listing.id}/media`}

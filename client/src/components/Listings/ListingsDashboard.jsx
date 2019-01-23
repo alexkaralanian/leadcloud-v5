@@ -20,14 +20,17 @@ import {
   clearError
 } from "../../actions/listing-actions";
 
+import { fetchListings } from "../../reducers/listings";
+
 import { fetchComponent, setQuery, setOffset, setCount } from "../../actions/query-actions";
 
 import { clearFormData } from "../../actions/common-actions";
 
 class ListingsContainer extends React.Component {
   componentDidMount() {
-    const { fetchComponent, listings } = this.props;
-    fetchComponent("listings", [], setListings, null, null);
+    const { fetchComponent, fetchListings, listings } = this.props;
+    fetchListings();
+    // fetchComponent("listings", [], setListings, null, null);
     // window.addEventListener("scroll", this.onScroll, false);
   }
 
@@ -87,15 +90,16 @@ class ListingsContainer extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  listings: state.listingReducer.listings,
-  limit: state.listingReducer.limit,
-  offset: state.listingReducer.offset,
-  query: state.listingReducer.query,
-  isFetching: state.listingReducer.isFetching,
-  error: state.listingReducer.error
+  listings: state.listings.listings
+  // limit: state.listingReducer.limit,
+  // offset: state.listingReducer.offset,
+  // query: state.listingReducer.query,
+  // isFetching: state.listingReducer.isFetching,
+  // error: state.listingReducer.error
 });
 
 const mapDispatchToProps = {
+  fetchListings,
   fetchComponent,
   searchListings,
   clearFormData,
