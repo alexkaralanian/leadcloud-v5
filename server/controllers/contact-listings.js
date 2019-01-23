@@ -7,27 +7,48 @@ const Op = Sequelize.Op;
 exports.getAll = async (req, res) => {
   const userId = req.session.user.toString();
   try {
-    const contactListings = await Listings.findAndCountAll({
-      limit: req.query.limit,
-      offset: req.query.offset,
-      where: {
-        UserUuid: userId,
-        [Op.and]: {
-          address: {
-            [Op.iLike]: `%${req.query.query}%`
+    let contactListings;
+    if (req.query.query) {
+      contactListings = await Listings.findAndCountAll({
+        limit: req.query.limit,
+        offset: req.query.offset,
+        where: {
+          UserUuid: userId,
+          [Op.and]: {
+            address: {
+              [Op.iLike]: `%${req.query.query}%`
+            }
           }
-        }
-      },
-      include: [
-        {
-          model: Contacts,
-          where: {
-            id: req.params.id
+        },
+        include: [
+          {
+            model: Contacts,
+            where: {
+              id: req.params.id
+            }
           }
-        }
-      ],
-      order: [["updatedAt", "DESC"]]
-    });
+        ],
+        order: [["updatedAt", "DESC"]]
+      });
+    } else {
+      contactListings = await Listings.findAndCountAll({
+        limit: req.query.limit,
+        offset: req.query.offset,
+        where: {
+          UserUuid: userId
+        },
+        include: [
+          {
+            model: Contacts,
+            where: {
+              id: req.params.id
+            }
+          }
+        ],
+        order: [["updatedAt", "DESC"]]
+      });
+    }
+
     res.json(contactListings);
   } catch (err) {
     console.error("FETCHING CONTACT LISTINGS ERROR", err);

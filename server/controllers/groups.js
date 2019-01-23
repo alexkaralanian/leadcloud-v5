@@ -5,6 +5,7 @@ const Groups = require("../db/models").groups;
 const Op = Sequelize.Op;
 
 exports.getAll = async (req, res) => {
+  console.log("GET GROUPS");
   const userId = req.session.user.toString();
   try {
     let groups;

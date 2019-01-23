@@ -11,7 +11,7 @@ import GroupContacts from "./GroupContacts/GroupContacts";
 import Modal from "../../components/Modal/Modal";
 import SearchGroupContacts from "./GroupContacts/SearchGroupContacts";
 
-import { fetchGroup, submitNewGroup, updateGroup, deleteGroup } from "../../actions/group-actions";
+import { fetchGroup, submitNewGroup, updateGroup, deleteGroup } from "../../reducers/group";
 
 import {
   submitGroupContacts,
@@ -127,8 +127,7 @@ class GroupContainer extends React.Component {
 
 const mapStateToProps = state => ({
   isAuthed: state.authReducer.isAuthed,
-  group: state.groupReducer.group,
-  groupContacts: state.groupReducer.groupContacts
+  group: state.group.group
 });
 
 const mapDispatchToProps = {

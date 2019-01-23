@@ -9,7 +9,6 @@ const Op = Sequelize.Op;
 exports.getAll = async (req, res) => {
   const userId = req.session.user.toString();
   let groupContacts;
-
   try {
     if (req.query.query) {
       groupContacts = await Contacts.findAndCountAll({

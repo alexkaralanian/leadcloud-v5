@@ -73,8 +73,8 @@ class SearchListingsContainer extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  listings: state.listingReducer.listings,
-  contactListings: state.contactReducer.contactListings
+  listings: state.listings.listings,
+  contactListings: state.contactListings.contactListings
 });
 
 const mapDispatchToProps = {

@@ -14,6 +14,7 @@ import emailReducer from "./reducers/email-reducer";
 import contacts from "./reducers/contacts";
 import contact from "./reducers/contact";
 import contactGroups from "./reducers/contact-groups";
+import contactListings from "./reducers/contact-listings";
 import contactEmails from "./reducers/contact-emails";
 
 import listings from "./reducers/listings";
@@ -22,8 +23,9 @@ import listingContacts from "./reducers/listing-contacts";
 import listingContactsSearch from "./reducers/listing-contacts-search";
 import listingEmails from "./reducers/listing-emails";
 
-import groupReducer from "./reducers/group-reducer";
-import groupContactsReducer from "./reducers/group-contacts";
+import group from "./reducers/group";
+import groups from "./reducers/groups";
+import groupContacts from "./reducers/group-contacts";
 import groupContactsSearch from "./reducers/group-contacts-search";
 
 import campaignReducer from "./reducers/campaign-reducer";
@@ -43,14 +45,16 @@ const rootReducer = combineReducers({
   contacts,
   contact,
   contactEmails,
+  contactListings,
   contactGroups,
   listings,
   listing,
   listingContacts,
   listingContactsSearch,
   listingEmails,
-  groupReducer,
-  groupContactsReducer,
+  group,
+  groups,
+  groupContacts,
   groupContactsSearch,
   campaignReducer,
   queryReducer,

@@ -1,9 +1,8 @@
 import axios from "axios";
 import store from "../store";
-import { setSelected } from "./group-contacts-search";
 
 const initialState = {
-  contactGroups: [],
+  contactListings: [],
   filtered: [],
   pages: 0,
   page: 0,
@@ -11,14 +10,14 @@ const initialState = {
   loading: false
 };
 
-const SET_CONTACT_GROUPS = "SET_CONTACT_GROUPS";
+const SET_CONTACT_LISTINGS = "SET_CONTACT_LISTINGS";
 const SET_PAGES = "SET_PAGES";
 const SET_PAGE = "SET_PAGE";
 const SET_PAGE_SIZE = "SET_PAGE_SIZE";
 const SET_FILTERED = "SET_FILTERED";
 
-export const setContactGroups = data => ({
-  type: SET_CONTACT_GROUPS,
+export const setContactListings = data => ({
+  type: SET_CONTACT_LISTINGS,
   payload: data
 });
 
@@ -44,7 +43,7 @@ export const setFiltered = filtered => ({
 
 export const init = () => {
   const state = store.getState();
-  const { page, pageSize, filtered } = state.contactGroups;
+  const { page, pageSize, filtered } = state.contactListings;
   const offset = page * pageSize;
   return {
     page,
@@ -54,20 +53,20 @@ export const init = () => {
   };
 };
 
-export const fetchContactGroups = contactId => async dispatch => {
+export const fetchContactListings = contactId => async dispatch => {
   const { pageSize, offset } = init();
   try {
     const res = await axios.get(
-      `/api/contacts/${contactId}/groups/?limit=${pageSize}&offset=${offset}`
+      `/api/contacts/${contactId}/listings/?limit=${pageSize}&offset=${offset}`
     );
     dispatch(setPages(Math.ceil(res.data.count / pageSize)));
-    dispatch(setContactGroups(res.data.rows));
+    dispatch(setContactListings(res.data.rows));
   } catch (err) {
     console.error(err);
   }
 };
 
-export const submitContactGroups = (selected, contactId) => async dispatch => {
+export const submitContactListings = (selected, contactId) => async dispatch => {
   const contactGroups = selected.map(group => ({
     groupId: group.id,
     contactId
@@ -75,25 +74,27 @@ export const submitContactGroups = (selected, contactId) => async dispatch => {
   const { pageSize, offset } = init();
   try {
     const res = await axios.post(
-      `/api/contacts/${contactId}/groups/?limit=${pageSize}&offset=${offset}`,
+      `/api/contacts/${contactId}/listings/?limit=${pageSize}&offset=${offset}`,
       {
         contactGroups
       }
     );
-    dispatch(setContactGroups(res.data.rows));
-    dispatch(setSelected([]));
+    dispatch(setContactListings(res.data.rows));
   } catch (err) {
     console.error("Submitting Contact Groups Unsuccessful", err);
   }
 };
 
-export const deleteContactGroup = (contactId, groupId) => async dispatch => {
+export const deleteContactListing = (contactId, listingId) => async dispatch => {
+  console.log("DELETE CONTACT LISTINGS", {
+    contactId, listingId
+  })
   const { pageSize, offset } = init();
   try {
     const res = await axios.delete(
-      `/api/contacts/${contactId}/group/?groupId=${groupId}&limit=${pageSize}&offset=${offset}`
+      `/api/contacts/${contactId}/listing/?listingId=${listingId}&limit=${pageSize}&offset=${offset}`
     );
-    dispatch(setContactGroups(res.data.rows));
+    dispatch(setContactListings(res.data.rows));
   } catch (err) {
     console.error("Submitting Group Contact Unsuccessful", err);
   }
@@ -104,9 +105,9 @@ export const onPageChange = (page, contactId) => async dispatch => {
   const query = filtered.length ? filtered[0].value : "";
   try {
     const res = await axios.get(
-      `/api/contacts/${contactId}/groups/?limit=${pageSize}&offset=${offset}&query=${query}`
+      `/api/contacts/${contactId}/listings/?limit=${pageSize}&offset=${offset}&query=${query}`
     );
-    dispatch(setContactGroups(res.data.rows));
+    dispatch(setContactListings(res.data.rows));
     dispatch(setPages(Math.ceil(res.data.count / pageSize)));
     dispatch(setPage(page));
   } catch (err) {
@@ -119,9 +120,9 @@ export const onPageSizeChange = (pageSize, page, contactId) => async dispatch =>
   const query = filtered.length ? filtered[0].value : "";
   try {
     const res = await axios.get(
-      `/api/contacts/${contactId}/groups/?limit=${pageSize}&offset=${offset}&query=${query}`
+      `/api/contacts/${contactId}/listings/?limit=${pageSize}&offset=${offset}&query=${query}`
     );
-    dispatch(setContactGroups(res.data.rows));
+    dispatch(setContactListings(res.data.rows));
     dispatch(setPages(Math.ceil(res.data.count / pageSize)));
     dispatch(setPage(page));
     dispatch(setPageSize(pageSize));
@@ -138,33 +139,33 @@ export const onFilteredChange = (filtered, contactId) => async dispatch => {
     const res = await axios.get(
       `/api/contacts/${contactId}/groups/?limit=${pageSize}&offset=${0}&query=${query}`
     );
-    dispatch(setContactGroups(res.data.rows));
+    dispatch(setContactListings(res.data.rows));
     dispatch(setPages(Math.ceil(res.data.count / pageSize)));
   } catch (err) {
     console.error(err);
   }
 };
 
-export const onContactGroupsSearch = (query, contactId) => async dispatch => {
+export const onContactListingsSearch = (query, contactId) => async dispatch => {
   const state = store.getState();
   const { pageSize } = state.groupContactsReducer;
   try {
     const res = await axios.get(
-      `/api/contacts/${contactId}/groups/?limit=${pageSize}&offset=${0}&query=${query}`
+      `/api/contacts/${contactId}/listings/?limit=${pageSize}&offset=${0}&query=${query}`
     );
-    dispatch(setContactGroups(res.data.rows));
+    dispatch(setContactListings(res.data.rows));
     dispatch(setPages(Math.ceil(res.data.count / pageSize)));
   } catch (err) {
     console.error(err);
   }
 };
 
-const contactGroupsReducer = (state = initialState, action) => {
+const contactListingsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case SET_CONTACT_GROUPS:
+    case SET_CONTACT_LISTINGS:
       return {
         ...state,
-        contactGroups: action.payload
+        contactListings: action.payload
       };
     case SET_PAGES:
       return {
@@ -191,4 +192,4 @@ const contactGroupsReducer = (state = initialState, action) => {
   }
 };
 
-export default contactGroupsReducer;
+export default contactListingsReducer;

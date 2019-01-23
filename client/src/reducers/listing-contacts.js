@@ -1,6 +1,5 @@
 import axios from "axios";
 import store from "../store";
-import { setSelected } from "./group-contacts-search";
 
 const initialState = {
   listingContacts: [],
@@ -44,6 +43,7 @@ export const setFiltered = filtered => ({
 });
 
 export const fetchListingContacts = listingId => async dispatch => {
+  console.log("FETCH LISTING CONTACTS", listingId);
   const state = store.getState();
   const { page, pageSize } = state.listingContacts;
 
@@ -51,6 +51,7 @@ export const fetchListingContacts = listingId => async dispatch => {
     const res = await axios.get(
       `/api/listings/${listingId}/contacts/?limit=${pageSize}&offset=${page * pageSize}`
     );
+    console.log("RES", res.data);
     dispatch(setPages(Math.ceil(res.data.count / pageSize)));
     dispatch(setListingContacts(res.data.rows));
   } catch (err) {
@@ -74,7 +75,7 @@ export const submitListingContacts = (listingContactsArray, group) => async disp
   }
 };
 
-export const deleteGroupContact = (contactId, listingId) => async dispatch => {
+export const deleteListingContact = (contactId, listingId) => async dispatch => {
   const state = store.getState();
   const { page, pageSize } = state.listingContacts;
   const offset = page * pageSize;
@@ -141,7 +142,7 @@ export const onFilteredChange = (filtered, listingId) => async dispatch => {
 };
 
 // REDUCER
-const groupContactsReducer = (state = initialState, action) => {
+const listingContactsReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_LISTING_CONTACTS:
       return {
@@ -173,4 +174,4 @@ const groupContactsReducer = (state = initialState, action) => {
   }
 };
 
-export default groupContactsReducer;
+export default listingContactsReducer;

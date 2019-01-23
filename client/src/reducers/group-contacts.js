@@ -1,6 +1,5 @@
 import axios from "axios";
 import store from "../store";
-import { setSelected } from "./group-contacts-search";
 
 const initialState = {
   data: [],
@@ -45,7 +44,7 @@ export const setFiltered = filtered => ({
 
 export const fetchGroupContacts = groupId => async dispatch => {
   const state = store.getState();
-  const { page, pageSize } = state.groupContactsReducer;
+  const { page, pageSize } = state.groupContacts;
 
   try {
     const res = await axios.get(
@@ -76,7 +75,7 @@ export const submitGroupContacts = (groupContactsArray, group) => async dispatch
 
 export const deleteGroupContact = (contactId, groupId) => async dispatch => {
   const state = store.getState();
-  const { page, pageSize } = state.groupContactsReducer;
+  const { page, pageSize } = state.groupContacts;
   const offset = page * pageSize;
   try {
     const res = await axios.delete(
@@ -91,7 +90,7 @@ export const deleteGroupContact = (contactId, groupId) => async dispatch => {
 // REACT TABLE
 export const onPageChange = (page, groupId) => async dispatch => {
   const state = store.getState();
-  const { pageSize, filtered } = state.groupContactsReducer;
+  const { pageSize, filtered } = state.groupContacts;
   const offset = page * pageSize;
   const query = filtered.length ? filtered[0].value : "";
   try {
@@ -108,7 +107,7 @@ export const onPageChange = (page, groupId) => async dispatch => {
 
 export const onPageSizeChange = (pageSize, page, groupId) => async dispatch => {
   const state = store.getState();
-  const { filtered } = state.groupContactsReducer;
+  const { filtered } = state.groupContacts;
   const offset = page * pageSize;
   const query = filtered.length ? filtered[0].value : "";
   try {
@@ -126,7 +125,7 @@ export const onPageSizeChange = (pageSize, page, groupId) => async dispatch => {
 
 export const onFilteredChange = (filtered, groupId) => async dispatch => {
   const state = store.getState();
-  const { pageSize } = state.groupContactsReducer;
+  const { pageSize } = state.groupContacts;
   const query = filtered.length ? filtered[0].value : "";
   try {
     dispatch(setFiltered(filtered));

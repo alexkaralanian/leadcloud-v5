@@ -226,10 +226,10 @@ class ContactDashboard extends React.Component {
             render={routeProps => (
               <ContactListings
                 {...routeProps}
-                contact={contact}
-                contactListings={contactListings}
-                searchContactListings={searchContactListings}
-                deleteContactListing={deleteContactListing}
+                // contact={contact}
+                // contactListings={contactListings}
+                // searchContactListings={searchContactListings}
+                // deleteContactListing={deleteContactListing}
               />
             )}
           />

@@ -12,7 +12,7 @@ import {
   onFilteredChange
 } from "../../../reducers/group-contacts";
 
-class GroupContactsContainer extends React.Component {
+class GroupContacts extends React.Component {
   componentDidMount() {
     const { match, fetchGroupContacts } = this.props;
     fetchGroupContacts(match.params.id);
@@ -40,6 +40,7 @@ class GroupContactsContainer extends React.Component {
         Header: null,
         id: "images",
         width: 50,
+        filterable: false,
         accessor: contact =>
           contact.images ? (
             <div className="table_img">
@@ -79,6 +80,7 @@ class GroupContactsContainer extends React.Component {
       },
       {
         Header: "Action",
+        filterable: false,
         id: "id",
         accessor: contact => (
           <Button color="danger" onClick={() => deleteGroupContact(contact.id, groupId)}>
@@ -129,11 +131,11 @@ class GroupContactsContainer extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  groupContacts: state.groupContactsReducer.groupContacts,
-  page: state.groupContactsReducer.page,
-  pages: state.groupContactsReducer.pages,
-  loading: state.groupContactsReducer.loading,
-  filtered: state.groupContactsReducer.filtered
+  groupContacts: state.groupContacts.groupContacts,
+  page: state.groupContacts.page,
+  pages: state.groupContacts.pages,
+  loading: state.groupContacts.loading,
+  filtered: state.groupContacts.filtered
 });
 
 export default connect(mapStateToProps, {
@@ -142,4 +144,4 @@ export default connect(mapStateToProps, {
   onPageChange,
   onPageSizeChange,
   onFilteredChange
-})(GroupContactsContainer);
+})(GroupContacts);

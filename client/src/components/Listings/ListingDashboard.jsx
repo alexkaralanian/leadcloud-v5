@@ -64,7 +64,6 @@ class ListingDashboard extends React.Component {
 
   componentDidMount() {
     const { match, fetchComponent, fetchListing, setOffset } = this.props;
-
     if (match.path !== "/listings/new") {
       fetchListing(match.params.id);
     }
@@ -166,7 +165,7 @@ class ListingDashboard extends React.Component {
           />
           <Route
             exact
-            path={match.path === "/listings/new" ? `/listings/new` : `/listings/${listing.id}`}
+            path={match.path === "/listings/new" ? `/listings/new` : `/listings/:id`}
             render={routeProps => (
               <ListingForm
                 {...routeProps}
@@ -194,24 +193,8 @@ class ListingDashboard extends React.Component {
             }
           />
           <Route
-            path={`/listings/${listing.id}/contacts`}
-            render={routeProps =>
-              listingContacts.length > 0 ? (
-                <ListingContacts
-                  {...routeProps}
-                  listing={listing}
-                  listingContacts={listingContacts}
-                  searchListingContacts={searchListingContacts}
-                  deleteListingContact={deleteListingContact}
-                />
-              ) : (
-                <Placeholder
-                  headerText={`${listing.address} doesn't have any contacts yet...`}
-                  ctaText="Add Listing Contacts"
-                  ctaFunc={this.displayContactsModal}
-                />
-              )
-            }
+            path={`/listings/:id/contacts`}
+            render={routeProps => <ListingContacts {...routeProps} />}
           />
 
           {/* LISTING EMAILS */}
@@ -222,7 +205,7 @@ class ListingDashboard extends React.Component {
           />
           {/* LISTING MEDIA */}
           <Route
-            path={`/listings/${listing.id}/media`}
+            path={`/listings/:id/media`}
             render={routeProps => (
               <ImageCarousel
                 {...routeProps}
@@ -242,7 +225,7 @@ class ListingDashboard extends React.Component {
 const mapStateToProps = state => ({
   isAuthed: state.authReducer.isAuthed,
   listing: state.listing.listing,
-  listingContacts: state.listing.listingContacts,
+  listingContacts: state.listingContacts.listingContacts,
   images: state.listing.images,
   isFetching: state.commonReducer.isFetching
 });

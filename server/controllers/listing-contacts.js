@@ -7,28 +7,48 @@ const Op = Sequelize.Op;
 
 exports.getAll = async (req, res) => {
   const userId = req.session.user.toString();
+  let listingContacts;
   try {
-    const listingContacts = await Contacts.findAndCountAll({
-      limit: req.query.limit,
-      offset: req.query.offset,
-      where: {
-        UserUuid: userId,
-        [Op.and]: {
-          fullName: {
-            [Op.iLike]: `%${req.query.query}%`
+    if (req.query.query) {
+      listingContacts = await Contacts.findAndCountAll({
+        limit: req.query.limit,
+        offset: req.query.offset,
+        where: {
+          UserUuid: userId,
+          [Op.and]: {
+            fullName: {
+              [Op.iLike]: `%${req.query.query}%`
+            }
           }
-        }
-      },
-      include: [
-        {
-          model: Listings,
-          where: {
-            id: req.params.id
+        },
+        include: [
+          {
+            model: Listings,
+            where: {
+              id: req.params.id
+            }
           }
-        }
-      ],
-      order: [["updatedAt", "DESC"]]
-    });
+        ],
+        order: [["updatedAt", "DESC"]]
+      });
+    } else {
+      listingContacts = await Contacts.findAndCountAll({
+        limit: req.query.limit,
+        offset: req.query.offset,
+        where: {
+          UserUuid: userId
+        },
+        include: [
+          {
+            model: Listings,
+            where: {
+              id: req.params.id
+            }
+          }
+        ],
+        order: [["updatedAt", "DESC"]]
+      });
+    }
     res.json(listingContacts);
   } catch (err) {
     console.error("FETCHING LISTING CONTACTS ERROR", err);

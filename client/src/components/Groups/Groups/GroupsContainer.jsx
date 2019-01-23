@@ -1,93 +1,34 @@
 import React from "react";
-import axios from "axios";
 import { connect } from "react-redux";
 import { push } from "react-router-redux";
 import { Link } from "react-router-dom";
 import ReactTable from "react-table";
 import { Card, CardHeader, CardBody } from "reactstrap";
 
-import { setGroups, searchGroups } from "../../../actions/group-actions";
-
-import { fetchComponent, setQuery, setOffset } from "../../../actions/query-actions";
+import {
+  fetchGroups,
+  onPageChange,
+  onPageSizeChange,
+  onFilteredChange
+} from "../../../reducers/groups";
 
 class GroupsContainer extends React.Component {
-  state = {
-    data: [],
-    pages: 0,
-    page: 0,
-    pageSize: 20,
-    offset: 0,
-    loading: false,
-    query: "",
-    filtered: []
-  };
-
   async componentDidMount() {
-    try {
-      const res = await axios.get(
-        `/api/groups/?limit=${this.state.pageSize}&offset=${this.state.page * this.state.pageSize}`
-      );
-      this.setState({
-        pages: Math.ceil(res.data.count / this.state.pageSize),
-        data: res.data.rows
-      });
-    } catch (err) {
-      console.error(err);
-    }
+    const { fetchGroups } = this.props;
+    fetchGroups();
   }
 
-  onPageChange = async page => {
-    const { pageSize, filtered } = this.state;
-    const offset = page * pageSize;
-    const query = filtered.length ? filtered[0].value : "";
-    try {
-      const res = await axios.get(`/api/groups/?limit=${pageSize}&offset=${offset}&query=${query}`);
-      this.setState({
-        pages: Math.ceil(res.data.count / pageSize),
-        data: res.data.rows,
-        page
-      });
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  onPageSizeChange = async (pageSize, page) => {
-    const { filtered } = this.state;
-    const offset = page * pageSize;
-    const query = filtered.length ? filtered[0].value : "";
-    try {
-      const res = await axios.get(`/api/groups/?limit=${pageSize}&offset=${offset}&query=${query}`);
-      this.setState({
-        pages: Math.ceil(res.data.count / pageSize),
-        data: res.data.rows,
-        page,
-        pageSize
-      });
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  onFilteredChange = async filtered => {
-    const { pageSize } = this.state;
-    const query = filtered.length ? filtered[0].value : "";
-    this.setState({
-      filtered
-    });
-    try {
-      const res = await axios.get(`/api/groups/?limit=${pageSize}&offset=${0}&query=${query}`);
-      this.setState({
-        data: res.data.rows,
-        pages: Math.ceil(res.data.count / pageSize)
-      });
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  render = () => {
-    const { groups, component } = this.props;
+  render() {
+    const {
+      groups,
+      page,
+      pages,
+      loading,
+      filtered,
+      onPageChange,
+      onFilteredChange,
+      onPageSizeChange
+    } = this.props;
     const columns = [
       {
         Header: null,
@@ -124,11 +65,11 @@ class GroupsContainer extends React.Component {
         <CardBody>
           <ReactTable
             className="-highlight"
-            data={this.state.data} // contacts
-            page={this.state.page} // current page
-            pages={this.state.pages} // count
-            loading={this.state.loading}
-            filtered={this.state.filtered}
+            data={groups} // contacts
+            page={page} // current page
+            pages={pages} // count
+            loading={loading}
+            filtered={filtered}
             columns={columns}
             defaultPageSize={20}
             minRows={8}
@@ -137,34 +78,34 @@ class GroupsContainer extends React.Component {
             manual
             filterable
             onPageChange={page => {
-              this.onPageChange(page);
+              onPageChange(page);
             }}
             onPageSizeChange={(pageSize, page) => {
-              this.onPageSizeChange(pageSize, page);
+              onPageSizeChange(pageSize, page);
             }}
             onFilteredChange={filtered => {
-              this.onFilteredChange(filtered);
+              onFilteredChange(filtered);
             }}
           />
         </CardBody>
       </Card>
     );
-  };
+  }
 }
 
 const mapStateToProps = state => ({
-  groups: state.groupReducer.groups,
-  isLoading: state.queryReducer.isLoading,
-  count: state.queryReducer.count,
-  offset: state.queryReducer.offset
+  groups: state.groups.groups,
+  page: state.groups.page,
+  pages: state.groups.pages,
+  loading: state.groups.loading,
+  filtered: state.groups.filtered
 });
 
 const mapDispatchToProps = {
-  fetchComponent,
-  searchGroups,
-  setGroups,
-  setQuery,
-  setOffset,
+  fetchGroups,
+  onPageChange,
+  onPageSizeChange,
+  onFilteredChange,
   push
 };
 
