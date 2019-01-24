@@ -29,12 +29,10 @@ const Contacts = Loadable({
   loading: Loading
 });
 
-// const Contact = Loadable({
-//   loader: () => import("./components/Contacts/ContactDashboard"),
-//   loading: Loading
-// });
-
-import Contact from "./components/Contacts/ContactDashboard";
+const Contact = Loadable({
+  loader: () => import("./components/Contacts/ContactDashboard"),
+  loading: Loading
+});
 
 const Groups = Loadable({
   loader: () => import("./components/Groups/GroupsDashboard"),

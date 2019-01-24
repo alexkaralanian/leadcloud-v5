@@ -314,6 +314,7 @@ const mapDispatchToProps = {
   submitContactListings,
   deleteContactListing,
 
+  submitContactGroups,
   deleteContactGroup,
   searchContactGroups,
 

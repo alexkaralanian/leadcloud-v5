@@ -8,9 +8,6 @@ import createHistory from "history/createBrowserHistory";
 import { routerReducer, routerMiddleware } from "react-router-redux";
 
 // REDUCERS
-import authReducer from "./reducers/auth-reducer";
-import emailReducer from "./reducers/email-reducer";
-
 import contacts from "./reducers/contacts";
 import contact from "./reducers/contact";
 import contactGroups from "./reducers/contact-groups";
@@ -29,6 +26,9 @@ import groupContacts from "./reducers/group-contacts";
 import groupContactsSearch from "./reducers/group-contacts-search";
 
 import campaignReducer from "./reducers/campaign-reducer";
+
+import authReducer from "./reducers/auth-reducer";
+import emailReducer from "./reducers/email-reducer";
 import formReducer from "./reducers/form-reducer";
 import queryReducer from "./reducers/query-reducer";
 import modalReducer from "./reducers/modal-reducer";

@@ -69,7 +69,7 @@ class SearchGroupsContainer extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  groups: state.groupReducer.groups,
+  groups: state.groups.groups,
   contactGroups: state.contactGroups.contactGroups
 });
 

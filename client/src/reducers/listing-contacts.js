@@ -43,15 +43,12 @@ export const setFiltered = filtered => ({
 });
 
 export const fetchListingContacts = listingId => async dispatch => {
-  console.log("FETCH LISTING CONTACTS", listingId);
   const state = store.getState();
   const { page, pageSize } = state.listingContacts;
-
   try {
     const res = await axios.get(
       `/api/listings/${listingId}/contacts/?limit=${pageSize}&offset=${page * pageSize}`
     );
-    console.log("RES", res.data);
     dispatch(setPages(Math.ceil(res.data.count / pageSize)));
     dispatch(setListingContacts(res.data.rows));
   } catch (err) {
@@ -81,7 +78,7 @@ export const deleteListingContact = (contactId, listingId) => async dispatch => 
   const offset = page * pageSize;
   try {
     const res = await axios.delete(
-      `/api/listings/${listingId}/contact/?contactId=${contactId}&limit=${pageSize}&offset=${offset}`
+      `/api/listings/${listingId}/contacts/?contactId=${contactId}&limit=${pageSize}&offset=${offset}`
     );
     dispatch(setListingContacts(res.data.rows));
   } catch (err) {

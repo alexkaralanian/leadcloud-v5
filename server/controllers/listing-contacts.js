@@ -84,7 +84,6 @@ exports.add = async (req, res) => {
 
 exports.remove = async (req, res) => {
   const userId = req.session.user.toString();
-
   try {
     const listing = await Listings.findOne({
       where: {
@@ -92,8 +91,7 @@ exports.remove = async (req, res) => {
         id: req.params.id
       }
     });
-    await listing.removeContact(req.body.contactId);
-
+    await listing.removeContact(req.query.contactId);
     const listingContacts = await Contacts.findAndCountAll({
       limit: 25,
       offset: 0,

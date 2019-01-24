@@ -79,15 +79,26 @@ export const onDrop = (files, componentId) => async dispatch => {
     componentType: "listing",
     componentId
   });
-  await axios.put(uploadConfig.data.url, files[0], {
-    headers: {
-      "Content-Type": files[0].type
-    }
-  });
-  const res = await axios.post(`/api/listings/${componentId}/images`, {
-    images: [`https://s3.amazonaws.com/leadcloud-v5-user-images/${uploadConfig.data.key}`]
-  });
-  dispatch(setListing(res.data));
+
+  try {
+    await axios.put(uploadConfig.data.url, files[0], {
+      headers: {
+        "Content-Type": files[0].type
+      }
+    });
+  } catch (err) {
+    console.error("LISTING IMAGE UPLOAD ERROR", err);
+  }
+
+  try {
+    const res = await axios.post(`/api/listings/${componentId}/images`, {
+      images: [`https://s3.amazonaws.com/leadcloud-v5-user-images/${uploadConfig.data.key}`]
+    });
+
+    dispatch(setListing(res.data));
+  } catch (err) {
+    console.error("ERROR POSTING IMAGE URL", err);
+  }
 };
 
 export const deleteListingImage = (image, listingId) => async dispatch => {

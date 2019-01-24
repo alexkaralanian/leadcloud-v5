@@ -5,7 +5,7 @@ import { Field, reduxForm } from "redux-form";
 import { Form, FormGroup, Row, Col, Card, CardHeader, CardBody } from "reactstrap";
 
 import { contactValidate } from "../../../helpers/redux-form/validate";
-import { fetchGroup } from "../../../actions/group-actions";
+import { fetchGroup } from "../../../reducers/group";
 
 import InputField from "../../InputField/InputField";
 import TextAreaField from "../../InputField/TextAreaField";
