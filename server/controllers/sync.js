@@ -15,6 +15,8 @@ exports.googleContacts = async (req, res) => {
 
   // MAP GOOGLE GROUPS TO DB
   log(chalk.blue("MAPPING GROUPS TO DB"));
+
+  // CALL TO GOOGLE
   const [contactGroups, groupsNextSyncToken] = await google.fetchUserGroups();
   const mappedGroups = contactGroups.map(group => ({
     UserUuid: userId,

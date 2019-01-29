@@ -59,6 +59,13 @@ const OpenHouse = Loadable({
   loading: Loading
 });
 
+import Events from "./components/Events/Events";
+
+// const Events = Loadable({
+//   loader: () => import("./components/Events/Events"),
+//   loading: Loading
+// });
+
 const Profile = Loadable({
   loader: () => import("./containers/ProfileContainer/ProfileContainer"),
   loading: Loading
@@ -111,6 +118,7 @@ class App extends React.Component {
                     <Route exact path="/groups" component={Groups} />
                     <Route path="/groups/new" component={Group} />
                     <Route path="/groups/:id" component={Group} />
+                    <Route exact path="/events" component={Events} />
                     <Route exact path="/campaigns" component={Campaigns} />
                     <Route path="/campaigns/new" component={CreateCampaign} />
                     <Route path="/campaigns/:id" component={CreateCampaign} />
@@ -142,7 +150,10 @@ const mapDispatchToProps = {
   fetchUser
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);
 
 App.propTypes = {
   fetchUser: PropTypes.func.isRequired

@@ -63,6 +63,7 @@ export const init = () => {
 export const fetchListingEmails = query => async dispatch => {
   const state = store.getState();
   const { pageSize, pageToken } = state.listingEmails;
+  console.log("FETCH LISTING EMAILS", query);
   try {
     const res = await axios.get(
       `/api/email/gmail?maxResults=${pageSize}&pageToken=${pageToken}&q=${query}`

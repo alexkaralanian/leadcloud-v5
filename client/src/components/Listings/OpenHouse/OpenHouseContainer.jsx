@@ -22,7 +22,7 @@ class OpenHouseContainer extends React.Component {
 }
 
 const mapsStateToProps = state => ({
-  listing: state.listingReducer.listing
+  listing: state.listing.listing
 });
 
 const mapDispatchToProps = {

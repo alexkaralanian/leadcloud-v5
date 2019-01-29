@@ -46,6 +46,8 @@ import {
   setDiffedListingContacts
 } from "../../actions/listing-contacts-actions";
 
+import { fetchListingEmails, setListingEmails, setPage } from "../../reducers/listing-emails";
+
 import { setModalVisibility } from "../../actions/modal-actions";
 
 import { fetchComponent, setQuery, setOffset, setCount } from "../../actions/query-actions";
@@ -63,16 +65,23 @@ class ListingDashboard extends React.Component {
   };
 
   componentDidMount() {
-    const { match, fetchComponent, fetchListing, setOffset } = this.props;
+    const { match, fetchListing } = this.props;
     if (match.path !== "/listings/new") {
       fetchListing(match.params.id);
     }
   }
+  componentWillReceiveProps(nextProps) {
+    const { listing, fetchListingEmails } = this.props;
+    if (listing !== nextProps.listing) {
+      fetchListingEmails(nextProps.listing.address.trim().toLowerCase());
+    }
+  }
 
   componentWillUnmount() {
-    const { setListing, setQuery, setOffset } = this.props;
-    setOffset(0);
-    setListing({});
+    const { setListing, setListingEmails } = this.props;
+    // setListing({});
+    setListingEmails([]);
+    setPage(1);
   }
 
   displayOpenHouseModal = () => {
@@ -165,16 +174,10 @@ class ListingDashboard extends React.Component {
           />
           <Route
             exact
-            path={match.path === "/listings/new" ? `/listings/new` : `/listings/:id`}
-            render={routeProps => (
-              <ListingForm
-                {...routeProps}
-                updateListing={updateListing}
-                listing={listing}
-                deleteListing={deleteListing}
-                isListingNew={match.path === "/listings/new"}
-              />
-            )}
+            path={match.path === "/listings/new" ? `/listings/new` : `/listings/${listing.id}`}
+            render={routeProps => {
+              return <ListingForm {...routeProps} />;
+            }}
           />
 
           {/* LISTING CONTACTS */}
@@ -236,6 +239,9 @@ const mapDispatchToProps = {
   setOffset,
   setQuery,
   fetchComponent,
+  fetchListingEmails,
+  setListingEmails,
+  setPage,
 
   fetchListing,
   setListing,

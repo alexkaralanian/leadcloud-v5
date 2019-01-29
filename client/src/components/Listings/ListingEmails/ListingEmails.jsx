@@ -17,26 +17,26 @@ import {
 import Pagination from "../../Pagination/Pagination";
 
 class ListingEmails extends React.Component {
-  componentDidMount() {
-    const { listing, fetchListingEmails } = this.props;
-    fetchListingEmails(this.makeSearchQuery(listing.address));
-  }
+  // componentDidMount() {
+  //   const { listing, fetchListingEmails } = this.props;
+  //   if (listing.address) fetchListingEmails(listing.address.trim().toLowerCase());
+  // }
 
-  componentWillReceiveProps(nextProps) {
-    const { listing, fetchListingEmails } = this.props;
-    if (listing !== nextProps.listing) {
-      fetchListingEmails(this.makeSearchQuery(listing.address));
-    }
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   const { listing, fetchListingEmails } = this.props;
+  //   if (listing !== nextProps.listing) {
+  //     if (listing.address) fetchListingEmails(listing.address.trim().toLowerCase());
+  //   }
+  // }
 
   componentWillUnmount() {
     const { setListingEmails } = this.props;
-    setListingEmails([]);
+    // setListingEmails([]);
   }
 
-  makeSearchQuery = query => {
-    return `${query.trim().toLowerCase()}`;
-  };
+  // makeSearchQuery = query => {
+  //   return `${query.trim().toLowerCase()}`;
+  // };
 
   render() {
     const {

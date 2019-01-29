@@ -191,20 +191,7 @@ class ContactDashboard extends React.Component {
             path={
               location.pathname === "/contacts/new" ? `/contacts/new` : `/contacts/${contact.id}`
             }
-            render={routeProps => (
-              <ContactForm
-                {...routeProps}
-                onSubmit={values => {
-                  match.path === "/contacts/new"
-                    ? submitNewContact(values)
-                    : updateContact(values, contact.id);
-                }}
-                deleteContact={deleteContact}
-                isContactNew={match.path === "/contacts/new"}
-                contact={contact}
-                fetchContact={fetchContact}
-              />
-            )}
+            render={routeProps => <ContactForm {...routeProps} />}
           />
 
           {/* CONTACT LISTINGS */}
