@@ -189,23 +189,22 @@ class ContactForm extends React.Component {
                                   />
                                 </FormGroup>
                               </Col>
-                              <button
-                                type="button"
-                                onClick={() => arrayHelpers.remove(idx)} // remove a friend from the list
-                              >
-                                -
-                              </button>
-                              <button
-                                type="button"
-                                onClick={() =>
-                                  arrayHelpers.insert(idx, {
-                                    type: "",
-                                    value: ""
-                                  })
-                                }
-                              >
-                                +
-                              </button>
+                              <Col xs={12}>
+                                <button type="button" onClick={() => arrayHelpers.remove(idx)}>
+                                  -
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() =>
+                                    arrayHelpers.insert(idx, {
+                                      type: "",
+                                      value: ""
+                                    })
+                                  }
+                                >
+                                  +
+                                </button>
+                              </Col>
                             </Row>
                           ))
                         ) : (
@@ -218,8 +217,7 @@ class ContactForm extends React.Component {
                               })
                             }
                           >
-                            {/* show this when user has removed all friends from the list */}
-                            Add a friend
+                            Add Email
                           </button>
                         )}
                       </div>
@@ -229,8 +227,7 @@ class ContactForm extends React.Component {
               </CardBody>
             </Card>
 
-            {/* *** END EMAILS*** */}
-
+            {/* *** Phone NUmbers *** */}
             <Card>
               <CardHeader>
                 <i className="fa fa-phone" />
@@ -241,45 +238,73 @@ class ContactForm extends React.Component {
                   name="phone"
                   render={arrayHelpers => (
                     <div>
-                      {contact.phone &&
-                        contact.phone.map((address, idx) => {
+                      {values.phone && values.phone.length > 0 ? (
+                        values.phone.map((address, idx) => {
                           return (
-                            <React.Fragment>
-                              <Row>
-                                <Col sm={2}>
-                                  <FormGroup>
-                                    <Label>
-                                      <strong>Type</strong>
-                                    </Label>
-                                    <Field
-                                      type="text"
-                                      component={CustomInput}
-                                      name={`phone.${idx}.type`}
-                                    />
-                                  </FormGroup>
-                                </Col>
-                                <Col sm={10}>
-                                  <FormGroup>
-                                    <Label>
-                                      <strong>Phone</strong>
-                                    </Label>
-                                    <Field
-                                      type="tel"
-                                      component={CustomInput}
-                                      name={`phone.${idx}.value`}
-                                    />
-                                  </FormGroup>
-                                </Col>
-                              </Row>
-                            </React.Fragment>
+                            <Row key={idx}>
+                              <Col sm={2}>
+                                <FormGroup>
+                                  <Label>
+                                    <strong>Type</strong>
+                                  </Label>
+                                  <Field
+                                    type="text"
+                                    component={CustomInput}
+                                    name={`phone.${idx}.type`}
+                                  />
+                                </FormGroup>
+                              </Col>
+                              <Col sm={10}>
+                                <FormGroup>
+                                  <Label>
+                                    <strong>Phone</strong>
+                                  </Label>
+                                  <Field
+                                    type="tel"
+                                    component={CustomInput}
+                                    name={`phone.${idx}.value`}
+                                  />
+                                </FormGroup>
+                              </Col>
+                              <Col xs={12}>
+                                <button type="button" onClick={() => arrayHelpers.remove(idx)}>
+                                  -
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() =>
+                                    arrayHelpers.insert(idx, {
+                                      type: "",
+                                      value: ""
+                                    })
+                                  }
+                                >
+                                  +
+                                </button>
+                              </Col>
+                            </Row>
                           );
-                        })}
+                        })
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={() =>
+                            arrayHelpers.push({
+                              type: "",
+                              value: ""
+                            })
+                          }
+                        >
+                          Add Phone
+                        </button>
+                      )}
                     </div>
                   )}
                 />
               </CardBody>
             </Card>
 
+            {/* *** Addresses *** */}
             <Card>
               <CardHeader>
                 <i className="fa fa-map" />
@@ -290,7 +315,7 @@ class ContactForm extends React.Component {
                   name="address"
                   render={arrayHelpers => (
                     <div>
-                      {values.address &&
+                      {values.address && values.address.length > 0 ? (
                         values.address.map((data, idx) => {
                           return (
                             <Row key={idx}>
@@ -318,9 +343,38 @@ class ContactForm extends React.Component {
                                   />
                                 </FormGroup>
                               </Col>
+                              <Col xs={12}>
+                                <button type="button" onClick={() => arrayHelpers.remove(idx)}>
+                                  -
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() =>
+                                    arrayHelpers.insert(idx, {
+                                      type: "",
+                                      value: ""
+                                    })
+                                  }
+                                >
+                                  +
+                                </button>
+                              </Col>
                             </Row>
                           );
-                        })}
+                        })
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={() =>
+                            arrayHelpers.push({
+                              streetAddress: "",
+                              type: ""
+                            })
+                          }
+                        >
+                          Add Address
+                        </button>
+                      )}
                     </div>
                   )}
                 />
