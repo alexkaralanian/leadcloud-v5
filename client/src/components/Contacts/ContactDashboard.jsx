@@ -30,9 +30,6 @@ import { fetchComponent, setQuery, setOffset, setCount } from "../../actions/que
 import {
   fetchContact,
   setContact,
-  submitNewContact,
-  updateContact,
-  deleteContact,
   onDrop,
   deleteContactImage
 } from "../../actions/contact-actions";
@@ -191,7 +188,9 @@ class ContactDashboard extends React.Component {
             path={
               location.pathname === "/contacts/new" ? `/contacts/new` : `/contacts/${contact.id}`
             }
-            render={routeProps => <ContactForm {...routeProps} />}
+            render={routeProps => (
+              <ContactForm isContactNew={match.path === "/contacts/new"} {...routeProps} />
+            )}
           />
 
           {/* CONTACT LISTINGS */}
@@ -210,15 +209,7 @@ class ContactDashboard extends React.Component {
           />
           <Route
             path={`/contacts/:id/listings`}
-            render={routeProps => (
-              <ContactListings
-                {...routeProps}
-                // contact={contact}
-                // contactListings={contactListings}
-                // searchContactListings={searchContactListings}
-                // deleteContactListing={deleteContactListing}
-              />
-            )}
+            render={routeProps => <ContactListings {...routeProps} />}
           />
 
           {/* CONTACT GROUPS */}
@@ -273,9 +264,6 @@ const mapStateToProps = state => ({
   contactGroups: state.contact.contactGroups,
   contactListings: state.contact.contactListings,
   contactEmails: state.contactEmails.contactEmails,
-  // emailQuery: state.emailReducer.emailQuery,
-  // maxResults: state.contactReducer.maxResults,
-  // pageToken: state.contactReducer.pageToken,
   path: state.router.location.pathname
 });
 
@@ -289,9 +277,6 @@ const mapDispatchToProps = {
 
   fetchContact,
   setContact,
-  submitNewContact,
-  updateContact,
-  deleteContact,
 
   deleteContactImage,
   onDrop,
@@ -308,4 +293,7 @@ const mapDispatchToProps = {
   fetchContactEmails
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ContactDashboard);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ContactDashboard);

@@ -65,6 +65,7 @@ exports.getOne = async (req, res) => {
 };
 
 exports.create = async (req, res) => {
+  console.log("REQ.BODY", req.body);
   const userId = req.session.user.toString();
   try {
     const contacts = await Contacts.findAll({
@@ -79,21 +80,14 @@ exports.create = async (req, res) => {
         }
       }
     });
+
+    console.log("CONTACTS", contacts);
+
     if (isEmpty(contacts)) {
       const createdContact = await Contacts.create({
         UserUuid: userId,
-        email: [
-          {
-            value: req.body.email,
-            type: null
-          }
-        ],
-        phone: [
-          {
-            value: req.body.phone,
-            type: null
-          }
-        ],
+        email: req.body.email,
+        phone: req.body.phone,
         fullName: `${req.body.firstName ? req.body.firstName.trim() : ""} ${
           req.body.lastName ? req.body.lastName.trim() : ""
         }`,

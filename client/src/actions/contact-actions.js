@@ -68,14 +68,14 @@ export const fetchContact = id => async dispatch => {
 };
 
 // CREATE NEW CONTACT
-export const submitNewContact = data => async dispatch => {
+export const createContact = data => async dispatch => {
+  console.log("CREATE CONTACT");
   dispatch(isFetching(true));
   try {
     const res = await axios.post("/api/contacts", data);
-    if (res.status === 200) {
-      dispatch(setContact(res.data));
-      dispatch(push(`/contacts/${res.data.id}`));
-    }
+    console.log("RESPONSE", res.data);
+    dispatch(setContact(res.data));
+    dispatch(push(`/contacts/${res.data.id}`));
     dispatch(isFetching(false));
   } catch (err) {
     console.error("Submitting new contact unsuccessful", err);

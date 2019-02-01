@@ -5,9 +5,9 @@ import PropTypes from "prop-types";
 import { FormGroup, Label, Input, Row, Col, Card, CardHeader, CardBody } from "reactstrap";
 
 import {
-  fetchContact,
+  setContact,
   deleteContact,
-  submitNewContact,
+  createContact,
   updateContact
 } from "../../../actions/contact-actions";
 
@@ -23,157 +23,148 @@ const CustomInput = ({ type, field, form: { touched, errors }, ...props }) => {
   return (
     <div>
       <Input type={type} {...field} {...props} />
-      {touched[field.name] &&
-        errors[field.name] && <div className="error">{errors[field.name]}</div>}
+      {touched[field.name] && errors[field.name] && (
+        <div className="error">{errors[field.name]}</div>
+      )}
     </div>
   );
 };
 
-const ContactForm = ({ contact, updateContact, deleteContact }) => {
-  return (
-    <Formik
-      initialValues={contact}
-      onSubmit={values => {
-        updateContact(values, contact.id);
-      }}
-      render={({ values }) => (
-        <Form>
-          <Card>
-            <CardHeader>
-              <i className="fa fa-user" />
-              <strong>Name</strong>
-            </CardHeader>
-            <CardBody>
-              <Row>
-                <Col md={6}>
-                  <FormGroup>
-                    <Label>
-                      <strong>First Name</strong>
-                    </Label>
-                    <Field type="text" component={CustomInput} name="firstName" />
-                  </FormGroup>
-                </Col>
-                <Col md={6}>
-                  <FormGroup>
-                    <Label>
-                      <strong>Last Name</strong>
-                    </Label>
-                    <Field type="text" component={CustomInput} name="lastName" />
-                  </FormGroup>
-                </Col>
-              </Row>
-            </CardBody>
-          </Card>
-          <Card>
-            <CardHeader>
-              <i className="fa fa-user" />
-              <strong>Profile</strong>
-            </CardHeader>
-            <CardBody>
-              <Row>
-                <Col md={6}>
-                  <FormGroup>
-                    <Label>
-                      <strong>Priority Level</strong>
-                    </Label>
-                    <Field component={CustomInput} type="select" name="priority">
-                      <option value="null">{null}</option>
-                      <option value="A">A: High Priority</option>
-                      <option value="B">B: Medium Priority</option>
-                      <option value="C">C: Low Priority</option>
-                    </Field>
-                  </FormGroup>
-                </Col>
-                <Col md={6}>
-                  <FormGroup check inline>
-                    <Label check>
-                      <strong>Buyer</strong>
-                      <Field component={CustomInput} type="radio" name="buyer" />
-                    </Label>
-                  </FormGroup>
-                  <FormGroup check inline>
-                    <Label check>
-                      <strong>Seller</strong>
-                      <Field component={CustomInput} type="radio" name="seller" />
-                    </Label>
-                  </FormGroup>
-                  <FormGroup check inline>
-                    <Label check>
-                      <strong>Landlord</strong>
-                      <Field component={CustomInput} type="radio" name="landlord" />
-                    </Label>
-                  </FormGroup>
-                  <FormGroup check inline>
-                    <Label check>
-                      <strong>Tenant</strong>
-                      <Field component={CustomInput} type="radio" name="tenant" />
-                    </Label>
-                  </FormGroup>
-                </Col>
-              </Row>
-            </CardBody>
-          </Card>
+class ContactForm extends React.Component {
+  componentWillUnmount() {
+    const { setContact } = this.props;
+    setContact({});
+  }
 
-          <Card>
-            <CardHeader>
-              <i className="fa fa-envelope" />
-              <strong>Emails</strong>
-            </CardHeader>
-            <CardBody>
-              <FieldArray
-                name="email"
-                render={arrayHelpers => (
-                  <div>
-                    {contact.email &&
-                      contact.email.map((address, idx) => (
-                        <Row key={idx}>
-                          <Col sm={2}>
-                            <FormGroup>
-                              <Label>
-                                <strong>Type</strong>
-                              </Label>
-                              <Field
-                                type="text"
-                                component={CustomInput}
-                                name={`email.${idx}.type`}
-                              />
-                            </FormGroup>
-                          </Col>
-                          <Col xs={10}>
-                            <FormGroup>
-                              <Label>
-                                <strong>Address</strong>
-                              </Label>
-                              <Field
-                                type="email"
-                                component={CustomInput}
-                                name={`email.${idx}.value`}
-                              />
-                            </FormGroup>
-                          </Col>
-                        </Row>
-                      ))}
-                  </div>
-                )}
-              />
-            </CardBody>
-          </Card>
+  addEmail = () => {
+    console.log("THIS.PROPS", this.props);
+    // const { contact, updateContact } = this.props;
+    // console.log("FIRST CONTACT", contact);
+    // if (!contact.email)
+    //   contact.email = [
+    //     {
+    //       value: "",
+    //       type: ""
+    //     }
+    //   ];
+    // else {
+    //   contact.email.push({
+    //     value: "",
+    //     type: ""
+    //   });
+    // }
 
-          <Card>
-            <CardHeader>
-              <i className="fa fa-phone" />
-              <strong>Phone Numbers</strong>
-            </CardHeader>
-            <CardBody>
-              <FieldArray
-                name="phone"
-                render={arrayHelpers => (
-                  <div>
-                    {contact.phone &&
-                      contact.phone.map((address, idx) => {
-                        return (
-                          <React.Fragment>
-                            <Row>
+    // console.log("FINAL CONTACT", contact);
+    // updateContact(contact);
+  };
+
+  // renderEmails = () => {
+
+  // };
+
+  render() {
+    const { isContactNew, contact, createContact, updateContact, deleteContact } = this.props;
+
+    return (
+      <Formik
+        initialValues={contact}
+        onSubmit={values => {
+          console.log("VALUES", values);
+          isContactNew ? createContact(values) : updateContact(values, contact.id);
+        }}
+        render={({ values }) => (
+          <Form>
+            <Card>
+              <CardHeader>
+                <i className="fa fa-user" />
+                <strong>Name</strong>
+              </CardHeader>
+              <CardBody>
+                <Row>
+                  <Col md={6}>
+                    <FormGroup>
+                      <Label>
+                        <strong>First Name</strong>
+                      </Label>
+                      <Field type="text" component={CustomInput} name="firstName" />
+                    </FormGroup>
+                  </Col>
+                  <Col md={6}>
+                    <FormGroup>
+                      <Label>
+                        <strong>Last Name</strong>
+                      </Label>
+                      <Field type="text" component={CustomInput} name="lastName" />
+                    </FormGroup>
+                  </Col>
+                </Row>
+              </CardBody>
+            </Card>
+            <Card>
+              <CardHeader>
+                <i className="fa fa-user" />
+                <strong>Profile</strong>
+              </CardHeader>
+              <CardBody>
+                <Row>
+                  <Col md={6}>
+                    <FormGroup>
+                      <Label>
+                        <strong>Priority Level</strong>
+                      </Label>
+                      <Field component={CustomInput} type="select" name="priority">
+                        <option value="null">{null}</option>
+                        <option value="A">A: High Priority</option>
+                        <option value="B">B: Medium Priority</option>
+                        <option value="C">C: Low Priority</option>
+                      </Field>
+                    </FormGroup>
+                  </Col>
+                  <Col md={6}>
+                    <FormGroup check inline>
+                      <Label check>
+                        <strong>Buyer</strong>
+                        <Field component={CustomInput} type="radio" name="buyer" />
+                      </Label>
+                    </FormGroup>
+                    <FormGroup check inline>
+                      <Label check>
+                        <strong>Seller</strong>
+                        <Field component={CustomInput} type="radio" name="seller" />
+                      </Label>
+                    </FormGroup>
+                    <FormGroup check inline>
+                      <Label check>
+                        <strong>Landlord</strong>
+                        <Field component={CustomInput} type="radio" name="landlord" />
+                      </Label>
+                    </FormGroup>
+                    <FormGroup check inline>
+                      <Label check>
+                        <strong>Tenant</strong>
+                        <Field component={CustomInput} type="radio" name="tenant" />
+                      </Label>
+                    </FormGroup>
+                  </Col>
+                </Row>
+              </CardBody>
+            </Card>
+
+            {/* ***EMAILS*** */}
+            <Card>
+              <CardHeader>
+                <i className="fa fa-envelope" />
+                <strong>Emails</strong>
+              </CardHeader>
+              <CardBody>
+                <FieldArray
+                  name="email"
+                  render={arrayHelpers => {
+                    return (
+                      <div>
+                        {values.email && values.email.length > 0 ? (
+                          values.email.map((address, idx) => (
+                            <Row key={idx}>
                               <Col sm={2}>
                                 <FormGroup>
                                   <Label>
@@ -182,144 +173,229 @@ const ContactForm = ({ contact, updateContact, deleteContact }) => {
                                   <Field
                                     type="text"
                                     component={CustomInput}
-                                    name={`phone.${idx}.type`}
+                                    name={`email.${idx}.type`}
+                                  />
+                                </FormGroup>
+                              </Col>
+                              <Col xs={10}>
+                                <FormGroup>
+                                  <Label>
+                                    <strong>Address</strong>
+                                  </Label>
+                                  <Field
+                                    type="email"
+                                    component={CustomInput}
+                                    name={`email.${idx}.value`}
+                                  />
+                                </FormGroup>
+                              </Col>
+                              <button
+                                type="button"
+                                onClick={() => arrayHelpers.remove(idx)} // remove a friend from the list
+                              >
+                                -
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  arrayHelpers.insert(idx, {
+                                    type: "",
+                                    value: ""
+                                  })
+                                }
+                              >
+                                +
+                              </button>
+                            </Row>
+                          ))
+                        ) : (
+                          <button
+                            type="button"
+                            onClick={() =>
+                              arrayHelpers.push({
+                                type: "",
+                                value: ""
+                              })
+                            }
+                          >
+                            {/* show this when user has removed all friends from the list */}
+                            Add a friend
+                          </button>
+                        )}
+                      </div>
+                    );
+                  }}
+                />
+              </CardBody>
+            </Card>
+
+            {/* *** END EMAILS*** */}
+
+            <Card>
+              <CardHeader>
+                <i className="fa fa-phone" />
+                <strong>Phone Numbers</strong>
+              </CardHeader>
+              <CardBody>
+                <FieldArray
+                  name="phone"
+                  render={arrayHelpers => (
+                    <div>
+                      {contact.phone &&
+                        contact.phone.map((address, idx) => {
+                          return (
+                            <React.Fragment>
+                              <Row>
+                                <Col sm={2}>
+                                  <FormGroup>
+                                    <Label>
+                                      <strong>Type</strong>
+                                    </Label>
+                                    <Field
+                                      type="text"
+                                      component={CustomInput}
+                                      name={`phone.${idx}.type`}
+                                    />
+                                  </FormGroup>
+                                </Col>
+                                <Col sm={10}>
+                                  <FormGroup>
+                                    <Label>
+                                      <strong>Phone</strong>
+                                    </Label>
+                                    <Field
+                                      type="tel"
+                                      component={CustomInput}
+                                      name={`phone.${idx}.value`}
+                                    />
+                                  </FormGroup>
+                                </Col>
+                              </Row>
+                            </React.Fragment>
+                          );
+                        })}
+                    </div>
+                  )}
+                />
+              </CardBody>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <i className="fa fa-map" />
+                <strong>Addresses</strong>
+              </CardHeader>
+              <CardBody>
+                <FieldArray
+                  name="address"
+                  render={arrayHelpers => (
+                    <div>
+                      {values.address &&
+                        values.address.map((data, idx) => {
+                          return (
+                            <Row key={idx}>
+                              <Col sm={2}>
+                                <FormGroup>
+                                  <Label>
+                                    <strong>Type</strong>
+                                  </Label>
+                                  <Field
+                                    type="text"
+                                    component={CustomInput}
+                                    name={`address.${idx}.type`}
                                   />
                                 </FormGroup>
                               </Col>
                               <Col sm={10}>
                                 <FormGroup>
                                   <Label>
-                                    <strong>Phone</strong>
+                                    <strong>Street Address</strong>
                                   </Label>
                                   <Field
-                                    type="tel"
+                                    type="text"
                                     component={CustomInput}
-                                    name={`phone.${idx}.value`}
+                                    name={`address.${idx}.streetAddress`}
                                   />
                                 </FormGroup>
                               </Col>
                             </Row>
-                          </React.Fragment>
-                        );
-                      })}
-                  </div>
-                )}
+                          );
+                        })}
+                    </div>
+                  )}
+                />
+              </CardBody>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <i className="fa fa-user" />
+                <strong>Financial</strong>
+              </CardHeader>
+              <CardBody>
+                <FormGroup>
+                  <label htmlFor="customRange1">Budget</label>
+                  <input type="range" className="custom-range" id="customRange1" />
+                </FormGroup>
+                <FormGroup>
+                  <Label>
+                    <strong>Income</strong>
+                  </Label>
+                  <Field type="text" component={CustomInput} name="income" />
+                </FormGroup>
+                <FormGroup>
+                  <Label>
+                    <strong>Credit Score</strong>
+                  </Label>
+                  <Field type="text" component={CustomInput} name="creditScore" />
+                </FormGroup>
+                <FormGroup>
+                  <Label>
+                    <strong>Net Worth</strong>
+                  </Label>
+                  <Field type="text" component={CustomInput} name="netWorth" />
+                </FormGroup>
+              </CardBody>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <i className="fa fa-pencil" />
+                <strong>Notes</strong>
+              </CardHeader>
+              <CardBody>
+                <FormGroup>
+                  <Field type="textarea" component={CustomInput} name="notes" />
+                </FormGroup>
+              </CardBody>
+            </Card>
+
+            <div className="mt-4">
+              <ButtonFooter
+                // submitting={isSubmitting}
+                primaryButtonText={isContactNew ? "Create" : "Update"}
+                secondaryButtonText="Delete"
+                secondaryFunc={deleteContact}
+                component={contact}
               />
-            </CardBody>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <i className="fa fa-map" />
-              <strong>Addresses</strong>
-            </CardHeader>
-            <CardBody>
-              <FieldArray
-                name="address"
-                render={arrayHelpers => (
-                  <div>
-                    {values.address &&
-                      values.address.map((data, idx) => {
-                        return (
-                          <Row key={idx}>
-                            <Col sm={2}>
-                              <FormGroup>
-                                <Label>
-                                  <strong>Type</strong>
-                                </Label>
-                                <Field
-                                  type="text"
-                                  component={CustomInput}
-                                  name={`address.${idx}.type`}
-                                />
-                              </FormGroup>
-                            </Col>
-                            <Col sm={10}>
-                              <FormGroup>
-                                <Label>
-                                  <strong>Street Address</strong>
-                                </Label>
-                                <Field
-                                  type="text"
-                                  component={CustomInput}
-                                  name={`address.${idx}.streetAddress`}
-                                />
-                              </FormGroup>
-                            </Col>
-                          </Row>
-                        );
-                      })}
-                  </div>
-                )}
-              />
-            </CardBody>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <i className="fa fa-user" />
-              <strong>Financial</strong>
-            </CardHeader>
-            <CardBody>
-              <FormGroup>
-                <label htmlFor="customRange1">Budget</label>
-                <input type="range" className="custom-range" id="customRange1" />
-              </FormGroup>
-              <FormGroup>
-                <Label>
-                  <strong>Income</strong>
-                </Label>
-                <Field type="text" component={CustomInput} name="income" />
-              </FormGroup>
-              <FormGroup>
-                <Label>
-                  <strong>Credit Score</strong>
-                </Label>
-                <Field type="text" component={CustomInput} name="creditScore" />
-              </FormGroup>
-              <FormGroup>
-                <Label>
-                  <strong>Net Worth</strong>
-                </Label>
-                <Field type="text" component={CustomInput} name="netWorth" />
-              </FormGroup>
-            </CardBody>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <i className="fa fa-pencil" />
-              <strong>Notes</strong>
-            </CardHeader>
-            <CardBody>
-              <FormGroup>
-                <Field type="textarea" component={CustomInput} name="notes" />
-              </FormGroup>
-            </CardBody>
-          </Card>
-
-          <div className="mt-4">
-            <ButtonFooter
-              // submitting={isSubmitting}
-              primaryButtonText="Update"
-              secondaryButtonText="Delete"
-              secondaryFunc={deleteContact}
-              component={contact}
-            />
-          </div>
-        </Form>
-      )}
-    />
-  );
-};
+            </div>
+          </Form>
+        )}
+      />
+    );
+  }
+}
 
 const mapStateToProps = state => ({ contact: state.contact.contact });
 
 const mapDispatchToProps = {
-  deleteContact,
-  fetchContact,
-  submitNewContact,
-  updateContact
+  setContact,
+  createContact,
+  updateContact,
+  deleteContact
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ContactForm);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ContactForm);
