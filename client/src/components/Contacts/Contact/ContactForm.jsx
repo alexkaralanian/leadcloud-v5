@@ -36,32 +36,6 @@ class ContactForm extends React.Component {
     setContact({});
   }
 
-  addEmail = () => {
-    console.log("THIS.PROPS", this.props);
-    // const { contact, updateContact } = this.props;
-    // console.log("FIRST CONTACT", contact);
-    // if (!contact.email)
-    //   contact.email = [
-    //     {
-    //       value: "",
-    //       type: ""
-    //     }
-    //   ];
-    // else {
-    //   contact.email.push({
-    //     value: "",
-    //     type: ""
-    //   });
-    // }
-
-    // console.log("FINAL CONTACT", contact);
-    // updateContact(contact);
-  };
-
-  // renderEmails = () => {
-
-  // };
-
   render() {
     const { isContactNew, contact, createContact, updateContact, deleteContact } = this.props;
 
@@ -69,7 +43,6 @@ class ContactForm extends React.Component {
       <Formik
         initialValues={contact}
         onSubmit={values => {
-          console.log("VALUES", values);
           isContactNew ? createContact(values) : updateContact(values, contact.id);
         }}
         render={({ values }) => (
