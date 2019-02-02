@@ -26,6 +26,32 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.JSONB,
         allowNull: true
       },
+      priority: {
+        type: DataTypes.ENUM,
+        values: ["a", "b", "c"],
+        allowNull: true
+      },
+      type: {
+        type: DataTypes.ENUM,
+        values: ["buyer", "seller", "landlord", "tenant"],
+        allowNull: true
+      },
+      income: {
+        type: DataTypes.INTEGER,
+        allowNull: true
+      },
+      creditScore: {
+        type: DataTypes.INTEGER,
+        allowNull: true
+      },
+      budget: {
+        type: DataTypes.RANGE(DataTypes.INTEGER),
+        allowNull: true
+      },
+      netWorth: {
+        type: DataTypes.BIGINT,
+        allowNull: true
+      },
       address: {
         type: DataTypes.JSONB,
         allowNull: true

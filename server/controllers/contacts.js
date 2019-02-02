@@ -86,13 +86,21 @@ exports.create = async (req, res) => {
     if (isEmpty(contacts)) {
       const createdContact = await Contacts.create({
         UserUuid: userId,
-        email: req.body.email,
-        phone: req.body.phone,
+        firstName: req.body.firstName && req.body.firstName.trim(),
+        lastName: req.body.lastName && req.body.lastName.trim(),
         fullName: `${req.body.firstName ? req.body.firstName.trim() : ""} ${
           req.body.lastName ? req.body.lastName.trim() : ""
         }`,
-        firstName: req.body.firstName && req.body.firstName.trim(),
-        lastName: req.body.lastName && req.body.lastName.trim(),
+        email: req.body.email,
+        phone: req.body.phone,
+        address: req.body.address,
+        organizations: req.body.organizations,
+        priority: req.body.priority,
+        type: req.body.type.toLowerCase(),
+        income: req.body.income,
+        creditScore: req.body.creditScore,
+        budget: req.body.budget,
+        netWorth: req.body.netWorth,
         notes: req.body.notes,
         updated: moment(Date.now()).toISOString()
       });
@@ -119,15 +127,6 @@ exports.update = async (req, res) => {
     req.body.fullName = `${req.body.firstName ? req.body.firstName.trim() : ""} ${
       req.body.lastName ? req.body.lastName.trim() : ""
     }`;
-
-    if (!contact.email) {
-      req.body.email = [
-        {
-          type: "primary",
-          value: req.body.email.trim()
-        }
-      ];
-    }
     const updatedContact = await contact.update(req.body);
     res.json(updatedContact);
   } catch (err) {
