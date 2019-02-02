@@ -71,6 +71,11 @@ class ContactDashboard extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    const { setContact } = this.props;
+    setContact({});
+  }
+
   toggle = () => {
     this.setState(prevState => ({
       dropdownOpen: !prevState.dropdownOpen
@@ -146,6 +151,7 @@ class ContactDashboard extends React.Component {
       deleteContactImage
     } = this.props;
 
+    console.log("LOCATION PATHNAME", location.pathname);
     return (
       <React.Fragment>
         <BreadCrumbs />
@@ -157,7 +163,7 @@ class ContactDashboard extends React.Component {
               }}
             >
               {contact.images && <img src={contact.images[0]} />}
-              <h1>{match.path === "/contacts/new" ? "New Contact" : contact.fullName}</h1>
+              <h1>{location.pathname === "/contacts/new" ? "New Contact" : contact.fullName}</h1>
             </div>
             {location.pathname === `/contacts/${contact.id}/groups` && (
               <Button onClick={this.displayGroupsModal} color="primary">

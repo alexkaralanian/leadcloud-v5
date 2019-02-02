@@ -4,33 +4,34 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { FormGroup, Label, Input, Row, Col, Card, CardHeader, CardBody } from "reactstrap";
 
-import { fetchListing, updateListing, deleteListing } from "../../../actions/listing-actions";
+import {
+  fetchListing,
+  createListing,
+  updateListing,
+  deleteListing
+} from "../../../actions/listing-actions";
 
 import ButtonFooter from "../../ButtonFooter/ButtonFooter";
 
 import "./SingleListing.css";
 
-const capitalize = word => {
-  if (word) return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
-};
+// const capitalize = word => {
+//   if (word) return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+// };
 
-const CustomInput = ({ type, field, form: { touched, errors }, ...props }) => {
-  return (
-    <React.Fragment>
-      <Input type={type} {...field} {...props} />
-      {touched[field.name] &&
-        errors[field.name] && <div className="error">{errors[field.name]}</div>}
-    </React.Fragment>
-  );
-};
+const CustomInput = ({ type, field, form: { touched, errors }, ...props }) => (
+  <React.Fragment>
+    <Input type={type} {...field} {...props} />
+    {touched[field.name] && errors[field.name] && <div className="error">{errors[field.name]}</div>}
+  </React.Fragment>
+);
 
-const ListingForm = ({ listing, updateListing, deleteListing }) => {
+const ListingForm = ({ isListingNew, listing, createListing, updateListing, deleteListing }) => {
   return (
     <Formik
       initialValues={listing}
       onSubmit={values => {
-        console.log("VALUES", values);
-        updateListing(values, listing.id);
+        isListingNew ? createListing(values) : updateListing(values, listing.id);
       }}
       render={({ values }) => (
         <Form>
@@ -249,7 +250,7 @@ const ListingForm = ({ listing, updateListing, deleteListing }) => {
           <div className="mt-4">
             <ButtonFooter
               // submitting={isSubmitting}
-              primaryButtonText="Update"
+              primaryButtonText={isListingNew ? "Create" : "Update"}
               secondaryButtonText="Delete"
               secondaryFunc={deleteListing}
               component={listing}
@@ -263,6 +264,9 @@ const ListingForm = ({ listing, updateListing, deleteListing }) => {
 
 const mapStateToProps = state => ({ listing: state.listing.listing });
 
-export default connect(mapStateToProps, { fetchListing, updateListing, deleteListing })(
-  ListingForm
-);
+const mapDispatchToProps = { fetchListing, createListing, updateListing, deleteListing };
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ListingForm);

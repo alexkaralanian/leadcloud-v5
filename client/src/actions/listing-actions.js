@@ -37,7 +37,7 @@ export const fetchListing = id => async dispatch => {
   }
 };
 
-export const submitNewListing = data => async dispatch => {
+export const createListing = data => async dispatch => {
   dispatch(isFetching(true));
   try {
     const res = await axios.post("/api/listings", data);

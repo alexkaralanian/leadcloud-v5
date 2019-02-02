@@ -15,25 +15,21 @@ import ButtonFooter from "../../ButtonFooter/ButtonFooter";
 
 import "../Contacts.scss";
 
-const capitalize = word => {
-  if (word) return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
-};
+// const capitalize = word => {
+//   if (word) return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+// };
 
-const CustomInput = ({ type, field, form: { touched, errors }, ...props }) => {
-  return (
-    <div>
-      <Input type={type} {...field} {...props} />
-      {touched[field.name] && errors[field.name] && (
-        <div className="error">{errors[field.name]}</div>
-      )}
-    </div>
-  );
-};
+const CustomInput = ({ type, field, form: { touched, errors }, ...props }) => (
+  <div>
+    <Input type={type} {...field} {...props} />
+    {touched[field.name] && errors[field.name] && <div className="error">{errors[field.name]}</div>}
+  </div>
+);
 
 class ContactForm extends React.Component {
   componentWillUnmount() {
     const { setContact } = this.props;
-    setContact({});
+    // setContact({});
   }
 
   render() {
@@ -132,75 +128,73 @@ class ContactForm extends React.Component {
               <CardBody>
                 <FieldArray
                   name="email"
-                  render={arrayHelpers => {
-                    return (
-                      <div>
-                        {values.email && values.email.length > 0 ? (
-                          values.email.map((address, idx) => (
-                            <Row key={idx}>
-                              <Col sm={2}>
-                                <FormGroup>
-                                  <Label>
-                                    <strong>Type</strong>
-                                  </Label>
-                                  <Field
-                                    type="text"
-                                    component={CustomInput}
-                                    name={`email.${idx}.type`}
-                                  />
-                                </FormGroup>
-                              </Col>
-                              <Col xs={10}>
-                                <FormGroup>
-                                  <Label>
-                                    <strong>Address</strong>
-                                  </Label>
-                                  <Field
-                                    type="email"
-                                    component={CustomInput}
-                                    name={`email.${idx}.value`}
-                                  />
-                                </FormGroup>
-                              </Col>
-                              <Col xs={12}>
-                                <button type="button" onClick={() => arrayHelpers.remove(idx)}>
-                                  -
-                                </button>
-                                <button
-                                  type="button"
-                                  onClick={() =>
-                                    arrayHelpers.insert(idx, {
-                                      type: "",
-                                      value: ""
-                                    })
-                                  }
-                                >
-                                  +
-                                </button>
-                              </Col>
-                            </Row>
-                          ))
-                        ) : (
-                          <button
-                            type="button"
-                            onClick={() =>
-                              arrayHelpers.push({
-                                type: "",
-                                value: ""
-                              })
-                            }
-                          >
-                            Add Email
-                          </button>
-                        )}
-                      </div>
-                    );
-                  }}
+                  render={arrayHelpers => (
+                    <div>
+                      {values.email && values.email.length > 0 ? (
+                        values.email.map((address, idx) => (
+                          <Row key={idx}>
+                            <Col sm={2}>
+                              <FormGroup>
+                                <Label>
+                                  <strong>Type</strong>
+                                </Label>
+                                <Field
+                                  type="text"
+                                  component={CustomInput}
+                                  name={`email.${idx}.type`}
+                                />
+                              </FormGroup>
+                            </Col>
+                            <Col xs={10}>
+                              <FormGroup>
+                                <Label>
+                                  <strong>Address</strong>
+                                </Label>
+                                <Field
+                                  type="email"
+                                  component={CustomInput}
+                                  name={`email.${idx}.value`}
+                                />
+                              </FormGroup>
+                            </Col>
+                            <Col xs={12}>
+                              <button type="button" onClick={() => arrayHelpers.remove(idx)}>
+                                -
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  arrayHelpers.insert(idx, {
+                                    type: "",
+                                    value: ""
+                                  })
+                                }
+                              >
+                                +
+                              </button>
+                            </Col>
+                          </Row>
+                        ))
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={() =>
+                            arrayHelpers.push({
+                              type: "",
+                              value: ""
+                            })
+                          }
+                        >
+                          Add Email
+                        </button>
+                      )}
+                    </div>
+                  )}
                 />
               </CardBody>
             </Card>
 
-            {/* *** Phone NUmbers *** */}
+            {/* *** Phone Numbers *** */}
             <Card>
               <CardHeader>
                 <i className="fa fa-phone" />
@@ -212,52 +206,50 @@ class ContactForm extends React.Component {
                   render={arrayHelpers => (
                     <div>
                       {values.phone && values.phone.length > 0 ? (
-                        values.phone.map((address, idx) => {
-                          return (
-                            <Row key={idx}>
-                              <Col sm={2}>
-                                <FormGroup>
-                                  <Label>
-                                    <strong>Type</strong>
-                                  </Label>
-                                  <Field
-                                    type="text"
-                                    component={CustomInput}
-                                    name={`phone.${idx}.type`}
-                                  />
-                                </FormGroup>
-                              </Col>
-                              <Col sm={10}>
-                                <FormGroup>
-                                  <Label>
-                                    <strong>Phone</strong>
-                                  </Label>
-                                  <Field
-                                    type="tel"
-                                    component={CustomInput}
-                                    name={`phone.${idx}.value`}
-                                  />
-                                </FormGroup>
-                              </Col>
-                              <Col xs={12}>
-                                <button type="button" onClick={() => arrayHelpers.remove(idx)}>
-                                  -
-                                </button>
-                                <button
-                                  type="button"
-                                  onClick={() =>
-                                    arrayHelpers.insert(idx, {
-                                      type: "",
-                                      value: ""
-                                    })
-                                  }
-                                >
-                                  +
-                                </button>
-                              </Col>
-                            </Row>
-                          );
-                        })
+                        values.phone.map((address, idx) => (
+                          <Row key={idx}>
+                            <Col sm={2}>
+                              <FormGroup>
+                                <Label>
+                                  <strong>Type</strong>
+                                </Label>
+                                <Field
+                                  type="text"
+                                  component={CustomInput}
+                                  name={`phone.${idx}.type`}
+                                />
+                              </FormGroup>
+                            </Col>
+                            <Col sm={10}>
+                              <FormGroup>
+                                <Label>
+                                  <strong>Phone</strong>
+                                </Label>
+                                <Field
+                                  type="tel"
+                                  component={CustomInput}
+                                  name={`phone.${idx}.value`}
+                                />
+                              </FormGroup>
+                            </Col>
+                            <Col xs={12}>
+                              <button type="button" onClick={() => arrayHelpers.remove(idx)}>
+                                -
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  arrayHelpers.insert(idx, {
+                                    type: "",
+                                    value: ""
+                                  })
+                                }
+                              >
+                                +
+                              </button>
+                            </Col>
+                          </Row>
+                        ))
                       ) : (
                         <button
                           type="button"
@@ -289,52 +281,50 @@ class ContactForm extends React.Component {
                   render={arrayHelpers => (
                     <div>
                       {values.address && values.address.length > 0 ? (
-                        values.address.map((data, idx) => {
-                          return (
-                            <Row key={idx}>
-                              <Col sm={2}>
-                                <FormGroup>
-                                  <Label>
-                                    <strong>Type</strong>
-                                  </Label>
-                                  <Field
-                                    type="text"
-                                    component={CustomInput}
-                                    name={`address.${idx}.type`}
-                                  />
-                                </FormGroup>
-                              </Col>
-                              <Col sm={10}>
-                                <FormGroup>
-                                  <Label>
-                                    <strong>Street Address</strong>
-                                  </Label>
-                                  <Field
-                                    type="text"
-                                    component={CustomInput}
-                                    name={`address.${idx}.streetAddress`}
-                                  />
-                                </FormGroup>
-                              </Col>
-                              <Col xs={12}>
-                                <button type="button" onClick={() => arrayHelpers.remove(idx)}>
-                                  -
-                                </button>
-                                <button
-                                  type="button"
-                                  onClick={() =>
-                                    arrayHelpers.insert(idx, {
-                                      type: "",
-                                      value: ""
-                                    })
-                                  }
-                                >
-                                  +
-                                </button>
-                              </Col>
-                            </Row>
-                          );
-                        })
+                        values.address.map((data, idx) => (
+                          <Row key={idx}>
+                            <Col sm={2}>
+                              <FormGroup>
+                                <Label>
+                                  <strong>Type</strong>
+                                </Label>
+                                <Field
+                                  type="text"
+                                  component={CustomInput}
+                                  name={`address.${idx}.type`}
+                                />
+                              </FormGroup>
+                            </Col>
+                            <Col sm={10}>
+                              <FormGroup>
+                                <Label>
+                                  <strong>Street Address</strong>
+                                </Label>
+                                <Field
+                                  type="text"
+                                  component={CustomInput}
+                                  name={`address.${idx}.streetAddress`}
+                                />
+                              </FormGroup>
+                            </Col>
+                            <Col xs={12}>
+                              <button type="button" onClick={() => arrayHelpers.remove(idx)}>
+                                -
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  arrayHelpers.insert(idx, {
+                                    type: "",
+                                    value: ""
+                                  })
+                                }
+                              >
+                                +
+                              </button>
+                            </Col>
+                          </Row>
+                        ))
                       ) : (
                         <button
                           type="button"

@@ -30,9 +30,6 @@ import Placeholder from "../../components/Placeholder/Placeholder";
 import {
   fetchListing,
   setListing,
-  submitNewListing,
-  updateListing,
-  deleteListing,
   onDrop,
   deleteListingImage
 } from "../../actions/listing-actions";
@@ -175,13 +172,12 @@ class ListingDashboard extends React.Component {
           <Route
             exact
             path={match.path === "/listings/new" ? `/listings/new` : `/listings/${listing.id}`}
-            render={routeProps => {
-              return <ListingForm {...routeProps} />;
-            }}
+            render={routeProps => (
+              <ListingForm isListingNew={match.path === "/listings/new"} {...routeProps} />
+            )}
           />
 
           {/* LISTING CONTACTS */}
-
           <Modal
             displayModal={this.displayContactsModal}
             onExit={this.onContactsModalExit}
@@ -201,7 +197,6 @@ class ListingDashboard extends React.Component {
           />
 
           {/* LISTING EMAILS */}
-
           <Route
             path={`/listings/:id/emails`}
             render={routeProps => <ListingEmails {...routeProps} />}
@@ -245,9 +240,9 @@ const mapDispatchToProps = {
 
   fetchListing,
   setListing,
-  submitNewListing,
-  updateListing,
-  deleteListing,
+  // submitNewListing,
+  // updateListing,
+  // deleteListing,
 
   setListingContacts,
   searchListingContacts,
@@ -268,4 +263,7 @@ ListingDashboard.propTypes = {
 };
 
 export const Unwrapped = ListingDashboard;
-export default connect(mapStateToProps, mapDispatchToProps)(ListingDashboard);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ListingDashboard);
