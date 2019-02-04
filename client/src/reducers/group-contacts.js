@@ -1,5 +1,6 @@
 import axios from "axios";
 import store from "../store";
+import { setSelected } from "./group-contacts-search";
 
 const initialState = {
   data: [],
