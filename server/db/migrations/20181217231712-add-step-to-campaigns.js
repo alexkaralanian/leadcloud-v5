@@ -5,5 +5,5 @@ module.exports = {
     })
   ],
 
-  down: (queryInterface, Sequelize) => [queryInterface.removeColumn("campaigns", "step")]
+  down: queryInterface => [queryInterface.removeColumn("campaigns", "step")]
 };

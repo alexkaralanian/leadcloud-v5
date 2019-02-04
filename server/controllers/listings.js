@@ -48,6 +48,7 @@ exports.getOne = async (req, res) => {
         UserUuid: userId
       }
     });
+    console.log("LISTING", listing);
 
     res.json(listing);
   } catch (err) {
@@ -56,20 +57,12 @@ exports.getOne = async (req, res) => {
 };
 
 exports.create = async (req, res) => {
+  console.log("CREATE LISTING", req.body);
   const userId = req.session.user.toString();
-
   try {
-    const createdListing = await Listings.create({
-      UserUuid: userId,
-      address: req.body.address,
-      street: req.body.street,
-      city: req.body.city,
-      state: req.body.state,
-      zip: req.body.zip,
-      description: req.body.description,
-      updated: moment(Date.now()).toISOString(),
-      listingContacts: []
-    });
+    req.body.updated = Date.now();
+    req.body.UserUuid = userId;
+    const createdListing = await Listings.create(req.body);
     res.json(createdListing.dataValues);
   } catch (err) {
     console.error(err);

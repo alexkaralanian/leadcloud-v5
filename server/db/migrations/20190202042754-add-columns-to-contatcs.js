@@ -22,7 +22,7 @@ module.exports = {
     })
   ],
 
-  down: (queryInterface, Sequelize) => [
+  down: queryInterface => [
     queryInterface.removeColumn("contacts", "priority"),
     queryInterface.removeColumn("contacts", "type"),
     queryInterface.removeColumn("contacts", "income"),

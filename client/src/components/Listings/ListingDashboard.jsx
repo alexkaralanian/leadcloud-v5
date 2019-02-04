@@ -134,6 +134,8 @@ class ListingDashboard extends React.Component {
       deleteListingImage
     } = this.props;
 
+    console.log("LISTING", listing);
+
     return (
       <React.Fragment>
         <div>

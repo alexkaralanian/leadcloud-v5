@@ -65,7 +65,6 @@ exports.getOne = async (req, res) => {
 };
 
 exports.create = async (req, res) => {
-  console.log("REQ.BODY", req.body);
   const userId = req.session.user.toString();
   try {
     const contacts = await Contacts.findAll({
@@ -74,14 +73,12 @@ exports.create = async (req, res) => {
         email: {
           $contains: [
             {
-              address: req.body.email
+              value: req.body.email[0].value // need to account for all possible values, get better that conditional object rendering and queries.
             }
           ]
         }
       }
     });
-
-    console.log("CONTACTS", contacts);
 
     if (isEmpty(contacts)) {
       const createdContact = await Contacts.create({
@@ -96,13 +93,13 @@ exports.create = async (req, res) => {
         address: req.body.address,
         organizations: req.body.organizations,
         priority: req.body.priority,
-        type: req.body.type.toLowerCase(),
+        type: req.body.type,
         income: req.body.income,
         creditScore: req.body.creditScore,
         budget: req.body.budget,
         netWorth: req.body.netWorth,
         notes: req.body.notes,
-        updated: moment(Date.now()).toISOString()
+        updated: Date.now()
       });
       res.json(createdContact.dataValues);
     } else {

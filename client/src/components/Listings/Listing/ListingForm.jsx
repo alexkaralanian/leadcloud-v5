@@ -48,7 +48,7 @@ const ListingForm = ({ isListingNew, listing, createListing, updateListing, dele
                       <strong>Priority Level</strong>
                     </Label>
                     <Field component={CustomInput} type="select" name="priority">
-                      <option value="null" />
+                      <option value="" />
                       <option value="a">A: High Priority</option>
                       <option value="b">B: Medium Priority</option>
                       <option value="c">C: Low Priority</option>
@@ -58,10 +58,10 @@ const ListingForm = ({ isListingNew, listing, createListing, updateListing, dele
                 <Col md={6}>
                   <FormGroup>
                     <Label>
-                      <strong>Type</strong>
+                      <strong>Category</strong>
                     </Label>
-                    <Field component={CustomInput} type="select" name="type">
-                      <option value="null" />
+                    <Field component={CustomInput} type="select" name="category">
+                      <option value="" />
                       <option value="rental">Rental</option>
                       <option value="sale">Sale</option>
                     </Field>
@@ -72,15 +72,28 @@ const ListingForm = ({ isListingNew, listing, createListing, updateListing, dele
                     <Label>
                       <strong>Listing Status</strong>
                     </Label>
-                    <Field component={CustomInput} type="select" name="status">
-                      <option value="null" />
-                      <option value="open">Open</option>
-                      <option value="offMarket">Off-Market</option>
-                      <option value="exclusiveSigned">Exclusive Signed</option>
-                      <option value="acceptedOffer">Accepted Offer</option>
-                      <option value="contractSigned">Contract Signed</option>
+                    <Field component={CustomInput} type="select" name="listing_status">
+                      <option value="" />
+                      <option value="pending">Pending</option>
+                      <option value="active">Active</option>
+                      <option value="accepted_offer">Accepted Offer</option>
+                      <option value="contract_signed">Contract Signed</option>
                       <option value="closed">Closed</option>
-                      <option value="delisted">De-listed</option>
+                    </Field>
+                  </FormGroup>
+                </Col>
+                <Col md={6}>
+                  <FormGroup>
+                    <Label>
+                      <strong>Listing Type</strong>
+                    </Label>
+                    <Field component={CustomInput} type="select" name="listing_type">
+                      <option value="" />
+                      <option value="open">Open</option>
+                      <option value="exclusive">Exclusive</option>
+                      <option value="co-broke">Co-Broke</option>
+                      <option value="off-market">Off Market</option>
+                      <option value="closed">Closed</option>
                     </Field>
                   </FormGroup>
                 </Col>
@@ -131,21 +144,21 @@ const ListingForm = ({ isListingNew, listing, createListing, updateListing, dele
                     <Label>
                       <strong>Unit#</strong>
                     </Label>
-                    <Field type="text" component={CustomInput} name="unit" />
+                    <Field type="text" component={CustomInput} name="unit_number" />
                   </FormGroup>
                 </Col>
                 <Col md={6}>
                   <FormGroup>
                     <Label>
-                      <strong>Property Type</strong>
+                      <strong>Ownership Type</strong>
                     </Label>
-                    <Field component={CustomInput} type="select" name="propertyType">
-                      <option value="null" />
-                      <option value="singlefamily">Single Family</option>
-                      <option value="multifamily">Multifamily</option>
-                      <option value="coop">Co-Op</option>
+                    <Field component={CustomInput} type="select" name="ownership_type">
+                      <option value="" />
+                      <option value="single-family">Single Family</option>
+                      <option value="multi-family">Multifamily</option>
+                      <option value="co-op">Co-Op</option>
                       <option value="condo">Condo</option>
-                      <option value="condop">Condop</option>
+                      <option value="cond-op">Condop</option>
                     </Field>
                   </FormGroup>
                 </Col>
@@ -154,11 +167,11 @@ const ListingForm = ({ isListingNew, listing, createListing, updateListing, dele
                     <Label>
                       <strong>Property Style</strong>
                     </Label>
-                    <Field component={CustomInput} type="select" name="propertyStyle">
-                      <option value="null" />
-                      <option value="prewar">Pre-War</option>
-                      <option value="postwar">Post-War</option>
-                      <option value="newdevelopment">New Development</option>
+                    <Field component={CustomInput} type="select" name="property_style">
+                      <option value="" />
+                      <option value="pre-war">Pre-War</option>
+                      <option value="post-war">Post-War</option>
+                      <option value="new-development">New Development</option>
                       <option value="townhome">Townhome</option>
                       <option value="brownstone">Brownstone</option>
                     </Field>
@@ -179,8 +192,8 @@ const ListingForm = ({ isListingNew, listing, createListing, updateListing, dele
                     <Label>
                       <strong>Layout</strong>
                     </Label>
-                    <Field component={CustomInput} type="select" name="layout">
-                      <option value="null" />
+                    <Field component={CustomInput} type="select" name="bedrooms">
+                      <option value="" />
                       <option value="studio">Studio</option>
                       <option value="1br">1br</option>
                       <option value="2br">2br</option>
@@ -216,7 +229,7 @@ const ListingForm = ({ isListingNew, listing, createListing, updateListing, dele
                     <Label>
                       <strong>Asking Price</strong>
                     </Label>
-                    <Field type="text" component={CustomInput} name="askingPrice" />
+                    <Field type="text" component={CustomInput} name="asking_price" />
                   </FormGroup>
                 </Col>
                 <Col md={6}>
@@ -224,13 +237,13 @@ const ListingForm = ({ isListingNew, listing, createListing, updateListing, dele
                     <Label>
                       <strong>Closing Price</strong>
                     </Label>
-                    <Field type="text" component={CustomInput} name="closingPrice" />
+                    <Field type="text" component={CustomInput} name="closing_price" />
                   </FormGroup>
                   <FormGroup>
                     <Label>
                       <strong>Commission %</strong>
                     </Label>
-                    <Field type="text" component={CustomInput} name="commission%" />
+                    <Field type="text" component={CustomInput} name="gross_commission" />
                   </FormGroup>
                 </Col>
               </Row>

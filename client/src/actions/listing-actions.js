@@ -24,6 +24,7 @@ export const searchListings = values => {
 };
 
 export const fetchListing = id => async dispatch => {
+  console.log("FETCH LISTING", id);
   dispatch(isFetching(true));
   try {
     const res = await axios.get(`/api/listings/${id}`);

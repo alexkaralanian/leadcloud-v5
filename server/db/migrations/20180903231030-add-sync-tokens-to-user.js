@@ -3,15 +3,13 @@ module.exports = {
     queryInterface.addColumn("users", "gContactsSyncToken", {
       type: Sequelize.STRING
     }),
-
     queryInterface.addColumn("users", "gGroupsSyncToken", {
       type: Sequelize.STRING
     })
   ],
 
-  down: (queryInterface, Sequelize) => [
+  down: queryInterface => [
     queryInterface.removeColumn("users", "gContactsSyncToken"),
-
     queryInterface.removeColumn("users", "gGroupsSyncToken")
   ]
 };
