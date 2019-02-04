@@ -36,7 +36,7 @@ export const setSelected = data => ({
 // Remove from state when component unmounts
 export const diffGroupContacts = allContacts => {
   const state = store.getState();
-  const { groupContacts } = state.groupContactsReducer;
+  const { groupContacts } = state.groupContacts;
   const map = {};
   groupContacts.forEach(contact => {
     map[contact.id] = contact;
