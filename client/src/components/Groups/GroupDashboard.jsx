@@ -11,7 +11,7 @@ import GroupContacts from "./GroupContacts/GroupContacts";
 import Modal from "../../components/Modal/Modal";
 import SearchGroupContacts from "./GroupContacts/SearchGroupContacts";
 
-import { fetchGroup, submitNewGroup, updateGroup, deleteGroup } from "../../reducers/group";
+import { fetchGroup } from "../../reducers/group";
 
 import {
   submitGroupContacts,
@@ -66,7 +66,7 @@ class GroupContainer extends React.Component {
       <React.Fragment>
         <BreadCrumbs />
         <Header>
-          <h1>{group.title}</h1>
+          <h1>{match.path === "/groups/new" ? "New Group" : group.title}</h1>
           <Dropdown isOpen={this.state.dropdownOpen} color="primary" toggle={this.toggle}>
             <DropdownToggle caret>Actions</DropdownToggle>
             <DropdownMenu right>
@@ -102,22 +102,12 @@ class GroupContainer extends React.Component {
           render={routeProps => <GroupContacts {...routeProps} />}
         />
 
-        {/* GROUP INFO */}
+        {/* GROUP FORM */}
         <Route
           exact
           path={match.path === "/groups/new" ? `/groups/new` : `/groups/:id`}
           render={routeProps => (
-            <GroupForm
-              {...routeProps}
-              group={group}
-              isGroupNew={match.path === "/groups/new"}
-              deleteGroup={deleteGroup}
-              onSubmit={values => {
-                match.path === "/groups/new"
-                  ? submitNewGroup(values)
-                  : updateGroup(values, group.id);
-              }}
-            />
+            <GroupForm {...routeProps} isGroupNew={match.path === "/groups/new"} />
           )}
         />
       </React.Fragment>
@@ -133,10 +123,10 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   push,
   fetchGroup,
-  submitNewGroup,
-  updateGroup,
-  deleteGroup,
   submitGroupContacts
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(GroupContainer);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(GroupContainer);

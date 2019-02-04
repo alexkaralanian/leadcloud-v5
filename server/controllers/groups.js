@@ -97,7 +97,6 @@ exports.update = async (req, res) => {
 
 exports.delete = async (req, res) => {
   const userId = req.session.user.toString();
-
   try {
     const group = await Groups.findOne({
       where: {

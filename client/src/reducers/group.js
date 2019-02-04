@@ -24,7 +24,7 @@ export const fetchGroup = id => async dispatch => {
   }
 };
 
-export const submitNewGroup = data => async dispatch => {
+export const createGroup = data => async dispatch => {
   // dispatch(isFetching(true));
   try {
     const res = await axios.post("/api/groups", data);
@@ -50,6 +50,7 @@ export const updateGroup = (values, id) => async dispatch => {
 
 // DELETE GROUP
 export const deleteGroup = id => async dispatch => {
+  console.log("DELETE GROUP", id);
   try {
     const res = await axios.delete(`/api/groups/${id}`);
     dispatch(setGroup(res.data));

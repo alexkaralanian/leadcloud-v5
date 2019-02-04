@@ -11,7 +11,7 @@ router.get("/", authCheck, groups.getAll);
 router.get("/:id", authCheck, groups.getOne);
 router.post("/", authCheck, groups.create);
 router.patch("/:id", authCheck, groups.update);
-router.delete("/:id/delete", authCheck, groups.delete);
+router.delete("/:id", authCheck, groups.delete);
 
 // GROUP CONTACTS
 router.get("/:id/contacts", authCheck, groupsContacts.getAll);
