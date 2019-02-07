@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { Field, reduxForm } from "redux-form";
 import { Button, Form, FormGroup, Card, CardHeader, CardBody } from "reactstrap";
 
-import InputField from "../InputField/InputField";
+import InputField from "../../InputField/InputField";
 
 let InitializeCampaign;
 

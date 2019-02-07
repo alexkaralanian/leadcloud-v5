@@ -1,17 +1,8 @@
 import React from "react";
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from "reactstrap";
-import SearchContactsContainer from "../../containers/SearchContactsContainer/SearchContactsContainer";
 import "./Modal.css";
 
-const Modal1 = ({
-  displayModal,
-  onExit,
-  isModalVisible,
-  title,
-  submitFunction,
-  hostComponent,
-  Container
-}) => (
+const ModalComponent = ({ displayModal, onExit, isModalVisible, title, Container }) => (
   <Modal isOpen={isModalVisible} toggle={onExit}>
     <ModalHeader>{title}</ModalHeader>
     <ModalBody>{Container}</ModalBody>
@@ -21,4 +12,4 @@ const Modal1 = ({
   </Modal>
 );
 
-export default Modal1;
+export default ModalComponent;

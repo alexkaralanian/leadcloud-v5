@@ -4,14 +4,15 @@ import ReactTable from "react-table";
 import { Link } from "react-router-dom";
 import moment from "moment";
 import { Card, CardHeader, CardBody } from "reactstrap";
+import debounce from "lodash.debounce";
 
 import {
   fetchContactEmails,
   onPageChange,
   onPageSizeChange,
   onFilteredChange,
-  onContactEmailsSearch,
-  setContactEmails
+  setContactEmails,
+  setPageToken
 } from "../../../reducers/contact-emails";
 
 import Pagination from "../../Pagination/Pagination";
@@ -36,6 +37,7 @@ class ContactEmails extends React.Component {
   componentWillUnmount() {
     const { setContactEmails } = this.props;
     setContactEmails([]);
+    setPageToken("");
   }
 
   makeEmailsQuery = emails => {
@@ -48,8 +50,9 @@ class ContactEmails extends React.Component {
   };
 
   makeSearchQuery = query => {
-    const { contact } = this.props;
+    const { contact, setPageToken } = this.props;
     const emailsQuery = this.makeEmailsQuery(contact.email);
+    if (query.length < 1) setPageToken("");
     return `${query.toLowerCase()} ${emailsQuery}`;
   };
 
@@ -59,7 +62,7 @@ class ContactEmails extends React.Component {
       onPageChange,
       onPageSizeChange,
       onFilteredChange,
-      onContactEmailsSearch,
+      // onContactEmailsSearch,
       fetchContactEmails,
       page,
       pages,
@@ -141,8 +144,10 @@ class ContactEmails extends React.Component {
                     placeholder="Search..."
                     type="text"
                     ref={n => (input = n)}
-                    onChange={() => fetchContactEmails(this.makeSearchQuery(input.value))}
-                    // onChange={() => console.log("INPUT", input.value)}
+                    onChange={debounce(
+                      () => fetchContactEmails(this.makeSearchQuery(input.value)),
+                      500
+                    )}
                   />
                   {makeTable()}
                   <Pagination />
@@ -170,8 +175,11 @@ const mapDispatchToProps = {
   onPageChange,
   onPageSizeChange,
   onFilteredChange,
-  onContactEmailsSearch,
-  setContactEmails
+  setContactEmails,
+  setPageToken
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ContactEmails);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ContactEmails);

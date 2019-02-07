@@ -3,10 +3,10 @@ import axios from "axios";
 import { connect } from "react-redux";
 import { Button, Col, Collapse, Card, CardTitle, CardBody } from "reactstrap";
 import { Typeahead } from "react-bootstrap-typeahead"; // ES2015
-import { setOffset, fetchComponent } from "../../actions/query-actions";
-import { setGroups } from "../../actions/group-actions";
+import { setOffset, fetchComponent } from "../../../actions/query-actions";
+import { setGroups } from "../../../actions/group-actions";
 
-import { createCampaign, updateCampaign } from "../../actions/campaign-actions";
+import { createCampaign, updateCampaign } from "../../../actions/campaign-actions";
 
 class RecipientsContainer extends React.Component {
   state = {
@@ -111,4 +111,7 @@ const mapDispatchToProps = {
   setOffset
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(RecipientsContainer);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(RecipientsContainer);

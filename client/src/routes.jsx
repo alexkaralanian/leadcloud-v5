@@ -77,12 +77,12 @@ const Emails = Loadable({
 });
 
 const Campaigns = Loadable({
-  loader: () => import("./containers/CampaignsContainer/CampaignsContainer"),
+  loader: () => import("./components/Campaigns/CampaignsDashboard"),
   loading: Loading
 });
 
 const CreateCampaign = Loadable({
-  loader: () => import("./containers/CreateCampaignContainer/CreateCampaignContainer"),
+  loader: () => import("./components/Campaigns/CreateCampaignContainer"),
   loading: Loading
 });
 

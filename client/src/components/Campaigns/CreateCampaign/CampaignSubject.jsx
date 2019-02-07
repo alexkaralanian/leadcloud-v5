@@ -16,9 +16,9 @@ import {
   CardBody
 } from "reactstrap";
 
-import InputField from "../InputField/InputField";
+import InputField from "../../InputField/InputField";
 
-import { createCampaign, updateCampaign, fetchCampaign } from "../../actions/campaign-actions";
+import { createCampaign, updateCampaign, fetchCampaign } from "../../../actions/campaign-actions";
 
 let InnerForm = props => {
   const { handleSubmit, pristine, reset, submitting, campaign } = props;
@@ -99,4 +99,7 @@ InnerForm = connect(state => ({
   initialValues: state.campaignReducer.campaign
 }))(InnerForm);
 
-export default connect(mapStateToProps, mapDispatchToProps)(CampaignSubject);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CampaignSubject);

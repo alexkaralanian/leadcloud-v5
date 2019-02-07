@@ -5,7 +5,7 @@ import EmailEditor from "react-email-editor";
 import { Button, Col, Row, Collapse, Card, CardTitle, CardHeader, CardBody } from "reactstrap";
 import "./Campaign.scss";
 
-import { updateCampaign, sendCampaign } from "../../actions/campaign-actions";
+import { updateCampaign, sendCampaign } from "../../../actions/campaign-actions";
 
 class CampaignWizard extends React.Component {
   state = { campaign: null };
@@ -69,4 +69,7 @@ const mapDispatchToProps = {
   sendCampaign
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CampaignWizard);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CampaignWizard);

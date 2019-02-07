@@ -63,6 +63,7 @@ export const init = () => {
 export const fetchContactEmails = query => async dispatch => {
   const state = store.getState();
   const { pageSize, pageToken } = state.contactEmails;
+  console.log({ pageSize });
   try {
     const res = await axios.get(
       `/api/email/gmail?maxResults=${pageSize}&pageToken=${pageToken}&q=${query}`
@@ -77,19 +78,19 @@ export const fetchContactEmails = query => async dispatch => {
   }
 };
 
-export const onContactEmailsSearch = (query, contactId) => async dispatch => {
-  const state = store.getState();
-  const { pageSize } = state.groupContactsReducer;
-  try {
-    const res = await axios.get(
-      `/api/contacts/${contactId}/groups/?limit=${pageSize}&offset=${0}&query=${query}`
-    );
-    dispatch(setContactEmails(res.data.emailArray));
-    dispatch(setPageToken(res.data.nextPageToken));
-  } catch (err) {
-    console.error(err);
-  }
-};
+// export const onContactEmailsSearch = (query, contactId) => async dispatch => {
+//   const state = store.getState();
+//   const { pageSize } = state.groupContactsReducer;
+//   try {
+//     const res = await axios.get(
+//       `/api/contacts/${contactId}/groups/?limit=${pageSize}&offset=${0}&query=${query}`
+//     );
+//     dispatch(setContactEmails(res.data.emailArray));
+//     dispatch(setPageToken(res.data.nextPageToken));
+//   } catch (err) {
+//     console.error(err);
+//   }
+// };
 
 export const onPageChange = (page, contactId) => async dispatch => {
   const { pageSize, offset, filtered } = init();

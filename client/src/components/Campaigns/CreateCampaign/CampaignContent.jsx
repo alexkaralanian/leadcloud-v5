@@ -6,9 +6,9 @@ import { Button, Col, Row, Collapse, Card, CardTitle, CardHeader, CardBody } fro
 import { Typeahead } from "react-bootstrap-typeahead";
 import { push } from "react-router-redux";
 
-import { setOffset, fetchComponent } from "../../actions/query-actions";
-import { setListings } from "../../actions/listing-actions";
-import { createCampaign, updateCampaign } from "../../actions/campaign-actions";
+import { setOffset, fetchComponent } from "../../../actions/query-actions";
+import { setListings } from "../../../actions/listing-actions";
+import { createCampaign, updateCampaign } from "../../../actions/campaign-actions";
 
 class CampaignContent extends React.Component {
   state = {
@@ -112,4 +112,7 @@ const mapDispatchToProps = {
   push
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CampaignContent);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CampaignContent);

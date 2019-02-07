@@ -2,12 +2,13 @@ import React from "react";
 import { Redirect } from "react-router-dom";
 import { push } from "react-router-redux";
 import { connect } from "react-redux";
+import { Button } from "reactstrap";
 
-import BreadCrumbs from "../../components/BreadCrumbs/BreadCrumbs";
-import Header from "../../components/Header/Header-old";
-import Campaigns from "../../components/Campaigns/Campaigns";
-import Loading from "../../components/Loading/Loading";
-import Placeholder from "../../components/Placeholder/Placeholder";
+import BreadCrumbs from "../BreadCrumbs/BreadCrumbs";
+import Header from "../Header/Header-new";
+import Loading from "../Loading/Loading";
+import Placeholder from "../Placeholder/Placeholder";
+import Campaigns from "./Campaigns/Campaigns";
 
 import { fetchCampaigns, setCampaign } from "../../actions/campaign-actions";
 
@@ -28,15 +29,12 @@ class CampaignsContainer extends React.Component {
     return (
       <React.Fragment>
         <BreadCrumbs />
-        <Header
-          isVisible={true}
-          componentName="campaigns"
-          headerTitle="Campaigns"
-          isNew={null}
-          primaryText="Create New Campaign"
-          primaryFunc={this.createNewCampaign}
-          primaryGlyph="plus"
-        />
+        <Header>
+          <h1>Campaigns</h1>
+          <Button onClick={this.createNewCampaign} color="primary">
+            Create Campaign
+          </Button>
+        </Header>
 
         {isFetching ? (
           <Loading />
@@ -64,4 +62,7 @@ const mapDispatchToProps = {
   push
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CampaignsContainer);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CampaignsContainer);

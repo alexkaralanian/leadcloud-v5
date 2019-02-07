@@ -3,13 +3,13 @@ import { push } from "react-router-redux";
 import { connect } from "react-redux";
 import { Route, Redirect } from "react-router-dom";
 
-import BreadCrumbs from "../../components/BreadCrumbs/BreadCrumbs";
-import CreateCampaignNav from "../../components/CreateCampaign/CreateCampaignNav";
-import Header from "../../components/Header/Header-old";
+import BreadCrumbs from "../BreadCrumbs/BreadCrumbs";
+import CreateCampaignNav from "./CreateCampaign/CreateCampaignNav";
+import Header from "../../components/Header/Header-new";
 
-import InitializeCampaign from "../../components/CreateCampaign/InitializeCampaign";
-import EditCampaign from "../../components/CreateCampaign/EditCampaignContainer";
-import CampaignWizard from "../../components/CreateCampaign/CampaignWizard";
+import InitializeCampaign from "./CreateCampaign/InitializeCampaign";
+import EditCampaign from "./CreateCampaign/EditCampaignContainer";
+import CampaignWizard from "./CreateCampaign/CampaignWizard";
 
 import { setOffset } from "../../actions/query-actions";
 
@@ -136,4 +136,7 @@ const mapDispatchToProps = {
   push
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateCampaignContainer);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CreateCampaignContainer);

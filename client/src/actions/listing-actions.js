@@ -24,11 +24,9 @@ export const searchListings = values => {
 };
 
 export const fetchListing = id => async dispatch => {
-  console.log("FETCH LISTING", id);
   dispatch(isFetching(true));
   try {
     const res = await axios.get(`/api/listings/${id}`);
-
     dispatch(setListing(res.data));
     dispatch(isFetching(false));
   } catch (err) {
@@ -42,10 +40,8 @@ export const createListing = data => async dispatch => {
   dispatch(isFetching(true));
   try {
     const res = await axios.post("/api/listings", data);
-
     dispatch(setListing(res.data));
     dispatch(push(`/listings/${res.data.id}`));
-
     dispatch(isFetching(false));
   } catch (err) {
     console.error("Submitting new listing unsuccessful", err);
@@ -95,7 +91,6 @@ export const onDrop = (files, componentId) => async dispatch => {
     const res = await axios.post(`/api/listings/${componentId}/images`, {
       images: [`https://s3.amazonaws.com/leadcloud-v5-user-images/${uploadConfig.data.key}`]
     });
-
     dispatch(setListing(res.data));
   } catch (err) {
     console.error("ERROR POSTING IMAGE URL", err);

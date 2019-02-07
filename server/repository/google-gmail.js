@@ -10,14 +10,13 @@ exports.fetchUserEmails = (req, res) => {
     {
       userId: "me",
       auth: oAuth2Client,
-      // maxResults: req.query.maxResults,
+      maxResults: req.query.maxResults,
       pageToken: req.query.pageToken,
       q: req.query.q
     },
     (err, response) => {
       if (!err) {
         if (response.data.resultSizeEstimate > 0) {
-          // const resultSizeEstimate = response.data.resultSizeEstimate;
           const messageIDs = response.data.messages;
           const nextPageToken = response.data.nextPageToken || "";
           // Return an array of email promises

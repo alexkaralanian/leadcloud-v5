@@ -3,9 +3,9 @@ import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
 import { Button, FormGroup, Col, Collapse, Card, CardTitle, CardBody } from "reactstrap";
 
-import InputField from "../InputField/InputField";
+import InputField from "../../InputField/InputField";
 
-import { createCampaign, updateCampaign } from "../../actions/campaign-actions";
+import { createCampaign, updateCampaign } from "../../../actions/campaign-actions";
 
 let ReduxForm = () => (
   <FormGroup>
@@ -79,4 +79,7 @@ ReduxForm = reduxForm({
   keepDirtyOnReinitialize: true
 })(ReduxForm);
 
-export default connect(mapStateToProps, mapDispatchToProps)(CampaignSender);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CampaignSender);
