@@ -100,8 +100,8 @@ class CampaignContent extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  listings: state.listingReducer.listings,
-  campaign: state.campaignReducer.campaign
+  listings: state.listings.listings,
+  campaign: state.campaign.campaign
 });
 
 const mapDispatchToProps = {

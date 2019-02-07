@@ -81,7 +81,7 @@ class CampaignSubject extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  campaign: state.campaignReducer.campaign
+  campaign: state.campaign.campaign
 });
 
 const mapDispatchToProps = {
@@ -96,7 +96,7 @@ InnerForm = reduxForm({
 })(InnerForm);
 
 InnerForm = connect(state => ({
-  initialValues: state.campaignReducer.campaign
+  initialValues: state.campaign.campaign
 }))(InnerForm);
 
 export default connect(

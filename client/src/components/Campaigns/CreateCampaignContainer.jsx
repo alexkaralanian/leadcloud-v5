@@ -62,8 +62,9 @@ class CreateCampaignContainer extends React.Component {
     return (
       <React.Fragment>
         <BreadCrumbs />
-
-        <Header isVisible={true} componentName="Campaign" headerTitle={campaign.title} />
+        <Header>
+          <h1>{isCampaignNew ? "New Campaign" : campaign.title}</h1>
+        </Header>
 
         {!isCampaignNew && <CreateCampaignNav push={push} campaign={campaign} />}
 
@@ -124,7 +125,7 @@ class CreateCampaignContainer extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  campaign: state.campaignReducer.campaign
+  campaign: state.campaign.campaign
 });
 
 const mapDispatchToProps = {

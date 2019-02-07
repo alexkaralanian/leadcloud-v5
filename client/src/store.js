@@ -27,7 +27,7 @@ import groupContactsSearch from "./reducers/group-contacts-search";
 
 import events from "./reducers/events";
 
-import campaignReducer from "./reducers/campaign-reducer";
+import campaign from "./reducers/campaign";
 
 import authReducer from "./reducers/auth-reducer";
 import emailReducer from "./reducers/email-reducer";
@@ -59,7 +59,7 @@ const rootReducer = combineReducers({
   groupContacts,
   groupContactsSearch,
   events,
-  campaignReducer,
+  campaign,
   queryReducer,
   modalReducer,
   navReducer,

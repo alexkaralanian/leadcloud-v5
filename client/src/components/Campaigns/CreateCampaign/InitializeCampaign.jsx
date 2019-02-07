@@ -32,8 +32,8 @@ InitializeCampaign = ({ handleSubmit, campaign }) => (
 );
 
 const mapStateToProps = state => ({
-  initialValues: state.campaignReducer.campaign,
-  campaign: state.campaignReducer.campaign
+  initialValues: state.campaign.campaign,
+  campaign: state.campaign.campaign
 });
 
 InitializeCampaign = reduxForm({

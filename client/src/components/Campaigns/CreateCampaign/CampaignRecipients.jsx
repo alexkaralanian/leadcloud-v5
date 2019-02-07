@@ -100,8 +100,8 @@ class RecipientsContainer extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  groups: state.groupReducer.groups,
-  campaign: state.campaignReducer.campaign
+  groups: state.groups.groups,
+  campaign: state.campaign.campaign
 });
 
 const mapDispatchToProps = {

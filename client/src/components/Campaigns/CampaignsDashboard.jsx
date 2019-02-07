@@ -26,6 +26,7 @@ class CampaignsContainer extends React.Component {
 
   render() {
     const { campaigns, isFetching } = this.props;
+    console.log("CAMPAIGNS", campaigns);
     return (
       <React.Fragment>
         <BreadCrumbs />
@@ -53,7 +54,7 @@ class CampaignsContainer extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  campaigns: state.campaignReducer.campaigns
+  campaigns: state.campaign.campaigns
 });
 
 const mapDispatchToProps = {

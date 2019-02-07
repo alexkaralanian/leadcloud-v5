@@ -61,7 +61,7 @@ class CampaignWizard extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  campaign: state.campaignReducer.campaign
+  campaign: state.campaign.campaign
 });
 
 const mapDispatchToProps = {
