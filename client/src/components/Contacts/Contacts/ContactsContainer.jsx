@@ -43,27 +43,23 @@ class ContactsContainer extends React.Component {
         accessor: contact =>
           contact.fullName ? <Link to={`/contacts/${contact.id}`}>{contact.fullName}</Link> : ""
       },
-
       {
         Header: "Email",
         id: "email",
         accessor: contact =>
           contact.email ? (
-            <a href={`mailto:${contact.email[0].value}`}>{contact.email[0].value}</a>
+            <span>
+              {contact.email[0].value}
+              {/*<a href={`mailto:${contact.email[0].value}`}>{contact.email[0].value}</a>*/}
+            </span>
           ) : (
             ""
           )
       },
       {
-        Header: "Phone",
-        id: "phone",
-        filterable: false,
-        accessor: contact =>
-          contact.phone ? (
-            <a href={`tel:${contact.phone[0].value}`}>{contact.phone[0].value}</a>
-          ) : (
-            ""
-          )
+        Header: "Priority",
+        id: "priority",
+        accessor: contact => <span>{contact.priority}</span>
       }
     ];
 
@@ -144,10 +140,13 @@ const mapStateToProps = state => ({
   filtered: state.contacts.filtered
 });
 
-export default connect(mapStateToProps, {
-  fetchContacts,
-  onPageChange,
-  onPageSizeChange,
-  onFilteredChange,
-  onSearch
-})(ContactsContainer);
+export default connect(
+  mapStateToProps,
+  {
+    fetchContacts,
+    onPageChange,
+    onPageSizeChange,
+    onFilteredChange,
+    onSearch
+  }
+)(ContactsContainer);

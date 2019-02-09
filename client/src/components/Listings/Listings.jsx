@@ -44,6 +44,42 @@ class Listings extends React.Component {
         id: "address",
         accessor: listing =>
           listing.address ? <Link to={`/listings/${listing.id}`}>{listing.address}</Link> : ""
+      },
+      {
+        Header: "City",
+        id: "city",
+        accessor: listing => <span>{listing.city}</span>
+      },
+      {
+        Header: "State",
+        id: "state",
+        accessor: listing => <span>{listing.state}</span>
+      },
+      {
+        Header: "Unit #",
+        id: "unit_number",
+        accessor: listing => <span>{listing.unit_number}</span>
+      },
+
+      {
+        Header: "Layout",
+        id: "bedrooms",
+        accessor: listing => <span>{listing.bedrooms}</span>
+      },
+      {
+        Header: "Price",
+        id: "asking_price",
+        accessor: listing => <span>{listing.asking_price}</span>
+      },
+      {
+        Header: "Category",
+        id: "category",
+        accessor: listing => <span>{listing.category}</span>
+      },
+      {
+        Header: "Status",
+        id: "status",
+        accessor: listing => <span>{listing.listing_status}</span>
       }
     ];
 
@@ -123,7 +159,10 @@ const mapStateToProps = state => ({
 });
 const mapDispatchToProps = { fetchListings, onSearch };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Listings);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Listings);
 
 {
   /*<div>{SearchForm}</div>
