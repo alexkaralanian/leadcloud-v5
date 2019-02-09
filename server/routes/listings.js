@@ -17,7 +17,7 @@ router.delete("/:id", authCheck, listings.delete);
 // LISTING CONTACTS
 router.get("/:id/contacts", authCheck, listingContacts.getAll);
 router.post("/:id/contacts", authCheck, listingContacts.add);
-router.post("/:id/contact/delete", authCheck, listingContacts.remove);
+router.delete("/:id/contacts", authCheck, listingContacts.remove);
 
 // LISTING IMAGES
 router.post("/:id/images", authCheck, listingImages.add);

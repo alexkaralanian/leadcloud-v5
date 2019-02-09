@@ -14,7 +14,8 @@ exports.transform = emailsArray => {
     const senderEmail = headers.find(findSender).value.trim();
     const emailAddress = senderEmail.slice(senderEmail.indexOf("<") + 1, senderEmail.length - 1);
 
-    const senderName = headers.find(findSender).value.trim();
+    const findSenderResult = headers.find(findSender);
+    const senderName = findSenderResult && findSenderResult.value.trim();
     const name = senderName
       .slice(0, senderEmail.indexOf("<") - 1)
       .replace(/"/g, "")
@@ -27,7 +28,8 @@ exports.transform = emailsArray => {
       subject = "";
     }
 
-    const date = headers.find(findDate).value;
+    const findDateResult = headers.find(findDate);
+    const date = findDateResult && findDateResult.value;
     const id = email.id;
     const threadId = email.threadId;
     const labelIds = email.labelIds;

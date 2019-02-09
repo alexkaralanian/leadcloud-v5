@@ -1,3 +1,0 @@
-describe("Contacts Container", () => {
-  test("", () => {});
-});

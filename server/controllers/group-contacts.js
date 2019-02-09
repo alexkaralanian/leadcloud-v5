@@ -8,28 +8,48 @@ const Op = Sequelize.Op;
 
 exports.getAll = async (req, res) => {
   const userId = req.session.user.toString();
+  let groupContacts;
   try {
-    const groupContacts = await Contacts.findAndCountAll({
-      limit: req.query.limit,
-      offset: req.query.offset,
-      where: {
-        UserUuid: userId,
-        [Op.and]: {
-          fullName: {
-            [Op.iLike]: `%${req.query.query}%`
+    if (req.query.query) {
+      groupContacts = await Contacts.findAndCountAll({
+        limit: req.query.limit,
+        offset: req.query.offset,
+        where: {
+          UserUuid: userId,
+          [Op.and]: {
+            fullName: {
+              [Op.iLike]: `%${req.query.query}%`
+            }
           }
-        }
-      },
-      include: [
-        {
-          model: Groups,
-          where: {
-            id: req.params.id
+        },
+        include: [
+          {
+            model: Groups,
+            where: {
+              id: req.params.id
+            }
           }
-        }
-      ],
-      order: [["updatedAt", "DESC"]]
-    });
+        ],
+        order: [["fullName", "ASC"]]
+      });
+    } else {
+      groupContacts = await Contacts.findAndCountAll({
+        limit: req.query.limit,
+        offset: req.query.offset,
+        where: {
+          UserUuid: userId
+        },
+        include: [
+          {
+            model: Groups,
+            where: {
+              id: req.params.id
+            }
+          }
+        ],
+        order: [["fullName", "ASC"]]
+      });
+    }
     res.json(groupContacts);
   } catch (err) {
     console.error("FETCHING GROUP CONTACTS ERROR", err);
@@ -41,9 +61,8 @@ exports.create = async (req, res) => {
   try {
     await ContactGroups.bulkCreate(req.body.groupContacts);
     const groupContacts = await Contacts.findAndCountAll({
-      limit: 25,
-      offset: 0,
-      query: "",
+      limit: req.query.limit,
+      offset: req.query.offset,
       where: {
         UserUuid: userId
       },
@@ -55,7 +74,7 @@ exports.create = async (req, res) => {
           }
         }
       ],
-      order: [["updatedAt", "DESC"]]
+      order: [["fullName", "ASC"]]
     });
     res.json(groupContacts);
   } catch (err) {
@@ -74,8 +93,8 @@ exports.delete = async (req, res) => {
     });
     await group.removeContact(req.query.contactId);
     const groupContacts = await Contacts.findAndCountAll({
-      limit: 25,
-      offset: 0,
+      limit: req.query.limit,
+      offset: req.query.offset,
       where: {
         UserUuid: userId
       },
@@ -87,7 +106,7 @@ exports.delete = async (req, res) => {
           }
         }
       ],
-      order: [["updatedAt", "DESC"]]
+      order: [["fullName", "ASC"]]
     });
     res.json(groupContacts);
   } catch (err) {

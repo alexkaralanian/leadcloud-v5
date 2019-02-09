@@ -1,10 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
+import ApolloClient from "apollo-boost";
+import { ApolloProvider } from "react-apollo";
 
 import "bootstrap/dist/css/bootstrap.min.css";
+import "react-table/react-table.css";
 import "react-bootstrap-typeahead/css/Typeahead.css";
 import "react-bootstrap-typeahead/css/Typeahead-bs4.css";
+import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
+import "react-table/react-table.css";
 import "flag-icon-css/css/flag-icon.min.css";
 import "font-awesome/css/font-awesome.min.css";
 import "simple-line-icons/css/simple-line-icons.css";
@@ -20,10 +25,14 @@ import "./scss/core/_dropdown-menu-right.scss";
 
 // import registerServiceWorker from "./registerServiceWorker";
 
+const client = new ApolloClient({});
+
 ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
+  <ApolloProvider client={client}>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </ApolloProvider>,
   document.getElementById("root")
 );
 

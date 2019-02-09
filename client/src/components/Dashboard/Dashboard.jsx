@@ -31,12 +31,12 @@ import Widget01 from "../../components/Widgets/Widget01";
 import Widget02 from "../../components/Widgets/Widget02";
 
 const style = {
-  "text-decoration": "none"
+  textDecoration: "none"
 };
 
 const Dashboard = () => (
   <React.Fragment>
-    <Row className="margin-top-2">
+    <Row className="mt-4">
       <Col xs="12" sm="6" lg="3">
         <Link style={style} to="/contacts">
           <Widget02

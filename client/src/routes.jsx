@@ -2,16 +2,17 @@ import React from "react";
 import Loadable from "react-loadable";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import { Container } from "reactstrap";
-import { history } from "./store";
 import { ConnectedRouter } from "react-router-redux";
-import Header from "./components/Header/Header";
-import Sidebar from "./components/Sidebar/Sidebar";
-import { fetchUser } from "./actions/auth-actions";
-import CalendarContainer from "./containers/CalendarContainer/CalendarContainer";
 
 import Loading from "./components/Loading/Loading";
+import Header from "./components/Header/Header";
+import Sidebar from "./components/Sidebar/Sidebar";
+import CalendarContainer from "./containers/CalendarContainer/CalendarContainer";
+
+import { fetchUser } from "./actions/auth-actions";
+import { history } from "./store";
 
 const LandingPage = Loadable({
   loader: () => import("./containers/LandingPageContainer/LandingPageContainer"),
@@ -23,13 +24,50 @@ const Dashboard = Loadable({
   loading: Loading
 });
 
-const Profile = Loadable({
-  loader: () => import("./containers/ProfileContainer/ProfileContainer"),
+const Contacts = Loadable({
+  loader: () => import("./components/Contacts/ContactsDashboard"),
   loading: Loading
 });
 
-const Calendar = Loadable({
-  loader: () => import("./containers/CalendarContainer/CalendarContainer"),
+const Contact = Loadable({
+  loader: () => import("./components/Contacts/ContactDashboard"),
+  loading: Loading
+});
+
+const Groups = Loadable({
+  loader: () => import("./components/Groups/GroupsDashboard"),
+  loading: Loading
+});
+
+const Group = Loadable({
+  loader: () => import("./components/Groups/GroupDashboard"),
+  loading: Loading
+});
+
+const Listings = Loadable({
+  loader: () => import("./components/Listings/ListingsDashboard"),
+  loading: Loading
+});
+
+const Listing = Loadable({
+  loader: () => import("./components/Listings/ListingDashboard"),
+  loading: Loading
+});
+
+const OpenHouse = Loadable({
+  loader: () => import("./components/Listings/OpenHouse/OpenHouseContainer"),
+  loading: Loading
+});
+
+import Events from "./components/Events/Events";
+
+// const Events = Loadable({
+//   loader: () => import("./components/Events/Events"),
+//   loading: Loading
+// });
+
+const Profile = Loadable({
+  loader: () => import("./containers/ProfileContainer/ProfileContainer"),
   loading: Loading
 });
 
@@ -38,63 +76,13 @@ const Emails = Loadable({
   loading: Loading
 });
 
-const SingleEmail = Loadable({
-  loader: () => import("./containers/SingleEmailContainer/SingleEmailContainer"),
-  loading: Loading
-});
-
-const Contacts = Loadable({
-  loader: () => import("./containers/ContactsContainer/ContactsContainer"),
-  loading: Loading
-});
-
-const SingleContact = Loadable({
-  loader: () => import("./containers/SingleContactContainer/SingleContactContainer"),
-  loading: Loading
-});
-
-const Listings = Loadable({
-  loader: () => import("./containers/ListingsContainer/ListingsContainer"),
-  loading: Loading
-});
-
-const SingleListing = Loadable({
-  loader: () => import("./containers/SingleListingContainer/SingleListingContainer"),
-  loading: Loading
-});
-
-const OpenHouse = Loadable({
-  loader: () => import("./containers/OpenHouseContainer/OpenHouseContainer"),
-  loading: Loading
-});
-
-const Groups = Loadable({
-  loader: () => import("./containers/GroupsDashboardContainer/GroupsDashboardContainer"),
-  loading: Loading
-});
-
-const SingleGroup = Loadable({
-  loader: () => import("./containers/SingleGroupContainer/SingleGroupContainer"),
-  loading: Loading
-});
-
-const GroupContacts = Loadable({
-  loader: () => import("./containers/GroupContactsContainer/GroupContactsContainer"),
-  loading: Loading
-});
-
 const Campaigns = Loadable({
-  loader: () => import("./containers/CampaignsContainer/CampaignsContainer"),
+  loader: () => import("./components/Campaigns/CampaignsDashboard"),
   loading: Loading
 });
 
 const CreateCampaign = Loadable({
-  loader: () => import("./containers/CreateCampaignContainer/CreateCampaignContainer"),
-  loading: Loading
-});
-
-const SingleCampaign = Loadable({
-  loader: () => import("./containers/SingleCampaignContainer/SingleCampaignContainer"),
+  loader: () => import("./components/Campaigns/CreateCampaignContainer"),
   loading: Loading
 });
 
@@ -121,15 +109,16 @@ class App extends React.Component {
                     <Route path="/calendar" component={CalendarContainer} />
                     <Route path="/emails" component={Emails} />
                     <Route exact path="/contacts" component={Contacts} />
-                    <Route path="/contacts/new" component={SingleContact} />
-                    <Route path="/contacts/:id" component={SingleContact} />
+                    <Route path="/contacts/new" component={Contact} />
+                    <Route path="/contacts/:id" component={Contact} />
                     <Route exact path="/listings" component={Listings} />
-                    <Route path="/listings/new" component={SingleListing} />
-                    <Route path="/listings/:id" component={SingleListing} />
+                    <Route path="/listings/new" component={Listing} />
+                    <Route path="/listings/:id" component={Listing} />
                     <Route exact path="/listings/:id/openhouse" component={OpenHouse} />
                     <Route exact path="/groups" component={Groups} />
-                    <Route path="/groups/new" component={SingleGroup} />
-                    <Route path="/groups/:id" component={SingleGroup} />
+                    <Route path="/groups/new" component={Group} />
+                    <Route path="/groups/:id" component={Group} />
+                    <Route exact path="/events" component={Events} />
                     <Route exact path="/campaigns" component={Campaigns} />
                     <Route path="/campaigns/new" component={CreateCampaign} />
                     <Route path="/campaigns/:id" component={CreateCampaign} />
@@ -161,7 +150,10 @@ const mapDispatchToProps = {
   fetchUser
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);
 
 App.propTypes = {
   fetchUser: PropTypes.func.isRequired

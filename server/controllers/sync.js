@@ -15,6 +15,8 @@ exports.googleContacts = async (req, res) => {
 
   // MAP GOOGLE GROUPS TO DB
   log(chalk.blue("MAPPING GROUPS TO DB"));
+
+  // CALL TO GOOGLE
   const [contactGroups, groupsNextSyncToken] = await google.fetchUserGroups();
   const mappedGroups = contactGroups.map(group => ({
     UserUuid: userId,
@@ -78,7 +80,7 @@ exports.googleContacts = async (req, res) => {
     // FETCH SORTED CONTACTS ARRAY AND SEND AS REPSONSE
     log(chalk.blue("FETCHING SORTED CONTACTS FROM DB"));
     const results = await Contacts.findAndCountAll({
-      limit: 25,
+      limit: 20,
       offset: 0,
       where: {
         UserUuid: userId

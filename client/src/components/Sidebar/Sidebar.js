@@ -3,10 +3,10 @@ import { NavLink } from "react-router-dom";
 import { Badge, Nav, NavItem, NavLink as RsNavLink } from "reactstrap";
 import classNames from "classnames";
 import nav from "./_nav";
-import SidebarFooter from "./../SidebarFooter";
-import SidebarForm from "./../SidebarForm";
-import SidebarHeader from "./../SidebarHeader";
-import SidebarMinimizer from "./../SidebarMinimizer";
+import SidebarFooter from "../SidebarFooter/SidebarFooter";
+import SidebarForm from "../SidebarForm/SidebarForm";
+import SidebarHeader from "../SidebarHeader/SidebarHeader";
+import SidebarMinimizer from "../SidebarMinimizer/SidebarMinimizer";
 
 class Sidebar extends Component {
   constructor(props) {
@@ -58,11 +58,7 @@ class Sidebar extends Component {
     // simple wrapper for nav-title item
     const wrapper = item => {
       return item.wrapper && item.wrapper.element
-        ? React.createElement(
-            item.wrapper.element,
-            item.wrapper.attributes,
-            item.name
-          )
+        ? React.createElement(item.wrapper.element, item.wrapper.attributes, item.name)
         : item.name;
     };
 
@@ -100,10 +96,7 @@ class Sidebar extends Component {
     const navItem = (item, key) => {
       const classes = {
         item: classNames(item.class),
-        link: classNames(
-          "nav-link",
-          item.variant ? `nav-link-${item.variant}` : ""
-        ),
+        link: classNames("nav-link", item.variant ? `nav-link-${item.variant}` : ""),
         icon: classNames(item.icon)
       };
       return navLink(item, key, classes);
@@ -144,11 +137,7 @@ class Sidebar extends Component {
 
       return (
         <li key={key}>
-          <a
-            className="nav-link nav-dropdown-toggle"
-            href="#"
-            onClick={this.handleClick}
-          >
+          <a className="nav-link nav-dropdown-toggle" href="#" onClick={this.handleClick}>
             <i className={item.icon} />
             {item.name}
           </a>

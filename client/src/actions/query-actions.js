@@ -46,9 +46,7 @@ export const fetchComponent = (
       ? await axios.get(
           `/api/${componentName}/${id}/${subComponent}/?limit=${limit}&offset=${offset}&query=${query}`
         )
-      : await axios.get(
-          `/api/${componentName}/?limit=${limit}&offset=${offset}&query=${query}`
-        );
+      : await axios.get(`/api/${componentName}/?limit=${limit}&offset=${offset}&query=${query}`);
 
     dispatch(setFunction(componentArray.concat(res.data.rows)));
     dispatch(setCount(res.data.count));

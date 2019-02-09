@@ -74,10 +74,7 @@ class SingleEmailContainer extends React.Component {
             <Button color="light">
               <span className="fa fa-trash-o" />
             </Button>
-            <ButtonDropdown
-              isOpen={this.state.dropdownOpen}
-              toggle={this.toggle}
-            >
+            <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
               <DropdownToggle caret color="light">
                 <span className="fa fa-tags" />
               </DropdownToggle>
@@ -105,9 +102,7 @@ class SingleEmailContainer extends React.Component {
                 <span>{email.from && email.from.value[0].name}</span>
                 {email.from && email.from.value[0].address}
               </div>
-              <div className="date">
-                {email && moment(email.date).format("ddd, M/D/YY h:mma")}
-              </div>
+              <div className="date">{email && moment(email.date).format("ddd, M/D/YY h:mma")}</div>
             </div>
             <div className="content">
               <iframe
@@ -121,8 +116,7 @@ class SingleEmailContainer extends React.Component {
             </div>
             <div className="attachments">
               <div className="attachment">
-                <Badge color="danger">zip</Badge> <b>bootstrap.zip</b>{" "}
-                <i>(2,5MB)</i>
+                <Badge color="danger">zip</Badge> <b>bootstrap.zip</b> <i>(2,5MB)</i>
                 <span className="menu">
                   <a href="#" className="fa fa-search" />
                   <a href="#" className="fa fa-share" />
@@ -138,8 +132,7 @@ class SingleEmailContainer extends React.Component {
                 </span>
               </div>
               <div className="attachment">
-                <Badge color="success">xls</Badge> <b>spreadsheet.xls</b>{" "}
-                <i>(984KB)</i>
+                <Badge color="success">xls</Badge> <b>spreadsheet.xls</b> <i>(984KB)</i>
                 <span className="menu">
                   <a href="#" className="fa fa-search" />
                   <a href="#" className="fa fa-share" />
@@ -181,6 +174,4 @@ const mapDispatchToProps = {
   clearEmail
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  SingleEmailContainer
-);
+export default connect(mapStateToProps, mapDispatchToProps)(SingleEmailContainer);

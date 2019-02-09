@@ -16,9 +16,9 @@ export const setEmail = email => ({
 
 // END OF TESTING FOR NOW HERE....
 
-export const setEmailsByContact = (emailsByContact, pageToken) => ({
-  type: types.SET_EMAILS_BY_CONTACT,
-  emailsByContact,
+export const setContactEmails = (contactEmails, pageToken) => ({
+  type: types.SET_CONTACT_EMAILS,
+  contactEmails,
   pageToken
 });
 
@@ -56,22 +56,14 @@ export const clearError = () => ({
 
 /* ------------       DISPATCHERS     ------------------ */
 
-export const fetchEmails = (
-  maxResults,
-  pageToken,
-  emailsArray
-) => async dispatch => {
+export const fetchEmails = (maxResults, pageToken, emailsArray) => async dispatch => {
   if (!pageToken) dispatch(isFetching(true));
   dispatch(isLoading(true));
 
   try {
-    const res = await axios.get(
-      `/api/email/gmail?maxResults=${maxResults}&pageToken=${pageToken}`
-    );
+    const res = await axios.get(`/api/email/gmail?maxResults=${maxResults}&pageToken=${pageToken}`);
 
-    dispatch(
-      setEmails(emailsArray.concat(res.data.emailArray), res.data.nextPageToken)
-    );
+    dispatch(setEmails(emailsArray.concat(res.data.emailArray), res.data.nextPageToken));
 
     dispatch(isFetching(false));
     dispatch(isLoading(false));
@@ -79,42 +71,32 @@ export const fetchEmails = (
     console.error("Fetching emails from gmail unsuccessful", err.response.data);
     dispatch(
       setError(
-        `Fetching emails from Gmail unsuccessful: (${
-          err.response.data.error.code
-        }, ${err.response.data.error.errors[0].message})`
+        `Fetching emails from Gmail unsuccessful: (${err.response.data.error.code}, ${
+          err.response.data.error.errors[0].message
+        })`
       )
     );
     dispatch(isFetching(false));
   }
 };
 
-export const fetchEmailsByContact = (
-  query,
-  maxResults,
-  pageToken,
-  emailsArray
-) => async dispatch => {
+export const fetchContactEmails = (query, maxResults, pageToken, emailsArray) => async dispatch => {
   dispatch(isLoading(true));
   try {
     const res = await axios.get(
-      `/api/email/gmail?maxResults=${maxResults}&pageToken=${pageToken}&q=${query}`
+      `/api/email/gmail?maxResults=${20}&pageToken=${pageToken}&q=${query}`
     );
     if (res.data.emailArray) {
-      dispatch(
-        setEmailsByContact(
-          emailsArray.concat(res.data.emailArray),
-          res.data.nextPageToken
-        )
-      );
+      dispatch(setContactEmails(emailsArray.concat(res.data.emailArray), res.data.nextPageToken));
     }
     dispatch(isLoading(false));
   } catch (err) {
     console.error("Fetching emails by contact unsuccessful", err);
     dispatch(
       setError(
-        `Fetching Contact Emails from Gmail unsuccessful: (${
-          err.response.data.error.code
-        }, ${err.response.data.error.errors[0].message})`
+        `Fetching Contact Emails from Gmail unsuccessful: (${err.response.data.error.code}, ${
+          err.response.data.error.errors[0].message
+        })`
       )
     );
     dispatch(isLoading(false));

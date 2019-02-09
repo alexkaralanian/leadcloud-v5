@@ -3,6 +3,7 @@ const express = require("express");
 const authCheck = require("../middlewares/authChecker");
 const contacts = require("../controllers/contacts");
 const contactListings = require("../controllers/contact-listings");
+const contactEvents = require("../controllers/contact-events");
 const contactGroups = require("../controllers/contact-groups");
 const contactImages = require("../controllers/contact-images");
 
@@ -24,6 +25,11 @@ router.delete("/:id/listing", authCheck, contactListings.remove);
 router.get("/:id/groups", authCheck, contactGroups.getAll);
 router.post("/:id/groups", authCheck, contactGroups.add);
 router.delete("/:id/group", authCheck, contactGroups.remove);
+
+// CONTACT EVENTS
+router.get("/:id/events", authCheck, contactEvents.getAll);
+router.post("/:id/events", authCheck, contactEvents.add);
+router.delete("/:id/events", authCheck, contactEvents.remove);
 
 // CONTACT IMAGES
 router.post("/:id/images", authCheck, contactImages.add);

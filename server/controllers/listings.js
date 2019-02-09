@@ -7,20 +7,33 @@ const Op = Sequelize.Op;
 exports.getAll = async (req, res) => {
   const userId = req.session.user.toString();
   try {
-    const listings = await Listings.findAndCountAll({
-      limit: req.query.limit,
-      offset: req.query.offset,
-      where: {
-        UserUuid: userId,
-        [Op.and]: {
-          address: {
-            [Op.iLike]: `%${req.query.query}%`
+    let listings;
+    if (req.query.query) {
+      listings = await Listings.findAndCountAll({
+        limit: req.query.limit,
+        offset: req.query.offset,
+        where: {
+          UserUuid: userId,
+          [Op.and]: {
+            address: {
+              [Op.iLike]: `%${req.query.query}%`
+            }
           }
-        }
-      },
-      order: [["updatedAt", "DESC"]]
-    });
-    res.json(listings);
+        },
+        order: [["updatedAt", "DESC"]]
+      });
+      res.json(listings);
+    } else {
+      listings = await Listings.findAndCountAll({
+        limit: req.query.limit,
+        offset: req.query.offset,
+        where: {
+          UserUuid: userId
+        },
+        order: [["updatedAt", "DESC"]]
+      });
+      res.json(listings);
+    }
   } catch (err) {
     console.error(err);
   }
@@ -35,6 +48,7 @@ exports.getOne = async (req, res) => {
         UserUuid: userId
       }
     });
+    console.log("LISTING", listing);
 
     res.json(listing);
   } catch (err) {
@@ -43,20 +57,12 @@ exports.getOne = async (req, res) => {
 };
 
 exports.create = async (req, res) => {
+  console.log("CREATE LISTING", req.body);
   const userId = req.session.user.toString();
-
   try {
-    const createdListing = await Listings.create({
-      UserUuid: userId,
-      address: req.body.address,
-      street: req.body.street,
-      city: req.body.city,
-      state: req.body.state,
-      zip: req.body.zip,
-      description: req.body.description,
-      updated: moment(Date.now()).toISOString(),
-      listingContacts: []
-    });
+    req.body.updated = Date.now();
+    req.body.UserUuid = userId;
+    const createdListing = await Listings.create(req.body);
     res.json(createdListing.dataValues);
   } catch (err) {
     console.error(err);

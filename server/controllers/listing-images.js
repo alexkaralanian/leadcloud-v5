@@ -1,6 +1,7 @@
 const Listings = require("../db/models").listings;
 
 exports.add = async (req, res) => {
+  console.log("ADD LISTING IMAGES", req.body);
   const userId = req.session.user.toString();
   try {
     const listing = await Listings.findOne({

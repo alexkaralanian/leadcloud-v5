@@ -8,7 +8,6 @@ const Op = Sequelize.Op;
 
 exports.getAll = async (req, res) => {
   const userId = req.session.user.toString();
-  console.log("USER ID", userId);
   try {
     let contacts;
     if (req.query.query) {
@@ -23,7 +22,7 @@ exports.getAll = async (req, res) => {
             }
           }
         },
-        order: [["updatedAt", "DESC"]]
+        order: [["updated", "DESC"], ["fullName", "ASC"]]
       });
     } else {
       contacts = await Contacts.findAndCountAll({
@@ -32,7 +31,7 @@ exports.getAll = async (req, res) => {
         where: {
           UserUuid: userId
         },
-        order: [["updatedAt", "DESC"]]
+        order: [["updated", "DESC"], ["fullName", "ASC"]]
       });
     }
     res.json(contacts);
@@ -74,34 +73,33 @@ exports.create = async (req, res) => {
         email: {
           $contains: [
             {
-              address: req.body.email
+              value: req.body.email[0].value // need to account for all possible values, get better that conditional object rendering and queries.
             }
           ]
         }
       }
     });
+
     if (isEmpty(contacts)) {
       const createdContact = await Contacts.create({
         UserUuid: userId,
-        email: [
-          {
-            value: req.body.email,
-            type: null
-          }
-        ],
-        phone: [
-          {
-            value: req.body.phone,
-            type: null
-          }
-        ],
+        firstName: req.body.firstName && req.body.firstName.trim(),
+        lastName: req.body.lastName && req.body.lastName.trim(),
         fullName: `${req.body.firstName ? req.body.firstName.trim() : ""} ${
           req.body.lastName ? req.body.lastName.trim() : ""
         }`,
-        firstName: req.body.firstName && req.body.firstName.trim(),
-        lastName: req.body.lastName && req.body.lastName.trim(),
+        email: req.body.email,
+        phone: req.body.phone,
+        address: req.body.address,
+        organizations: req.body.organizations,
+        priority: req.body.priority,
+        type: req.body.type,
+        income: req.body.income,
+        creditScore: req.body.creditScore,
+        budget: req.body.budget,
+        netWorth: req.body.netWorth,
         notes: req.body.notes,
-        updated: moment(Date.now()).toISOString()
+        updated: Date.now()
       });
       res.json(createdContact.dataValues);
     } else {
@@ -113,6 +111,7 @@ exports.create = async (req, res) => {
 };
 
 exports.update = async (req, res) => {
+  console.log("UPDATE CALLED", req.body);
   const userId = req.session.user.toString();
   try {
     const contact = await Contacts.findOne({

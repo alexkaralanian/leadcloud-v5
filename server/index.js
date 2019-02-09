@@ -42,6 +42,7 @@ app.use("/api/sync", require("./routes/sync"));
 app.use("/api/contacts", require("./routes/contacts"));
 app.use("/api/listings", require("./routes/listings"));
 app.use("/api/groups", require("./routes/groups"));
+app.use("/api/events", require("./routes/events"));
 app.use("/api/campaigns", require("./routes/campaigns"));
 
 app.use(express.static("client/build"));

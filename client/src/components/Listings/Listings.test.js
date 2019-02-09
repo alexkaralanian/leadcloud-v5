@@ -1,3 +1,0 @@
-describe("Listings Component", () => {
-  test("", () => {});
-});

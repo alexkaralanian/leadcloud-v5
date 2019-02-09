@@ -18,7 +18,7 @@ exports.fetchUserEmails = (req, res) => {
       if (!err) {
         if (response.data.resultSizeEstimate > 0) {
           const messageIDs = response.data.messages;
-          const nextPageToken = response.data.nextPageToken;
+          const nextPageToken = response.data.nextPageToken || "";
           // Return an array of email promises
           const emailPromises = messageIDs.map(
             message =>
@@ -33,6 +33,7 @@ exports.fetchUserEmails = (req, res) => {
                   },
                   (error, email) => {
                     if (email) {
+                      // console.log("EMAIL DATA", email.data);
                       resolve(email.data);
                     } else {
                       reject(error);
@@ -47,6 +48,9 @@ exports.fetchUserEmails = (req, res) => {
             .then(emails => {
               // Custom helper to transform / map email array
               res.json(emailTransform(emails));
+            })
+            .catch(err => {
+              console.error(err);
             });
         } else {
           res.json([]);

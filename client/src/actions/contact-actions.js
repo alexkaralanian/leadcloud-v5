@@ -12,11 +12,6 @@ export const setContacts = contacts => ({
   payload: contacts
 });
 
-export const setIsSearching = bool => ({
-  type: types.SET_IS_SEARCHING,
-  payload: bool
-});
-
 export const setContact = contact => ({
   type: types.SET_CONTACT,
   contact
@@ -24,34 +19,32 @@ export const setContact = contact => ({
 
 /* ------------       DISPATCHERS     ------------------ */
 
-export const searchContacts = values => {
-  const query = values.nativeEvent.target.defaultValue;
-  store.dispatch(setIsSearching(true));
-  store.dispatch(setQuery(query));
-  store.dispatch(setOffset(0));
-  store.dispatch(fetchComponent("contacts", [], setContacts, null, null));
-  if (!query.length) {
-    setTimeout(() => {
-      store.dispatch(setIsSearching(false));
-    }, 100);
+// export const searchContacts = values => {
+//   const query = values.nativeEvent.target.defaultValue;
+//   store.dispatch(setQuery(query));
+//   store.dispatch(setOffset(0));
+//   store.dispatch(fetchComponent("contacts", [], setContacts, null, null));
+//   if (!query.length) {
+//     // store.dispatch(setIsSearching(false));
+//   }
+// };
+
+export const fetchContacts = () => async dispatch => {
+  try {
+    const res = await axios.get(`/api/contacts/?limit=${20}&offset=${0}`);
+    dispatch(setContacts(res.data.rows));
+  } catch (err) {
+    console.error(err);
   }
 };
 
 // SYNC GOOGLE CONTACTS
 export const syncContacts = () => async dispatch => {
-  const state = store.getState();
-  const limit = state.queryReducer.limit;
-  const offset = state.queryReducer.offset;
-  const newOffset = offset + limit;
-
   dispatch(isFetching(true));
   try {
     const res = await axios.get("/api/sync/google-contacts");
-
     dispatch(setContacts(res.data.rows));
     dispatch(setCount(res.data.count));
-    dispatch(setOffset(25));
-
     dispatch(isFetching(false));
   } catch (err) {
     console.error("Syncing Contacts Unsuccessful", err);
@@ -75,14 +68,14 @@ export const fetchContact = id => async dispatch => {
 };
 
 // CREATE NEW CONTACT
-export const submitNewContact = data => async dispatch => {
+export const createContact = data => async dispatch => {
+  console.log("CREATE CONTACT");
   dispatch(isFetching(true));
   try {
     const res = await axios.post("/api/contacts", data);
-    if (res.status === 200) {
-      dispatch(setContact(res.data));
-      dispatch(push(`/contacts/${res.data.id}`));
-    }
+    console.log("RESPONSE", res.data);
+    dispatch(setContact(res.data));
+    dispatch(push(`/contacts/${res.data.id}`));
     dispatch(isFetching(false));
   } catch (err) {
     console.error("Submitting new contact unsuccessful", err);

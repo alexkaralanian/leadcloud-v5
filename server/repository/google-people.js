@@ -11,7 +11,7 @@ exports.fetchUserGroups = syncToken =>
     const options = {
       auth: oAuth2Client
     };
-    if (syncToken) options["syncToken"] = syncToken;
+    if (syncToken) options.syncToken = syncToken;
     people.contactGroups.list(options, (err, response) => {
       if (response.data) {
         const { contactGroups, nextSyncToken } = response.data;
@@ -35,8 +35,8 @@ exports.fetchUserContacts = syncToken =>
         pageSize: 2000,
         pageToken
       };
-      if (syncToken) options["syncToken"] = syncToken;
-      else options["requestSyncToken"] = true;
+      if (syncToken) options.syncToken = syncToken;
+      else options.requestSyncToken = true;
       people.people.connections.list(options, (err, response) => {
         if (response.data) {
           contactsArray = contactsArray.concat(response.data.connections);
@@ -52,5 +52,3 @@ exports.fetchUserContacts = syncToken =>
     };
     recursiveFetchContacts();
   });
-
-

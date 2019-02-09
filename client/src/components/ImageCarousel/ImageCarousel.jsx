@@ -2,15 +2,41 @@ import React from "react";
 import Dropzone from "react-dropzone";
 import { Row, Col, Button, Card, CardImg } from "reactstrap";
 import PropTypes from "prop-types";
+import Slider from "react-slick";
 import "./ImageCarousel.css";
 
-const ImageCarousel = ({
-  component,
-  onDrop,
-  images,
-  googleImages,
-  deleteImg
-}) => (
+class SimpleSlider extends React.Component {
+  render() {
+    var settings = {
+      dots: true,
+      infinite: true,
+      speed: 500,
+      slidesToShow: 1,
+      slidesToScroll: 1
+    };
+    return (
+      <Slider {...settings}>
+        {this.props.images &&
+          this.props.images.map(image => (
+            <div>
+              <img src={image} />
+              {/*<Button
+                color="danger"
+                onClick={event => {
+                  event.stopPropagation();
+                  this.props.deleteImg(image, this.props.component.id);
+                }}
+              >
+                <span>Delete</span>
+              </Button>*/}
+            </div>
+          ))}
+      </Slider>
+    );
+  }
+}
+
+const ImageCarousel = ({ component, onDrop, images, googleImages, deleteImg }) => (
   <Row>
     <Col xs={12}>
       <Card className="dropzone__card-container margin-top-2">
@@ -25,6 +51,11 @@ const ImageCarousel = ({
         </Dropzone>
       </Card>
     </Col>
+
+    {/*<Col xs={12}>
+      <SimpleSlider images={images} deleteImg={deleteImg} component={component} />
+    </Col>*/}
+
     <Col className="carousel">
       {images &&
         images.map(image => (

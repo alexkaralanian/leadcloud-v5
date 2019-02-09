@@ -8,6 +8,7 @@
     "jest": true,
     "jest/globals": true
   },
+  "parser": "babel-eslint",
   "parserOptions": {
     "sourceType": "module",
     "ecmaFeatures": {
@@ -17,7 +18,8 @@
   "rules": {
     "babel/semi": 1,
     "prettier/prettier": "error",
-
+    "import/no-named-as-default": 0,
+    "no-underscore-dangle": 0
   },
 }
 

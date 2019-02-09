@@ -12,13 +12,7 @@ const ButtonFooter = ({
 }) => {
   return (
     <div className="button_footer-container">
-      <Button
-        className="button-lg"
-        type="submit"
-        color="primary"
-        bsSize="large"
-        disabled={pristine || submitting}
-      >
+      <Button className="button-lg" type="submit" color="primary" disabled={pristine || submitting}>
         <span>{primaryButtonText}</span>
       </Button>
 
@@ -28,7 +22,6 @@ const ButtonFooter = ({
           onClick={() => {
             secondaryFunc(component.id);
           }}
-          bsSize="large"
           color="danger"
         >
           <span>{secondaryButtonText}</span>

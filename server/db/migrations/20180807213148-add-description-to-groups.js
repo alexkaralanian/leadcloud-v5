@@ -5,7 +5,5 @@ module.exports = {
     })
   ],
 
-  down: (queryInterface, Sequelize) => [
-    queryInterface.removeColumn("groups", "description")
-  ]
+  down: queryInterface => [queryInterface.removeColumn("groups", "description")]
 };

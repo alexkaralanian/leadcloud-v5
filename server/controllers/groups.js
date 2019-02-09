@@ -5,24 +5,37 @@ const Groups = require("../db/models").groups;
 const Op = Sequelize.Op;
 
 exports.getAll = async (req, res) => {
+  console.log("GET GROUPS");
   const userId = req.session.user.toString();
   try {
-    const groups = await Groups.findAndCountAll({
-      limit: req.query.limit,
-      offset: req.query.offset,
-      where: {
-        UserUuid: userId,
-        [Op.and]: {
-          title: {
-            [Op.iLike]: `%${req.query.query}%`
+    let groups;
+    if (req.query.query) {
+      groups = await Groups.findAndCountAll({
+        limit: req.query.limit,
+        offset: req.query.offset,
+        where: {
+          UserUuid: userId,
+          [Op.and]: {
+            title: {
+              [Op.iLike]: `%${req.query.query}%`
+            }
           }
-        }
-      },
-      order: [["updatedAt", "DESC"]]
-    });
+        },
+        order: [["updatedAt", "DESC"]]
+      });
+    } else {
+      groups = await Groups.findAndCountAll({
+        limit: req.query.limit,
+        offset: req.query.offset,
+        where: {
+          UserUuid: userId
+        },
+        order: [["updatedAt", "DESC"]]
+      });
+    }
     res.json(groups);
   } catch (err) {
-    console.error("FETCHING GROUPS ERROR", err);
+    console.error(err);
   }
 };
 
@@ -84,7 +97,6 @@ exports.update = async (req, res) => {
 
 exports.delete = async (req, res) => {
   const userId = req.session.user.toString();
-
   try {
     const group = await Groups.findOne({
       where: {
