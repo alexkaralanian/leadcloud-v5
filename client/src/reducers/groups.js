@@ -59,6 +59,7 @@ export const fetchGroups = () => async dispatch => {
   const { pageSize, offset } = init();
   try {
     const res = await axios.get(`/api/groups/?limit=${pageSize}&offset=${offset}`);
+    console.log("RESPONSE", res.data);
     dispatch(setPages(Math.ceil(res.data.count / pageSize)));
     dispatch(setGroups(res.data.rows));
   } catch (err) {
@@ -67,7 +68,6 @@ export const fetchGroups = () => async dispatch => {
 };
 
 export const onPageChange = page => async dispatch => {
-  console.log("PAGE CHANGE");
   const { pageSize, offset, filtered } = init();
   const query = filtered.length ? filtered[0].value : "";
   try {
