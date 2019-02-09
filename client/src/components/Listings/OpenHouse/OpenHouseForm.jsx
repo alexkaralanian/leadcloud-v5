@@ -1,78 +1,46 @@
 import React from "react";
 import { Field, reduxForm } from "redux-form";
-import {
-  Grid,
-  Row,
-  Col,
-  Button,
-  Form,
-  FormGroup,
-  FormControl,
-  ControlLabel
-} from "react-bootstrap";
+import { Button, Form, FormGroup, Input, Label } from "reactstrap";
 
 // import PropTypes from "prop-types";
 // import { contactValidate } from "../../helpers/redux-form/validate";
 
-const inputField = ({
-  input,
-  label,
-  type,
-  meta: { touched, active, error }
-}) => (
+const inputField = ({ input, label, type, meta: { touched, active, error } }) => (
   <div>
-    <ControlLabel>{label}</ControlLabel>
-    <FormControl {...input} placeholder={label} type={type} />
+    <Label>{label}</Label>
+    <Input {...input} placeholder={label} type={type} />
     {touched && !active && error && <div>{error}</div>}
   </div>
 );
 
 let OpenHouseForm;
 
-OpenHouseForm = ({
-  handleSubmit,
-  load,
-  pristine,
-  reset,
-  submitting,
-  auditClick,
-  listing
-}) => (
+OpenHouseForm = ({ handleSubmit, load, pristine, reset, submitting, auditClick, listing }) => (
   <Form className="margin-top-2" onSubmit={handleSubmit}>
     <h2>Please Sign-In...</h2>
     <div className="margin-top-2">
-    <FormGroup className="formGroup">
-      <Field
-        type="text"
-        name="firstName"
-        component={inputField}
-        label="First Name"
-      />
-    </FormGroup>
-    <FormGroup className="formGroup">
-      <Field
-        type="text"
-        name="lastName"
-        component={inputField}
-        label="Last Name"
-      />
-    </FormGroup>
-    <FormGroup className="formGroup">
-      <Field type="email" name="email" component={inputField} label="Email" />
-    </FormGroup>
-    <FormGroup className="formGroup">
-      <Field type="tel" name="phone" component={inputField} label="Phone" />
-    </FormGroup>
+      <FormGroup className="formGroup">
+        <Field type="text" name="firstName" component={inputField} label="First Name" />
+      </FormGroup>
+      <FormGroup className="formGroup">
+        <Field type="text" name="lastName" component={inputField} label="Last Name" />
+      </FormGroup>
+      <FormGroup className="formGroup">
+        <Field type="email" name="email" component={inputField} label="Email" />
+      </FormGroup>
+      <FormGroup className="formGroup">
+        <Field type="tel" name="phone" component={inputField} label="Phone" />
+      </FormGroup>
 
-    <Button
-      className="submitButton"
-      type="submit"
-      bsSize="lg"
-      bsStyle="primary"
-      disabled={pristine || submitting}
-    >
-      <span>Submit</span>
-    </Button>
+      <Button
+        className="submitButton"
+        type="submit"
+        bsSize="lg"
+        bsStyle="primary"
+        disabled={pristine || submitting}
+      >
+        <span>Submit</span>
+      </Button>
     </div>
   </Form>
 );

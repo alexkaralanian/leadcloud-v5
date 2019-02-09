@@ -1,7 +1,5 @@
 import React from "react";
-
 import { connect } from "react-redux";
-import { Button } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { Typeahead } from "react-bootstrap-typeahead";
 

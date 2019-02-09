@@ -1,5 +1,4 @@
 import React from "react";
-import { Glyphicon } from "react-bootstrap";
 import { Button } from "reactstrap";
 
 const ButtonFooter = ({

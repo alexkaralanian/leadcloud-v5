@@ -1,7 +1,6 @@
 import React from "react";
 import axios from "axios";
 import { connect } from "react-redux";
-import { Button } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { asyncContainer, Typeahead } from "react-bootstrap-typeahead";
 

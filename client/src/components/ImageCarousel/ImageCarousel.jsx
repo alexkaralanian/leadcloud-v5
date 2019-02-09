@@ -2,7 +2,6 @@ import React from "react";
 import Dropzone from "react-dropzone";
 import { Row, Col, Button, Card, CardImg } from "reactstrap";
 import PropTypes from "prop-types";
-import Slider from "react-slick";
 import "./ImageCarousel.css";
 
 class SimpleSlider extends React.Component {
